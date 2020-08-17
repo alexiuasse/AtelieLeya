@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/08/2020 11:01.
+#  Last modified 17/08/2020 15:39.
 
 from django.conf import settings  # import the settings file
 from .icons import *
@@ -11,7 +11,7 @@ def frontend_template_context(request):
     return {
         'NAME_OF_ENTERPRISE': settings.NAME_OF_ENTERPRISE,
         'VERSION': settings.VERSION,
-        'ICON': ICON,
+        'ICON_HOME': ICON_HOME,
         'ICON_LOGOUT': ICON_LOGOUT,
         'ICON_LINK': ICON_LINK,
         'ICON_EYE': ICON_EYE,

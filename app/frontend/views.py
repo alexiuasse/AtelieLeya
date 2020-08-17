@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/08/2020 10:21.
+#  Last modified 17/08/2020 15:34.
 
 import logging
 
@@ -44,11 +44,18 @@ def error_503(request):
     return render(request, '503.html', {}, status=503)
 
 
-class Index(LoginRequiredMixin, View):
+class HomePage(View):
+    template = 'homepage/homepage.html'
+
+    def get(self, request):
+        return render(request, self.template)
+
+
+class Index(View):
     template = 'index.html'
 
     def get(self, request):
-        return HttpResponseRedirect(reverse_lazy('dashboard'))
+        return HttpResponseRedirect(reverse_lazy('homepage'))
 
 
 class Home(LoginRequiredMixin, View):
