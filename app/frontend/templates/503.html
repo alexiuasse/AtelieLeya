@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block body_html %}
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 17/08/2020 11:11.
+  -->
+
+<body class="antialiased border-top-wide border-primary d-flex flex-column">
+<div class="flex-fill d-flex align-items-center justify-content-center">
+    <div class="container-tight py-6">
+        <div class="empty">
+            <div class="empty-icon">
+                <div class="display-4">503</div>
+            </div>
+            <p class="empty-title h3">Oops… Aconteceu alguma coisa</p>
+            <p class="empty-subtitle text-muted">
+                Nosso serviço não está disponível no momento
+            </p>
+            <div class="empty-action">
+                <a class="btn btn-primary" href="./.">
+                    <svg class="icon" fill="none" height="24" stroke="currentColor" stroke-linecap="round"
+                         stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 0h24v24H0z" stroke="none"/>
+                        <line x1="5" x2="19" y1="12" y2="12"/>
+                        <line x1="5" x2="11" y1="12" y2="18"/>
+                        <line x1="5" x2="11" y1="12" y2="6"/>
+                    </svg>
+                    Take me home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Libs JS -->
+<script src="{% static 'dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Tabler Core -->
+<script src="{% static 'dist/js/tabler.min.js' %}"></script>
+<script>
+      document.body.style.display = "block"
+
+
+
+
+</script>
+</body>
+{% endblock %}

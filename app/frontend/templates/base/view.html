@@ -1,0 +1,50 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 17/08/2020 10:21.
+  -->
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <h2 class="page-title">
+                    <a href="{{view.back_url}}" rel="tooltip" title="Voltar">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    {{view.title}}
+                    <a href="{{view.new}}" rel="tooltip" title="Novo">
+                        <span class="text-info">{{ICON_ADD|safe}}</span>
+                    </a>
+                </h2>
+            </div>
+            <!-- Page title actions -->
+            <div class="col-auto ml-auto d-print-none">
+                <a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block"
+                   href="{{view.new}}">
+                    {{ICON_ADD|safe}}
+                    Adicionar Novo
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% if filter %}
+    <div class="table-container">
+        <form action="" class="form form-inline" method="get">
+            {% bootstrap_form filter.form show_label=False %}
+            <button class="btn btn-sm btn-primary submit mt-2">
+                Pesquisar
+            </button>
+        </form>
+    </div>
+    {% endif %}
+    <div class="table-responsive mt-3">
+        {% render_table table %}
+    </div>
+
+</div>
+{% endblock %}

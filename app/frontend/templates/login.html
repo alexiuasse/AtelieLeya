@@ -1,0 +1,57 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 17/08/2020 11:11.
+  -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block body_html %}
+<body class="antialiased ">
+<div class="page bg-login">
+    <div class="content" id="content">
+        {% include 'under_construction.html' %}
+        <div class="container-fluid">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <h2 class="page-title">
+                            {{NAME_OF_ENTERPRISE}}
+                        </h2>
+                        <!--                        <img alt="{{NAME_OF_ENTERPRISE}}" class="navbar-brand-image" src="{% static 'logo.svg' %}">-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row ">
+                <div class="col-lg-3 col-md-3 ml-auto mr-auto">
+                    <div class="card">
+                        <div class="card-status-top {% if form.errors %} bg-danger {% else %} bg-primary {% endif %}"></div>
+                        <div class="card-header">
+                            <h3 class="card-title">Login</h3>
+                        </div>
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                {% if form.errors %} <p class="text-danger text-center font-weight-bold mb-2">Usuário ou
+                                senha errado*</p> {% endif %}
+                                {{form.username|as_crispy_field}}
+                                {{form.password|as_crispy_field}}
+                                <button class="btn btn-primary btn-block mt-3" type="submit">Entrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% block footer %}{% include "footer.html" %}{% endblock %}
+    </div>
+</div>
+<script>
+  document.body.style.display = "block"
+
+</script>
+</body>
+{% endblock %}

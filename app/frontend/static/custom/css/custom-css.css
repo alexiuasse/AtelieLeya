@@ -1,0 +1,27 @@
+.bg-login {
+    background: linear-gradient(-70deg, pink 30%, rgba(255,228,225, 1) 30.1%);
+}
+
+.bg-triangle-top-primary {
+    background: linear-gradient(140deg, #206bc4 10%, rgba(0, 0, 0, 0) 10.3%);
+}
+
+.bg-triangle-top-secondary {
+    background: linear-gradient(140deg, #6e7582 10%, rgba(0, 0, 0, 0) 10.3%);
+}
+
+.bg-triangle-top-success {
+    background: linear-gradient(140deg, #5eba00 10%, rgba(0, 0, 0, 0) 10.3%);
+}
+
+.bg-triangle-top-info {
+    background: linear-gradient(140deg, #45aaf2 10%, rgba(0, 0, 0, 0) 10.3%);
+}
+
+.bg-triangle-top-warning {
+    background: linear-gradient(140deg, #fab005 10%, rgba(0, 0, 0, 0) 10.3%);
+}
+
+.bg-triangle-top-danger {
+    background: linear-gradient(140deg, #cd201f 10%, rgba(0, 0, 0, 0) 10.3%);
+}

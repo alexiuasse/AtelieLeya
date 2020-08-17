@@ -1,0 +1,50 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="src" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="2">
+            <item index="0" class="java.lang.String" itemvalue="base" />
+            <item index="1" class="java.lang.String" itemvalue="simple_history" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N806" />
+          <option value="N802" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="app.config.models.base" />
+          <option value="delivery.pedido.models.Status.objects" />
+          <option value="delivery.pedido.models.Pedido.objects" />
+          <option value="delivery.pedido.models.produto" />
+          <option value="delivery.pedido.models.*" />
+          <option value="delivery.signals" />
+          <option value="reportlab.platypus.doctemplate.BaseDocTemplate.leftMargin" />
+          <option value="reportlab.platypus.doctemplate.BaseDocTemplate.bottomMargin" />
+          <option value="app.base.models.BaseModel._meta" />
+          <option value="app.customer.models.base" />
+          <option value="django.db.models.fields.DateField.strftime" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

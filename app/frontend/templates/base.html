@@ -1,0 +1,67 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 17/08/2020 11:11.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+    <title>{{NAME_OF_ENTERPRISE}}</title>
+    <link crossorigin href="https://fonts.gstatic.com/" rel="preconnect">
+    <meta content="#206bc4" name="msapplication-TileColor"/>
+    <meta content="#206bc4" name="theme-color"/>
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="mobile-web-app-capable"/>
+    <meta content="True" name="HandheldFriendly"/>
+    <meta content="320" name="MobileOptimized"/>
+    <meta content="noindex,nofollow,noarchive" name="robots"/>
+    <link href="{% static 'favicon.ico' %}" rel="icon" type="image/x-icon"/>
+    <link href="{% static 'favicon.ico' %}" rel="shortcut icon" type="image/x-icon"/>
+    <!-- CSS files -->
+    <link href="{% static 'dist/libs/jqvmap/dist/jqvmap.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'dist/css/tabler.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'custom/css/custom-css.css' %}" rel="stylesheet"/>
+    <!--    <link href="{% static 'dist/css/demo.min.css' %}" rel="stylesheet"/>-->
+    <style>
+      body {
+      	display: none;
+      }
+
+
+    </style>
+    <!--  Block of links  -->
+    {% block links %}{% endblock %}
+</head>
+{% block body_html %}
+<body class="antialiased">
+{% block sidebar %}{% include "sidebar.html" %}{% endblock %}
+<div class="page">
+    <div class="content" id="content">
+        {% block content %}{% include "dashboard.html" %}{% endblock %}
+        {% block footer %}{% include "footer.html" %}{% endblock %}
+    </div>
+</div>
+<!-- Libs JS -->
+<script src="{% static 'dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'dist/libs/jquery/dist/jquery.slim.min.js' %}"></script>
+<script src="{% static 'dist/libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+<!--<script src="{% static 'dist/libs/jqvmap/dist/jquery.vmap.min.js' %}"></script>-->
+<!--<script src="{% static 'dist/libs/jqvmap/dist/maps/jquery.vmap.world.js' %}"></script>-->
+<script src="{% static 'dist/libs/peity/jquery.peity.min.js' %}"></script>
+<!-- Tabler Core -->
+<script src="{% static 'dist/js/tabler.min.js' %}"></script>
+
+<script>
+  document.body.style.display = "block"
+
+</script>
+{% block javascript %}{% endblock %}
+</body>
+{% endblock %}
+</html>
