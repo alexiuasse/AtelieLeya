@@ -1,19 +1,16 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 17/08/2020 11:00.
+  ~ Last modified 17/08/2020 13:38.
   -->
 {% load static %}
-<aside class="navbar navbar-vertical navbar-expand-lg navbar-dark">
+<aside class="navbar navbar-vertical navbar-expand-lg navbar-light bg-login">
     <div class="container">
         <button class="navbar-toggler" data-target="#navbar-menu" data-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand navbar-brand-autodark" href="{% url 'dashboard' %}">
-            <h2 class="page-title">
-                {{NAME_OF_ENTERPRISE}}
-            </h2>
-            <!--            <img alt="{{NAME_OF_ENTERPRISE}}" class="navbar-brand-image" src="{% static 'logo.svg' %}">-->
+            <img alt="{{NAME_OF_ENTERPRISE}}" class="navbar-brand-image" src="{% static 'logo-bar.svgz' %}">
         </a>
         <!-- Actions when on cellphone -->
         <!--        <div class="navbar-nav flex-row d-lg-none">-->
