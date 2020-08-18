@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 17/08/2020 18:39.
+  ~ Last modified 18/08/2020 14:27.
   -->
 {% load static %}
 <header class="navbar navbar-expand-md navbar-light">
@@ -84,6 +84,12 @@
                         <a class="nav-link" href="{% url 'homepage' %}">
                             <span class="nav-link-icon d-md-none d-lg-inline-block">{{ICON_HOME|safe}}</span>
                             <span class="nav-link-title">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard' %}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">{{ICON_DASHBOARD|safe}}</span>
+                            <span class="nav-link-title">Admin</span>
                         </a>
                     </li>
                 </ul>

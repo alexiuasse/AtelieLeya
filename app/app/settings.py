@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/08/2020 11:01.
+#  Last modified 18/08/2020 14:34.
 
 from pathlib import Path
 
@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django_filters',
     'users',
     'frontend',
+    'base',
+    'config',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'simple_history.middleware.HistoryRequestMiddleware',
-    # 'base.middleware.BaseMiddleware',
+    'base.middleware.BaseMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'

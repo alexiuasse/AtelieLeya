@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 17/08/2020 13:38.
+  ~ Last modified 18/08/2020 15:04.
   -->
 {% load static %}
 <aside class="navbar navbar-vertical navbar-expand-lg navbar-light bg-login">
@@ -87,6 +87,12 @@
                           {{ICON_DASHBOARD|safe}}
                         </span>
                         <span class="nav-link-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item {% if 'config' in request.path %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'config:index' %}">
+                        {{ICON_SETTINGS|safe}}
+                        <span class="nav-link-title">Configurações</span>
                     </a>
                 </li>
                 <li class="nav-item mt-auto">

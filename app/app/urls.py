@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/08/2020 10:21.
+#  Last modified 18/08/2020 14:35.
 
 from django.contrib import admin
 from django.urls import path, include
@@ -8,6 +8,7 @@ from django.urls import path, include
 urlpatterns = [
     path('', include('frontend.urls')),
     path('admin/', admin.site.urls),
+    path('config/', include('config.urls')),
 ]
 
 # Handling errors, but only if debug is set to False and there is another server to serve staticfiles

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/08/2020 15:32.
+#  Last modified 18/08/2020 14:27.
 
 from django.contrib.auth import views as auth_views
 from django.urls import path
