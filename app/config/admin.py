@@ -1,7 +1,10 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/08/2020 14:27.
+#  Last modified 19/08/2020 09:47.
 
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+admin.site.register(Reward)
+admin.site.register(TypeOfService)
+admin.site.register(StatusService)

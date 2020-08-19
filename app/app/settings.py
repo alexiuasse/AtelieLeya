@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/08/2020 14:34.
+#  Last modified 19/08/2020 09:55.
 
 from pathlib import Path
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'frontend',
     'base',
     'config',
+    'service',
 ]
 
 MIDDLEWARE = [
