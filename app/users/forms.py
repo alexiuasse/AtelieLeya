@@ -1,8 +1,9 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/08/2020 09:54.
+#  Last modified 20/08/2020 13:18.
 
 # users/forms.py
+from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import CustomUser
@@ -11,10 +12,25 @@ from .models import CustomUser
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'birthday')
+        fields = ('username', 'email', 'birth_day')
 
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = UserChangeForm.Meta.fields
+
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+class SignUpForm(UserCreationForm):
+    first_name = forms.CharField(label="Primeiro Nome", max_length=30, required=True, help_text='Obrigatório.')
+    last_name = forms.CharField(label="Último Nome", max_length=30, required=False, help_text='Opcional.')
+    email = forms.EmailField(label="E-mail", max_length=254, help_text='Informe um endereço de e-mail válido')
+    birth_day = forms.DateField(label="Data de Nascimento", widget=DateInput, help_text='Informe uma data válida')
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'first_name', 'last_name', 'birth_day', 'email', 'password1', 'password2',)

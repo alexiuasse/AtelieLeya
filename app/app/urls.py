@@ -1,12 +1,13 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/08/2020 11:09.
+#  Last modified 20/08/2020 10:16.
 
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path('', include('frontend.urls')),
+    path('user', include('users.urls')),
     path('admin/', admin.site.urls),
     path('config/', include('config.urls')),
     path('service/', include('service.urls')),

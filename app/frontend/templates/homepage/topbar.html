@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 18/08/2020 14:27.
+  ~ Last modified 20/08/2020 14:34.
   -->
 {% load static %}
 <header class="navbar navbar-expand-md navbar-light">
@@ -36,10 +36,10 @@
             </div>
             <div class="nav-item dropdown">
                 <a class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown" href="#">
-                    <span class="avatar" style="background-image: url(./static/avatars/000m.jpg)"></span>
+                    <span class="avatar" style="background-image: url({% static 'avatars/000.png' %})"></span>
                     <div class="d-none d-xl-block pl-2">
-                        <div>Paweł Kuna</div>
-                        <div class="mt-1 small text-muted">UI Designer</div>
+                        <div>{{request.user.first_name}}</div>
+                        <div class="mt-1 small text-muted">{{request.user.last_name}}</div>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -65,15 +65,10 @@
                         Another action
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                        <svg class="icon dropdown-item-icon" fill="none" height="24" stroke="currentColor"
-                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
-                             width="24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 0h24v24H0z" stroke="none"/>
-                            <line x1="12" x2="12" y1="5" y2="19"/>
-                            <line x1="5" x2="19" y1="12" y2="12"/>
-                        </svg>
-                        Separated link</a>
+                    <a class="dropdown-item" data-target="#modal-logout" data-toggle="modal" href="">
+                        {{ICON_LOGOUT|safe}}
+                        Sair
+                    </a>
                 </div>
             </div>
         </div>
@@ -92,8 +87,45 @@
                             <span class="nav-link-title">Admin</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:signup' %}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">{{ICON_DASHBOARD|safe}}</span>
+                            <span class="nav-link-title">Cadastrar</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:signup' %}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">{{ICON_CALENDAR|safe}}</span>
+                            <span class="nav-link-title">Agendar</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </header>
+<div aria-hidden="true" class="modal modal-blur fade" id="modal-logout" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sair</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <svg class="icon" fill="none" height="24" stroke="currentColor" stroke-linecap="round"
+                         stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 0h24v24H0z" stroke="none"/>
+                        <line x1="18" x2="6" y1="6" y2="18"/>
+                        <line x1="6" x2="18" y1="6" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                Você deseja sair ?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-white mr-auto" data-dismiss="modal" type="button">Fechar</button>
+                <a class="btn btn-primary" href="{% url 'logout' %}" type="button">Sim</a>
+            </div>
+        </div>
+    </div>
+</div>

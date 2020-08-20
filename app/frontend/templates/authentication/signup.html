@@ -1,0 +1,55 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 20/08/2020 14:39.
+  -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block body_html %}
+<body class="antialiased ">
+<div class="page bg-login">
+    {% include '../homepage/topbar.html' %}
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <div class="page-pretitle">
+                        Usuário
+                    </div>
+                    <h2 class="page-title">
+                        Cadastrar
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-lg-4 col-md-4 ml-auto mr-auto">
+                <div class="card bg-transparent">
+                    <div class="card-body">
+                        <h3 class="card-title">Novo Cadastro</h3>
+                        <form method="post">
+                            {% csrf_token %}
+                            {% for field in form %}
+                            {{ field|as_crispy_field }}
+                            {% endfor %}
+                            <button class="btn bg-gold text-white btn-block mt-3" type="submit">Cadastrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- Libs JS -->
+<script src="{% static 'dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Tabler Core -->
+<script src="{% static 'dist/js/tabler.min.js' %}"></script>
+<script>
+  document.body.style.display = "block"
+
+</script>
+{% endblock %}
