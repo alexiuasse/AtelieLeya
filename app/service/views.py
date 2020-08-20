@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/08/2020 10:14.
+#  Last modified 20/08/2020 10:01.
 
 from typing import Dict, Any
 
@@ -18,6 +18,34 @@ from .conf import *
 from .filters import *
 from .forms import *
 from .tables import *
+
+
+class ServiceCalendarCustomer(LoginRequiredMixin, View):
+    template = 'service/calendar.html'
+    title = 'Calendário'
+    subtitle = 'Serviços'
+
+    def get(self, request):
+        return render(request, self.template, {
+            'start_date': datetime.today().date,
+            'title': self.title,
+            'subtitle': self.subtitle,
+            'services': OrderOfService.objects.all()
+        })
+
+
+class ServiceCalendarAdmin(LoginRequiredMixin, View):
+    template = 'service/calendar.html'
+    title = 'Calendário'
+    subtitle = 'Serviços'
+
+    def get(self, request):
+        return render(request, self.template, {
+            'start_date': datetime.today().date,
+            'title': self.title,
+            'subtitle': self.subtitle,
+            'services': OrderOfService.objects.all()
+        })
 
 
 class OrderOfServiceProfile(LoginRequiredMixin, View):

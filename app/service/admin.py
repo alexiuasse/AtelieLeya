@@ -1,7 +1,8 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/08/2020 09:08.
+#  Last modified 20/08/2020 09:54.
 
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+admin.site.register(OrderOfService)

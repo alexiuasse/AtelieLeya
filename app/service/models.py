@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/08/2020 10:06.
+#  Last modified 19/08/2020 11:25.
 
 from datetime import datetime
 
@@ -23,3 +23,6 @@ class OrderOfService(BaseModel):
 
     def get_customer_name(self):
         return self.customuser_set.all().first().first_name
+
+    def get_html_url(self):
+        return f'<p>{self.title}</p><a href="{self.get_edit_url()}">edit</a>'

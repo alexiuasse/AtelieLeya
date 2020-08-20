@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 18/08/2020 14:27.
+  ~ Last modified 20/08/2020 10:02.
   -->
 
 <!DOCTYPE html>
@@ -24,16 +24,15 @@
     <link href="{% static 'logo.svgz' %}" rel="icon" type="image/x-icon"/>
     <link href="{% static 'logo.svgz' %}" rel="shortcut icon" type="image/x-icon"/>
     <!-- CSS files -->
-    <link href="{% static 'dist/libs/jqvmap/dist/jqvmap.min.css' %}" rel="stylesheet"/>
+    <!--    <link href="{% static 'dist/libs/jqvmap/dist/jqvmap.min.css' %}" rel="stylesheet"/>-->
     <link href="{% static 'dist/css/tabler.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'custom/css/custom-css.css' %}" rel="stylesheet"/>
+    {% block custom_css %}{% endblock %}
     <!--    <link href="{% static 'dist/css/demo.min.css' %}" rel="stylesheet"/>-->
     <style>
       body {
       	display: none;
       }
-
-
     </style>
     <!--  Block of links  -->
     {% block links %}{% endblock %}
@@ -59,7 +58,6 @@
 
 <script>
   document.body.style.display = "block"
-
 </script>
 {% block javascript %}{% endblock %}
 </body>
