@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 21/08/2020 13:38.
+  ~ Last modified 21/08/2020 14:37.
   -->
 {% extends 'base.html' %}
 {% block content %}
@@ -45,7 +45,7 @@
         <div class="alert alert-danger">
             <h3>
                 <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
-                Procedimento não está confirmado! Whatsapp: {{obj.get_customer_contact}}
+                Procedimento não está confirmado! Whatsapp: {{obj.customer.whatsapp}}
             </h3>
         </div>
     </div>

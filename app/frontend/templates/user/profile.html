@@ -1,0 +1,99 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 21/08/2020 15:53.
+  -->
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <h2 class="page-title">
+                    <a href="{{obj.get_back_url}}" rel="tooltip" title="Voltar">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    {{obj.get_full_name}}
+                    <a href="{{obj.get_edit_url}}" rel="tooltip" title="Editar">
+                        <span class="text-success">{{ICON_EDIT|safe}}</span>
+                    </a>
+                    <a href="{{obj.get_delete_url}}" rel="tooltip" title="Deletar">
+                        <span class="text-danger">{{ICON_DELETE|safe}}</span>
+                    </a>
+                </h2>
+            </div>
+            <div class="col-auto ml-auto d-print-none">
+                <a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block"
+                   href="{{obj.get_new_service_url}}">
+                    {{ICON_ADD|safe}}
+                    Novo Procedimento
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-auto">
+            <div class="table-responsive mb-3">
+                <table class="table table-hover">
+                    {% for k, v in obj.get_dict_data.items %}
+                    <tr>
+                        <td>{{k}}</td>
+                        <td>{{v}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-auto">
+            <div class="table-responsive mb-3">
+                <table class="table table-hover">
+                    {% for k, v in obj.get_dict_data_points.items %}
+                    <tr>
+                        <td>{{k}}</td>
+                        <td>{{v}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {% for k,v in obj.get_service_sorted_by_entry_date.items %}
+        <div class="col-lg-12 col-md-auto">
+            <h4>Mês/Ano {{k}}</h4>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Procedimento</th>
+                        <th>Data/Hora</th>
+                        <th>Status</th>
+                        <th>Confirmado</th>
+                        <th>Finalizado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for kk,vv in v.items %}
+                    {% for s in vv %}
+                    <tr>
+                        <td>
+                            <a href="{{s.get_absolute_url}}">
+                                {{s.type_of_service}}
+                            </a>
+                        </td>
+                        <td>{{s.date|date:"SHORT_DATE_FORMAT"}} Às {{s.time}}</td>
+                        <td><span class="badge bg-{{s.status.contextual}}">{{s.status}}</span></td>
+                        <td>{{s.get_confirmed_html|safe}}</td>
+                        <td>{{s.get_finished_html|safe}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

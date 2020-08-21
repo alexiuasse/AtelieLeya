@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 13:54.
+#  Last modified 21/08/2020 15:43.
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
@@ -18,7 +18,7 @@ class OrderOfServiceForm(forms.ModelForm):
             Field('time', wrapper_class='col-md'),
             Field('finished', wrapper_class='col-md'),
             Field('confirmed', wrapper_class='col-md'),
-            # Field('counted', wrapper_class='col-md'),
+            Field('status', wrapper_class='col-md'),
             Field('observation', wrapper_class='col-md'),
         ),
     )
@@ -34,9 +34,10 @@ class OrderOfServiceForm(forms.ModelForm):
     class Meta:
         model = OrderOfService
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),
+            'date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),
             'observation': forms.Textarea(attrs={"rows": 4}),
         }
         fields = ['type_of_service', 'date', 'time',
-                  'finished', 'confirmed', 'observation']
+                  'finished', 'confirmed', 'observation',
+                  'status']

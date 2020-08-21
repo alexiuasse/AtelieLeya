@@ -1,22 +1,63 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 11:54.
+#  Last modified 21/08/2020 17:06.
 
 # users/models.py
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 
 class CustomUser(AbstractUser):
     birth_day = models.DateField('data de nascimento', blank=True, null=True)
     whatsapp = models.CharField('whatsapp', max_length=13)
-    order_of_service = models.ManyToManyField("service.OrderOfService", verbose_name="Procedimentos", blank=True)
+    total_of_points = models.FloatField(default=0)
+    total_of_points_redeemed = models.FloatField(default=0)
+    total_of_points_not_redeemed = models.FloatField(default=0)
 
-    def get_total_points(self):
-        return sum(s.type_of_service.quantity_points for s in self.order_of_service)
+    @property
+    def get_new_service_url(self):
+        return reverse('service:orderofservice:create', kwargs={'cpk': self.pk})
 
-    def get_total_used_points(self):
-        return sum(s.type_of_service.quantity_points for s in self.order_of_service if s.counted)
+    def get_absolute_url(self):
+        return reverse('users:customuser:profile', kwargs={'pk': self.pk})
 
-    def get_total_unused_points(self):
-        return sum(s.type_of_service.quantity_points for s in self.order_of_service if not s.counted)
+    @property
+    def get_delete_url(self):
+        return reverse('users:customuser:delete', kwargs={'pk': self.pk})
+
+    @property
+    def get_edit_url(self):
+        return reverse('users:customuser:edit', kwargs={'pk': self.pk})
+
+    @property
+    def get_back_url(self):
+        return reverse('users:customuser:view')
+
+    def get_dict_data(self):
+        return {
+            'Nome': "{} {}".format(self.first_name, self.last_name),
+            'Whatsapp': self.whatsapp,
+            'Data de Nascimento': self.birth_day,
+            'E-mail': self.email,
+        }
+
+    def get_dict_data_points(self):
+        return {
+            'Total de Pontos': self.total_of_points,
+            'Total de Pontos Resgatados': self.total_of_points_redeemed,
+            'Total de Pontos Não Resgatados': self.total_of_points_not_redeemed,
+        }
+
+    def get_service_sorted_by_entry_date(self):
+        retDict = {}
+        for s in self.orderofservice_set.all().order_by('-date', '-id'):
+            m_y = "{}/{}".format(s.date.month, s.date.year)
+            if m_y in retDict:
+                retDict[m_y]['services'].append(s)
+            else:
+                retDict[m_y] = {}
+                retDict[m_y]['services'] = []
+                retDict[m_y]['services'].append(s)
+        # print(retDict)
+        return retDict

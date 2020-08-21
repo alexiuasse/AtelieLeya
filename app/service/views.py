@@ -1,12 +1,13 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 13:59.
+#  Last modified 21/08/2020 15:08.
 
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -14,6 +15,7 @@ from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django_filters.views import FilterView
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin, SingleTableView
+from users.models import CustomUser
 
 from .conf import *
 from .filters import *
@@ -117,6 +119,10 @@ class OrderOfServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTabl
 
 
 class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    """
+        Create new order of service from admin panel
+    """
+
     model = OrderOfService
     form_class = OrderOfServiceForm
     template_name = 'base/form.html'
@@ -126,32 +132,19 @@ class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
 
     def get_success_url(self):
         if self.object:
-            return reverse_lazy('service:profile',
-                                kwargs={'cpk': self.kwargs['cpk'], 'ctp': self.kwargs['ctp'], 'dev': self.kwargs['dev'],
-                                        'pk': self.object.pk})
+            return reverse(self.object.get_absolute_url())
         else:
-            return reverse_lazy('device:profile',
-                                kwargs={'cpk': self.kwargs['cpk'], 'ctp': self.kwargs['ctp'], 'pk': self.kwargs['dev']})
+            return reverse('users:customuser:profile', kwargs={'pk': self.kwargs['cpk']})
 
     def get_back_url(self):
-        return reverse_lazy('device:profile',
-                            kwargs={'cpk': self.kwargs['cpk'], 'ctp': self.kwargs['ctp'], 'pk': self.kwargs['dev']})
+        return reverse('users:customuser:profile', kwargs={'pk': self.kwargs['cpk']})
 
     def form_valid(self, form):
-        response = super(OrderOfServiceCreate, self).form_valid(form)
-        formSet = self.get_context_data()['formSet']
-        if formSet.is_valid():
-            for form in formSet:
-                if form.is_valid():
-                    try:
-                        f = form.save(commit=False)
-                        f.order_of_service = self.object
-                        f.save()
-                    except Exception:
-                        continue
-        if self.object:
-            Device.objects.get(pk=self.kwargs['dev']).order_of_services.add(self.object)
-        return response
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.customer = CustomUser.objects.get(pk=self.kwargs['cpk'])
+            instance.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class OrderOfServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):

@@ -1,13 +1,24 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 20/08/2020 11:19.
+#  Last modified 21/08/2020 17:02.
 
-from django.urls import path
+from django.urls import path, include
 
-from .views import signup
+from .views import *
 
 app_name = "users"
 
+user_patterns = ([
+                     # path('create/', OrderOfServiceCreate.as_view(), name='create'),
+                     path('', CustomUserView.as_view(), name='view'),
+                     path('<int:pk>/profile/', CustomUserProfile.as_view(), name='profile'),
+                     path('<int:pk>/edit/', CustomUserEdit.as_view(), name='edit'),
+                     path('<int:pk>/delete/', CustomUserDel.as_view(), name='delete'),
+                     # path('<int:cpk>/<int:pk>/confirmed/', confirmed_service, name='confirmed'),
+                     # path('<int:cpk>/<int:pk>/finished/', finished_service, name='finished'),
+                 ], 'customuser')
+
 urlpatterns = [
+    path('/', include(user_patterns)),
     path('signup/', signup, name='signup'),
 ]
