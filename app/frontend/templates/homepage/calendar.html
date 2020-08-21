@@ -1,14 +1,11 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 20/08/2020 14:58.
+  ~ Last modified 21/08/2020 11:09.
   -->
 
-{% extends 'base.html' %}
+{% extends './base.html' %}
 {% load static %}
-{% block custom_css %}
-<link href="{% static 'dist/libs/fullcalendar/dist/main.min.css' %}" rel="stylesheet"/>
-{% endblock %}
 {% block content %}
 <div class="container-fluid">
     <div class="page-header">
@@ -18,17 +15,23 @@
                     {{subtitle}}
                 </div>
                 <h2 class="page-title">
-                    <a href="{{view.get_back_url}}" rel="tooltip" title="Voltar">
-                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
-                    </a>
                     {{title}}
                 </h2>
             </div>
         </div>
     </div>
-    <div class="row align-items-center">
-        <div class="col-12">
-            <div id="calendar"></div>
+    <div class="row">
+        <div class="col-lg-6 col-md-auto">
+            <h2>Olá</h2>
+            <p>Aqui você pode agendar o seu procedimento, tudo de forma fácil e rápida!</p>
+            <h3>Todos os agendamentos serão confirmados por meio do whatsapp!</h3>
+        </div>
+        <div class="col-lg-6 col-md-auto">
+            <div class="card">
+                <div class="card-body">
+                    <div id="calendar"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -42,8 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
+        themeSystem: 'standart',
         headerToolbar: {
-            left: 'prev,next today',
+            left: 'prev next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
         },
@@ -52,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         selectMirror: true,
+        // Make a modal show with a form, send to server validate and return response
         select: function(arg) {
             var title = prompt('Event Title:');
             if (title) {
@@ -69,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
               arg.event.remove()
             }
         },
-        buttonIcons: false, // show the prev/next text
+        buttonIcons: true, // show the prev/next text
         weekNumbers: false,
         navLinks: true, // can click day/week names to navigate views
         editable: true,
@@ -89,5 +94,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 </script>
-
 {% endblock %}

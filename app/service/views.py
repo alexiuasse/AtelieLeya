@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 20/08/2020 10:01.
+#  Last modified 20/08/2020 17:14.
 
 from typing import Dict, Any
 
@@ -21,9 +21,9 @@ from .tables import *
 
 
 class ServiceCalendarCustomer(LoginRequiredMixin, View):
-    template = 'service/calendar.html'
-    title = 'Calendário'
-    subtitle = 'Serviços'
+    template = 'homepage/calendar.html'
+    title = 'Agendamento Fácil'
+    subtitle = 'Agende seu horário'
 
     def get(self, request):
         return render(request, self.template, {
@@ -36,7 +36,7 @@ class ServiceCalendarCustomer(LoginRequiredMixin, View):
 
 class ServiceCalendarAdmin(LoginRequiredMixin, View):
     template = 'service/calendar.html'
-    title = 'Calendário'
+    title = 'Calendário Admin'
     subtitle = 'Serviços'
 
     def get(self, request):
