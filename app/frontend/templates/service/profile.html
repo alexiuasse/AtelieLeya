@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/08/2020 15:46.
+  ~ Last modified 21/08/2020 13:38.
   -->
 {% extends 'base.html' %}
 {% block content %}
@@ -22,39 +22,51 @@
                     </a>
                 </h2>
             </div>
+            <div class="col-auto ml-auto d-print-none">
+                {% if not obj.confirmed %}
+                <a class="btn btn-sm btn-info d-none d-sm-inline-block"
+                   href="{{obj.get_confirmed_url}}">
+                    {{ICON_CHECK|safe}}
+                    Confirmar
+                </a>
+                {% endif %}
+                {% if not obj.finished %}
+                <a class="btn btn-sm btn-success d-none d-sm-inline-block"
+                   href="{{obj.get_finished_url}}">
+                    {{ICON_DOUBLE_CHECK|safe}}
+                    Finalizar
+                </a>
+                {% endif %}
+            </div>
         </div>
     </div>
-    {% if obj.scheduled %}
+    {% if not obj.confirmed %}
     <div class="col-md-12">
-        <div class="alert alert-primary">
-            <span>Serviço está agendado para {{obj.date}}</span>
+        <div class="alert alert-danger">
+            <h3>
+                <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
+                Procedimento não está confirmado! Whatsapp: {{obj.get_customer_contact}}
+            </h3>
         </div>
     </div>
     {% endif %}
+    <div class="col-md-12">
+        <div class="alert alert-primary">
+            <h3>
+                {{ICON_CALENDAR|safe}}
+                Data e Hora do procedimento: {{obj.date}}
+            </h3>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6">
-            <h3>Dados do Serviço</h3>
+            <h3>Dados do Procedimento</h3>
             <div class="table-responsive">
                 <table class="table table-hover table-striped">
                     {% for k, v in obj.get_dict_data.items %}
                     <tr>
                         <td>{{k}}</td>
                         <td>{{v|default_if_none:""}}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <h3>Peças Trocadas</h3>
-            <div class="table-responsive">
-                <table class="table table-hover table-striped">
-                    {% for v in obj.partsexchanged_set.all %}
-                    <tr>
-                        <td>
-                            <span class="badge bg-success mr-2">{{v.quantity}}x</span>
-                            {{v.part.name}}
-                        </td>
                     </tr>
                     {% endfor %}
                 </table>

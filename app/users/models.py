@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 20/08/2020 13:13.
+#  Last modified 21/08/2020 11:54.
 
 # users/models.py
 from django.contrib.auth.models import AbstractUser
@@ -9,6 +9,7 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     birth_day = models.DateField('data de nascimento', blank=True, null=True)
+    whatsapp = models.CharField('whatsapp', max_length=13)
     order_of_service = models.ManyToManyField("service.OrderOfService", verbose_name="Procedimentos", blank=True)
 
     def get_total_points(self):

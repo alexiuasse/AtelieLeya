@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/08/2020 09:58.
+#  Last modified 21/08/2020 12:03.
 
 # users/admin.py
 from django.contrib import admin
@@ -20,7 +20,8 @@ class CustomUserAdmin(UserAdmin):
             'Campos Personalizados',  # group heading of your choice; set to None for a blank space instead of a header
             {
                 'fields': (
-                    'birthday',
+                    'whatsapp',
+                    'birth_day',
                     'order_of_service',
                 ),
             },

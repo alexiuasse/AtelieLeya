@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/08/2020 14:27.
+#  Last modified 21/08/2020 12:15.
 
 from django.db import models
 from django.urls import reverse
@@ -12,6 +12,18 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+
+    @property
+    def get_reverse_delete(self):
+        return '{}:{}:delete'.format(self._meta.app_label, self._meta.model_name)
+
+    @property
+    def get_reverse_edit(self):
+        return '{}:{}:edit'.format(self._meta.app_label, self._meta.model_name)
+
+    @property
+    def get_reverse_profile(self):
+        return '{}:{}:profile'.format(self._meta.app_label, self._meta.model_name)
 
     @property
     def get_delete_url(self):

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/08/2020 10:06.
+#  Last modified 21/08/2020 13:38.
 from django_tables2 import tables, TemplateColumn, Column
 
 from .models import *
@@ -14,4 +14,4 @@ class OrderOfServiceTable(tables.Table):
         model = OrderOfService
         attrs = {'class': 'table table-striped table-hover'}
         per_page = 20
-        fields = ['type_of_service', 'status', 'date_time', 'customer']
+        fields = ['type_of_service', 'status', 'date', 'customer']

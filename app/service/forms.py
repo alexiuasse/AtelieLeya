@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/08/2020 10:09.
+#  Last modified 21/08/2020 13:54.
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
@@ -14,7 +14,12 @@ class OrderOfServiceForm(forms.ModelForm):
     layout = Layout(
         Row(
             Field('type_of_service', wrapper_class='col-md'),
-            Field('date_time', wrapper_class='col-md'),
+            Field('date', wrapper_class='col-md'),
+            Field('time', wrapper_class='col-md'),
+            Field('finished', wrapper_class='col-md'),
+            Field('confirmed', wrapper_class='col-md'),
+            # Field('counted', wrapper_class='col-md'),
+            Field('observation', wrapper_class='col-md'),
         ),
     )
 
@@ -28,9 +33,10 @@ class OrderOfServiceForm(forms.ModelForm):
 
     class Meta:
         model = OrderOfService
-        # widgets = {
-        #     'date_time': forms.DateTimeInput(format='%Y-%m-%d', attrs={'type': 'date'}),
-        #     'defect': forms.Textarea(attrs={"rows": 4}),
-        #     'observation': forms.Textarea(attrs={"rows": 4}),
-        # }
-        fields = ['type_of_service', 'date_time']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'time': forms.TimeInput(attrs={'type': 'time'}),
+            'observation': forms.Textarea(attrs={"rows": 4}),
+        }
+        fields = ['type_of_service', 'date', 'time',
+                  'finished', 'confirmed', 'observation']

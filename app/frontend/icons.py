@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/08/2020 14:27.
+#  Last modified 21/08/2020 12:19.
 
 ICON_ARROW_BACK = '<svg class="icon icon-md" fill="none" height="24" ' \
                   'stroke="currentColor" stroke-linecap="round"stroke-linejoin="round" stroke-width="2" viewBox="0 0 ' \
@@ -107,3 +107,12 @@ ICON_HOME = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width=
             'stroke="none" d="M0 0h24v24H0z"></path><polyline points="5 12 3 12 12 3 21 12 19 12"></polyline><path ' \
             'd="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 ' \
             '2v6"></path></svg> '
+
+ICON_CHECK = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" ' \
+             'stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path ' \
+             'stroke="none" d="M0 0h24v24H0z"></path><path d="M5 12l5 5l10 -10"></path></svg> '
+
+ICON_DOUBLE_CHECK = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 ' \
+                    '24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" ' \
+                    'stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><path d="M7 12l5 5l10 ' \
+                    '-10"></path><path d="M2 12l5 5m5 -5l5 -5"></path></svg> '

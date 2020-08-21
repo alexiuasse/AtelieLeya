@@ -1,12 +1,13 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 20/08/2020 17:14.
+#  Last modified 21/08/2020 13:59.
 
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import render
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
@@ -18,6 +19,26 @@ from .conf import *
 from .filters import *
 from .forms import *
 from .tables import *
+
+
+def confirmed_service(request, cpk, pk):
+    if request.user.is_superuser and request.user.is_authenticated:
+        obj = OrderOfService.objects.get(pk=pk)
+        obj.confirmed = True
+        obj.save()
+        return redirect(obj.get_absolute_url())
+    else:
+        raise PermissionDenied()
+
+
+def finished_service(request, cpk, pk):
+    if request.user.is_superuser and request.user.is_authenticated:
+        obj = OrderOfService.objects.get(pk=pk)
+        obj.finished = True
+        obj.save()
+        return redirect(obj.get_absolute_url())
+    else:
+        raise PermissionDenied()
 
 
 class ServiceCalendarCustomer(LoginRequiredMixin, View):
@@ -49,17 +70,16 @@ class ServiceCalendarAdmin(LoginRequiredMixin, View):
 
 
 class OrderOfServiceProfile(LoginRequiredMixin, View):
+    """
+        Show one order of service given the pk
+    """
+
     template = 'service/profile.html'
     title = TITLE_VIEW_ORDER_OF_SERVICE
     subtitle = SUBTITLE_ORDER_OF_SERVICE
 
-    def get(self, request, cpk, ctp, dev, pk):
-        context = {
-            'obj': OrderOfService.objects.get(pk=pk),
-            'cpk': cpk,
-            'ctp': ctp,
-        }
-        return render(request, self.template, context)
+    def get(self, request, cpk, pk):
+        return render(request, self.template, {'obj': OrderOfService.objects.get(pk=pk)})
 
 
 class OrderOfServiceIndex(LoginRequiredMixin, SingleTableView):
@@ -99,7 +119,7 @@ class OrderOfServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTabl
 class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = OrderOfService
     form_class = OrderOfServiceForm
-    template_name = 'service/form.html'
+    template_name = 'base/form.html'
     permission_required = 'service.create_orderofservice'
     title = TITLE_CREATE_ORDER_OF_SERVICE
     subtitle = SUBTITLE_ORDER_OF_SERVICE
@@ -137,33 +157,13 @@ class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
 class OrderOfServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = OrderOfService
     form_class = OrderOfServiceForm
-    template_name = 'service/form.html'
+    template_name = 'base/form.html'
     permission_required = 'service.edit_orderofservice'
     title = TITLE_EDIT_ORDER_OF_SERVICE
     subtitle = SUBTITLE_ORDER_OF_SERVICE
 
     def get_delete_url(self):
-        return reverse_lazy('service:delete',
-                            kwargs={'cpk': self.kwargs['cpk'], 'ctp': self.kwargs['ctp'], 'dev': self.kwargs['dev'],
-                                    'pk': self.object.pk})
-
-    def form_valid(self, form):
-        response = super(OrderOfServiceEdit, self).form_valid(form)
-        formSet = self.get_context_data()['formSet']
-        if formSet.is_valid():
-            for form in formSet:
-                if not form['DELETE'].value():
-                    if form.is_valid():
-                        try:
-                            f = form.save(commit=False)
-                            f.order_of_service = self.object
-                            f.save()
-                        except Exception:
-                            continue
-            formSet.save()
-        else:
-            return self.render_to_response(self.get_context_data())
-        return response
+        return reverse('service:orderofservice:delete', kwargs={'cpk': self.kwargs['cpk'], 'pk': self.object.pk})
 
 
 class OrderOfServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):

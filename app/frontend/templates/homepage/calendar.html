@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 21/08/2020 11:09.
+  ~ Last modified 21/08/2020 13:38.
   -->
 
 {% extends './base.html' %}
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {% for s in services %}
                 {
                     title: "{{s.type_of_service}}",
-                    start: '{{s.date_time|date:"Y-m-d H:i"}}',
+                    start: '{{s.date|date:"Y-m-d H:i"}}',
                 },
             {% endfor %}
         ]
