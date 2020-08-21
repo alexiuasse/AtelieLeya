@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 20/08/2020 14:39.
+  ~ Last modified 21/08/2020 19:09.
   -->
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
@@ -46,10 +46,22 @@
 </body>
 <!-- Libs JS -->
 <script src="{% static 'dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'dist/libs/jquery/dist/jquery.slim.min.js' %}"></script>
 <!-- Tabler Core -->
 <script src="{% static 'dist/js/tabler.min.js' %}"></script>
 <script>
   document.body.style.display = "block"
+
+</script>
+<script src="{% static 'dist/libs/imask/dist/imask.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        var element = document.getElementById('id_whatsapp');
+        var maskOptions = {
+          mask: '(00) 0 0000-0000'
+        };
+        var mask = IMask(element, maskOptions);
+    });
 
 </script>
 {% endblock %}

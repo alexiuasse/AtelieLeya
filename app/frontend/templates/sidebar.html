@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 18/08/2020 15:04.
+  ~ Last modified 21/08/2020 17:28.
   -->
 {% load static %}
 <aside class="navbar navbar-vertical navbar-expand-lg navbar-light bg-login">
@@ -89,15 +89,27 @@
                         <span class="nav-link-title">Dashboard</span>
                     </a>
                 </li>
+                <li class="nav-item {% if 'user' in request.path %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'users:customuser:view' %}">
+                         <span class="nav-link-icon d-md-none d-lg-inline-block">
+                          {{ICON_PERSON|safe}}
+                        </span>
+                        <span class="nav-link-title">Clientes</span>
+                    </a>
+                </li>
                 <li class="nav-item {% if 'config' in request.path %}active{% endif %}">
                     <a class="nav-link" href="{% url 'config:index' %}">
-                        {{ICON_SETTINGS|safe}}
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                          {{ICON_SETTINGS|safe}}
+                        </span>
                         <span class="nav-link-title">Configurações</span>
                     </a>
                 </li>
                 <li class="nav-item mt-auto">
                     <a class="nav-link" data-target="#modal-logout" data-toggle="modal" href="#">
-                        {{ICON_LOGOUT|safe}}
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                          {{ICON_LOGOUT|safe}}
+                        </span>
                         <span class="nav-link-title">Sair</span>
                     </a>
                 </li>

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 13:52.
+#  Last modified 21/08/2020 19:08.
 
 # users/forms.py
 from django import forms
@@ -26,12 +26,12 @@ class DateInput(forms.DateInput):
 
 
 class SignUpForm(UserCreationForm):
-    whatsapp = forms.CharField(label="Whatsapp", max_length=13, required=True, help_text='Seu número com whatsapp.')
-    first_name = forms.CharField(label="Primeiro Nome", max_length=30, required=True, help_text='Obrigatório.')
-    last_name = forms.CharField(label="Último Nome", max_length=30, required=False, help_text='Opcional.')
+    whatsapp = forms.CharField(label="Whatsapp", max_length=16, required=True, help_text='Seu número com whatsapp.')
+    first_name = forms.CharField(label="Nome", max_length=30, required=True, help_text='Obrigatório.')
+    # last_name = forms.CharField(label="Último Nome", max_length=30, required=False, help_text='Opcional.')
     email = forms.EmailField(label="E-mail", max_length=254, help_text='Informe um endereço de e-mail válido')
     birth_day = forms.DateField(label="Data de Nascimento", widget=DateInput, help_text='Informe uma data válida')
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'whatsapp', 'first_name', 'last_name', 'birth_day', 'email', 'password1', 'password2',)
+        fields = ('username', 'whatsapp', 'first_name', 'birth_day', 'email', 'password1', 'password2',)

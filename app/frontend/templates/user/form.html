@@ -1,0 +1,62 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 21/08/2020 19:09.
+  -->
+
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <h2 class="page-title">
+                    <a href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
+                       rel="tooltip" title="Voltar">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    {{view.title}}
+                    {% if object %}
+                    <a href="{{ view.get_delete_url }}" rel="tooltip" title="Deletar">
+                        <span class="text-danger">{{ICON_DELETE|safe}}</span>
+                    </a>
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="col-lg-6 col-md-auto">
+            {% for field in form %}
+            {{ field|as_crispy_field }}
+            {% endfor %}
+        </div>
+        <div class="form-row">
+            <div class="pull-right mt-3">
+                <a class="btn btn-danger btn-sm mr-2"
+                   href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
+                   type="button">
+                    Cancelar
+                </a>
+                <button class="btn btn-primary btn-sm" type="submit">Finalizar</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'dist/libs/imask/dist/imask.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        var element = document.getElementById('id_whatsapp');
+        var maskOptions = {
+          mask: '(00) 0 0000-0000'
+        };
+        var mask = IMask(element, maskOptions);
+    });
+
+</script>
+{% endblock %}
