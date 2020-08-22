@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 15:55.
+#  Last modified 22/08/2020 11:02.
 
 from datetime import datetime
 
@@ -53,12 +53,12 @@ class OrderOfService(BaseModel):
 
     # maybe change to icon for better visualization
     def get_confirmed_html(self):
-        return f"SIM <span class='text-success'>{ICON_CHECK}</span>" if self.confirmed else \
-            f"NÃO <span class='text-danger'>{ICON_TRIANGLE_ALERT}</span>"
+        return f"<span class='text-success'>{ICON_CHECK}</span>" if self.confirmed else \
+            f"<span class='text-danger'>{ICON_TRIANGLE_ALERT}</span>"
 
     def get_finished_html(self):
-        return f"SIM <span class='text-success'>{ICON_DOUBLE_CHECK}</span>" if self.finished else \
-            f"NÃO <span class='text-primary'>{ICON_TRIANGLE_ALERT}</span>"
+        return f"<span class='text-success'>{ICON_DOUBLE_CHECK}</span>" if self.finished else \
+            f"<span class='text-primary'>{ICON_TRIANGLE_ALERT}</span>"
 
     def get_dict_data(self):
         return {

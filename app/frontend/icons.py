@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 12:19.
+#  Last modified 22/08/2020 11:03.
 
 ICON_ARROW_BACK = '<svg class="icon icon-md" fill="none" height="24" ' \
                   'stroke="currentColor" stroke-linecap="round"stroke-linejoin="round" stroke-width="2" viewBox="0 0 ' \
@@ -116,3 +116,10 @@ ICON_DOUBLE_CHECK = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md
                     '24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" ' \
                     'stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><path d="M7 12l5 5l10 ' \
                     '-10"></path><path d="M2 12l5 5m5 -5l5 -5"></path></svg> '
+
+ICON_GIFT = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" ' \
+            'stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path ' \
+            'stroke="none" d="M0 0h24v24H0z"></path><rect x="3" y="8" width="18" height="4" rx="1"></rect><line ' \
+            'x1="12" y1="8" x2="12" y2="21"></line><path d="M19 12v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 ' \
+            '-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 ' \
+            '5"></path></svg> '

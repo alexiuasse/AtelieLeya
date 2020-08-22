@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 12:22.
+#  Last modified 22/08/2020 11:05.
 
 from django.conf import settings  # import the settings file
 from .icons import *
@@ -29,4 +29,5 @@ def frontend_template_context(request):
         'ICON_DASHBOARD': ICON_DASHBOARD,
         'ICON_CHECK': ICON_CHECK,
         'ICON_DOUBLE_CHECK': ICON_DOUBLE_CHECK,
+        'ICON_GIFT': ICON_GIFT,
     }

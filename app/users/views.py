@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 18:46.
+#  Last modified 22/08/2020 10:24.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -71,7 +71,7 @@ class CustomUserView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMix
 class CustomUserEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = CustomUser
     form_class = CustomUserChangeForm
-    template_name = 'base/form.html'
+    template_name = 'user/form.html'
     permission_required = 'users.edit_customuser'
     title = TITLE_EDIT_USER
     subtitle = SUBTITLE_USER

@@ -1,8 +1,10 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 18:57.
+#  Last modified 22/08/2020 10:37.
 
 # users/models.py
+from datetime import datetime
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
@@ -36,6 +38,10 @@ class CustomUser(AbstractUser):
     @property
     def get_back_url(self):
         return reverse('users:customuser:view')
+
+    def is_birthday(self):
+        today = datetime.today()
+        return self.birth_day.day == today.day and self.birth_day.month == today.month
 
     def get_dict_data(self):
         return {
