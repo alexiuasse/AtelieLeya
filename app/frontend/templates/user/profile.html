@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 24/08/2020 13:39.
+  ~ Last modified 24/08/2020 15:33.
   -->
 
 {% extends 'base.html' %}
@@ -44,6 +44,7 @@
         </div>
         {% endif %}
         <div class="col-lg-6 col-md-auto">
+            <h3>Informações</h3>
             <div class="table-responsive mb-3">
                 <table class="table table-hover">
                     {% for k, v in obj.get_dict_data.items %}
@@ -56,6 +57,7 @@
             </div>
         </div>
         <div class="col-lg-6 col-md-auto">
+            <h3>Pontos</h3>
             <div class="table-responsive mb-3">
                 <table class="table table-hover">
                     {% for k, v in obj.get_dict_data_points.items %}
@@ -69,6 +71,7 @@
         </div>
     </div>
     <div class="row">
+        <h3>Procedimentos</h3>
         {% for k,v in obj.get_service_sorted_by_entry_date.items %}
         <div class="col-lg-12 col-md-auto">
             <h4>Mês/Ano {{k}}</h4>
