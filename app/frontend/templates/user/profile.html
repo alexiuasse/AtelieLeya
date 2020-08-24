@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 22/08/2020 11:05.
+  ~ Last modified 24/08/2020 13:39.
   -->
 
 {% extends 'base.html' %}
@@ -92,7 +92,7 @@
                                 {{s.type_of_service}}
                             </a>
                         </td>
-                        <td>{{s.date|date:"SHORT_DATE_FORMAT"}} Às {{s.time}}</td>
+                        <td>{{s.get_date_html|safe}}</td>
                         <td>{{s.get_confirmed_html|safe}}</td>
                         <td>{{s.get_finished_html|safe}}</td>
                         <td><span class="badge bg-{{s.status.contextual}}">{{s.status}}</span></td>

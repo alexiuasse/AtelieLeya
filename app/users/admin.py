@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 14:38.
+#  Last modified 24/08/2020 13:30.
 
 # users/admin.py
 from django.contrib import admin
@@ -23,8 +23,8 @@ class CustomUserAdmin(UserAdmin):
                     'whatsapp',
                     'birth_day',
                     'total_of_points',
-                    'total_of_points_redeemed',
-                    'total_of_points_not_redeemed',
+                    # 'total_of_points_redeemed',
+                    # 'total_of_points_not_redeemed',
                 ),
             },
         ),

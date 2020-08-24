@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 10:24.
+#  Last modified 24/08/2020 13:49.
 
 from typing import Dict, Any
 
@@ -21,7 +21,7 @@ from .conf import *
 from .filters import *
 from .forms import *
 from .tables import *
-
+from .utils import *
 
 def confirmed_service(request, cpk, pk):
     if request.user.is_superuser and request.user.is_authenticated:
@@ -144,6 +144,7 @@ class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
             instance = form.save(commit=False)
             instance.customer = CustomUser.objects.get(pk=self.kwargs['cpk'])
             instance.save()
+            update_points(instance)
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -157,6 +158,11 @@ class OrderOfServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
 
     def get_delete_url(self):
         return reverse('service:orderofservice:delete', kwargs={'cpk': self.kwargs['cpk'], 'pk': self.object.pk})
+
+    def form_valid(self, form):
+        response = super(OrderOfServiceEdit, self).form_valid(form)
+        update_points(self.object)
+        return response
 
 
 class OrderOfServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 11:14.
+#  Last modified 24/08/2020 14:23.
 
 from datetime import datetime
 from datetime import date
@@ -8,8 +8,9 @@ from datetime import date
 from base.models import BaseModel
 from django.db import models
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 from django.utils.timezone import now
-from frontend.icons import ICON_TRIANGLE_ALERT, ICON_CHECK, ICON_DOUBLE_CHECK
+from frontend.icons import ICON_TRIANGLE_ALERT, ICON_CHECK, ICON_DOUBLE_CHECK, ICON_CALENDAR
 
 
 class OrderOfService(BaseModel):
@@ -69,10 +70,15 @@ class OrderOfService(BaseModel):
         return f"<span class='text-success'>{ICON_DOUBLE_CHECK}</span>" if self.finished else \
             f"<span class='text-primary'>{ICON_TRIANGLE_ALERT}</span>"
 
+    def get_date_html(self):
+        return "Hoje às {} <span class='text-info'>{}</span>".format(self.time,
+                                                                     ICON_CALENDAR) if self.date == date.today() \
+            else "{} às {}".format(self.date.strftime("%d/%m/%Y"), self.time)
+
     def get_dict_data(self):
         return {
             'Confirmado': "Sim" if self.confirmed else "Não",
-            'Data e Hora': "{} {}".format(self.date, self.time),
+            'Data e Hora': mark_safe(self.get_date_html()),
             'Tipo de Procedimento': "{} ({} pts)".format(self.type_of_service, self.type_of_service.rewarded_points),
             # 'Status': self.status,
             'Finalizado': "Sim" if self.finished else "Não",
