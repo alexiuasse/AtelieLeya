@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/08/2020 16:09.
+#  Last modified 24/08/2020 11:54.
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -29,6 +29,12 @@ class BaseConfigForm(forms.ModelForm):
         self.helper.label_class = 'bmd-label-floating'
 
 
+class TypeOfPaymentForm(BaseConfigForm):
+    class Meta:
+        model = TypeOfPayment
+        fields = ['name']
+
+
 class RewardForm(BaseConfigForm):
     layout = Layout(
         Row(
@@ -46,13 +52,14 @@ class TypeOfServiceForm(BaseConfigForm):
     layout = Layout(
         Row(
             Field('name', wrapper_class='col-md-12'),
+            Field('value', wrapper_class='col-md-12'),
             Field('rewarded_points', wrapper_class='col-md-12'),
         ),
     )
 
     class Meta:
         model = TypeOfService
-        fields = ['name', 'rewarded_points']
+        fields = ['name', 'value', 'rewarded_points']
 
 
 class StatusServiceForm(BaseConfigForm):

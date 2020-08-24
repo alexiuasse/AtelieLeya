@@ -1,16 +1,18 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/08/2020 16:22.
+#  Last modified 24/08/2020 13:18.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django_filters.views import FilterView
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin
+from service.models import OrderOfService
 
 from .conf import *
 from .filters import *
@@ -44,6 +46,13 @@ class Config(LoginRequiredMixin, View):
                     'count': TypeOfService.objects.count(),
                 },
             },
+            'Financeiro': {
+                'reward': {
+                    'name': "Tipo de Pagamento",
+                    'link': reverse_lazy('config:typeofpayment:view'),
+                    'count': TypeOfPayment.objects.count(),
+                },
+            },
         }
         context = {
             'title': self.title,
@@ -54,6 +63,67 @@ class Config(LoginRequiredMixin, View):
 
 
 ########################################################################################################################
+
+class TypeOfPaymentView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
+    model = TypeOfPayment
+    table_class = TypeOfPaymentTable
+    filterset_class = TypeOfPaymentFilter
+    paginator_class = LazyPaginator
+    permission_required = 'config.view_typeofpayment'
+    template_name = 'base/view.html'
+    title = TITLE_VIEW_CONFIG_TYPE_OF_PAYMENT
+    subtitle = SUBTITLE_VIEW_CONFIG_TYPE_OF_PAYMENT
+    new = reverse_lazy('config:typeofpayment:create')
+    back_url = reverse_lazy('config:index')
+
+
+class TypeOfPaymentCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = TypeOfPayment
+    form_class = TypeOfPaymentForm
+    template_name = 'base/form.html'
+    permission_required = 'config.create_typeofpayment'
+    back_url = reverse_lazy('config:typeofpayment:view')
+    title = TITLE_CREATE_CONFIG_TYPE_OF_PAYMENT
+    subtitle = SUBTITLE_VIEW_CONFIG_TYPE_OF_PAYMENT
+
+    def get_back_url(self):
+        return self.back_url
+
+
+class TypeOfPaymentEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = TypeOfPayment
+    form_class = TypeOfPaymentForm
+    template_name = 'base/form.html'
+    permission_required = 'config.edit_typeofpayment'
+    success_url = reverse_lazy('config:typeofpayment:view')
+    title = TITLE_EDIT_CONFIG_TYPE_OF_PAYMENT
+    subtitle = SUBTITLE_VIEW_CONFIG_TYPE_OF_PAYMENT
+
+
+class TypeOfPaymentDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    model = TypeOfPayment
+    template_name = "base/confirm_delete.html"
+    permission_required = 'config.del_typeofpayment'
+    success_url = reverse_lazy('config:typeofpayment:view')
+    title = TITLE_DEL_CONFIG_TYPE_OF_PAYMENT
+    subtitle = SUBTITLE_VIEW_CONFIG_TYPE_OF_PAYMENT
+
+    def get_context_data(self, **kwargs):
+        context: Dict[str, Any] = super().get_context_data(**kwargs)
+        collector = NestedObjects(using='default')  # or specific database
+        collector.collect([context['object']])
+        to_delete = collector.nested()
+        context['extra_object'] = to_delete
+        return context
+
+
+########################################################################################################################
+class TyperOfServiceGetValue(LoginRequiredMixin, View):
+
+    def get(self, request, pk):
+        order_of_service = get_object_or_404(OrderOfService, pk=pk)
+        return JsonResponse({'value': order_of_service.type_of_service.value}, safe=False)
+
 
 class TypeOfServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
     model = TypeOfService
@@ -218,3 +288,5 @@ class RewardDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
         to_delete = collector.nested()
         context['extra_object'] = to_delete
         return context
+
+########################################################################################################################

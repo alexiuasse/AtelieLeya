@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 20/08/2020 10:16.
+#  Last modified 24/08/2020 10:33.
 
 from django.contrib import admin
 from django.urls import path, include
@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('config/', include('config.urls')),
     path('service/', include('service.urls')),
+    path('financial/', include('financial.urls')),
 ]
 
 # Handling errors, but only if debug is set to False and there is another server to serve staticfiles

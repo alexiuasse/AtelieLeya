@@ -1,12 +1,14 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/08/2020 11:02.
+#  Last modified 24/08/2020 11:14.
 
 from datetime import datetime
+from datetime import date
 
 from base.models import BaseModel
 from django.db import models
 from django.urls import reverse
+from django.utils.timezone import now
 from frontend.icons import ICON_TRIANGLE_ALERT, ICON_CHECK, ICON_DOUBLE_CHECK
 
 
@@ -18,8 +20,8 @@ class OrderOfService(BaseModel):
                                    help_text="Marque apenas quando procedimento finalizado")
     counted = models.BooleanField("contabilizado", default=False, help_text="Procedimento já foi contabilizado?")
     confirmed = models.BooleanField("confirmado", default=False, help_text="Procedimento foi confirmado?")
-    date = models.DateField("Data", default=datetime.today)
-    time = models.TimeField("Hora", default=datetime.now)
+    date = models.DateField("Data", default=now)
+    time = models.TimeField("Hora", default=now)
     observation = models.TextField("observação", blank=True)
     customer = models.ForeignKey("users.CustomUser", verbose_name="Cliente", on_delete=models.CASCADE, blank=True,
                                  null=True)
@@ -34,6 +36,10 @@ class OrderOfService(BaseModel):
         return f'<p>{self.title}</p><a href="{self.get_edit_url()}">edit</a>'
 
     def get_back_url(self):
+        """
+        Get the back url, retrieving the customer and passing the correct url
+        :return: reverse url for the profile customer owner
+        """
         return reverse('users:customuser:profile', kwargs={'pk': self.customer.pk})
 
     def get_absolute_url(self):
@@ -44,6 +50,9 @@ class OrderOfService(BaseModel):
 
     def get_edit_url(self):
         return reverse(self.get_reverse_edit, kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+
+    def get_new_invoice_url(self):
+        return reverse('financial:invoice:create', kwargs={'spk': self.pk})
 
     def get_confirmed_url(self):
         return reverse('service:orderofservice:confirmed', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
@@ -70,3 +79,18 @@ class OrderOfService(BaseModel):
             'Contabilizado os Pontos': "Sim" if self.counted else "Não",
             'Observação': self.observation,
         }
+
+    def get_invoice_sorted_by_date(self):
+        retDict = {}
+        for s in self.invoice_set.all().order_by('-date', '-id'):
+            m_y = "{}/{}".format(s.date.month, s.date.year)
+            if m_y in retDict:
+                retDict[m_y]['invoices'].append(s)
+            else:
+                retDict[m_y] = {}
+                retDict[m_y]['invoices'] = []
+                retDict[m_y]['invoices'].append(s)
+        return retDict
+
+    def get_past_date_without_invoice(self):
+        return self.date < date.today() and self.invoice_set.all().count() == 0

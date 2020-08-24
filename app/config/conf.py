@@ -1,6 +1,12 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/08/2020 16:42.
+#  Last modified 24/08/2020 10:47.
+TITLE_VIEW_CONFIG_TYPE_OF_PAYMENT = "Tipo de Pagamento"
+TITLE_CREATE_CONFIG_TYPE_OF_PAYMENT = "Novo Tipo de Pagamento"
+TITLE_EDIT_CONFIG_TYPE_OF_PAYMENT = "Editar Tipo de Pagamento"
+TITLE_DEL_CONFIG_TYPE_OF_PAYMENT = "Deletar Tipo de Pagamento"
+SUBTITLE_VIEW_CONFIG_TYPE_OF_PAYMENT = "Configuração de tipos de pagamentos"
+# CONFIG REWARD
 TITLE_VIEW_CONFIG_REWARD = "Brindes"
 TITLE_CREATE_CONFIG_REWARD = "Novo Brinde"
 TITLE_EDIT_CONFIG_REWARD = "Editar Brinde"

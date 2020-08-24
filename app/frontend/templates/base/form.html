@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 21/08/2020 13:58.
+  ~ Last modified 24/08/2020 11:55.
   -->
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
@@ -27,19 +27,19 @@
     </div>
     <form action="" method="post">
         {% csrf_token %}
-        <div class="row">
-            <div class="col-lg-6 col-md-auto">
+        <div class="row align-items-center">
+            <div class="col-auto ml-auto mr-auto">
                 {% crispy form %}
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="pull-right mt-3">
-                <a class="btn btn-danger btn-sm mr-2"
-                   href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
-                   type="button">
-                    Cancelar
-                </a>
-                <button class="btn btn-primary btn-sm" type="submit">Finalizar</button>
+                <div class="form-row">
+                    <div class="pull-right mt-3">
+                        <a class="btn btn-danger btn-sm mr-2"
+                           href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
+                           type="button">
+                            Cancelar
+                        </a>
+                        <button class="btn btn-primary btn-sm" type="submit">Finalizar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 22/08/2020 11:01.
+  ~ Last modified 24/08/2020 11:19.
   -->
 {% extends 'base.html' %}
 {% block content %}
@@ -23,6 +23,11 @@
                 </h2>
             </div>
             <div class="col-auto ml-auto d-print-none">
+                <a class="btn btn-sm btn-primary d-none d-sm-inline-block ml-auto"
+                   href="{{obj.get_new_invoice_url}}">
+                    {{ICON_ADD|safe}}
+                    Nova Fatura
+                </a>
                 {% if not obj.confirmed %}
                 <a class="btn btn-sm btn-info d-none d-sm-inline-block"
                    href="{{obj.get_confirmed_url}}">
@@ -46,7 +51,26 @@
             <h3>
                 <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
                 Procedimento não está confirmado! Whatsapp: {{obj.customer.whatsapp}}
+
             </h3>
+            <a href="{{obj.get_confirmed_url}}">
+                {{ICON_CHECK|safe}}
+                Confirmar
+            </a>
+        </div>
+    </div>
+    {% endif %}
+    {% if obj.get_past_date_without_invoice %}
+    <div class="col-md-12">
+        <div class="alert alert-danger">
+            <h3>
+                <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
+                Procedimento sem fatura lançada!
+            </h3>
+            <a href="{{obj.get_new_invoice_url}}">
+                {{ICON_ADD|safe}}
+                Lançar Fatura
+            </a>
         </div>
     </div>
     {% endif %}
@@ -68,6 +92,37 @@
                         <td>{{k}}</td>
                         <td>{{v|default_if_none:""}}</td>
                     </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>
+                Dados de Fatura
+            </h3>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>Tipo de Pagamento</th>
+                        <th>Valor R$</th>
+                        <th>Data</th>
+                    </tr>
+                    </thead>
+                    {% for k, v in obj.get_invoice_sorted_by_date.items %}
+                    {% for kk,vv in v.items %}
+                    {% for s in vv %}
+                    <tr onclick="window.location='{{s.get_absolute_url}}'">
+                        <td>
+                            <a href="{{s.get_edit_url}}">
+                                {{s.type_of_payment}}
+                            </a>
+                        </td>
+                        <td>R$ {{s.value}}</td>
+                        <td>{{s.date|date:"SHORT_DATE_FORMAT"}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
                     {% endfor %}
                 </table>
             </div>

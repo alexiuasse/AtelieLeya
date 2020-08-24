@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 15:08.
+#  Last modified 24/08/2020 10:24.
 
 from typing import Dict, Any
 
@@ -167,8 +167,7 @@ class OrderOfServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView)
     subtitle = SUBTITLE_ORDER_OF_SERVICE
 
     def get_success_url(self):
-        return reverse_lazy('device:profile',
-                            kwargs={'cpk': self.kwargs['cpk'], 'ctp': self.kwargs['ctp'], 'pk': self.kwargs['dev']})
+        return reverse_lazy('users:customuser:profile', kwargs={'pk': self.kwargs['cpk']})
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)

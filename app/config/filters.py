@@ -1,9 +1,15 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/08/2020 14:53.
+#  Last modified 24/08/2020 10:47.
 from django_filters import FilterSet
 
 from .models import *
+
+
+class TypeOfPaymentFilter(FilterSet):
+    class Meta:
+        model = TypeOfPayment
+        fields = {'name': ['icontains'], }
 
 
 class RewardFilter(FilterSet):

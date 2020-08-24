@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/08/2020 16:09.
+#  Last modified 24/08/2020 11:19.
 
 from base.models import BaseModel
 from django.db import models
@@ -22,11 +22,18 @@ class BaseConfigModel(BaseModel):
         return reverse_lazy('{}:{}:view'.format(self._meta.app_label, self._meta.model_name))
 
 
+class TypeOfPayment(BaseConfigModel):
+    pass
+
+
 class Reward(BaseConfigModel):
     quantity_in_points = models.FloatField("quantidade de pontos", default=1)
 
 
 class TypeOfService(BaseConfigModel):
+    value = models.DecimalField("Valor", max_digits=11, decimal_places=2, default=0,
+                                help_text="Valor do procedimento, ele será usado para auto preenchimento de alguns "
+                                          "campos!")
     rewarded_points = models.FloatField("pontos ganhos", default=0)
 
 

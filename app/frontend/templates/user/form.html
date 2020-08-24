@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 21/08/2020 19:09.
+  ~ Last modified 24/08/2020 13:18.
   -->
 
 {% extends 'base.html' %}
@@ -29,19 +29,21 @@
     </div>
     <form method="post">
         {% csrf_token %}
-        <div class="col-lg-6 col-md-auto">
-            {% for field in form %}
-            {{ field|as_crispy_field }}
-            {% endfor %}
-        </div>
-        <div class="form-row">
-            <div class="pull-right mt-3">
-                <a class="btn btn-danger btn-sm mr-2"
-                   href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
-                   type="button">
-                    Cancelar
-                </a>
-                <button class="btn btn-primary btn-sm" type="submit">Finalizar</button>
+        <div class="row align-items-center">
+            <div class="col-auto ml-auto mr-auto">
+                {% for field in form %}
+                {{ field|as_crispy_field }}
+                {% endfor %}
+                <div class="form-row">
+                    <div class="pull-right mt-3">
+                        <a class="btn btn-danger btn-sm mr-2"
+                           href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
+                           type="button">
+                            Cancelar
+                        </a>
+                        <button class="btn btn-primary btn-sm" type="submit">Finalizar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
@@ -57,6 +59,8 @@
         };
         var mask = IMask(element, maskOptions);
     });
+
+
 
 </script>
 {% endblock %}

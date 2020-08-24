@@ -1,0 +1,17 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 24/08/2020 13:18.
+  -->
+
+{% extends '../base/form.html' %}
+{% block javascript %}
+<script>
+    $(document).ready(function(){
+        $.getJSON("/config/typeofservice/"+ {{request.resolver_match.kwargs.spk}} + "/get/value/" ,function(data){
+           $("#id_invoiceform-value").val(data.value);
+        });
+    });
+
+</script>
+{% endblock %}
