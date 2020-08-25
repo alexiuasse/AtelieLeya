@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 25/08/2020 09:41.
+  ~ Last modified 25/08/2020 12:11.
   -->
 {% extends 'base.html' %}
 {% block content %}
@@ -103,8 +103,9 @@
                     <thead>
                     <tr>
                         <th>Tipo de Pagamento</th>
-                        <th>Valor R$</th>
+                        <th>Valor</th>
                         <th>Data</th>
+                        <th>Status</th>
                     </tr>
                     </thead>
                     {% for k, v in obj.get_invoice_sorted_by_date.items %}
@@ -113,11 +114,21 @@
                     <tr>
                         <td>
                             <a href="{{s.get_edit_url}}">
-                                {{s.type_of_payment}}
+                                {{s.type_of_payment|default_if_none:"Nenhum"}}
                             </a>
                         </td>
                         <td>R$ {{s.value}}</td>
                         <td>{{s.date|date:"SHORT_DATE_FORMAT"}}</td>
+                        <td>
+                            <span class="badge bg-{{s.status.contextual}}">
+                                {{s.status|default_if_none:"Nenhum"}}
+                            </span>
+                            {% if not s.get_is_success %}
+                            <a href="{% url 'financial:invoice:success' pk=s.pk %}">
+                                <span class="badge bg-dark">{{ICON_DOUBLE_CHECK|safe}} Pago</span>
+                            </a>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                     {% endfor %}

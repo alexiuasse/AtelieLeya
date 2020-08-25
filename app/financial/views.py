@@ -1,12 +1,16 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 09:44.
+#  Last modified 25/08/2020 10:53.
 
 from typing import Dict, Any
 
+from config.models import StatusPayment
+from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from service.models import OrderOfService
@@ -35,6 +39,16 @@ from .tables import *
 #     title = TITLE_VIEW_INVOICE
 #     subtitle = SUBTITLE_INVOICE
 #     new = reverse_lazy('financial:index')
+
+def invoice_payment_success(request, pk):
+    if request.user.is_superuser and request.user.is_authenticated:
+        instance = get_object_or_404(Invoice, pk=pk)
+        instance.status = get_object_or_404(StatusPayment, pk=settings.STATUS_PAYMENT_SUCCESS)
+        instance.save()
+        return redirect(instance.order_of_service.get_absolute_url())
+    else:
+        raise PermissionDenied()
+
 
 class InvoiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Invoice

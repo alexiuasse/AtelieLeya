@@ -1,10 +1,11 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 25/08/2020 09:41.
+  ~ Last modified 25/08/2020 12:10.
   -->
 
 {% extends 'base.html' %}
+{% load l10n %}
 {% block content %}
 <div class="container-fluid">
     <div class="page-header">
@@ -63,7 +64,11 @@
                     {% for k, v in obj.get_dict_data_points.items %}
                     <tr>
                         <td>{{k}}</td>
-                        <td>{{v}}</td>
+                        <td>
+                            <span class="font-weight-bold" data-countup>
+                                {{v|unlocalize}}
+                            </span>
+                        </td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -82,7 +87,6 @@
                         <th>Procedimento</th>
                         <th>Data/Hora</th>
                         <th>Confirmado</th>
-                        <th>Finalizado</th>
                         <th>Status</th>
                     </tr>
                     </thead>
@@ -96,9 +100,22 @@
                             </a>
                         </td>
                         <td>{{s.get_date_html|safe}}</td>
-                        <td>{{s.get_confirmed_html|safe}}</td>
-                        <td>{{s.get_finished_html|safe}}</td>
-                        <td><span class="badge bg-{{s.status.contextual}}">{{s.status}}</span></td>
+                        <td>
+                            {{s.get_confirmed_html|safe}}
+                            {% if not s.confirmed %}
+                            <a class="badge bg-dark" href="{{s.get_customer_confirmed_url}}">
+                                {{ICON_CHECK|safe}} <span class="ml-1">Confirmar</span>
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge bg-{{s.status.contextual}}">{{s.status}}</span>
+                            {% if not s.get_is_success %}
+                            <a class="badge bg-dark" href="{{s.get_customer_finished_url}}">
+                                {{ICON_DOUBLE_CHECK|safe}} <span class="ml-1">Finalizar</span>
+                            </a>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                     {% endfor %}

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 10:26.
+#  Last modified 25/08/2020 12:08.
 
 from pathlib import Path
 
@@ -24,6 +24,12 @@ NAME_OF_ENTERPRISE = "Atêlie Leya Monteiro"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 AUTH_USER_MODEL = 'users.CustomUser'
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
+
+# Status Payment
+STATUS_PAYMENT_SUCCESS = 2
+STATUS_PAYMENT_DEFAULT = 1
+# Status Service
+STATUS_SERVICE_FINISHED = 1
 
 # Application definition
 

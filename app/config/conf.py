@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 10:47.
+#  Last modified 25/08/2020 10:02.
 TITLE_VIEW_CONFIG_TYPE_OF_PAYMENT = "Tipo de Pagamento"
 TITLE_CREATE_CONFIG_TYPE_OF_PAYMENT = "Novo Tipo de Pagamento"
 TITLE_EDIT_CONFIG_TYPE_OF_PAYMENT = "Editar Tipo de Pagamento"
@@ -24,3 +24,9 @@ TITLE_CREATE_CONFIG_STATUS_SERVICE = "Novo Status do Serviço"
 TITLE_EDIT_CONFIG_STATUS_SERVICE = "Editar Status do Serviço"
 TITLE_DEL_CONFIG_STATUS_SERVICE = "Deletar Status do Serviço"
 SUBTITLE_VIEW_CONFIG_STATUS_SERVICE = "Configuração de status de serviço"
+# CONFIG STATUS PAYMENT CUSTOMIZATION
+TITLE_VIEW_CONFIG_STATUS_PAYMENT = "Status de Pagamento"
+TITLE_CREATE_CONFIG_STATUS_PAYMENT = "Novo Status de Pagamento"
+TITLE_EDIT_CONFIG_STATUS_PAYMENT = "Editar Status de Pagamento"
+TITLE_DEL_CONFIG_STATUS_PAYMENT = "Deletar Status de Pagamento"
+SUBTITLE_VIEW_CONFIG_STATUS_PAYMENT = "Configuração de status de pagamento"

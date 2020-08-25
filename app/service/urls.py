@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 14:48.
+#  Last modified 25/08/2020 11:25.
 from django.urls import path, include
 
 from .views import *
@@ -19,6 +19,10 @@ order_of_service_patterns = ([
                                  path('<int:cpk>/<int:pk>/delete/', OrderOfServiceDel.as_view(), name='delete'),
                                  path('<int:cpk>/<int:pk>/confirmed/', confirmed_service, name='confirmed'),
                                  path('<int:cpk>/<int:pk>/finished/', finished_service, name='finished'),
+                                 path('<int:cpk>/<int:pk>/customer/finished/', customer_finished_service,
+                                      name='customer_finished'),
+                                 path('<int:cpk>/<int:pk>/customer/confirmed/', customer_confirmed_service,
+                                      name='customer_confirmed'),
                              ], 'orderofservice')
 
 urlpatterns = [

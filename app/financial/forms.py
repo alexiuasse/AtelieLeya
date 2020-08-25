@@ -1,6 +1,7 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 10:24.
+#  Last modified 25/08/2020 10:03.
+from crispy_forms.bootstrap import PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
@@ -15,7 +16,8 @@ class InvoiceForm(forms.ModelForm):
         Row(
             # Field('order_of_service', wrapper_class='col-md'),
             Field('type_of_payment', wrapper_class='col-md'),
-            Field('value', wrapper_class='col-md'),
+            Field('status', wrapper_class='col-md'),
+            PrependedText('value', 'R$', wrapper_class='col-md'),
             Field('date', wrapper_class='col-md'),
             Field('observation', wrapper_class='col-md'),
         ),
@@ -35,4 +37,4 @@ class InvoiceForm(forms.ModelForm):
             'date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
             'observation': forms.Textarea(attrs={"rows": 4}),
         }
-        fields = ['type_of_payment', 'value', 'date', 'observation', ]
+        fields = ['type_of_payment', 'status', 'value', 'date', 'observation', ]

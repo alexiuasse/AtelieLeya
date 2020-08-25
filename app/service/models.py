@@ -1,10 +1,11 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 18:08.
+#  Last modified 25/08/2020 12:04.
 
 from datetime import date
 
 from base.models import BaseModel
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -16,8 +17,7 @@ class OrderOfService(BaseModel):
     type_of_service = models.ForeignKey("config.TypeOfService", verbose_name="Procedimento", on_delete=models.SET_NULL,
                                         null=True)
     status = models.ForeignKey("config.StatusService", verbose_name="Status", on_delete=models.PROTECT)
-    finished = models.BooleanField("finalizado", default=False,
-                                   help_text="Marque apenas quando procedimento finalizado")
+    finished = models.BooleanField("finalizado", default=False)
     counted = models.BooleanField("contabilizado", default=False, help_text="Procedimento já foi contabilizado?")
     confirmed = models.BooleanField("confirmado", default=False, help_text="Procedimento foi confirmado?")
     date = models.DateField("Data", default=now)
@@ -60,28 +60,40 @@ class OrderOfService(BaseModel):
     def get_finished_url(self):
         return reverse('service:orderofservice:finished', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
 
+    def get_customer_finished_url(self):
+        return reverse('service:orderofservice:customer_finished', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+
+    def get_customer_confirmed_url(self):
+        return reverse('service:orderofservice:customer_confirmed', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+
     # maybe change to icon for better visualization
     def get_confirmed_html(self):
-        return f"Sim <span class='text-success'>{ICON_CHECK}</span>" if self.confirmed else \
-            f"Não <span class='text-danger'>{ICON_TRIANGLE_ALERT}</span>"
+        return f"<span class='badge bg-success'>{ICON_CHECK} Sim</span>" if self.confirmed else \
+            f"<span class='badge bg-warning'>{ICON_TRIANGLE_ALERT} Não </span>"
 
     def get_finished_html(self):
-        return f"Sim <span class='text-success'>{ICON_DOUBLE_CHECK}</span>" if self.finished else \
-            f"Não <span class='text-primary'>{ICON_TRIANGLE_ALERT}</span>"
+        return f"<span class='badge bg-success'>{ICON_DOUBLE_CHECK} Sim</span>" if self.finished else \
+            f"<span class='badge bg-success'>{ICON_TRIANGLE_ALERT} Não</span>"
 
     def get_date_html(self):
         return "Hoje às {} <span class='text-info'>{}</span>".format(self.time,
                                                                      ICON_CALENDAR) if self.date == date.today() \
             else "{} às {}".format(self.date.strftime("%d/%m/%Y"), self.time)
 
+    def get_status_html(self):
+        return f"<span class='badge bg-{self.status.contextual}'>{self.status}</span>"
+
+    def get_is_success(self):
+        return self.status.pk == settings.STATUS_SERVICE_FINISHED
+
     def get_dict_data(self):
         return {
-            'Confirmado': "Sim" if self.confirmed else "Não",
+            'Confirmado': mark_safe(self.get_confirmed_html),
             'Data e Hora': mark_safe(self.get_date_html()),
             'Tipo de Procedimento': "{} ({} pts)".format(self.type_of_service, self.type_of_service.rewarded_points),
-            # 'Status': self.status,
-            'Finalizado': mark_safe(self.get_finished_html()),
-            'Contabilizado os Pontos': mark_safe(self.get_confirmed_html()),
+            'Status': mark_safe(self.get_status_html()),
+            # 'Finalizado': mark_safe(self.get_finished_html()),
+            'Contabilizado os Pontos': "Sim" if self.counted else "Não",
             'Observação': self.observation,
         }
 

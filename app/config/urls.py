@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 11:43.
+#  Last modified 25/08/2020 10:02.
 
 from django.urls import path, include
 
@@ -37,10 +37,18 @@ status_service_patterns = ([
                                path('<int:pk>/del', StatusServiceDel.as_view(), name='delete'),
                            ], 'statusservice')
 
+status_payment_patterns = ([
+                               path('', StatusPaymentView.as_view(), name='view'),
+                               path('create/', StatusPaymentCreate.as_view(), name='create'),
+                               path('<int:pk>/edit/', StatusPaymentEdit.as_view(), name='edit'),
+                               path('<int:pk>/del', StatusPaymentDel.as_view(), name='delete'),
+                           ], 'statuspayment')
+
 urlpatterns = [
     path('', Config.as_view(), name='index'),
     path('typeofpayment/', include(type_of_payment_patterns)),
     path('reward/', include(reward_patterns)),
     path('typeofservice/', include(type_of_service_patterns)),
     path('statusservice/', include(status_service_patterns)),
+    path('statuspayment/', include(status_payment_patterns)),
 ]

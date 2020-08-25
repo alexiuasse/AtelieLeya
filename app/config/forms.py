@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 09:15.
+#  Last modified 25/08/2020 10:02.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -73,4 +73,17 @@ class StatusServiceForm(BaseConfigForm):
 
     class Meta:
         model = StatusService
+        fields = ['name', 'contextual']
+
+
+class StatusPaymentForm(BaseConfigForm):
+    layout = Layout(
+        Row(
+            Field('name', wrapper_class='col-md-12'),
+            Field('contextual', wrapper_class='col-md-12'),
+        ),
+    )
+
+    class Meta:
+        model = StatusPayment
         fields = ['name', 'contextual']

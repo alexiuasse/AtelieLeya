@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 09:43.
+#  Last modified 25/08/2020 10:05.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -51,6 +51,11 @@ class Config(LoginRequiredMixin, View):
                     'name': "Tipo de Pagamento",
                     'link': reverse_lazy('config:typeofpayment:view'),
                     'count': TypeOfPayment.objects.count(),
+                },
+                'status_payment': {
+                    'name': "Status de Pagamento",
+                    'link': reverse_lazy('config:statuspayment:view'),
+                    'count': StatusPayment.objects.count(),
                 },
             },
         }
@@ -186,7 +191,7 @@ class StatusServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
     table_class = StatusServiceTable
     filterset_class = StatusServiceFilter
     paginator_class = LazyPaginator
-    permission_required = 'config.view_statuservice'
+    permission_required = 'config.view_statusservice'
     template_name = 'config/view.html'
     title = TITLE_VIEW_CONFIG_STATUS_SERVICE
     subtitle = SUBTITLE_VIEW_CONFIG_STATUS_SERVICE
@@ -198,7 +203,7 @@ class StatusServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     model = StatusService
     form_class = StatusServiceForm
     template_name = 'config/form.html'
-    permission_required = 'config.create_statuservice'
+    permission_required = 'config.create_statusservice'
     # success_url = reverse_lazy('config:city:view')
     back_url = reverse_lazy('config:statusservice:view')
     title = TITLE_CREATE_CONFIG_STATUS_SERVICE
@@ -212,7 +217,7 @@ class StatusServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     model = StatusService
     form_class = StatusServiceForm
     template_name = 'config/form.html'
-    permission_required = 'config.edit_statuservice'
+    permission_required = 'config.edit_statusservice'
     success_url = reverse_lazy('config:statusservice:view')
     title = TITLE_EDIT_CONFIG_STATUS_SERVICE
     subtitle = SUBTITLE_VIEW_CONFIG_STATUS_SERVICE
@@ -225,6 +230,61 @@ class StatusServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('config:statusservice:view')
     title = TITLE_DEL_CONFIG_STATUS_SERVICE
     subtitle = SUBTITLE_VIEW_CONFIG_STATUS_SERVICE
+
+    def get_context_data(self, **kwargs):
+        context: Dict[str, Any] = super().get_context_data(**kwargs)
+        collector = NestedObjects(using='default')  # or specific dataconfig
+        collector.collect([context['object']])
+        to_delete = collector.nested()
+        context['extra_object'] = to_delete
+        return context
+
+
+########################################################################################################################
+
+class StatusPaymentView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
+    model = StatusPayment
+    table_class = StatusPaymentTable
+    filterset_class = StatusPaymentFilter
+    paginator_class = LazyPaginator
+    permission_required = 'config.view_statuspayment'
+    template_name = 'config/view.html'
+    title = TITLE_VIEW_CONFIG_STATUS_PAYMENT
+    subtitle = SUBTITLE_VIEW_CONFIG_STATUS_PAYMENT
+    new = reverse_lazy('config:statuspayment:create')
+    back_url = reverse_lazy('config:index')
+
+
+class StatusPaymentCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = StatusPayment
+    form_class = StatusPaymentForm
+    template_name = 'config/form.html'
+    permission_required = 'config.create_statuspayment'
+    back_url = reverse_lazy('config:statuspayment:view')
+    title = TITLE_CREATE_CONFIG_STATUS_PAYMENT
+    subtitle = SUBTITLE_VIEW_CONFIG_STATUS_PAYMENT
+
+    def get_back_url(self):
+        return self.back_url
+
+
+class StatusPaymentEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = StatusPayment
+    form_class = StatusPaymentForm
+    template_name = 'config/form.html'
+    permission_required = 'config.edit_statuspayment'
+    success_url = reverse_lazy('config:statuspayment:view')
+    title = TITLE_EDIT_CONFIG_STATUS_PAYMENT
+    subtitle = SUBTITLE_VIEW_CONFIG_STATUS_PAYMENT
+
+
+class StatusPaymentDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    model = StatusPayment
+    template_name = "config/confirm_delete.html"
+    permission_required = 'config.del_statuspayment'
+    success_url = reverse_lazy('config:statuspayment:view')
+    title = TITLE_DEL_CONFIG_STATUS_PAYMENT
+    subtitle = SUBTITLE_VIEW_CONFIG_STATUS_PAYMENT
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)

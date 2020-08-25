@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 09:11.
+#  Last modified 25/08/2020 10:02.
 
 from base.models import BaseModel
 from django.db import models
@@ -40,4 +40,8 @@ class TypeOfService(BaseConfigModel):
 
 
 class StatusService(BaseConfigModel):
+    contextual = models.CharField("cor", choices=ContextualEnum.choices(), blank=True, max_length=20)
+
+
+class StatusPayment(BaseConfigModel):
     contextual = models.CharField("cor", choices=ContextualEnum.choices(), blank=True, max_length=20)

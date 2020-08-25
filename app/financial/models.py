@@ -1,7 +1,7 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 11:09.
-
+#  Last modified 25/08/2020 10:56.
+from django.conf import settings
 from django.db import models
 
 from datetime import datetime
@@ -17,8 +17,9 @@ class Invoice(BaseModel):
     order_of_service = models.ForeignKey("service.OrderOfService", verbose_name="Procedimento",
                                          on_delete=models.CASCADE, null=True, blank=True,
                                          help_text="Procedimento a qual esse lançamento pertence.")
-    type_of_payment = models.ForeignKey("config.TypeOfPayment", verbose_name="Tipo de Pagamento",
+    type_of_payment = models.ForeignKey("config.TypeOfPayment", verbose_name="Tipo de Pagamento", null=True,
                                         on_delete=models.PROTECT, help_text="Qual foi o tipo de pagamento?")
+    status = models.ForeignKey("config.StatusPayment", verbose_name="Status", on_delete=models.PROTECT, null=True)
     value = models.DecimalField("Valor", max_digits=11, decimal_places=2, help_text="O valor que foi pago.")
     date = models.DateField("Data", default=now, help_text="Data do pagamento.")
     observation = models.TextField("Observação", blank=True, null=True)
@@ -50,9 +51,13 @@ class Invoice(BaseModel):
     def get_edit_url(self):
         return reverse(self.get_reverse_edit, kwargs={'spk': self.order_of_service.pk, 'pk': self.pk})
 
+    def get_is_success(self):
+        return self.status.pk == settings.STATUS_PAYMENT_SUCCESS
+
     def get_dict_data(self):
         return {
-            'Tipo de Pagamento': self.type_of_payment,
+            'Tipo de Pagamento': self.type_of_payment if self.type_of_payment else "Nenhum",
+            'Status': self.status if self.status else "Nenhum",
             'Valor': "R$ {}".format(self.value),
             'Data': self.date,
             'Observação': self.observation,

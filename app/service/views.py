@@ -1,14 +1,15 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 09:39.
+#  Last modified 25/08/2020 11:26.
 
 from typing import Dict, Any
 
+from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
@@ -16,6 +17,7 @@ from django_filters.views import FilterView
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin, SingleTableView
 from users.models import CustomUser
+from config.models import StatusService
 
 from .conf import *
 from .filters import *
@@ -25,20 +27,42 @@ from .tables import *
 
 def confirmed_service(request, cpk, pk):
     if request.user.is_superuser and request.user.is_authenticated:
-        obj = OrderOfService.objects.get(pk=pk)
-        obj.confirmed = True
-        obj.save()
-        return redirect(obj.get_absolute_url())
+        instance = get_object_or_404(OrderOfService, pk=pk)
+        instance.confirmed = True
+        instance.save()
+        return redirect(instance.get_absolute_url())
     else:
         raise PermissionDenied()
 
 
 def finished_service(request, cpk, pk):
     if request.user.is_superuser and request.user.is_authenticated:
-        obj = OrderOfService.objects.get(pk=pk)
-        obj.finished = True
-        obj.save()
-        return redirect(obj.get_absolute_url())
+        instance = get_object_or_404(OrderOfService, pk=pk)
+        instance.status = get_object_or_404(StatusService, pk=settings.STATUS_SERVICE_FINISHED)
+        instance.finished = True
+        instance.save()
+        return redirect(instance.get_absolute_url())
+    else:
+        raise PermissionDenied()
+
+
+def customer_finished_service(request, cpk, pk):
+    if request.user.is_superuser and request.user.is_authenticated:
+        instance = get_object_or_404(OrderOfService, pk=pk)
+        instance.status = get_object_or_404(StatusService, pk=settings.STATUS_SERVICE_FINISHED)
+        instance.finished = True
+        instance.save()
+        return redirect(instance.get_back_url())
+    else:
+        raise PermissionDenied()
+
+
+def customer_confirmed_service(request, cpk, pk):
+    if request.user.is_superuser and request.user.is_authenticated:
+        instance = get_object_or_404(OrderOfService, pk=pk)
+        instance.confirmed = True
+        instance.save()
+        return redirect(instance.get_back_url())
     else:
         raise PermissionDenied()
 
