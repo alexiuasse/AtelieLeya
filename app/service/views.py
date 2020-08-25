@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 18:07.
+#  Last modified 25/08/2020 09:39.
 
 from typing import Dict, Any
 
@@ -112,7 +112,7 @@ class OrderOfServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTabl
     filterset_class = OrderOfServiceFilter
     paginator_class = LazyPaginator
     permission_required = 'service.view_orderofservice'
-    template_name = 'base/view.html'
+    template_name = 'service/view.html'
     title = TITLE_VIEW_ORDER_OF_SERVICE
     subtitle = SUBTITLE_ORDER_OF_SERVICE
     new = reverse_lazy('service:index')
@@ -125,7 +125,7 @@ class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
 
     model = OrderOfService
     form_class = OrderOfServiceForm
-    template_name = 'base/form.html'
+    template_name = 'service/form.html'
     permission_required = 'service.create_orderofservice'
     title = TITLE_CREATE_ORDER_OF_SERVICE
     subtitle = SUBTITLE_ORDER_OF_SERVICE
@@ -144,14 +144,13 @@ class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
             instance = form.save(commit=False)
             instance.customer = CustomUser.objects.get(pk=self.kwargs['cpk'])
             instance.save()
-            # update_points(instance)
         return HttpResponseRedirect(self.get_success_url())
 
 
 class OrderOfServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = OrderOfService
     form_class = OrderOfServiceForm
-    template_name = 'base/form.html'
+    template_name = 'service/form.html'
     permission_required = 'service.edit_orderofservice'
     title = TITLE_EDIT_ORDER_OF_SERVICE
     subtitle = SUBTITLE_ORDER_OF_SERVICE
@@ -159,15 +158,10 @@ class OrderOfServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
     def get_delete_url(self):
         return reverse('service:orderofservice:delete', kwargs={'cpk': self.kwargs['cpk'], 'pk': self.object.pk})
 
-    # def form_valid(self, form):
-    #     response = super(OrderOfServiceEdit, self).form_valid(form)
-    #     update_points(self.object)
-    #     return response
-
 
 class OrderOfServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = OrderOfService
-    template_name = "base/confirm_delete.html"
+    template_name = "service/confirm_delete.html"
     permission_required = 'service.del_orderofservice'
     title = TITLE_DEL_ORDER_OF_SERVICE
     subtitle = SUBTITLE_ORDER_OF_SERVICE

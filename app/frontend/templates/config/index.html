@@ -1,0 +1,35 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 18/08/2020 16:42.
+  -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+    {% include 'under_construction.html' %}
+    <div class="row">
+        {% for k,v in links.items %}
+        <div class="col-md-4">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <h2 class="page-title">{{k}}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="list-group">
+                {% for kk,vv in v.items %}
+                {% if kk != 'config' %}
+                <a class="list-group-item list-group-item-action" href="{{vv.link}}">
+                    {{ICON_SETTINGS|safe}}
+                    {{vv.name}}
+                    <span class="badge bg-success">x{{vv.count}}</span>
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

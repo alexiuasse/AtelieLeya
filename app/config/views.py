@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 09:08.
+#  Last modified 25/08/2020 09:43.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -21,7 +21,7 @@ from .tables import *
 
 
 class Config(LoginRequiredMixin, View):
-    template = 'config/view.html'
+    template = 'config/index.html'
     title = 'Configurações'
     subtitle = 'Configuração do sistema'
 
@@ -70,7 +70,7 @@ class TypeOfPaymentView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
     filterset_class = TypeOfPaymentFilter
     paginator_class = LazyPaginator
     permission_required = 'config.view_typeofpayment'
-    template_name = 'base/view.html'
+    template_name = 'config/view.html'
     title = TITLE_VIEW_CONFIG_TYPE_OF_PAYMENT
     subtitle = SUBTITLE_VIEW_CONFIG_TYPE_OF_PAYMENT
     new = reverse_lazy('config:typeofpayment:create')
@@ -102,7 +102,7 @@ class TypeOfPaymentEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 
 class TypeOfPaymentDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = TypeOfPayment
-    template_name = "base/confirm_delete.html"
+    template_name = "config/confirm_delete.html"
     permission_required = 'config.del_typeofpayment'
     success_url = reverse_lazy('config:typeofpayment:view')
     title = TITLE_DEL_CONFIG_TYPE_OF_PAYMENT
@@ -110,7 +110,7 @@ class TypeOfPaymentDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)
-        collector = NestedObjects(using='default')  # or specific database
+        collector = NestedObjects(using='default')  # or specific dataconfig
         collector.collect([context['object']])
         to_delete = collector.nested()
         context['extra_object'] = to_delete
@@ -131,7 +131,7 @@ class TypeOfServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
     filterset_class = TypeOfServiceFilter
     paginator_class = LazyPaginator
     permission_required = 'config.view_typeofservice'
-    template_name = 'base/view.html'
+    template_name = 'config/view.html'
     title = TITLE_VIEW_CONFIG_TYPE_OF_SERVICE
     subtitle = SUBTITLE_VIEW_CONFIG_TYPE_OF_SERVICE
     new = reverse_lazy('config:typeofservice:create')
@@ -141,7 +141,7 @@ class TypeOfServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
 class TypeOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = TypeOfService
     form_class = TypeOfServiceForm
-    template_name = 'base/form.html'
+    template_name = 'config/form.html'
     permission_required = 'config.create_typeofservice'
     # success_url = reverse_lazy('config:city:view')
     back_url = reverse_lazy('config:typeofservice:view')
@@ -155,7 +155,7 @@ class TypeOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
 class TypeOfServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = TypeOfService
     form_class = TypeOfServiceForm
-    template_name = 'base/form.html'
+    template_name = 'config/form.html'
     permission_required = 'config.edit_typeofservice'
     success_url = reverse_lazy('config:typeofservice:view')
     title = TITLE_EDIT_CONFIG_TYPE_OF_SERVICE
@@ -164,7 +164,7 @@ class TypeOfServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 
 class TypeOfServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = TypeOfService
-    template_name = "base/confirm_delete.html"
+    template_name = "config/confirm_delete.html"
     permission_required = 'config.del_typeofservice'
     success_url = reverse_lazy('config:typeofservice:view')
     title = TITLE_DEL_CONFIG_TYPE_OF_SERVICE
@@ -172,7 +172,7 @@ class TypeOfServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)
-        collector = NestedObjects(using='default')  # or specific database
+        collector = NestedObjects(using='default')  # or specific dataconfig
         collector.collect([context['object']])
         to_delete = collector.nested()
         context['extra_object'] = to_delete
@@ -187,7 +187,7 @@ class StatusServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
     filterset_class = StatusServiceFilter
     paginator_class = LazyPaginator
     permission_required = 'config.view_statuservice'
-    template_name = 'base/view.html'
+    template_name = 'config/view.html'
     title = TITLE_VIEW_CONFIG_STATUS_SERVICE
     subtitle = SUBTITLE_VIEW_CONFIG_STATUS_SERVICE
     new = reverse_lazy('config:statusservice:create')
@@ -197,7 +197,7 @@ class StatusServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
 class StatusServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = StatusService
     form_class = StatusServiceForm
-    template_name = 'base/form.html'
+    template_name = 'config/form.html'
     permission_required = 'config.create_statuservice'
     # success_url = reverse_lazy('config:city:view')
     back_url = reverse_lazy('config:statusservice:view')
@@ -211,7 +211,7 @@ class StatusServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
 class StatusServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = StatusService
     form_class = StatusServiceForm
-    template_name = 'base/form.html'
+    template_name = 'config/form.html'
     permission_required = 'config.edit_statuservice'
     success_url = reverse_lazy('config:statusservice:view')
     title = TITLE_EDIT_CONFIG_STATUS_SERVICE
@@ -220,7 +220,7 @@ class StatusServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 
 class StatusServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = StatusService
-    template_name = "base/confirm_delete.html"
+    template_name = "config/confirm_delete.html"
     permission_required = 'config.del_statusservice'
     success_url = reverse_lazy('config:statusservice:view')
     title = TITLE_DEL_CONFIG_STATUS_SERVICE
@@ -228,7 +228,7 @@ class StatusServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)
-        collector = NestedObjects(using='default')  # or specific database
+        collector = NestedObjects(using='default')  # or specific dataconfig
         collector.collect([context['object']])
         to_delete = collector.nested()
         context['extra_object'] = to_delete
@@ -243,7 +243,7 @@ class RewardView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, 
     filterset_class = RewardFilter
     paginator_class = LazyPaginator
     permission_required = 'config.view_reward'
-    template_name = 'base/view.html'
+    template_name = 'config/view.html'
     title = TITLE_VIEW_CONFIG_REWARD
     subtitle = SUBTITLE_VIEW_CONFIG_REWARD
     new = reverse_lazy('config:reward:create')
@@ -253,7 +253,7 @@ class RewardView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, 
 class RewardCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Reward
     form_class = RewardForm
-    template_name = 'base/form.html'
+    template_name = 'config/form.html'
     permission_required = 'config.create_reward'
     back_url = reverse_lazy('config:reward:view')
     title = TITLE_CREATE_CONFIG_REWARD
@@ -266,7 +266,7 @@ class RewardCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 class RewardEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Reward
     form_class = RewardForm
-    template_name = 'base/form.html'
+    template_name = 'config/form.html'
     permission_required = 'config.edit_reward'
     success_url = reverse_lazy('config:reward:view')
     title = TITLE_EDIT_CONFIG_REWARD
@@ -275,7 +275,7 @@ class RewardEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
 class RewardDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Reward
-    template_name = "base/confirm_delete.html"
+    template_name = "config/confirm_delete.html"
     permission_required = 'config.del_reward'
     success_url = reverse_lazy('config:reward:view')
     title = TITLE_DEL_CONFIG_REWARD
@@ -283,7 +283,7 @@ class RewardDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)
-        collector = NestedObjects(using='default')  # or specific database
+        collector = NestedObjects(using='default')  # or specific dataconfig
         collector.collect([context['object']])
         to_delete = collector.nested()
         context['extra_object'] = to_delete

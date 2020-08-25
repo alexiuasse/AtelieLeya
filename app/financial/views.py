@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 11:55.
+#  Last modified 25/08/2020 09:44.
 
 from typing import Dict, Any
 
@@ -31,7 +31,7 @@ from .tables import *
 #     filterset_class = InvoiceFilter
 #     paginator_class = LazyPaginator
 #     permission_required = 'financial.view_invoice'
-#     template_name = 'base/view.html'
+#     template_name = 'financial/view.html'
 #     title = TITLE_VIEW_INVOICE
 #     subtitle = SUBTITLE_INVOICE
 #     new = reverse_lazy('financial:index')
@@ -74,7 +74,7 @@ class InvoiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
 class InvoiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Invoice
-    template_name = "base/confirm_delete.html"
+    template_name = "financial/confirm_delete.html"
     permission_required = 'financial.del_invoice'
     title = TITLE_DEL_INVOICE
     subtitle = SUBTITLE_INVOICE
@@ -85,7 +85,7 @@ class InvoiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)
-        collector = NestedObjects(using='default')  # or specific database
+        collector = NestedObjects(using='default')  # or specific datafinancial
         collector.collect([context['object']])
         to_delete = collector.nested()
         context['extra_object'] = to_delete

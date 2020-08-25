@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 25/08/2020 09:03.
+  ~ Last modified 25/08/2020 09:41.
   -->
 {% extends 'base.html' %}
 {% block content %}
@@ -110,7 +110,7 @@
                     {% for k, v in obj.get_invoice_sorted_by_date.items %}
                     {% for kk,vv in v.items %}
                     {% for s in vv %}
-                    <tr onclick="window.location='{{s.get_edit_url}}'">
+                    <tr>
                         <td>
                             <a href="{{s.get_edit_url}}">
                                 {{s.type_of_payment}}
