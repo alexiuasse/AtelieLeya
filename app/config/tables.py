@@ -1,6 +1,7 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 11:19.
+#  Last modified 25/08/2020 09:31.
+from django.utils.safestring import mark_safe
 from django_tables2 import tables, TemplateColumn
 
 from .models import *
@@ -33,7 +34,15 @@ class TypeOfServiceTable(tables.Table):
         model = TypeOfService
         attrs = {'class': 'table table-striped table-hover'}
         per_page = 10
-        fields = ['name', 'value', 'rewarded_points']
+        fields = ['name', 'value', 'time', 'rewarded_points']
+
+    @staticmethod
+    def render_value(value):
+        return mark_safe(f"R$ {value}")
+
+    @staticmethod
+    def render_time(value):
+        return mark_safe(f"{value} min")
 
 
 class StatusServiceTable(tables.Table):
@@ -44,3 +53,7 @@ class StatusServiceTable(tables.Table):
         attrs = {'class': 'table table-striped table-hover'}
         per_page = 10
         fields = ['name', 'contextual']
+
+    @staticmethod
+    def render_contextual(value):
+        return mark_safe(f'<span class="badge bg-{ContextualEnum[value].value}">Status</span>')

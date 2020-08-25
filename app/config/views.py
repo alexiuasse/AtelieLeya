@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 13:18.
+#  Last modified 25/08/2020 09:08.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -80,7 +80,7 @@ class TypeOfPaymentView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
 class TypeOfPaymentCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = TypeOfPayment
     form_class = TypeOfPaymentForm
-    template_name = 'base/form.html'
+    template_name = 'config/form.html'
     permission_required = 'config.create_typeofpayment'
     back_url = reverse_lazy('config:typeofpayment:view')
     title = TITLE_CREATE_CONFIG_TYPE_OF_PAYMENT
@@ -93,7 +93,7 @@ class TypeOfPaymentCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
 class TypeOfPaymentEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = TypeOfPayment
     form_class = TypeOfPaymentForm
-    template_name = 'base/form.html'
+    template_name = 'config/form.html'
     permission_required = 'config.edit_typeofpayment'
     success_url = reverse_lazy('config:typeofpayment:view')
     title = TITLE_EDIT_CONFIG_TYPE_OF_PAYMENT

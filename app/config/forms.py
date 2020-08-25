@@ -1,7 +1,7 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 11:54.
-
+#  Last modified 25/08/2020 09:15.
+from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
@@ -52,14 +52,15 @@ class TypeOfServiceForm(BaseConfigForm):
     layout = Layout(
         Row(
             Field('name', wrapper_class='col-md-12'),
-            Field('value', wrapper_class='col-md-12'),
+            PrependedText('value', 'R$', wrapper_class='col-md-12'),
+            AppendedText('time', 'min', wrapper_class='col-md-12'),
             Field('rewarded_points', wrapper_class='col-md-12'),
         ),
     )
 
     class Meta:
         model = TypeOfService
-        fields = ['name', 'value', 'rewarded_points']
+        fields = ['name', 'value', 'time', 'rewarded_points']
 
 
 class StatusServiceForm(BaseConfigForm):

@@ -1,10 +1,11 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 11:19.
+#  Last modified 25/08/2020 09:11.
 
 from base.models import BaseModel
 from django.db import models
 from django.urls import reverse_lazy
+from django.utils.timezone import now
 
 from .enums import ContextualEnum
 
@@ -31,6 +32,7 @@ class Reward(BaseConfigModel):
 
 
 class TypeOfService(BaseConfigModel):
+    time = models.FloatField("tempo", default=30, help_text="Coloque o tempo em minutos, ex.: 1hr = 60min")
     value = models.DecimalField("Valor", max_digits=11, decimal_places=2, default=0,
                                 help_text="Valor do procedimento, ele será usado para auto preenchimento de alguns "
                                           "campos!")
