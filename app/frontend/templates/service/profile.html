@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 24/08/2020 11:19.
+  ~ Last modified 25/08/2020 09:03.
   -->
 {% extends 'base.html' %}
 {% block content %}
@@ -97,9 +97,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <h3>
-                Dados de Fatura
-            </h3>
+            <h3>Dados de Fatura</h3>
             <div class="table-responsive">
                 <table class="table table-hover table-striped">
                     <thead>
@@ -112,7 +110,7 @@
                     {% for k, v in obj.get_invoice_sorted_by_date.items %}
                     {% for kk,vv in v.items %}
                     {% for s in vv %}
-                    <tr onclick="window.location='{{s.get_absolute_url}}'">
+                    <tr onclick="window.location='{{s.get_edit_url}}'">
                         <td>
                             <a href="{{s.get_edit_url}}">
                                 {{s.type_of_payment}}

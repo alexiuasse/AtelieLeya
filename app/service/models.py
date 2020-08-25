@@ -1,8 +1,7 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 14:23.
+#  Last modified 24/08/2020 18:08.
 
-from datetime import datetime
 from datetime import date
 
 from base.models import BaseModel
@@ -63,12 +62,12 @@ class OrderOfService(BaseModel):
 
     # maybe change to icon for better visualization
     def get_confirmed_html(self):
-        return f"<span class='text-success'>{ICON_CHECK}</span>" if self.confirmed else \
-            f"<span class='text-danger'>{ICON_TRIANGLE_ALERT}</span>"
+        return f"Sim <span class='text-success'>{ICON_CHECK}</span>" if self.confirmed else \
+            f"Não <span class='text-danger'>{ICON_TRIANGLE_ALERT}</span>"
 
     def get_finished_html(self):
-        return f"<span class='text-success'>{ICON_DOUBLE_CHECK}</span>" if self.finished else \
-            f"<span class='text-primary'>{ICON_TRIANGLE_ALERT}</span>"
+        return f"Sim <span class='text-success'>{ICON_DOUBLE_CHECK}</span>" if self.finished else \
+            f"Não <span class='text-primary'>{ICON_TRIANGLE_ALERT}</span>"
 
     def get_date_html(self):
         return "Hoje às {} <span class='text-info'>{}</span>".format(self.time,
@@ -81,8 +80,8 @@ class OrderOfService(BaseModel):
             'Data e Hora': mark_safe(self.get_date_html()),
             'Tipo de Procedimento': "{} ({} pts)".format(self.type_of_service, self.type_of_service.rewarded_points),
             # 'Status': self.status,
-            'Finalizado': "Sim" if self.finished else "Não",
-            'Contabilizado os Pontos': "Sim" if self.counted else "Não",
+            'Finalizado': mark_safe(self.get_finished_html()),
+            'Contabilizado os Pontos': mark_safe(self.get_confirmed_html()),
             'Observação': self.observation,
         }
 
