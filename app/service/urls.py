@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 26/08/2020 13:07.
+#  Last modified 26/08/2020 15:45.
 from django.urls import path, include
 
 from .views import *
@@ -13,6 +13,7 @@ calendar_patterns = ([
                      ], 'calendar')
 
 order_of_service_patterns = ([
+                                 path('change/date/', OrderOfServiceChangeDate.as_view(), name='change_date'),
                                  path('<int:cpk>/create/', OrderOfServiceCreate.as_view(), name='create'),
                                  path('<int:cpk>/<int:pk>/profile/', OrderOfServiceProfile.as_view(), name='profile'),
                                  path('<int:cpk>/<int:pk>/edit/', OrderOfServiceEdit.as_view(), name='edit'),

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 26/08/2020 13:45.
+  ~ Last modified 26/08/2020 16:01.
   -->
 
 {% extends 'base.html' %}
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        timeZone: 'local',
+        timeZone: 'UTC',
         themeSystem: 'standart',
         headerToolbar: {
             left: 'prev next today',
@@ -84,10 +84,28 @@ document.addEventListener('DOMContentLoaded', function() {
         },
 
         // Called when an event is dropped
+        // Note: Make an ajax call to change the service date and datetime,
+        // if success change otherwise show an error alert and revert it
         eventDrop: function(eventDropInfo) {
            // alert(eventDropInfo.event.extendedProps['pk']);
-            alert(eventDropInfo.event.start);
-            eventDropInfo.revert();
+            //alert(eventDropInfo.event.start);
+            //eventDropInfo.revert();
+
+            $.ajax({
+                url: '{% url 'service:orderofservice:change_date' %}',
+                data: {
+                    'pk': eventDropInfo.event.extendedProps['pk'],
+                    'date': eventDropInfo.event.start.toISOString().split('T')[0],
+                    'time': eventDropInfo.event.start.toISOString().split('T')[1],
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (!data.status) {
+                        alert(data.error_message);
+                    }
+                }
+            });
+
         },
 
         // Called when a draggable element has been dropped
@@ -118,8 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
   });
-
-
 
 </script>
 {% endblock %}

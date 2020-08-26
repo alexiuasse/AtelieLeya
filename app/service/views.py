@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 26/08/2020 13:42.
+#  Last modified 26/08/2020 16:00.
 
 from typing import Dict, Any
 
@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
@@ -25,7 +25,29 @@ from .forms import *
 from .tables import *
 
 
-# def orderofservice_change_date(request, pk):
+class OrderOfServiceChangeDate(LoginRequiredMixin, View):
+
+    def get(self, request):
+        status, error_message = True, ""
+        pk = request.GET.get('pk', None)
+        try:
+            if pk:
+                instance = get_object_or_404(OrderOfService, pk=pk)
+                new_date, new_time = request.GET.get('date', None), request.GET.get('time', None)
+                if new_date and new_time:
+                    instance.date = new_date
+                    instance.time = new_time
+                    instance.save()
+                else:
+                    status, error_message = False, "Data ou Hora inválidos!"
+            else:
+                status, error_message = False, "Faltando informações: 'PK' "
+        except Exception as e:
+            status, error_message = False, "O seguinte erro aconteceu %s" % e
+        return JsonResponse({
+            'status': status,
+            'error_message': error_message,
+        })
 
 
 class OrderOfServiceConfirmed(LoginRequiredMixin, View):
@@ -56,6 +78,8 @@ class OrderOfServiceFinished(LoginRequiredMixin, View):
         else:
             raise PermissionDenied()
 
+
+########################################################################################################################
 
 class ServiceCalendarCustomer(LoginRequiredMixin, View):
     template = 'homepage/calendar.html'
