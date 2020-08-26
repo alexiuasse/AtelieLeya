@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 12:04.
+#  Last modified 26/08/2020 13:07.
 
 from datetime import date
 
@@ -8,8 +8,8 @@ from base.models import BaseModel
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.safestring import mark_safe
-from django.utils.timezone import now
 from frontend.icons import ICON_TRIANGLE_ALERT, ICON_CHECK, ICON_DOUBLE_CHECK, ICON_CALENDAR
 
 
@@ -20,20 +20,14 @@ class OrderOfService(BaseModel):
     finished = models.BooleanField("finalizado", default=False)
     counted = models.BooleanField("contabilizado", default=False, help_text="Procedimento já foi contabilizado?")
     confirmed = models.BooleanField("confirmado", default=False, help_text="Procedimento foi confirmado?")
-    date = models.DateField("Data", default=now)
-    time = models.TimeField("Hora", default=now)
+    date = models.DateField("Data", default=timezone.localtime(timezone.now()))
+    time = models.TimeField("Hora", default=timezone.localtime(timezone.now()))
     observation = models.TextField("observação", blank=True)
     customer = models.ForeignKey("users.CustomUser", verbose_name="Cliente", on_delete=models.CASCADE, blank=True,
                                  null=True)
 
     def __str__(self):
         return "{} de {}".format(self.type_of_service, self.customer.first_name)
-
-    def get_full_name(self):
-        return "{}".format(self.type_of_service)
-
-    def get_html_url(self):
-        return f'<p>{self.title}</p><a href="{self.get_edit_url()}">edit</a>'
 
     def get_back_url(self):
         """
@@ -55,25 +49,32 @@ class OrderOfService(BaseModel):
         return reverse('financial:invoice:create', kwargs={'spk': self.pk})
 
     def get_confirmed_url(self):
-        return reverse('service:orderofservice:confirmed', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+        return reverse('service:orderofservice:confirmed', kwargs={'pk': self.pk, 'flag': 0})
 
     def get_finished_url(self):
-        return reverse('service:orderofservice:finished', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+        return reverse('service:orderofservice:finished', kwargs={'pk': self.pk, 'flag': 0})
 
     def get_customer_finished_url(self):
-        return reverse('service:orderofservice:customer_finished', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+        return reverse('service:orderofservice:finished', kwargs={'pk': self.pk, 'flag': 1})
 
     def get_customer_confirmed_url(self):
-        return reverse('service:orderofservice:customer_confirmed', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+        return reverse('service:orderofservice:confirmed', kwargs={'pk': self.pk, 'flag': 1})
+
+    def get_full_name(self):
+        return "{}".format(self.type_of_service)
+
+    def get_name_html(self):
+        badges = ""
+        if not self.confirmed:
+            badges += '*'
+        return mark_safe(f'{self.type_of_service} {badges}')
 
     # maybe change to icon for better visualization
     def get_confirmed_html(self):
-        return f"<span class='badge bg-success'>{ICON_CHECK} Sim</span>" if self.confirmed else \
-            f"<span class='badge bg-warning'>{ICON_TRIANGLE_ALERT} Não </span>"
+        return settings.ICON_CONFIRMED if self.confirmed else settings.ICON_NOT_CONFIRMED
 
     def get_finished_html(self):
-        return f"<span class='badge bg-success'>{ICON_DOUBLE_CHECK} Sim</span>" if self.finished else \
-            f"<span class='badge bg-success'>{ICON_TRIANGLE_ALERT} Não</span>"
+        return settings.ICON_FINISHED if self.finished else settings.ICON_NOT_FINISHED
 
     def get_date_html(self):
         return "Hoje às {} <span class='text-info'>{}</span>".format(self.time,

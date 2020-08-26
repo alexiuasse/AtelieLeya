@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/08/2020 15:46.
+  ~ Last modified 26/08/2020 13:45.
   -->
 {% extends 'base.html' %}
 {% load render_table from django_tables2 %}
@@ -14,7 +14,7 @@
                     {{view.subtitle}}
                 </div>
                 <h2 class="page-title">
-                    <a href="{{view.get_back_url}}" rel="tooltip" title="Voltar">
+                    <a data-toggle="tooltip" href="{{view.get_back_url}}" title="{{TOOLTIP_BACK}}">
                         <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
                     </a>
                     {{view.title}}

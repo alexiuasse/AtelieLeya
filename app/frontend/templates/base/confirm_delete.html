@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 18/08/2020 14:27.
+  ~ Last modified 26/08/2020 13:45.
   -->
 {% extends 'base.html' %}
 {% load i18n %}
@@ -11,7 +11,7 @@
         <div class="row align-items-center">
             <div class="col-auto">
                 <h2 class="page-title">
-                    <a href="{{object.get_absolute_url}}" rel="tooltip" title="Voltar">
+                    <a data-toggle="tooltip" href="{{object.get_absolute_url}}" title="{{TOOLTIP_BACK}}">
                         <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
                     </a>
                     {{view.title}}

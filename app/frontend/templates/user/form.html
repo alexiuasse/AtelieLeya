@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 24/08/2020 15:33.
+  ~ Last modified 26/08/2020 13:45.
   -->
 
 {% extends 'base.html' %}
@@ -14,12 +14,12 @@
             <div class="col-auto">
                 <h2 class="page-title">
                     <a href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
-                       rel="tooltip" title="Voltar">
+                       data-toggle="tooltip" title="{{TOOLTIP_BACK}}">
                         <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
                     </a>
                     {{view.title}}
                     {% if object %}
-                    <a href="{{ view.get_delete_url }}" rel="tooltip" title="Deletar">
+                    <a data-toggle="tooltip" href="{{ view.get_delete_url }}" title="{{TOOLTIP_DEL}}">
                         <span class="text-danger">{{ICON_DELETE|safe}}</span>
                     </a>
                     {% endif %}

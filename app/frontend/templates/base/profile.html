@@ -1,0 +1,33 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 26/08/2020 13:31.
+  -->
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <h2 class="page-title">
+                    <a data-toggle="tooltip" href="{{obj.get_back_url}}" title="Voltar">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    {{obj.get_full_name}}
+                    <a data-toggle="tooltip" href="{{obj.get_edit_url}}" title="Editar">
+                        <span class="text-success">{{ICON_EDIT|safe}}</span>
+                    </a>
+                    <a data-toggle="tooltip" href="{{obj.get_delete_url}}" title="Deletar">
+                        <span class="text-danger">{{ICON_DELETE|safe}}</span>
+                    </a>
+                </h2>
+            </div>
+            <div class="col-auto ml-auto d-print-none">
+                {% block page_header_actions %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    {% block profile_content %}{% endblock %}
+</div>
+{% endblock %}

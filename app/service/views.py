@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 11:26.
+#  Last modified 26/08/2020 13:42.
 
 from typing import Dict, Any
 
@@ -25,46 +25,36 @@ from .forms import *
 from .tables import *
 
 
-def confirmed_service(request, cpk, pk):
-    if request.user.is_superuser and request.user.is_authenticated:
-        instance = get_object_or_404(OrderOfService, pk=pk)
-        instance.confirmed = True
-        instance.save()
-        return redirect(instance.get_absolute_url())
-    else:
-        raise PermissionDenied()
+# def orderofservice_change_date(request, pk):
 
 
-def finished_service(request, cpk, pk):
-    if request.user.is_superuser and request.user.is_authenticated:
-        instance = get_object_or_404(OrderOfService, pk=pk)
-        instance.status = get_object_or_404(StatusService, pk=settings.STATUS_SERVICE_FINISHED)
-        instance.finished = True
-        instance.save()
-        return redirect(instance.get_absolute_url())
-    else:
-        raise PermissionDenied()
+class OrderOfServiceConfirmed(LoginRequiredMixin, View):
+
+    def get(self, request, pk, flag):
+        if request.user.is_superuser and request.user.is_authenticated:
+            instance = get_object_or_404(OrderOfService, pk=pk)
+            instance.confirmed = True
+            instance.save()
+            return redirect(
+                instance.get_absolute_url() if flag == 0 else instance.get_back_url()
+            )
+        else:
+            raise PermissionDenied()
 
 
-def customer_finished_service(request, cpk, pk):
-    if request.user.is_superuser and request.user.is_authenticated:
-        instance = get_object_or_404(OrderOfService, pk=pk)
-        instance.status = get_object_or_404(StatusService, pk=settings.STATUS_SERVICE_FINISHED)
-        instance.finished = True
-        instance.save()
-        return redirect(instance.get_back_url())
-    else:
-        raise PermissionDenied()
+class OrderOfServiceFinished(LoginRequiredMixin, View):
 
-
-def customer_confirmed_service(request, cpk, pk):
-    if request.user.is_superuser and request.user.is_authenticated:
-        instance = get_object_or_404(OrderOfService, pk=pk)
-        instance.confirmed = True
-        instance.save()
-        return redirect(instance.get_back_url())
-    else:
-        raise PermissionDenied()
+    def get(self, request, pk, flag):
+        if request.user.is_superuser and request.user.is_authenticated:
+            instance = get_object_or_404(OrderOfService, pk=pk)
+            instance.status = get_object_or_404(StatusService, pk=settings.STATUS_SERVICE_FINISHED)
+            instance.finished = True
+            instance.save()
+            return redirect(
+                instance.get_absolute_url() if flag == 0 else instance.get_back_url()
+            )
+        else:
+            raise PermissionDenied()
 
 
 class ServiceCalendarCustomer(LoginRequiredMixin, View):
@@ -108,6 +98,7 @@ class OrderOfServiceProfile(LoginRequiredMixin, View):
         return render(request, self.template, {'obj': OrderOfService.objects.get(pk=pk)})
 
 
+# unused
 class OrderOfServiceIndex(LoginRequiredMixin, SingleTableView):
     template_name = 'service/view.html'
     title = TITLE_VIEW_ORDER_OF_SERVICE
@@ -130,6 +121,7 @@ class OrderOfServiceIndex(LoginRequiredMixin, SingleTableView):
         return reverse_lazy('dashboard')
 
 
+# unused
 class OrderOfServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
     model = OrderOfService
     table_class = OrderOfServiceTable

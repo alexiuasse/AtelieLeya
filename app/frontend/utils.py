@@ -1,7 +1,15 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/08/2020 14:27.
+#  Last modified 26/08/2020 08:51.
+from datetime import datetime
+
+from service.models import OrderOfService
 
 
 def context_dashboard():
-    return {}
+    return {
+        'start_date': datetime.today().date,
+        'title': 'Dashboard',
+        'subtitle': 'Dashboard',
+        'services': OrderOfService.objects.all()
+    }

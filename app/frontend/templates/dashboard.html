@@ -1,14 +1,16 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 17/08/2020 11:11.
+  ~ Last modified 26/08/2020 13:45.
   -->
 
 {% extends 'base.html' %}
+{% load static %}
+{% block custom_css %}
+<link href="{% static 'dist/libs/fullcalendar/dist/main.min.css' %}" rel="stylesheet"/>
+{% endblock %}
 {% block content %}
 <div class="container-fluid">
-    {% include 'under_construction.html' %}
-    {% for k,v in page.items %}
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-auto">
@@ -22,134 +24,102 @@
             </div>
         </div>
     </div>
-    <div class="row row-deck row-cards">
-        {% for kk,vv in v.data.items %}
-        {% for kkk, vvv in vv.items %}
-        <div class="col-sm-6 col-lg-3">
-            <div class="card {{vvv.bg}}">
+    <div class="row">
+        <div class="col-lg-12 col-md-auto">
+            <div class="card">
                 <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="subheader">{{vvv.subheader}}</div>
-                        <div class="ml-auto">
-                            {% for lk, lv in vvv.links.items %}
-                            <a class="text-{{lv.contextual}}" data-toggle="tooltip" href="{{lv.link}}"
-                               title="{{lk}}">{{lv.icon|safe}}</a>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-baseline">
-                        <div class="h2 mb-0 mr-2">{{vvv.header}}</div>
-                    </div>
+                    <div id="calendar"></div>
                 </div>
-                <div class="chart-sm" id="{{vvv.chart_id}}"></div>
             </div>
         </div>
-        {% endfor %}
-        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}
 {% block javascript %}
-{% for k,v in charts.items %}
+<script src="{% static 'dist/libs/fullcalendar/dist/main.min.js' %}"></script>
+<script src="{% static 'dist/libs/fullcalendar/dist/locales-all.min.js' %}"></script>
 <script>
-  // @formatter:off
-  document.addEventListener("DOMContentLoaded", function () {
-    window.ApexCharts && (new ApexCharts(document.getElementById('{{k}}'), {
-        chart: {
-            defaultLocale: 'pt-br',
-            locales: [{
-                name: 'pt-br',
-                options: {
-                  months: [
-                      'Janeiro', 'Fevereiro', 'Março',
-                      'Abril', 'Maio', 'Junho',
-                      'Julho', 'Agosto', 'Setembro',
-                      'Outubro', 'Novembro', 'Dezembro'
-                  ],
-                  shortMonths: [
-                    'Jan', 'Fev', 'Mar',
-                    'Abr', 'Maio', 'Jun',
-                    'Jul', 'Ago', 'Set',
-                    'Out', 'Nov', 'Dez'
-                  ],
-                  days: ['Sábado', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Domingo'],
-                  shortDays: ['Sáb.', 'Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Dom.'],
-                  toolbar: {
-                    download: 'Baixar SVG',
-                    selection: 'Selecionar',
-                    selectionZoom: 'Selecionar Zoom',
-                    zoomIn: 'Zoom In',
-                    zoomOut: 'Zoom Out',
-                    pan: 'Panning',
-                    reset: 'Resetar Zoom',
-                  }
-                }
-              }],
-            type: "{{v.type}}",
-            fontFamily: 'inherit',
-            height: 40.0,
-            sparkline: {
-                enabled: true
-            },
-            animations: {
-                enabled: false
-            },
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        timeZone: 'local',
+        themeSystem: 'standart',
+        headerToolbar: {
+            left: 'prev next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
         },
-         plotOptions: {
-            bar: {
-                columnWidth: '50%',
+        initialView: 'dayGridMonth',
+        initialDate: '{{start_date|date:"Y-m-d"}}',
+        locale: 'pt-br',
+        height: 'auto',
+        buttonIcons: true, // show the prev/next text
+        weekNumbers: false,
+        navLinks: true, // can click day/week names to navigate views
+        editable: true, // can drag and change date/time of events
+        dayMaxEvents: true, // allow "more" link when too many events
+        businessHours: true, // display business hours
+        nowIndicator: true,
+
+        // hours to be displayed
+        // slotMinTime: '08:00',
+        // slotMaxTime: '20:00',
+
+        selectable: true,
+        selectMirror: true,
+
+        // Note: Make a modal show with a form, send to server validate and return response
+        select: function(arg) {
+            var title = prompt('Event Title:');
+            if (title) {
+                calendar.addEvent({
+                    title: title,
+                    start: arg.start,
+                    end: arg.end,
+                    allDay: arg.allDay
+                })
+            }
+            calendar.unselect()
+        },
+
+        // Called when an event is dropped
+        eventDrop: function(eventDropInfo) {
+           // alert(eventDropInfo.event.extendedProps['pk']);
+            alert(eventDropInfo.event.start);
+            eventDropInfo.revert();
+        },
+
+        // Called when a draggable element has been dropped
+        drop: function(dropInfo) {
+            alert(dropInfo.event.title);
+        },
+
+        /*
+        // Called when an event has been clicked
+        eventClick: function(arg) {
+            if (confirm('Are you sure you want to delete this event?')) {
+              arg.event.remove()
             }
         },
-        dataLabels: {
-            enabled: false,
-        },
-        fill: {
-            opacity: 1,
-        },
-        series: [{
-            name: "{{v.series_name}}",
-            //Autogenerated
-            data: {{v.data}}
-        }],
-        grid: {
-            strokeDashArray: 4,
-        },
-        xaxis: {
-            labels: {
-                padding: 0
-            },
-            tooltip: {
-                enabled: false
-            },
-            axisBorder: {
-                show: false,
-            },
-            type: 'datetime',
-        },
-        yaxis: {
-            labels: {
-                padding: 4
-            },
-        },
-        //Autogenerated
-        labels: {{v.label|safe}},
-        colors: ["{{v.color}}"],
-        legend: {
-            show: false,
-        },
-    })).render();
+        */
+
+        events: [
+            {% for s in services %}
+                {
+                    pk: '{{s.pk}}',
+                    title: '{{s.get_name_html}}',
+                    start: '{{s.date|date:"Y-m-d"}} {{s.time|date:"H:i"}}',
+                    url: '{{s.get_absolute_url}}',
+                },
+            {% endfor %}
+        ]
+    });
+
+    calendar.render();
   });
-  // @formatter:on
-
-
-
-
-
-
 
 
 
 </script>
-{% endfor %}
 {% endblock %}

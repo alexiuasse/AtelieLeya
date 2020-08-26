@@ -1,129 +1,112 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 25/08/2020 12:10.
+  ~ Last modified 26/08/2020 13:35.
   -->
 
-{% extends 'base.html' %}
+{% extends '../base/profile.html' %}
 {% load l10n %}
-{% block content %}
-<div class="container-fluid">
-    <div class="page-header">
-        <div class="row align-items-center">
-            <div class="col-auto">
-                <h2 class="page-title">
-                    <a href="{{obj.get_back_url}}" rel="tooltip" title="Voltar">
-                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
-                    </a>
-                    {{obj.get_full_name}}
-                    <a href="{{obj.get_edit_url}}" rel="tooltip" title="Editar">
-                        <span class="text-success">{{ICON_EDIT|safe}}</span>
-                    </a>
-                    <a href="{{obj.get_delete_url}}" rel="tooltip" title="Deletar">
-                        <span class="text-danger">{{ICON_DELETE|safe}}</span>
-                    </a>
-                </h2>
-            </div>
-            <div class="col-auto ml-auto d-print-none">
-                <a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block"
-                   href="{{obj.get_new_service_url}}">
-                    {{ICON_ADD|safe}}
-                    Novo Procedimento
-                </a>
-            </div>
+{% block page_header_actions %}
+<a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
+   href="{{obj.get_new_service_url}}"
+   title="{{TOOLTIP_NEW_SERVICE}}">
+    {{ICON_ADD|safe}}
+    Novo Procedimento
+</a>
+{% endblock %}
+{% block profile_content %}
+<div class="row">
+    {% if obj.is_birthday %}
+    <div class="col-md-12">
+        <div class="alert alert-warning">
+            <h3>
+                {{ICON_GIFT|safe}}
+                Alerta de Aniversário!!! Deseje um feliz aniversário, whatsapp {{obj.whatsapp}}
+            </h3>
         </div>
     </div>
-    <div class="row">
-        {% if obj.is_birthday %}
-        <div class="col-md-12">
-            <div class="alert alert-warning">
-                <h3>
-                    {{ICON_GIFT|safe}}
-                    Alerta de Aniversário!!! Deseje um feliz aniversário, whatsapp {{obj.whatsapp}}
-                </h3>
-            </div>
-        </div>
-        {% endif %}
-        <div class="col-lg-6 col-md-auto">
-            <h3>Informações</h3>
-            <div class="table-responsive mb-3">
-                <table class="table table-hover">
-                    {% for k, v in obj.get_dict_data.items %}
-                    <tr>
-                        <td>{{k}}</td>
-                        <td>{{v}}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-auto">
-            <h3>Pontos</h3>
-            <div class="table-responsive mb-3">
-                <table class="table table-hover">
-                    {% for k, v in obj.get_dict_data_points.items %}
-                    <tr>
-                        <td>{{k}}</td>
-                        <td>
-                            <span class="font-weight-bold" data-countup>
-                                {{v|unlocalize}}
-                            </span>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
+    {% endif %}
+    <div class="col-lg-6 col-md-auto">
+        <h3>Informações</h3>
+        <div class="table-responsive mb-3">
+            <table class="table table-hover">
+                {% for k, v in obj.get_dict_data.items %}
+                <tr>
+                    <td>{{k}}</td>
+                    <td>{{v}}</td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
-    <div class="row">
-        <h3>Procedimentos</h3>
-        {% for k,v in obj.get_service_sorted_by_entry_date.items %}
-        <div class="col-lg-12 col-md-auto">
-            <h4>Mês/Ano {{k}}</h4>
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>Procedimento</th>
-                        <th>Data/Hora</th>
-                        <th>Confirmado</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for kk,vv in v.items %}
-                    {% for s in vv %}
-                    <tr>
-                        <td>
-                            <a href="{{s.get_absolute_url}}">
-                                {{s.type_of_service}}
-                            </a>
-                        </td>
-                        <td>{{s.get_date_html|safe}}</td>
-                        <td>
-                            {{s.get_confirmed_html|safe}}
-                            {% if not s.confirmed %}
-                            <a class="badge bg-dark" href="{{s.get_customer_confirmed_url}}">
-                                {{ICON_CHECK|safe}} <span class="ml-1">Confirmar</span>
-                            </a>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <span class="badge bg-{{s.status.contextual}}">{{s.status}}</span>
-                            {% if not s.get_is_success %}
-                            <a class="badge bg-dark" href="{{s.get_customer_finished_url}}">
-                                {{ICON_DOUBLE_CHECK|safe}} <span class="ml-1">Finalizar</span>
-                            </a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+    <div class="col-lg-6 col-md-auto">
+        <h3>Pontos</h3>
+        <div class="table-responsive mb-3">
+            <table class="table table-hover">
+                {% for k, v in obj.get_dict_data_points.items %}
+                <tr>
+                    <td>{{k}}</td>
+                    <td>
+                        <span class="font-weight-bold" data-countup>
+                            {{v|unlocalize}}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
-        {% endfor %}
     </div>
+</div>
+<div class="row">
+    <h3>Procedimentos</h3>
+    {% for k,v in obj.get_service_sorted_by_entry_date.items %}
+    <div class="col-lg-12 col-md-auto">
+        <h4>Mês/Ano {{k}}</h4>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Procedimento</th>
+                    <th>Data/Hora</th>
+                    <th>Confirmado</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for kk,vv in v.items %}
+                {% for s in vv %}
+                <tr>
+                    <td>
+                        <a href="{{s.get_absolute_url}}">
+                            {{s.type_of_service}}
+                        </a>
+                    </td>
+                    <td>{{s.get_date_html|safe}}</td>
+                    <td>
+                        {{s.get_confirmed_html|safe}}
+                        {% if not s.confirmed %}
+                        <a class="badge bg-dark" data-toggle="tooltip" href="{{s.get_customer_confirmed_url}}"
+                           title="{{TOOLTIP_SERVICE_CONFIRM}}">
+                            {{ICON_CHECK|safe}} <span class="ml-1">Confirmar</span>
+                        </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="badge bg-{{s.status.contextual}}">{{s.status}}</span>
+                        {% if not s.get_is_success %}
+                        <a class="badge bg-dark" data-toggle="tooltip"
+                           href="{{s.get_customer_finished_url}}" title="{{TOOLTIP_SERVICE_FINISH}}">
+                            {{ICON_DOUBLE_CHECK|safe}} <span class="ml-1">Finalizar</span>
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

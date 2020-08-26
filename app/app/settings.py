@@ -1,10 +1,12 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 12:08.
+#  Last modified 26/08/2020 10:21.
 
 from pathlib import Path
+from frontend.icons import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -30,6 +32,12 @@ STATUS_PAYMENT_SUCCESS = 2
 STATUS_PAYMENT_DEFAULT = 1
 # Status Service
 STATUS_SERVICE_FINISHED = 1
+
+# Icons
+ICON_CONFIRMED = f"<span class='badge bg-success'>{ICON_CHECK} Sim</span>"
+ICON_NOT_CONFIRMED = f"<span class='badge bg-warning'>{ICON_TRIANGLE_ALERT} Não </span>"
+ICON_FINISHED = f"<span class='badge bg-success'>{ICON_DOUBLE_CHECK} Sim</span>"
+ICON_NOT_FINISHED = f"<span class='badge bg-warning'>{ICON_TRIANGLE_ALERT} Não</span>"
 
 # Application definition
 
