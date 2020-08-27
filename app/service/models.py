@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 26/08/2020 13:07.
+#  Last modified 27/08/2020 09:38.
 
 from datetime import date
 
@@ -65,7 +65,7 @@ class OrderOfService(BaseModel):
 
     def get_name_html(self):
         badges = ""
-        if not self.confirmed:
+        if not self.confirmed or self.get_past_date_without_invoice():
             badges += '*'
         return mark_safe(f'{self.type_of_service} {badges}')
 

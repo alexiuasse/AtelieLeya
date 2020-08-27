@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 26/08/2020 13:45.
+  ~ Last modified 27/08/2020 09:22.
   -->
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
@@ -17,7 +17,7 @@
                     </a>
                     {{view.title}}
                     {% if object %}
-                    <a data-toggle="tooltip" href="{{ view.get_delete_url }}" title="{{TOOLTIP_DEL}}">
+                    <a data-toggle="tooltip" href="{{ object.get_delete_url }}" title="{{TOOLTIP_DEL}}">
                         <span class="text-danger">{{ICON_DELETE|safe}}</span>
                     </a>
                     {% endif %}

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 26/08/2020 16:00.
+#  Last modified 27/08/2020 09:36.
 
 from typing import Dict, Any
 
@@ -26,6 +26,9 @@ from .tables import *
 
 
 class OrderOfServiceChangeDate(LoginRequiredMixin, View):
+    """
+        View to easy change the date and time of an orderofservice from dashboard calendar
+    """
 
     def get(self, request):
         status, error_message = True, ""
@@ -51,6 +54,9 @@ class OrderOfServiceChangeDate(LoginRequiredMixin, View):
 
 
 class OrderOfServiceConfirmed(LoginRequiredMixin, View):
+    """
+        View to easy confirm orderofservice
+    """
 
     def get(self, request, pk, flag):
         if request.user.is_superuser and request.user.is_authenticated:
@@ -65,6 +71,9 @@ class OrderOfServiceConfirmed(LoginRequiredMixin, View):
 
 
 class OrderOfServiceFinished(LoginRequiredMixin, View):
+    """
+        View to easy change the status of orderofservice to finished
+    """
 
     def get(self, request, pk, flag):
         if request.user.is_superuser and request.user.is_authenticated:
@@ -109,6 +118,8 @@ class ServiceCalendarAdmin(LoginRequiredMixin, View):
         })
 
 
+########################################################################################################################
+
 class OrderOfServiceProfile(LoginRequiredMixin, View):
     """
         Show one order of service given the pk
@@ -124,6 +135,9 @@ class OrderOfServiceProfile(LoginRequiredMixin, View):
 
 # unused
 class OrderOfServiceIndex(LoginRequiredMixin, SingleTableView):
+    """
+        View to show all orderofservices in a table
+    """
     template_name = 'service/view.html'
     title = TITLE_VIEW_ORDER_OF_SERVICE
     subtitle = SUBTITLE_ORDER_OF_SERVICE
@@ -194,9 +208,6 @@ class OrderOfServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
     permission_required = 'service.edit_orderofservice'
     title = TITLE_EDIT_ORDER_OF_SERVICE
     subtitle = SUBTITLE_ORDER_OF_SERVICE
-
-    def get_delete_url(self):
-        return reverse('service:orderofservice:delete', kwargs={'cpk': self.kwargs['cpk'], 'pk': self.object.pk})
 
 
 class OrderOfServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):

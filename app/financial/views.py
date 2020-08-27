@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 10:53.
+#  Last modified 27/08/2020 09:36.
 
 from typing import Dict, Any
 
@@ -81,9 +81,6 @@ class InvoiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'financial.edit_invoice'
     title = TITLE_EDIT_INVOICE
     subtitle = SUBTITLE_INVOICE
-
-    def get_delete_url(self):
-        return reverse_lazy('financial:invoice:delete', kwargs={'spk': self.kwargs['spk'], 'pk': self.object.pk})
 
 
 class InvoiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
