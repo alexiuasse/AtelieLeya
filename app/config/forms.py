@@ -1,10 +1,11 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 10:02.
+#  Last modified 27/08/2020 17:18.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
+from django.forms import TextInput
 
 from .models import *
 
@@ -52,6 +53,7 @@ class TypeOfServiceForm(BaseConfigForm):
     layout = Layout(
         Row(
             Field('name', wrapper_class='col-md-12'),
+            Field('contextutal', wrapper_class='col-md-12'),
             PrependedText('value', 'R$', wrapper_class='col-md-12'),
             AppendedText('time', 'min', wrapper_class='col-md-12'),
             Field('rewarded_points', wrapper_class='col-md-12'),
@@ -60,7 +62,10 @@ class TypeOfServiceForm(BaseConfigForm):
 
     class Meta:
         model = TypeOfService
-        fields = ['name', 'value', 'time', 'rewarded_points']
+        widgets = {
+            'contextutal': TextInput(attrs={'type': 'color'}),
+        }
+        fields = ['name', 'contextutal', 'value', 'time', 'rewarded_points']
 
 
 class StatusServiceForm(BaseConfigForm):
@@ -73,6 +78,9 @@ class StatusServiceForm(BaseConfigForm):
 
     class Meta:
         model = StatusService
+        widgets = {
+            'contextual': TextInput(attrs={'type': 'color'}),
+        }
         fields = ['name', 'contextual']
 
 
@@ -86,4 +94,7 @@ class StatusPaymentForm(BaseConfigForm):
 
     class Meta:
         model = StatusPayment
+        widgets = {
+            'contextual': TextInput(attrs={'type': 'color'}),
+        }
         fields = ['name', 'contextual']

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 10:02.
+#  Last modified 27/08/2020 17:18.
 from django.utils.safestring import mark_safe
 from django_tables2 import tables, TemplateColumn
 
@@ -34,7 +34,7 @@ class TypeOfServiceTable(tables.Table):
         model = TypeOfService
         attrs = {'class': 'table table-striped table-hover'}
         per_page = 10
-        fields = ['name', 'value', 'time', 'rewarded_points']
+        fields = ['name', 'contextual', 'value', 'time', 'rewarded_points']
 
     @staticmethod
     def render_value(value):
@@ -43,6 +43,10 @@ class TypeOfServiceTable(tables.Table):
     @staticmethod
     def render_time(value):
         return mark_safe(f"{value} min")
+
+    @staticmethod
+    def render_contextual(value):
+        return mark_safe(f"<span class='badge' style='background-color: {value}'>{value}</span>")
 
 
 class StatusServiceTable(tables.Table):
@@ -56,7 +60,7 @@ class StatusServiceTable(tables.Table):
 
     @staticmethod
     def render_contextual(value):
-        return mark_safe(f'<span class="badge bg-{ContextualEnum[value].value}">Status</span>')
+        return mark_safe(f"<span class='badge' style='background-color: {value}'>{value}</span>")
 
 
 class StatusPaymentTable(tables.Table):
@@ -70,4 +74,4 @@ class StatusPaymentTable(tables.Table):
 
     @staticmethod
     def render_contextual(value):
-        return mark_safe(f'<span class="badge bg-{ContextualEnum[value].value}">Status</span>')
+        return mark_safe(f"<span class='badge' style='background-color: {value}'>{value}</span>")

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 27/08/2020 10:14.
+  ~ Last modified 27/08/2020 17:17.
   -->
 
 {% extends 'base.html' %}
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initialView: 'dayGridMonth',
         initialDate: '{{start_date|date:"Y-m-d"}}',
         locale: 'pt-br',
-        height: 'auto',
+        //height: 'auto',
         buttonIcons: true, // show the prev/next text
         weekNumbers: false,
         navLinks: true, // can click day/week names to navigate views
@@ -131,6 +131,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     title: '{{s.get_name_html}}',
                     start: '{{s.date|date:"Y-m-d"}} {{s.time|date:"H:i"}}',
                     url: '{{s.get_absolute_url}}',
+                    overlap: false, // areas that is not allowed to drop
+                    //display: 'background',
+                    color: '{{s.type_of_service.contextual}}'
                 },
             {% endfor %}
         ]

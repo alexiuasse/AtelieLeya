@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 26/08/2020 13:38.
+  ~ Last modified 27/08/2020 17:22.
   -->
 
 {% extends '../base/profile.html' %}
@@ -103,7 +103,7 @@
                     <td>R$ {{s.value}}</td>
                     <td>{{s.date|date:"SHORT_DATE_FORMAT"}}</td>
                     <td>
-                        <span class="badge bg-{{s.status.contextual}}">
+                        <span class="badge" style="background-color: {{s.status.contextual}};">
                             {{s.status|default_if_none:"Nenhum"}}
                         </span>
                         {% if not s.get_is_success %}

@@ -1,11 +1,10 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 10:02.
+#  Last modified 27/08/2020 17:17.
 
 from base.models import BaseModel
 from django.db import models
 from django.urls import reverse_lazy
-from django.utils.timezone import now
 
 from .enums import ContextualEnum
 
@@ -32,6 +31,8 @@ class Reward(BaseConfigModel):
 
 
 class TypeOfService(BaseConfigModel):
+    contextutal = models.CharField("cor", default="#ffffff", max_length=7,
+                                   help_text="Escolha uma cor para representar esse procedimento!")
     time = models.FloatField("tempo", default=30, help_text="Coloque o tempo em minutos, ex.: 1hr = 60min")
     value = models.DecimalField("Valor", max_digits=11, decimal_places=2, default=0,
                                 help_text="Valor do procedimento, ele será usado para auto preenchimento de alguns "
@@ -40,8 +41,10 @@ class TypeOfService(BaseConfigModel):
 
 
 class StatusService(BaseConfigModel):
-    contextual = models.CharField("cor", choices=ContextualEnum.choices(), blank=True, max_length=20)
+    contextual = models.CharField("cor", default="#ffffff", max_length=7,
+                                  help_text="Escolha uma cor para representar esse status")
 
 
 class StatusPayment(BaseConfigModel):
-    contextual = models.CharField("cor", choices=ContextualEnum.choices(), blank=True, max_length=20)
+    contextual = models.CharField("cor", default="#ffffff", max_length=7,
+                                  help_text="Escolha uma cor para representar esse status")

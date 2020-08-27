@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 27/08/2020 09:38.
+#  Last modified 27/08/2020 17:23.
 
 from datetime import date
 
@@ -82,7 +82,7 @@ class OrderOfService(BaseModel):
             else "{} às {}".format(self.date.strftime("%d/%m/%Y"), self.time)
 
     def get_status_html(self):
-        return f"<span class='badge bg-{self.status.contextual}'>{self.status}</span>"
+        return f"<span class='badge' style='background-color: {self.status.contextual};'>{self.status}</span>"
 
     def get_is_success(self):
         return self.status.pk == settings.STATUS_SERVICE_FINISHED
