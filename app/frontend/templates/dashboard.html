@@ -1,11 +1,12 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 26/08/2020 16:01.
+  ~ Last modified 27/08/2020 10:14.
   -->
 
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block custom_css %}
 <link href="{% static 'dist/libs/fullcalendar/dist/main.min.css' %}" rel="stylesheet"/>
 {% endblock %}
@@ -15,11 +16,11 @@
         <div class="row align-items-center">
             <div class="col-auto">
                 <div class="page-pretitle">
-                    {{v.pre_title}}
+                    {{config.pre_title}}
                 </div>
                 <h2 class="page-title">
-                    {{v.title.icon|safe}}
-                    {{v.title.text}}
+                    {{config.title.icon|safe}}
+                    {{config.title.text}}
                 </h2>
             </div>
         </div>
@@ -102,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 success: function (data) {
                     if (!data.status) {
                         alert(data.error_message);
+                        eventDropInfo.revert();
                     }
                 }
             });
@@ -136,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
   });
+
 
 </script>
 {% endblock %}
