@@ -29,3 +29,7 @@
 .bg-triangle-top-danger {
     background: linear-gradient(140deg, #cd201f 10%, rgba(0, 0, 0, 0) 10.3%);
 }
+
+.dayfull {
+    background-color: #ffddff;
+}

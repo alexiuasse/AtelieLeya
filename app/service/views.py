@@ -1,7 +1,7 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 27/08/2020 09:36.
-
+#  Last modified 28/08/2020 09:55.
+from datetime import datetime
 from typing import Dict, Any
 
 from django.conf import settings
@@ -156,7 +156,7 @@ class OrderOfServiceIndex(LoginRequiredMixin, SingleTableView):
 
     @staticmethod
     def get_back_url():
-        return reverse_lazy('dashboard')
+        return reverse_lazy('frontend:dashboard')
 
 
 # unused

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 27/08/2020 17:17.
+  ~ Last modified 28/08/2020 09:54.
   -->
 
 {% extends 'base.html' %}
@@ -12,20 +12,56 @@
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
-    <div class="page-header">
-        <div class="row align-items-center">
-            <div class="col-auto">
-                <div class="page-pretitle">
-                    {{config.pre_title}}
+    <div class="row">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <div class="page-pretitle">
+                        {{config.pre_title}}
+                    </div>
+                    <h2 class="page-title">
+                        {{config.title.icon|safe}}
+                        {{config.title.text}}
+                    </h2>
                 </div>
-                <h2 class="page-title">
-                    {{config.title.icon|safe}}
-                    {{config.title.text}}
-                </h2>
             </div>
         </div>
     </div>
+    <hr>
     <div class="row">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <div class="page-pretitle">
+                        Calendários
+                    </div>
+                    <h2 class="page-title">
+                        {{ICON_CALENDAR|safe}}
+                        Procedimentos
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-auto">
+            <div class="card">
+                <div class="card-body">
+                    <div id="calendar-services"></div>
+                </div>
+            </div>
+        </div>
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <div class="page-pretitle">
+                        Calendários
+                    </div>
+                    <h2 class="page-title">
+                        {{ICON_CALENDAR|safe}}
+                        Procedimentos
+                    </h2>
+                </div>
+            </div>
+        </div>
         <div class="col-lg-12 col-md-auto">
             <div class="card">
                 <div class="card-body">
@@ -41,7 +77,7 @@
 <script src="{% static 'dist/libs/fullcalendar/dist/locales-all.min.js' %}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
+    var calendarEl = document.getElementById('calendar-services');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         timeZone: 'UTC',
@@ -54,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initialView: 'dayGridMonth',
         initialDate: '{{start_date|date:"Y-m-d"}}',
         locale: 'pt-br',
-        //height: 'auto',
+        height: 'auto',
         buttonIcons: true, // show the prev/next text
         weekNumbers: false,
         navLinks: true, // can click day/week names to navigate views
@@ -67,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // slotMinTime: '08:00',
         // slotMaxTime: '20:00',
 
+        /*
         selectable: true,
         selectMirror: true,
 
@@ -83,15 +120,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             calendar.unselect()
         },
+        */
 
-        // Called when an event is dropped
-        // Note: Make an ajax call to change the service date and datetime,
-        // if success change otherwise show an error alert and revert it
         eventDrop: function(eventDropInfo) {
-           // alert(eventDropInfo.event.extendedProps['pk']);
-            //alert(eventDropInfo.event.start);
-            //eventDropInfo.revert();
-
             $.ajax({
                 url: '{% url 'service:orderofservice:change_date' %}',
                 data: {
@@ -107,12 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             });
-
-        },
-
-        // Called when a draggable element has been dropped
-        drop: function(dropInfo) {
-            alert(dropInfo.event.title);
         },
 
         /*
@@ -124,23 +149,20 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         */
 
-        events: [
-            {% for s in services %}
-                {
-                    pk: '{{s.pk}}',
-                    title: '{{s.get_name_html}}',
-                    start: '{{s.date|date:"Y-m-d"}} {{s.time|date:"H:i"}}',
-                    url: '{{s.get_absolute_url}}',
-                    overlap: false, // areas that is not allowed to drop
-                    //display: 'background',
-                    color: '{{s.type_of_service.contextual}}'
-                },
-            {% endfor %}
-        ]
+        // Fetch the "events" in base of a range date, avoiding huge loads
+        events: {
+            url: '{% url 'frontend:calendar:data' %}',
+            success: function(data) {
+                return data.data;
+            }
+        },
+
     });
 
     calendar.render();
   });
+
+
 
 
 </script>

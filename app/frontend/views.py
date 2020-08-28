@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/08/2020 14:27.
+#  Last modified 28/08/2020 10:01.
 
 import logging
 
@@ -55,7 +55,7 @@ class Index(View):
     template = 'index.html'
 
     def get(self, request):
-        return HttpResponseRedirect(reverse_lazy('homepage'))
+        return HttpResponseRedirect(reverse_lazy('frontend:homepage'))
 
 
 class Home(LoginRequiredMixin, View):

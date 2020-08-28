@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 26/08/2020 13:42.
+#  Last modified 28/08/2020 09:55.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -62,7 +62,7 @@ class CustomUserView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMix
     title = TITLE_VIEW_USER
     subtitle = SUBTITLE_USER
     new = reverse_lazy('users:customuser:create')
-    back_url = reverse_lazy('dashboard')
+    back_url = reverse_lazy('frontend:dashboard')
 
     def get_queryset(self):
         return CustomUser.objects.filter(is_superuser=False)

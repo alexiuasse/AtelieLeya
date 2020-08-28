@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 26/08/2020 13:45.
+  ~ Last modified 28/08/2020 10:01.
   -->
 {% load static %}
 <aside class="navbar navbar-vertical navbar-expand-lg navbar-light bg-login">
@@ -9,7 +9,7 @@
         <button class="navbar-toggler" data-target="#navbar-menu" data-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand navbar-brand-autodark" href="{% url 'dashboard' %}">
+        <a class="navbar-brand navbar-brand-autodark" href="{% url 'frontend:dashboard' %}">
             <img alt="{{NAME_OF_ENTERPRISE}}" class="navbar-brand-image" src="{% static 'logo-bar.svgz' %}">
         </a>
         <!-- Actions when on cellphone -->
@@ -82,7 +82,7 @@
         <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="navbar-nav pt-lg-3">
                 <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'dashboard' %}">
+                    <a class="nav-link" href="{% url 'frontend:dashboard' %}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           {{ICON_DASHBOARD|safe}}
                         </span>
@@ -106,7 +106,7 @@
                     </a>
                 </li>
                 <li class="nav-item {% if 'config' in request.path %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'homepage' %}">
+                    <a class="nav-link" href="{% url 'frontend:homepage' %}">
                         <!--                        <span class="nav-link-icon d-md-none d-lg-inline-block">-->
                         <!--                          {{ICON_SETTINGS|safe}}-->
                         <!--                        </span>-->
@@ -145,7 +145,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-white mr-auto" data-dismiss="modal" type="button">Fechar</button>
-                <a class="btn btn-primary" href="{% url 'logout' %}" type="button">Sim</a>
+                <a class="btn btn-primary" href="{% url 'frontend:logout' %}" type="button">Sim</a>
             </div>
         </div>
     </div>

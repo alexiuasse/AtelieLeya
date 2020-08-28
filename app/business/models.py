@@ -1,12 +1,12 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 27/08/2020 15:29.
+#  Last modified 28/08/2020 10:35.
 import datetime
 
 from base.models import BaseModel
 from config.models import TypeOfService
 from django.db import models
-from django.db.models import Min, Sum
+from django.db.models import Min, Sum, Max
 from django.utils import timezone
 from service.models import OrderOfService
 
@@ -45,12 +45,25 @@ class BusinessDay(BaseModel):
             - Check if the remain time fit orderofservice
     """
     day = models.DateField("dia", default=timezone.localtime(timezone.now()))
+    color = models.CharField("cor", default="#ffddff", max_length=7)
     expedient_day = models.ManyToManyField(Expedient, help_text="Quais são os horários disponíveis para esse dia?")
     is_work_day = models.BooleanField("dia de trabalho", default=True)
 
     def __str__(self):
         return f"Dia: {self.day} Max: {self.get_expedient_hours()} min Ocupados: {self.get_consumed_hours()} min " \
                f"Lotado: {self.get_is_full()} "
+
+    def get_name_html(self):
+        # name = ""
+        # for e in self.expedient_day.all():
+        #     name += f"{e.name} "
+        return "Expediente"
+
+    def get_start_date_time(self):
+        return f"{self.day} {self.expedient_day.all().aggregate(min_time=Min('start_time'))['min_time'].strftime('%H:%m')}"
+
+    def get_end_date_time(self):
+        return f"{self.day} {self.expedient_day.all().aggregate(min_time=Max('end_time'))['min_time'].strftime('%H:%m')}"
 
     def get_expedient_hours(self):
         return sum(e.get_business_hours() for e in self.expedient_day.all())
