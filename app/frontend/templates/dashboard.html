@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 28/08/2020 09:54.
+  ~ Last modified 28/08/2020 18:13.
   -->
 
 {% extends 'base.html' %}
@@ -71,6 +71,7 @@
         </div>
     </div>
 </div>
+{% include 'business/modal_form.html' %}
 {% endblock %}
 {% block javascript %}
 <script src="{% static 'dist/libs/fullcalendar/dist/main.min.js' %}"></script>
@@ -103,41 +104,38 @@ document.addEventListener('DOMContentLoaded', function() {
         // slotMinTime: '08:00',
         // slotMaxTime: '20:00',
 
-        /*
+
         selectable: true,
         selectMirror: true,
 
         // Note: Make a modal show with a form, send to server validate and return response
         select: function(arg) {
-            var title = prompt('Event Title:');
-            if (title) {
-                calendar.addEvent({
-                    title: title,
-                    start: arg.start,
-                    end: arg.end,
-                    allDay: arg.allDay
-                })
-            }
-            calendar.unselect()
+            $('#id_businessdayform-start').val(arg.start.toISOString().split('T')[0]);
+            $('#id_businessdayform-end').val(arg.end.toISOString().split('T')[0]);
+            $('#modal-form-business').modal('show');
         },
-        */
+
 
         eventDrop: function(eventDropInfo) {
-            $.ajax({
-                url: '{% url 'service:orderofservice:change_date' %}',
-                data: {
-                    'pk': eventDropInfo.event.extendedProps['pk'],
-                    'date': eventDropInfo.event.start.toISOString().split('T')[0],
-                    'time': eventDropInfo.event.start.toISOString().split('T')[1],
-                },
-                dataType: 'json',
-                success: function (data) {
-                    if (!data.status) {
-                        alert(data.error_message);
-                        eventDropInfo.revert();
+            if (eventDropInfo.event.extendedProps['type'] == 0) {
+                $.ajax({
+                    url: '{% url 'service:orderofservice:change_date' %}',
+                    data: {
+                        'pk': eventDropInfo.event.extendedProps['pk'],
+                        'date': eventDropInfo.event.start.toISOString().split('T')[0],
+                        'time': eventDropInfo.event.start.toISOString().split('T')[1],
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (!data.status) {
+                            alert(data.error_message);
+                            eventDropInfo.revert();
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                eventDropInfo.revert();
+            }
         },
 
         /*

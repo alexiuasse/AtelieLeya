@@ -1,8 +1,9 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/08/2020 12:31.
+#  Last modified 28/08/2020 18:13.
 from datetime import datetime
 
+from business.forms import BusinessDayForm
 from business.models import BusinessDay
 from django.http import JsonResponse
 from frontend.icons import ICON_DASHBOARD
@@ -16,6 +17,7 @@ def get_calendar_data_admin(request):
     data = []
     for s in orderofservices:
         data.append({
+            'type': 0,
             'pk': s.pk,
             'title': s.get_name_html(),
             'start': f"{s.date}T{s.time}",
@@ -25,10 +27,12 @@ def get_calendar_data_admin(request):
     businessday = BusinessDay.objects.filter(day__range=[start, end])
     for b in businessday:
         data.append({
+            'type': 1,
             'pk': b.pk,
             'title': b.get_name_html(),
             'start': b.get_start_date_time(),
             'end': b.get_end_date_time(),
+            'url': b.get_absolute_url(),
             'color': b.color,
         })
     return JsonResponse({'data': data})
@@ -44,4 +48,5 @@ def context_dashboard():
             'pre_title': 'Dashboard',
         },
         'start_date': datetime.today().date,
+        'form': BusinessDayForm(),
     }
