@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 13:44.
+#  Last modified 31/08/2020 14:29.
 import datetime
 
 from base.models import BaseModel
@@ -116,6 +116,6 @@ class BusinessDay(BaseModel):
         return {
             'Dia': self.day,
             'Cor': mark_safe(f"<span class='badge' style='background-color: {self.color}'>{self.color}</span>"),
-            'Dia de trabalho': self.is_work_day,
-            'Forçar dia lotado': self.force_day_full,
+            'Dia de trabalho': 'Sim' if self.is_work_day else 'Não',
+            'Forçar dia lotado': 'Sim' if self.force_day_full else 'Não',
         }
