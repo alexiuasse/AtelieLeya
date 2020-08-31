@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 13:34.
+#  Last modified 31/08/2020 13:43.
 from django.urls import path, include
 
 from .views import *
@@ -15,7 +15,7 @@ expedient_day_patterns = ([
                           ], 'expedient')
 
 business_day_patterns = ([
-                             path('check/full/', check_if_day_is_full, name='check_full'),
+                             # path('check/full/', check_if_day_is_full, name='check_full'),
                              path('create/', businessday_create, name='create'),
                              path('<int:pk>/profile/', BusinessDayProfile.as_view(), name='profile'),
                              path('<int:pk>/edit/', BusinessDayEdit.as_view(), name='edit'),

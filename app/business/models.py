@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 10:51.
+#  Last modified 31/08/2020 13:44.
 import datetime
 
 from base.models import BaseModel
@@ -73,7 +73,7 @@ class BusinessDay(BaseModel):
                f"Lotado: {self.get_is_full()} "
 
     def get_back_url(self):
-        return reverse('frontend:dashboard')
+        return reverse('business:calendar:view')
 
     def get_absolute_url(self):
         return reverse(self.get_reverse_profile, kwargs={'pk': self.pk})

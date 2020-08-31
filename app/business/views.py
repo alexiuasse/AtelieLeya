@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 13:37.
+#  Last modified 31/08/2020 13:43.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -19,11 +19,11 @@ from .models import *
 
 
 ########################################################################################################################
-def check_if_day_is_full(request):
-    day = BusinessDay.objects.get(day=request.GET.get('date', None))
-    return JsonResponse({
-        'is_full': day.force_day_full if day.force_day_full else day.get_is_full(),
-    })
+# def check_if_day_is_full(request):
+#     day = BusinessDay.objects.get(day=request.GET.get('date', None))
+#     return JsonResponse({
+#         'is_full': day.force_day_full if day.force_day_full else day.get_is_full(),
+#     })
 
 
 def businessday_create(request):
@@ -56,9 +56,9 @@ def businessday_create(request):
                     )
                     instance.save()
                     instance.expedient_day.add(*form['expedient_day'].value())
-            return redirect('frontend:dashboard')
+            return redirect('business:calendar:view')
     else:
-        return redirect('frontend:dashboard')
+        return redirect('business:calendar:view')
 
 
 ########################################################################################################################
