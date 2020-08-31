@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 27/08/2020 17:23.
+#  Last modified 31/08/2020 11:21.
 
 from datetime import date
 
@@ -61,13 +61,16 @@ class OrderOfService(BaseModel):
         return reverse('service:orderofservice:confirmed', kwargs={'pk': self.pk, 'flag': 1})
 
     def get_full_name(self):
-        return "{}".format(self.type_of_service)
+        return "{} de {}".format(self.type_of_service, self.customer.get_full_name())
 
     def get_name_html(self):
         badges = ""
         if not self.confirmed or self.get_past_date_without_invoice():
             badges += '*'
         return mark_safe(f'{self.type_of_service} {badges}')
+
+    def get_contextual(self):
+        return not self.confirmed or self.get_past_date_without_invoice()
 
     # maybe change to icon for better visualization
     def get_confirmed_html(self):

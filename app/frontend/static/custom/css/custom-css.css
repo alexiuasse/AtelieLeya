@@ -30,6 +30,34 @@
     background: linear-gradient(140deg, #cd201f 10%, rgba(0, 0, 0, 0) 10.3%);
 }
 
+.check {
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 5px,
+        rgba(255, 234, 0, .3) 5px,
+        rgba(255, 234, 0, .3) 10px
+    );
+}
+
 .dayfull {
-    background-color: #ffddff;
+    background: #f75700 !important;
+}
+
+.daynotfull {
+    background: #9bd47d !important;
+}
+
+.forcedayfull {
+    background: #0522ff !important;
+}
+
+.notworkday {
+    background: #ffbb00 !important;
+}
+
+.square {
+  height: 20px;
+  width: 20px;
+  opacity: .3;
 }

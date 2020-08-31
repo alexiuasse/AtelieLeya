@@ -1,9 +1,10 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/08/2020 18:14.
+#  Last modified 31/08/2020 13:34.
 from django.urls import path, include
 
 from .views import *
+from .mcalendar import *
 
 app_name = "business"
 
@@ -21,7 +22,13 @@ business_day_patterns = ([
                              path('<int:pk>/delete/', BusinessDayDel.as_view(), name='delete'),
                          ], 'businessday')
 
+my_calendar_patterns = ([
+                            path('data/', get_calendar_data_admin, name='data'),
+                            path('view/', BusinessCalendarView.as_view(), name='view'),
+                        ], 'calendar')
+
 urlpatterns = [
     path('businessday/', include(business_day_patterns)),
     path('expedient/', include(expedient_day_patterns)),
+    path('calendar/', include(my_calendar_patterns)),
 ]

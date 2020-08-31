@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/08/2020 17:20.
+#  Last modified 31/08/2020 13:37.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -11,6 +11,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, DeleteView, CreateView
 from django.views.generic.base import View
+from frontend.icons import ICON_DASHBOARD
 
 from .conf import *
 from .forms import *
@@ -61,6 +62,24 @@ def businessday_create(request):
 
 
 ########################################################################################################################
+class BusinessCalendarView(LoginRequiredMixin, View):
+    template = 'business/calendar.html'
+    title = TITLE_VIEW_CALENDAR
+    subtitle = SUBTITLE_CALENDAR
+
+    def get(self, request):
+        return render(request, self.template, {
+            'config': {
+                'title': {
+                    'text': self.title,
+                    'icon': ICON_DASHBOARD
+                },
+                'pre_title': self.subtitle,
+            },
+            'start_date': datetime.datetime.today().date,
+            'form': BusinessDayForm(),
+        })
+
 
 class BusinessDayProfile(LoginRequiredMixin, View):
     template = 'business/profile.html'

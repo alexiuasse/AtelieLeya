@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 28/08/2020 10:01.
+  ~ Last modified 31/08/2020 13:39.
   -->
 {% load static %}
 <aside class="navbar navbar-vertical navbar-expand-lg navbar-light bg-login">
@@ -89,6 +89,14 @@
                         <span class="nav-link-title">Dashboard</span>
                     </a>
                 </li>
+                <li class="nav-item {% if 'business' in request.path %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'business:calendar:view' %}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                          {{ICON_CALENDAR|safe}}
+                        </span>
+                        <span class="nav-link-title">Agenda</span>
+                    </a>
+                </li>
                 <li class="nav-item {% if 'user' in request.path %}active{% endif %}">
                     <a class="nav-link" href="{% url 'users:customuser:view' %}">
                          <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -105,7 +113,7 @@
                         <span class="nav-link-title">Configurações</span>
                     </a>
                 </li>
-                <li class="nav-item {% if 'config' in request.path %}active{% endif %}">
+                <li class="nav-item {% if 'homepage' in request.path %}active{% endif %}">
                     <a class="nav-link" href="{% url 'frontend:homepage' %}">
                         <!--                        <span class="nav-link-icon d-md-none d-lg-inline-block">-->
                         <!--                          {{ICON_SETTINGS|safe}}-->

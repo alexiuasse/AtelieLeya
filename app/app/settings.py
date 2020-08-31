@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 27/08/2020 14:50.
+#  Last modified 31/08/2020 10:04.
 
 from pathlib import Path
 from frontend.icons import *
@@ -38,6 +38,9 @@ ICON_CONFIRMED = f"<span class='badge bg-success'>{ICON_CHECK} Sim</span>"
 ICON_NOT_CONFIRMED = f"<span class='badge bg-warning'>{ICON_TRIANGLE_ALERT} Não </span>"
 ICON_FINISHED = f"<span class='badge bg-success'>{ICON_DOUBLE_CHECK} Sim</span>"
 ICON_NOT_FINISHED = f"<span class='badge bg-warning'>{ICON_TRIANGLE_ALERT} Não</span>"
+
+# Calendar
+BACKGROUND_COLOR_FULL = "#FFFFFF"
 
 # Application definition
 

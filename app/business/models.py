@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/08/2020 17:18.
+#  Last modified 31/08/2020 10:51.
 import datetime
 
 from base.models import BaseModel
@@ -60,7 +60,7 @@ class BusinessDay(BaseModel):
     """
     day = models.DateField("dia", default=timezone.localtime(timezone.now()),
                            help_text="Caso selecionado vários dias, deixe como está!")
-    color = models.CharField("cor", default="#ffddff", max_length=7,
+    color = models.CharField("cor", default="#D40CD4", max_length=7,
                              help_text="Qual a cor que você deseja como plano de fundo")
     expedient_day = models.ManyToManyField(Expedient, verbose_name="Expediente",
                                            help_text="Quais são os horários disponíveis para esse dia?")

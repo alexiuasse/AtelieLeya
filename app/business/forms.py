@@ -1,11 +1,10 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/08/2020 18:00.
-from crispy_forms.bootstrap import PrependedText
+#  Last modified 31/08/2020 09:22.
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
-from django.forms import TextInput, HiddenInput
+from django.forms import TextInput
 
 from .models import *
 
@@ -18,13 +17,13 @@ class BusinessDayForm(forms.ModelForm):
 
     layout = Layout(
         Row(
-            Field('day', wrapper_class='col-md'),
+            # Field('day', wrapper_class='col-md'),
+            Field('start', wrapper_class='col-md', type='hidden'),
+            Field('end', wrapper_class='col-md', type='hidden'),
             Field('color', wrapper_class='col-md'),
             Field('expedient_day', wrapper_class='col-md'),
             Field('is_work_day', wrapper_class='col-md'),
             Field('force_day_full', wrapper_class='col-md'),
-            Field('start', wrapper_class='col-md', type="hidden"),
-            Field('end', wrapper_class='col-md', type="hidden"),
         ),
     )
 
@@ -36,15 +35,17 @@ class BusinessDayForm(forms.ModelForm):
         self.helper.layout = self.layout
         self.helper.form_class = 'form-control'
         self.fields['start'].required = False
+        # self.fields['start'].label = 'Data Início'
         self.fields['end'].required = False
+        # self.fields['end'].label = 'Data Fim'
 
     class Meta:
         model = BusinessDay
         widgets = {
-            'day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+            # 'day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
             'color': TextInput(attrs={'type': 'color'}),
         }
-        fields = ['day', 'color', 'expedient_day', 'is_work_day', 'force_day_full', 'start', 'end']
+        fields = ['color', 'expedient_day', 'is_work_day', 'force_day_full', 'start', 'end']
 
 
 class ExpedientForm(forms.ModelForm):
