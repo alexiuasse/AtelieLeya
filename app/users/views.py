@@ -1,8 +1,10 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/08/2020 09:55.
+#  Last modified 31/08/2020 19:42.
 from typing import Dict, Any
 
+from config.models import TypeOfService
+from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -12,6 +14,8 @@ from django.views.generic import UpdateView, DeleteView, CreateView
 from django.views.generic.base import View
 from django_filters.views import FilterView
 from django_tables2 import SingleTableMixin, LazyPaginator
+from frontend.apexcharts.simple_pie import SimplePie
+from service.models import OrderOfService
 
 from .conf import *
 from .filters import *
@@ -29,7 +33,19 @@ class CustomUserProfile(LoginRequiredMixin, View):
     subtitle = SUBTITLE_USER
 
     def get(self, request, pk):
-        return render(request, self.template, {'obj': CustomUser.objects.get(pk=pk)})
+        obj = CustomUser.objects.get(pk=pk)
+        services = OrderOfService.objects.filter(customer=obj, status=settings.STATUS_SERVICE_FINISHED)
+        type_of_services = TypeOfService.objects.filter(pk__in=services.values_list('type_of_service', flat=True))
+        return render(request, self.template, {
+            'obj': obj,
+            'options_chart': SimplePie(
+                # title='Procedimentos',
+                series=[services.filter(type_of_service=t).count() for t in type_of_services],
+                colors=[t.contextual for t in type_of_services],
+                labels=[t.name for t in type_of_services],
+                width=350,
+            ).get_options()
+        })
 
 
 class CustomUserCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):

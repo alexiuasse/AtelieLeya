@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 27/08/2020 17:21.
+  ~ Last modified 31/08/2020 19:50.
   -->
 
 {% extends '../base/profile.html' %}
@@ -38,8 +38,6 @@
                 {% endfor %}
             </table>
         </div>
-    </div>
-    <div class="col-lg-6 col-md-auto">
         <h3>Pontos</h3>
         <div class="table-responsive mb-3">
             <table class="table table-hover">
@@ -55,6 +53,11 @@
                 {% endfor %}
             </table>
         </div>
+    </div>
+    <div class="col-lg-6 col-md-auto">
+        <h3>Procedimentos</h3>
+        <p>Todos os procedimentos vinculados a esse cliente que foram finalizados!</p>
+        <div class="chart" id="chart_service"></div>
     </div>
 </div>
 <div class="row">
@@ -110,3 +113,15 @@
     {% endfor %}
 </div>
 {% endblock %}
+{% block javascript %}
+<script>
+  // @formatter:off
+  document.addEventListener("DOMContentLoaded", function () {
+    var chart = new ApexCharts(document.getElementById('chart_service'), {{options_chart|safe}});
+    chart.render();
+  // @formatter:on
+  });
+
+
+</script>
+{% endblock %}>

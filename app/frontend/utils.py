@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 19:11.
+#  Last modified 31/08/2020 19:48.
 from datetime import datetime
 
 from config.models import TypeOfService, StatusPayment
@@ -97,7 +97,7 @@ def context_chart(req_year):
     charts = {
         'chart-customers': {
             'options': Line(
-                title='Clientes',
+                title=f'Clientes - Total ({CustomUser.objects.filter(date_joined__year=year).count()})',
                 x_title='Mês',
                 y_title='Quantidade',
                 series=[{
@@ -113,8 +113,8 @@ def context_chart(req_year):
         # REWARD
         'chart-reward': {
             'options': SimplePie(
-                title='Brindes Mais Escolhidos',
-                series=[OrderOfService.objects.filter(date__year=year, status=t.pk).count() for t in
+                title=f'Brindes Mais Escolhidos - Total ({OrderOfService.objects.filter(date__year=year).count()})',
+                series=[OrderOfService.objects.filter(date__year=year, type_of_service=t.pk).count() for t in
                         TypeOfService.objects.all()],
                 colors=[t.contextual for t in TypeOfService.objects.all()],
                 labels=[t.name for t in TypeOfService.objects.all()],
@@ -132,7 +132,7 @@ def context_chart(req_year):
         },
         'chart-financial-pie': {
             'options': SimplePie(
-                title='Divisão Por Status',
+                title=f'Divisão Por Status - Total ({Invoice.objects.filter(date__year=year).count()})',
                 series=[Invoice.objects.filter(date__year=year, status=t.pk).count() for t in
                         StatusPayment.objects.all()],
                 colors=[t.contextual for t in StatusPayment.objects.all()],
@@ -142,7 +142,7 @@ def context_chart(req_year):
         # SERVICE
         'chart-services': {
             'options': Line(
-                title='Procedimentos',
+                title=f'Procedimentos - Total ({OrderOfService.objects.filter(date__year=year).count()})',
                 x_title='Mês',
                 y_title='Quantidade',
                 series=[get_series_service(year, t) for t in TypeOfService.objects.all()],
@@ -151,8 +151,8 @@ def context_chart(req_year):
         },
         'chart-services-pie': {
             'options': SimplePie(
-                title='Divisão Por Procedimento',
-                series=[OrderOfService.objects.filter(date__year=year, status=t.pk).count() for t in
+                title=f'Divisão Por Procedimento - Total ({OrderOfService.objects.filter(date__year=year).count()})',
+                series=[OrderOfService.objects.filter(date__year=year, type_of_service=t.pk).count() for t in
                         TypeOfService.objects.all()],
                 colors=[t.contextual for t in TypeOfService.objects.all()],
                 labels=[t.name for t in TypeOfService.objects.all()],
