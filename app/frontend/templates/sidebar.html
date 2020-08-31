@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 31/08/2020 13:39.
+  ~ Last modified 31/08/2020 13:47.
   -->
 {% load static %}
 <aside class="navbar navbar-vertical navbar-expand-lg navbar-light bg-login">
@@ -115,9 +115,9 @@
                 </li>
                 <li class="nav-item {% if 'homepage' in request.path %}active{% endif %}">
                     <a class="nav-link" href="{% url 'frontend:homepage' %}">
-                        <!--                        <span class="nav-link-icon d-md-none d-lg-inline-block">-->
-                        <!--                          {{ICON_SETTINGS|safe}}-->
-                        <!--                        </span>-->
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                          {{ICON_HOME|safe}}
+                        </span>
                         <span class="nav-link-title">Site</span>
                     </a>
                 </li>
@@ -137,7 +137,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Sair ?</h5>
+                <h5 class="modal-title">Sair</h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <svg class="icon" fill="none" height="24" stroke="currentColor" stroke-linecap="round"
                          stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"
