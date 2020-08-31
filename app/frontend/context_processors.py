@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 26/08/2020 13:39.
+#  Last modified 31/08/2020 19:04.
 
 from django.conf import settings  # import the settings file
 from .icons import *
@@ -18,9 +18,9 @@ def frontend_template_context(request):
         'TOOLTIP_NEW_INVOICE': "Adicionar nova fatura",
         'TOOLTIP_SERVICE_CONFIRM': "Confirmar procedimento",
         'TOOLTIP_SERVICE_FINISH': "Mudar status para finalizado",
-
         'NAME_OF_ENTERPRISE': settings.NAME_OF_ENTERPRISE,
         'VERSION': settings.VERSION,
+
         'ICON_HOME': ICON_HOME,
         'ICON_LOGOUT': ICON_LOGOUT,
         'ICON_LINK': ICON_LINK,
@@ -40,4 +40,8 @@ def frontend_template_context(request):
         'ICON_CHECK': ICON_CHECK,
         'ICON_DOUBLE_CHECK': ICON_DOUBLE_CHECK,
         'ICON_GIFT': ICON_GIFT,
+        'ICON_COIN': ICON_COIN,
+        'ICON_WAND': ICON_WAND,
+        'ICON_PIE_CHART': ICON_PIE_CHART,
+        'ICON_LINE_CHART': ICON_LINE_CHART,
     }

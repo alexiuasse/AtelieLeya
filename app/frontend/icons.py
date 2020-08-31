@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/08/2020 11:03.
+#  Last modified 31/08/2020 19:04.
 
 ICON_ARROW_BACK = '<svg class="icon icon-md" fill="none" height="24" ' \
                   'stroke="currentColor" stroke-linecap="round"stroke-linejoin="round" stroke-width="2" viewBox="0 0 ' \
@@ -123,3 +123,26 @@ ICON_GIFT = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width=
             'x1="12" y1="8" x2="12" y2="21"></line><path d="M19 12v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 ' \
             '-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 ' \
             '5"></path></svg> '
+
+ICON_COIN = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" ' \
+            'stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path ' \
+            'stroke="none" d="M0 0h24v24H0z"></path><circle cx="12" cy="12" r="9"></circle><path d="M14.8 9a2 2 0 0 0 ' \
+            '-1.8 -1h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1 -1.8 -1"></path><path d="M12 6v2m0 ' \
+            '8v2"></path></svg> '
+
+ICON_WAND = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" ' \
+            'stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path ' \
+            'stroke="none" d="M0 0h24v24H0z"></path><polyline points="6 21 21 6 18 3 3 18 6 21"></polyline><line ' \
+            'x1="15" y1="6" x2="18" y2="9"></line><path d="M9 3a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 ' \
+            '0 2 -2"></path><path d="M19 13a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path></svg> '
+
+ICON_PIE_CHART = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 ' \
+                 '24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" ' \
+                 'stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><path d="M10 3.2a9 9 0 1 0 ' \
+                 '10.8 10.8a1 1 0 0 0 -1 -1h-6.8a2 2 0 0 1 -2 -2v-7a.9 .9 0 0 0 -1 -.8"></path><path d="M15 3.5a9 9 0 ' \
+                 '0 1 5.5 5.5h-4.5a1 1 0 0 1 -1 -1v-4.5"></path></svg> '
+
+ICON_LINE_CHART = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 ' \
+                  '24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" ' \
+                  'stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><line x1="4" y1="19" x2="20" ' \
+                  'y2="19"></line><polyline points="4 15 8 9 12 11 16 6 20 10"></polyline></svg> '

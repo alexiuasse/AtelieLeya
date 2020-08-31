@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/08/2020 10:01.
+#  Last modified 31/08/2020 19:11.
 
 import logging
 
@@ -70,6 +70,13 @@ class Dashboard(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, self.template, context_dashboard())
+
+
+class Chart(LoginRequiredMixin, View):
+    template = 'chart.html'
+
+    def get(self, request, year):
+        return render(request, self.template, context_chart(year))
 
 
 class Logout(View):

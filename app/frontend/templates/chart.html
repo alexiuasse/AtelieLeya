@@ -8,6 +8,22 @@
 {% load static %}
 {% block content %}
 <div class="container-fluid">
+    <!--    <div class="row">-->
+    <!--        <div class="page-header">-->
+    <!--            <div class="row align-items-center">-->
+    <!--                <div class="col-auto">-->
+    <!--                    <div class="page-pretitle">-->
+    <!--                        Gráficos-->
+    <!--                    </div>-->
+    <!--                    <h2 class="page-title">-->
+    <!--                        {{ICON_LINE_CHART|safe}}-->
+    <!--                        Informações de forma visual-->
+    <!--                    </h2>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <p>Nessa seção você terá acesso aos gráficos mostrando informações sobre seu negócio de forma visual.</p>-->
+    <!--    </div>-->
     <div class="row">
         {% for k,v in headers_charts_line.items %}
         <div class="col-lg-12 col-md-12">
@@ -62,6 +78,8 @@
   // @formatter:on
   });
 
+
+
 </script>
 {% endfor %}
-{% endblock %}
+{% endblock %}>

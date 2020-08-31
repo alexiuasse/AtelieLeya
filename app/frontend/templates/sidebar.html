@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 31/08/2020 13:47.
+  ~ Last modified 31/08/2020 19:14.
   -->
 {% load static %}
 <aside class="navbar navbar-vertical navbar-expand-lg navbar-light bg-login">
@@ -103,6 +103,15 @@
                           {{ICON_PERSON|safe}}
                         </span>
                         <span class="nav-link-title">Clientes</span>
+                    </a>
+                </li>
+                <li class="nav-item {% if 'chart' in request.path %}active{% endif %}">
+                    {% now "Y" as current_year %}
+                    <a class="nav-link" href="{% url 'frontend:chart' year=current_year %}">
+                         <span class="nav-link-icon d-md-none d-lg-inline-block">
+                          {{ICON_LINE_CHART|safe}}
+                        </span>
+                        <span class="nav-link-title">Gráficos</span>
                     </a>
                 </li>
                 <li class="nav-item {% if 'config' in request.path %}active{% endif %}">
