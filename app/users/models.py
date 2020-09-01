@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 14:23.
+#  Last modified 01/09/2020 09:50.
 
 # users/models.py
 from datetime import datetime
@@ -44,10 +44,19 @@ class CustomUser(AbstractUser):
         today = datetime.today()
         return self.birth_day.day == today.day and self.birth_day.month == today.month
 
+    def get_age(self):
+        return datetime.today().year - self.birth_day.year
+
+    def get_birth_day_data(self):
+        return {
+            'Nome': self.get_full_name(),
+            'Whatsapp': self.whatsapp,
+        }
+
     def get_dict_data(self):
         return {
             'Username': self.username,
-            'Nome': "{} {}".format(self.first_name, self.last_name),
+            'Nome': self.get_full_name(),
             'Whatsapp': self.whatsapp,
             'Data de Nascimento': self.birth_day,
             'E-mail': self.email,

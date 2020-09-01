@@ -1,11 +1,11 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 19:48.
+#  Last modified 01/09/2020 10:36.
 from datetime import datetime
 
 from config.models import TypeOfService, StatusPayment
 from financial.models import Invoice
-from frontend.icons import ICON_COIN, ICON_PERSON, ICON_WAND, ICON_GIFT
+from frontend.icons import ICON_COIN, ICON_PERSON, ICON_WAND, ICON_GIFT, ICON_CALENDAR, ICON_TRIANGLE_ALERT
 from service.models import OrderOfService
 from users.models import CustomUser
 
@@ -14,8 +14,58 @@ from .apexcharts.simple_pie import SimplePie
 
 
 def context_dashboard():
+    today = datetime.today()
+    birthdays = CustomUser.objects.filter(birth_day__day=today.day, birth_day__month=today.month)
+    services_today = OrderOfService.objects.filter(date=today)
+    services_not_confirmed = OrderOfService.objects.filter(confirmed=False)
+    services_invoice_not_completed = [obj for obj in OrderOfService.objects.all() if obj.get_invoice_not_completed()]
     return {
-
+        'today': {
+            'pre_title': f'Hoje {today.strftime("%d/%m/%Y")}',
+            'title': {
+                'text': 'O que você tem para Hoje',
+                'icon': ICON_CALENDAR,
+            },
+        },
+        'birthdays': {
+            'pre_title': 'Clientes',
+            'title': {
+                'text': 'Aniversariantes de Hoje',
+                'icon': ICON_GIFT,
+            },
+            'data': birthdays,
+        },
+        'services_today': {
+            'pre_title': 'Procedimentos',
+            'title': {
+                'text': 'Procedimentos para Hoje',
+                'icon': ICON_WAND,
+            },
+            'data': services_today,
+        },
+        'atention': {
+            'pre_title': 'Atenção!',
+            'title': {
+                'text': 'Algumas coisas que precisam de atenção',
+                'icon': ICON_TRIANGLE_ALERT
+            },
+        },
+        'services_not_confirmed': {
+            'pre_title': 'Procedimentos',
+            'title': {
+                'text': 'Procedimentos não confirmados',
+                'icon': ICON_WAND,
+            },
+            'data': services_not_confirmed,
+        },
+        'services_invoice_not_completed': {
+            'pre_title': 'Procedimentos',
+            'title': {
+                'text': 'Procedimentos com faturamento não completo',
+                'icon': ICON_WAND,
+            },
+            'data': services_invoice_not_completed,
+        },
     }
 
 

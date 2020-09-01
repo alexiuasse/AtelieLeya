@@ -1,67 +1,147 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 31/08/2020 19:14.
+  ~ Last modified 01/09/2020 14:14.
   -->
 
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
 <div class="container-fluid">
-    <div class="row">
-        {% for k,v in headers_charts_line.items %}
-        <div class="col-lg-12 col-md-12">
-            <div class="page-header">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <div class="page-pretitle">
-                            {{v.pre_title}}
-                        </div>
-                        <h2 class="page-title">
-                            {{v.title.icon|safe}}
-                            {{v.title.text}}
-                        </h2>
-                    </div>
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div class="page-pretitle">
+                    {{today.pre_title}}
                 </div>
+                <h2 class="page-title">
+                    <span class="text-primary">{{today.title.icon|safe}}</span>
+                    {{today.title.text}}
+                </h2>
             </div>
-            <div class="chart" id="{{v.chart_id}}"></div>
-            <hr>
         </div>
-        {% endfor %}
     </div>
     <div class="row">
-        {% for k,v in headers_charts_pie.items %}
-        <div class="col-lg-4 col-md-12 border">
-            <div class="page-header">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <div class="page-pretitle">
-                            {{v.pre_title}}
-                        </div>
-                        <h2 class="page-title">
-                            {{v.title.icon|safe}}
-                            {{v.title.text}}
-                        </h2>
+        <div class="col-lg-6 col-md-12">
+            <div class="card bg-triangle-top-primary">
+                <div class="card-header">
+                    <div class="card-title">
+                        {{birthdays.title.icon|safe}}
+                        {{birthdays.title.text}}
                     </div>
                 </div>
+                <div class="card-body">
+                    {% if birthdays.data %}
+                    {% for obj in birthdays.data %}
+                    <p>
+                        <a href="{{obj.get_absolute_url}}" target="_blank">
+                            {{obj.get_full_name}}
+                        </a>
+                        faz <span class="font-weight-bold">{{obj.get_age}}</span> anos hoje,
+                        Whatsapp: <span class="font-weight-bold">{{obj.whatsapp}}</span>
+                    </p>
+                    {% endfor %}
+                    {% else %}
+                    <p>Nenhum aniversariante hoje!</p>
+                    {% endif %}
+                </div>
             </div>
-            <div class="chart" id="{{v.chart_id}}"></div>
-            <hr>
         </div>
-        {% endfor %}
+        <div class="col-lg-6 col-md-12">
+            <div class="card bg-triangle-top-warning">
+                <div class="card-header">
+                    <div class="card-title">
+                        {{services_today.title.icon|safe}}
+                        {{services_today.title.text}}
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if services_today.data %}
+                    {% for obj in services_today.data %}
+                    <p>
+                        <a href="{{obj.get_absolute_url}}" target="_blank">
+                            {{obj.get_full_name}}
+                        </a>
+                        para às <span class="font-weight-bold">{{obj.time}}</span>
+                    </p>
+                    {% endfor %}
+                    {% else %}
+                    <p>Nenhum procedimento para hoje!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-{% endblock %}
-{% block javascript %}
-{% for k,v in charts.items %}
-<script>
-  // @formatter:off
-  document.addEventListener("DOMContentLoaded", function () {
-    var chart = new ApexCharts(document.getElementById('{{k}}'), {{v.options|safe}});
-    chart.render();
-  // @formatter:on
-  });
+    <hr>
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div class="page-pretitle">
+                    {{atention.pre_title}}
+                </div>
+                <h2 class="page-title">
+                    <span class="text-warning">{{atention.title.icon|safe}}</span>
+                    {{atention.title.text}}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {% if services_not_confirmed.data %}
+        <div class="col-lg-6 col-md-12">
+            <div class="card bg-triangle-top-warning">
+                <div class="card-header">
+                    <div class="card-title">
+                        {{services_not_confirmed.title.icon|safe}}
+                        {{services_not_confirmed.title.text}}
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% for obj in services_not_confirmed.data %}
+                    <p>
+                        <a href="{{obj.get_absolute_url}}" target="_blank">
+                            {{obj.get_full_name}}
+                        </a>
+                        para o dia <span class="font-weight-bold">{{obj.date}}</span>
+                        às <span class="font-weight-bold">{{obj.time}}</span>
+                    </p>
+                    {% endfor %}
+                </div>
+                <div class="card-footer">
+                    <p>Esse aviso é para os procedimentos que ainda não foram confirmados.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if services_invoice_not_completed.data %}
+        <div class="col-lg-6 col-md-12">
+            <div class="card bg-triangle-top-danger">
+                <div class="card-header">
+                    <div class="card-title">
+                        {{services_invoice_not_completed.title.icon|safe}}
+                        {{services_invoice_not_completed.title.text}}
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% for obj in services_invoice_not_completed.data %}
+                    <p>
+                        <a href="{{obj.get_absolute_url}}" target="_blank">
+                            {{obj.get_full_name}}
+                        </a>
+                        para o dia <span class="font-weight-bold">{{obj.date}}</span>
+                        às <span class="font-weight-bold">{{obj.time}}</span>
+                    </p>
+                    {% endfor %}
+                </div>
+                <div class="card-footer">
+                    <p>Esse aviso é para os procedimentos que não tiveram o faturamento completo depois da data
+                        agendada.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
 
-</script>
-{% endfor %}
+
+</div>
 {% endblock %}

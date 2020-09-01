@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 27/08/2020 17:22.
+  ~ Last modified 01/09/2020 10:38.
   -->
 
 {% extends '../base/profile.html' %}
@@ -54,6 +54,16 @@
             {{ICON_ADD|safe}}
             Lançar Fatura
         </a>
+    </div>
+</div>
+{% endif %}
+{% if obj.get_invoice_not_completed %}
+<div class="col-md-12">
+    <div class="alert alert-danger">
+        <h3>
+            {{ICON_TRIANGLE_ALERT|safe}}
+            Fatura do procedimento está incompleta!
+        </h3>
     </div>
 </div>
 {% endif %}

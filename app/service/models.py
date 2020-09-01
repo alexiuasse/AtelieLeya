@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 11:21.
+#  Last modified 01/09/2020 10:35.
 
 from datetime import date
 
@@ -115,3 +115,10 @@ class OrderOfService(BaseModel):
 
     def get_past_date_without_invoice(self):
         return self.date < date.today() and self.invoice_set.all().count() == 0
+
+    def get_invoice_not_completed(self):
+        if self.date < date.today():
+            for i in self.invoice_set.all():
+                if not i.type_of_payment:
+                    return True
+        return False
