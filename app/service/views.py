@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/08/2020 09:55.
+#  Last modified 02/09/2020 11:09.
 from datetime import datetime
 from typing import Dict, Any
 
@@ -188,10 +188,10 @@ class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
         if self.object:
             return reverse(self.object.get_absolute_url())
         else:
-            return reverse('users:customuser:profile', kwargs={'pk': self.kwargs['cpk']})
+            return reverse('users:customuser:profile_admin', kwargs={'pk': self.kwargs['cpk']})
 
     def get_back_url(self):
-        return reverse('users:customuser:profile', kwargs={'pk': self.kwargs['cpk']})
+        return reverse('users:customuser:profile_admin', kwargs={'pk': self.kwargs['cpk']})
 
     def form_valid(self, form):
         if form.is_valid():
@@ -218,7 +218,7 @@ class OrderOfServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView)
     subtitle = SUBTITLE_ORDER_OF_SERVICE
 
     def get_success_url(self):
-        return reverse_lazy('users:customuser:profile', kwargs={'pk': self.kwargs['cpk']})
+        return reverse_lazy('users:customuser:profile_admin', kwargs={'pk': self.kwargs['cpk']})
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)

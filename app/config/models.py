@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 27/08/2020 17:26.
+#  Last modified 02/09/2020 13:30.
 
 from base.models import BaseModel
 from django.db import models
@@ -37,7 +37,7 @@ class TypeOfService(BaseConfigModel):
     value = models.DecimalField("Valor", max_digits=11, decimal_places=2, default=0,
                                 help_text="Valor do procedimento, ele será usado para auto preenchimento de alguns "
                                           "campos!")
-    rewarded_points = models.FloatField("pontos ganhos", default=0)
+    rewarded_points = models.IntegerField("pontos ganhos", default=0)
 
 
 class StatusService(BaseConfigModel):

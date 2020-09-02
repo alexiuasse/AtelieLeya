@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 10:04.
+#  Last modified 02/09/2020 18:51.
 
 from pathlib import Path
 from frontend.icons import *
@@ -150,5 +150,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
 # Login redirect
-LOGIN_URL = "/login/"
+LOGIN_URL = "/login/admin/"
 LOGIN_REDIRECT_URL = '/'

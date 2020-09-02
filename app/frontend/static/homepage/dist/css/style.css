@@ -27,6 +27,178 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*--------------------------------------------------------------
+# Profile-boxes
+--------------------------------------------------------------*/
+.profile-boxes {
+  background: url("../img/about-boxes-bg.jpg") center top no-repeat fixed;
+  background-size: cover;
+  padding: 60px 0 30px 0;
+  position: relative;
+}
+
+.profile-boxes::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.92);
+  z-index: 9;
+}
+
+.profile-boxes .container, .profile-boxes .container-fluid {
+  position: relative;
+  z-index: 10;
+}
+
+.profile-boxes .card {
+  border-radius: 3px;
+  border: 0;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.profile-boxes .card-icon {
+  text-align: center;
+  margin-top: -32px;
+}
+
+.profile-boxes .card-icon i {
+  font-size: 32px;
+  color: #fff;
+  width: 64px;
+  height: 64px;
+  padding-top: 5px;
+  text-align: center;
+  background-color: #ff4a17;
+  border-radius: 4px;
+  text-align: center;
+  border: 4px solid #fff;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.profile-boxes .card-body {
+  padding-top: 12px;
+}
+
+.profile-boxes .card-title {
+  font-weight: 700;
+  text-align: center;
+}
+
+.profile-boxes .card-title a {
+  color: #15222b;
+}
+
+.profile-boxes .card-title a:hover {
+  color: #ff4a17;
+}
+
+.profile-boxes .card-text {
+  color: #5e5e5e;
+}
+
+.profile-boxes .card:hover .card-icon i {
+  background: #fff;
+  color: #ff4a17;
+}
+
+@media (max-width: 1024px) {
+  .profile-boxes {
+    background-attachment: scroll;
+  }
+}
+
+
+/*--------------------------------------------------------------
+# SignUp
+--------------------------------------------------------------*/
+
+.signup {
+  width: 100%;
+  height: 100vh;
+  background: url("../img/hero-bg.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+.signup:before {
+  content: "";
+  background: rgba(13, 20, 26, 0.7);
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.signup .signup-container {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.signup .btn-submit {
+  font-family: "Open Sans", sans-serif;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 14px;
+  display: inline-block;
+  padding: 10px 35px 10px 35px;
+  border-radius: 4px;
+  transition: 0.5s;
+  color: #fff;
+  background: #ff4a17;
+  border: 2px solid #ff4a17;
+}
+
+@media (min-width: 1024px) {
+  #signup {
+    background-attachment: fixed;
+  }
+}
+
+/*--------------------------------------------------------------
+# BirthDay
+--------------------------------------------------------------*/
+
+.birthday {
+  background: #f0f4f8;
+  padding: 15px 0;
+  text-align: center;
+}
+
+.birthday img {
+  max-width: 45%;
+  transition: all 0.4s ease-in-out;
+  display: inline-block;
+  padding: 15px 0;
+  -webkit-filter: grayscale(100);
+  filter: grayscale(100);
+}
+
+.birthday img:hover {
+  -webkit-filter: none;
+  filter: none;
+  transform: scale(1.15);
+}
+
+@media (max-width: 768px) {
+  .birthday img {
+    max-width: 40%;
+  }
+}
+
+/*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
 .back-to-top {

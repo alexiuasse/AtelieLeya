@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/08/2020 19:08.
+#  Last modified 02/09/2020 18:39.
 
 # users/forms.py
 from django import forms
@@ -12,12 +12,32 @@ from .models import CustomUser
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
+        widgets = {
+            'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        }
         fields = ('username', 'email', 'birth_day', 'whatsapp')
+
+
+class CustomUserChangeFrontendForm(UserChangeForm):
+
+    def __init__(self, *args, **kwargs):
+        super(CustomUserChangeFrontendForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].label = "Nome"
+
+    class Meta:
+        model = CustomUser
+        widgets = {
+            'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        }
+        fields = ('username', 'whatsapp', 'first_name', 'last_name', 'birth_day', 'email')
 
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
+        widgets = {
+            'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        }
         fields = UserChangeForm.Meta.fields
 
 
@@ -34,4 +54,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
+        widgets = {
+            'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        }
         fields = ('username', 'whatsapp', 'first_name', 'birth_day', 'email', 'password1', 'password2',)

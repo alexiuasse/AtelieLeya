@@ -1,0 +1,58 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 02/09/2020 19:50.
+  -->
+{% extends './homepage.html' %}
+{% load l10n %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block header %}{% include './header.html' with header_class='sticky-top bg-dark ' %}{% endblock %}
+{% block hero %}{% endblock %}
+{% block main %}
+<main id="main">
+    <section class="signup" id="signup">
+        <div class="signup-container" data-aos="fade-up">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-12 ml-auto mr-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Cadastro</h3>
+                        </div>
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">{{form.username|as_crispy_field}}</div>
+                                    <div class="col-md-6">{{form.whatsapp|as_crispy_field}}</div>
+                                    <div class="col-md-6">{{form.first_name|as_crispy_field}}</div>
+                                    <div class="col-md-6">{{form.birth_day|as_crispy_field}}</div>
+                                    <div class="col-md-12">{{form.email|as_crispy_field}}</div>
+                                    <div class="col-md-6">{{form.password1|as_crispy_field}}</div>
+                                    <div class="col-md-6">{{form.password2|as_crispy_field}}</div>
+                                    <div class="col-md-12">
+                                        <button class="btn btn-block btn-submit mt-3" type="submit">Cadastrar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+{% block extra_vendor_js %}
+<script src="{% static 'dist/libs/imask/dist/imask.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        var element = document.getElementById('id_whatsapp');
+        var maskOptions = {
+          mask: '(00) 0 0000-0000'
+        };
+        var mask = IMask(element, maskOptions);
+    });
+
+</script>
+{% endblock %}

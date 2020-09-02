@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 19:42.
+#  Last modified 02/09/2020 18:46.
 from typing import Dict, Any
 
 from config.models import TypeOfService
@@ -23,7 +23,23 @@ from .forms import *
 from .tables import *
 
 
-class CustomUserProfile(LoginRequiredMixin, View):
+class CustomUserProfileFrontend(LoginRequiredMixin, View):
+    """
+        Show one user given the pk
+    """
+
+    template = 'homepage/profile.html'
+    title = TITLE_VIEW_USER
+    subtitle = SUBTITLE_USER
+
+    def get(self, request):
+        obj = request.user
+        return render(request, self.template, {
+            'obj': obj
+        })
+
+
+class CustomUserProfileAdmin(LoginRequiredMixin, View):
     """
         Show one user given the pk
     """
@@ -48,6 +64,22 @@ class CustomUserProfile(LoginRequiredMixin, View):
         })
 
 
+class CustomUserView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
+    model = CustomUser
+    table_class = CustomUserTable
+    filterset_class = CustomUserFilter
+    paginator_class = LazyPaginator
+    permission_required = 'users.view_customuser'
+    template_name = 'user/view.html'
+    title = TITLE_VIEW_USER
+    subtitle = SUBTITLE_USER
+    new = reverse_lazy('users:customuser:create')
+    back_url = reverse_lazy('frontend:dashboard')
+
+    def get_queryset(self):
+        return CustomUser.objects.filter(is_superuser=False)
+
+
 class CustomUserCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     """
         Create new order of service from admin panel
@@ -68,20 +100,18 @@ class CustomUserCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return reverse_lazy('users:customuser:view')
 
 
-class CustomUserView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
+class CustomUserEditFrontend(LoginRequiredMixin, UpdateView):
     model = CustomUser
-    table_class = CustomUserTable
-    filterset_class = CustomUserFilter
-    paginator_class = LazyPaginator
-    permission_required = 'users.view_customuser'
-    template_name = 'base/view.html'
-    title = TITLE_VIEW_USER
+    form_class = CustomUserChangeFrontendForm
+    template_name = 'homepage/editform.html'
+    title = TITLE_EDIT_USER
     subtitle = SUBTITLE_USER
-    new = reverse_lazy('users:customuser:create')
-    back_url = reverse_lazy('frontend:dashboard')
 
-    def get_queryset(self):
-        return CustomUser.objects.filter(is_superuser=False)
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_success_url(self):
+        return reverse_lazy('users:customuser:profile_frontend')
 
 
 class CustomUserEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -128,3 +158,18 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'authentication/signup.html', {'form': form})
+
+
+def signup_frontend(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('users:customuser:profile_frontend')
+    else:
+        form = SignUpForm()
+    return render(request, 'homepage/signup.html', {'form': form})

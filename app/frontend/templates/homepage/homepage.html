@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 02/09/2020 09:42.
+  ~ Last modified 02/09/2020 11:39.
   -->
 
 <!DOCTYPE html>
@@ -39,6 +39,7 @@
     <!-- Template Main CSS File -->
     <link href="{% static 'homepage/dist/css/style.css' %}" rel="stylesheet"/>
 
+    <!-- Block of custom css -->
     {% block custom_css %}{% endblock %}
     <!--  Block of links  -->
     {% block links %}{% endblock %}
@@ -46,8 +47,8 @@
 
 <body>
 
-{% block header %}{% include './header.html' %}{% endblock %}
-{% block hero %}{% include './hero.html' %}{% endblock %}
+{% block header %}{% include './header.html' with header_class='fixed-top' %}{% endblock %}
+{% block hero %}{% include './hero.html' with hero_title='Leya Monteiro' hero_subtitle='LM' %}{% endblock %}
 {% block main %}{% include './main.html' %}{% endblock %}
 {% block footer %}{% include './footer.html' %}{% endblock %}
 
@@ -65,6 +66,8 @@
 <script src="{% static 'homepage/dist/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
 <script src="{% static 'homepage/dist/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
 <script src="{% static 'homepage/dist/vendor/aos/aos.js' %}"></script>
+
+{% block extra_vendor_js %}{% endblock %}
 
 <!-- Template Main JS File -->
 <script src="{% static 'homepage/dist/js/main.js' %}"></script>

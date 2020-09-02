@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 19:11.
+#  Last modified 02/09/2020 19:13.
 
 import logging
 
@@ -79,8 +79,15 @@ class Chart(LoginRequiredMixin, View):
         return render(request, self.template, context_chart(year))
 
 
-class Logout(View):
+class LogoutAdmin(View):
 
     def get(self, request):
         logout(request)
-        return HttpResponseRedirect('/login/')
+        return HttpResponseRedirect('/login/admin/')
+
+
+class LogoutFrontend(View):
+
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect(f'/login/frontend/?next={reverse_lazy("users:customuser:profile_frontend")}')

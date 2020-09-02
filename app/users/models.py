@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 01/09/2020 09:50.
+#  Last modified 02/09/2020 18:45.
 
 # users/models.py
 from datetime import datetime
@@ -13,7 +13,7 @@ from django.urls import reverse
 class CustomUser(AbstractUser):
     birth_day = models.DateField('data de nascimento', blank=True, null=True)
     whatsapp = models.CharField('whatsapp', max_length=16)
-    total_of_points = models.FloatField(default=0, verbose_name='Total de pontos')
+    total_of_points = models.IntegerField(default=0, verbose_name='Total de pontos')
 
     # total_of_points_redeemed = models.FloatField(default=0, verbose_name='Total de pontos resgatados')
     # total_of_points_not_redeemed = models.FloatField(default=0, verbose_name='Total de pontos não resgatados')
@@ -26,7 +26,7 @@ class CustomUser(AbstractUser):
         return reverse('service:orderofservice:create', kwargs={'cpk': self.pk})
 
     def get_absolute_url(self):
-        return reverse('users:customuser:profile', kwargs={'pk': self.pk})
+        return reverse('users:customuser:profile_admin', kwargs={'pk': self.pk})
 
     @property
     def get_delete_url(self):
@@ -35,6 +35,10 @@ class CustomUser(AbstractUser):
     @property
     def get_edit_url(self):
         return reverse('users:customuser:edit', kwargs={'pk': self.pk})
+
+    @property
+    def get_edit_url_frontend(self):
+        return reverse('users:customuser:edit_frontend')
 
     @property
     def get_back_url(self):

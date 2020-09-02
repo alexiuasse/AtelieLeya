@@ -1,0 +1,41 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 02/09/2020 19:22.
+  -->
+
+{% extends './homepage.html' %}
+{% load crispy_forms_tags %}
+{% block header %}{% include './header.html' with header_class='sticky-top bg-dark ' %}{% endblock %}
+{% block hero %}{% endblock %}
+{% block main %}
+<main id="main">
+    <section class="signup" id="signup">
+        <div class="signup-container" data-aos="fade-up">
+            <div class="row align-items-center">
+                <div class="col-auto ml-auto mr-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Login</h3>
+                        </div>
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                {% if form.errors %}
+                                <p class="text-danger text-center font-weight-bold mb-2">
+                                    Usuário ou senha errado*
+                                </p>
+                                {% endif %}
+                                {{form.username|as_crispy_field}}
+                                {{form.password|as_crispy_field}}
+                                <button class="btn btn-submit btn-block mt-3" type="submit">Entrar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 01/09/2020 10:35.
+#  Last modified 02/09/2020 15:06.
 
 from datetime import date
 
@@ -34,7 +34,7 @@ class OrderOfService(BaseModel):
         Get the back url, retrieving the customer and passing the correct url
         :return: reverse url for the profile customer owner
         """
-        return reverse('users:customuser:profile', kwargs={'pk': self.customer.pk})
+        return reverse('users:customuser:profile_admin', kwargs={'pk': self.customer.pk})
 
     def get_absolute_url(self):
         return reverse(self.get_reverse_profile, kwargs={'cpk': self.customer.pk, 'pk': self.pk})
@@ -72,7 +72,6 @@ class OrderOfService(BaseModel):
     def get_contextual(self):
         return not self.confirmed or self.get_past_date_without_invoice()
 
-    # maybe change to icon for better visualization
     def get_confirmed_html(self):
         return settings.ICON_CONFIRMED if self.confirmed else settings.ICON_NOT_CONFIRMED
 
