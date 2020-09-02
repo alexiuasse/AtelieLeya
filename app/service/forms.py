@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 27/08/2020 09:57.
+#  Last modified 02/09/2020 09:52.
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
@@ -35,7 +35,7 @@ class OrderOfServiceForm(forms.ModelForm):
         model = OrderOfService
         widgets = {
             'date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
-            'time': forms.TimeInput(attrs={'type': 'time'}),
+            'time': forms.TimeInput(format='%H:%m', attrs={'type': 'time'}),
             'observation': forms.Textarea(attrs={"rows": 4}),
         }
         fields = ['type_of_service', 'date', 'time',

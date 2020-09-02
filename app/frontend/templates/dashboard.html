@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 01/09/2020 14:14.
+  ~ Last modified 02/09/2020 10:06.
   -->
 
 {% extends 'base.html' %}
@@ -23,8 +23,8 @@
     </div>
     <div class="row">
         <div class="col-lg-6 col-md-12">
-            <div class="card bg-triangle-top-primary">
-                <div class="card-header">
+            <div class="card">
+                <div class="card-header bg-triangle-top-primary">
                     <div class="card-title">
                         {{birthdays.title.icon|safe}}
                         {{birthdays.title.text}}
@@ -48,8 +48,8 @@
             </div>
         </div>
         <div class="col-lg-6 col-md-12">
-            <div class="card bg-triangle-top-warning">
-                <div class="card-header">
+            <div class="card">
+                <div class="card-header bg-triangle-top-warning">
                     <div class="card-title">
                         {{services_today.title.icon|safe}}
                         {{services_today.title.text}}
@@ -89,8 +89,8 @@
     <div class="row">
         {% if services_not_confirmed.data %}
         <div class="col-lg-6 col-md-12">
-            <div class="card bg-triangle-top-warning">
-                <div class="card-header">
+            <div class="card">
+                <div class="card-header bg-triangle-top-warning">
                     <div class="card-title">
                         {{services_not_confirmed.title.icon|safe}}
                         {{services_not_confirmed.title.text}}
@@ -115,8 +115,8 @@
         {% endif %}
         {% if services_invoice_not_completed.data %}
         <div class="col-lg-6 col-md-12">
-            <div class="card bg-triangle-top-danger">
-                <div class="card-header">
+            <div class="card">
+                <div class="card-header bg-triangle-top-danger">
                     <div class="card-title">
                         {{services_invoice_not_completed.title.icon|safe}}
                         {{services_invoice_not_completed.title.text}}
