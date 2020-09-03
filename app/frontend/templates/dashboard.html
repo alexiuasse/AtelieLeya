@@ -1,13 +1,14 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 02/09/2020 10:06.
+  ~ Last modified 03/09/2020 17:32.
   -->
 
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container-fluid">
+<div class="container-xl">
+    <div class="hr-text">Hoje</div>
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-auto">
@@ -49,7 +50,7 @@
         </div>
         <div class="col-lg-6 col-md-12">
             <div class="card">
-                <div class="card-header bg-triangle-top-warning">
+                <div class="card-header bg-triangle-top-success">
                     <div class="card-title">
                         {{services_today.title.icon|safe}}
                         {{services_today.title.text}}
@@ -72,7 +73,10 @@
             </div>
         </div>
     </div>
-    <hr>
+</div>
+
+<div class="container-xl dashboard">
+    <div class="hr-text">Atenção</div>
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-auto">
@@ -141,7 +145,6 @@
         </div>
         {% endif %}
     </div>
-
 
 </div>
 {% endblock %}

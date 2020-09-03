@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 10:05.
+#  Last modified 03/09/2020 15:56.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -13,6 +13,7 @@ from django_filters.views import FilterView
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin
 from service.models import OrderOfService
+from frontend.icons import ICON_SETTINGS
 
 from .conf import *
 from .filters import *
@@ -27,42 +28,56 @@ class Config(LoginRequiredMixin, View):
 
     def get(self, request):
         links = {
-            'Brinde': {
-                'reward': {
-                    'name': "Brinde",
-                    'link': reverse_lazy('config:reward:view'),
-                    'count': Reward.objects.count(),
+            'reward': {
+                'pre_title': 'Configuração',
+                'title': {
+                    'text': 'Brinde',
+                    'icon': ICON_SETTINGS,
                 },
+                'link': reverse_lazy('config:reward:view'),
+                # 'count': Reward.objects.count(),
             },
-            'Serviços': {
-                'status_service': {
-                    'name': "Status do Serviço",
-                    'link': reverse_lazy('config:statusservice:view'),
-                    'count': StatusService.objects.count(),
+            'status_service': {
+                'pre_title': 'Configuração',
+                'title': {
+                    'text': 'Status do Serviço',
+                    'icon': ICON_SETTINGS,
                 },
-                'type_of_service': {
-                    'name': "Tipo de Serviço",
-                    'link': reverse_lazy('config:typeofservice:view'),
-                    'count': TypeOfService.objects.count(),
-                },
+                'link': reverse_lazy('config:statusservice:view'),
+                # 'count': StatusService.objects.count(),
             },
-            'Financeiro': {
-                'reward': {
-                    'name': "Tipo de Pagamento",
-                    'link': reverse_lazy('config:typeofpayment:view'),
-                    'count': TypeOfPayment.objects.count(),
+            'type_of_service': {
+                'pre_title': 'Configuração',
+                'title': {
+                    'text': 'Tipo de Serviço',
+                    'icon': ICON_SETTINGS,
                 },
-                'status_payment': {
-                    'name': "Status de Pagamento",
-                    'link': reverse_lazy('config:statuspayment:view'),
-                    'count': StatusPayment.objects.count(),
+                'link': reverse_lazy('config:typeofservice:view'),
+                # 'count': TypeOfService.objects.count(),
+            },
+            'type_of_payment': {
+                'pre_title': 'Configuração',
+                'title': {
+                    'text': 'Tipo de Pagamento',
+                    'icon': ICON_SETTINGS,
                 },
+                'link': reverse_lazy('config:typeofpayment:view'),
+                # 'count': TypeOfPayment.objects.count(),
+            },
+            'status_payment': {
+                'pre_title': 'Configuração',
+                'title': {
+                    'text': 'Status de Pagamento',
+                    'icon': ICON_SETTINGS,
+                },
+                'link': reverse_lazy('config:statuspayment:view'),
+                # 'count': StatusPayment.objects.count(),
             },
         }
         context = {
             'title': self.title,
             'subtitle': self.subtitle,
-            'links': links
+            'links': links,
         }
         return render(request, self.template, context)
 

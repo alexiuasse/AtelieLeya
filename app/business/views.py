@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 13:43.
+#  Last modified 03/09/2020 15:17.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -11,7 +11,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, DeleteView, CreateView
 from django.views.generic.base import View
-from frontend.icons import ICON_DASHBOARD
+from frontend.icons import ICON_CALENDAR
 
 from .conf import *
 from .forms import *
@@ -72,7 +72,7 @@ class BusinessCalendarView(LoginRequiredMixin, View):
             'config': {
                 'title': {
                     'text': self.title,
-                    'icon': ICON_DASHBOARD
+                    'icon': ICON_CALENDAR
                 },
                 'pre_title': self.subtitle,
             },

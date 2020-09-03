@@ -1,35 +1,32 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 18/08/2020 16:42.
+  ~ Last modified 03/09/2020 15:56.
   -->
 {% extends 'base.html' %}
 {% block content %}
-<div class="container-fluid">
+<div class="container-xl">
     {% include 'under_construction.html' %}
-    <div class="row">
-        {% for k,v in links.items %}
-        <div class="col-md-4">
-            <div class="page-header">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <h2 class="page-title">{{k}}</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="list-group">
-                {% for kk,vv in v.items %}
-                {% if kk != 'config' %}
-                <a class="list-group-item list-group-item-action" href="{{vv.link}}">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <h2 class="page-pretitle">Configurações</h2>
+                <h2 class="page-title">
                     {{ICON_SETTINGS|safe}}
-                    {{vv.name}}
-                    <span class="badge bg-success">x{{vv.count}}</span>
-                </a>
-                {% endif %}
-                {% endfor %}
+                    Hub de Configurações
+                </h2>
             </div>
         </div>
-        {% endfor %}
     </div>
+    {% for k,v in links.items %}
+    <div class="list-group">
+        {% if k != 'config' %}
+        <a class="list-group-item list-group-item-action" href="{{v.link}}">
+            {{v.title.icon|safe}}
+            {{v.title.text}}
+        </a>
+        {% endif %}
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

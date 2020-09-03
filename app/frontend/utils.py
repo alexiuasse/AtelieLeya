@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 01/09/2020 10:36.
+#  Last modified 03/09/2020 17:28.
 from datetime import datetime
 
 from config.models import TypeOfService, StatusPayment
@@ -26,6 +26,7 @@ def context_dashboard():
                 'text': 'O que você tem para Hoje',
                 'icon': ICON_CALENDAR,
             },
+            'class': 'today',
         },
         'birthdays': {
             'pre_title': 'Clientes',
@@ -49,6 +50,7 @@ def context_dashboard():
                 'text': 'Algumas coisas que precisam de atenção',
                 'icon': ICON_TRIANGLE_ALERT
             },
+            'class': 'atention',
         },
         'services_not_confirmed': {
             'pre_title': 'Procedimentos',
@@ -72,82 +74,76 @@ def context_dashboard():
 def context_chart(req_year):
     year = datetime.today().year if not req_year else req_year
 
-    headers_charts_line = {
+    line_charts = {
         'customers': {
-            'pre_title': 'Clientes',
+            'description': 'Quantidade de clientes ganhos separado mensalmente.',
             'title': {
                 'text': 'Ganho de Clientes',
                 'icon': ICON_PERSON,
             },
-            'chart_id': 'chart-customers',
-            'links': {
-
-            }
+            'chart_line': {
+                'id': 'chart-customers',
+            },
+        },
+        'services': {
+            'description': 'Quantidade total de procedimentos, não importando o status que eles se encontram.',
+            'title': {
+                'text': 'Procedimentos',
+                'icon': ICON_WAND,
+            },
+            'chart_line': {
+                'id': 'chart-services',
+            },
         },
         'financials': {
-            'pre_title': 'Financeiro',
+            'description': 'Valor em R$ mensal separado por status que se encontram.',
             'title': {
                 'text': 'Rendimento Mensal',
                 'icon': ICON_COIN,
             },
-            'chart_id': 'chart-financial',
-            'links': {
-
-            }
-        },
-        'services': {
-            'pre_title': 'Procedimentos',
-            'title': {
-                'text': 'Procedimentos',
-                'icon': ICON_WAND,
+            'chart_line': {
+                'id': 'chart-financial',
             },
-            'chart_id': 'chart-services',
-            'links': {
-
-            }
         },
     }
 
-    headers_charts_pie = {
+    pie_charts = {
         'reward': {
-            'pre_title': 'Brinde',
+            'description': 'Brindes que foram mais resgatados.',
             'title': {
-                'text': 'Brinde',
-                'icon': ICON_GIFT,
+                'text': 'Brindes',
+                'icon': ICON_PERSON,
             },
-            'chart_id': 'chart-reward',
-            'links': {
-
-            }
-        },
-        'financials-pie': {
-            'pre_title': 'Financeiro',
-            'title': {
-                'text': 'Divisão por status',
-                'icon': ICON_COIN,
+            'chart_pie': {
+                'id': 'chart-reward',
             },
-            'chart_id': 'chart-financial-pie',
-            'links': {
-
-            }
         },
-        'services-pie': {
-            'pre_title': 'Procedimento',
+        'services': {
+            'description': 'Procedimentos que foram mais realizados.',
             'title': {
-                'text': 'Procedimentos',
+                'text': 'Divisão por Procedimento',
                 'icon': ICON_WAND,
             },
-            'chart_id': 'chart-services-pie',
-            'links': {
-
-            }
+            'chart_pie': {
+                'id': 'chart-services-pie',
+            },
+        },
+        'financials': {
+            'description': 'Divisão por status das faturas.',
+            'title': {
+                'text': 'Divisão por Status de Faturas',
+                'icon': ICON_COIN,
+            },
+            'chart_pie': {
+                'id': 'chart-financial-pie',
+            },
         },
     }
 
     charts = {
         'chart-customers': {
             'options': Line(
-                title=f'Clientes - Total ({CustomUser.objects.filter(date_joined__year=year).count()})',
+                # title=f'Clientes - Total ({CustomUser.objects.filter(date_joined__year=year).count()})',
                 x_title='Mês',
                 y_title='Quantidade',
                 series=[{
@@ -163,7 +159,7 @@ def context_chart(req_year):
         # REWARD
         'chart-reward': {
             'options': SimplePie(
-                title=f'Brindes Mais Escolhidos - Total ({OrderOfService.objects.filter(date__year=year).count()})',
+                # title=f'Brindes Mais Escolhidos - Total ({OrderOfService.objects.filter(date__year=year).count()})',
                 series=[OrderOfService.objects.filter(date__year=year, type_of_service=t.pk).count() for t in
                         TypeOfService.objects.all()],
                 colors=[t.contextual for t in TypeOfService.objects.all()],
@@ -173,7 +169,7 @@ def context_chart(req_year):
         # FINANCIAL
         'chart-financial': {
             'options': Line(
-                title='Rendimento Mensal',
+                # title='Rendimento Mensal',
                 x_title='Mês',
                 y_title='Valor em R$',
                 series=[get_financial_value(year, s) for s in StatusPayment.objects.all()],
@@ -182,7 +178,7 @@ def context_chart(req_year):
         },
         'chart-financial-pie': {
             'options': SimplePie(
-                title=f'Divisão Por Status - Total ({Invoice.objects.filter(date__year=year).count()})',
+                # title=f'Divisão Por Status - Total ({Invoice.objects.filter(date__year=year).count()})',
                 series=[Invoice.objects.filter(date__year=year, status=t.pk).count() for t in
                         StatusPayment.objects.all()],
                 colors=[t.contextual for t in StatusPayment.objects.all()],
@@ -192,7 +188,7 @@ def context_chart(req_year):
         # SERVICE
         'chart-services': {
             'options': Line(
-                title=f'Procedimentos - Total ({OrderOfService.objects.filter(date__year=year).count()})',
+                # title=f'Procedimentos - Total ({OrderOfService.objects.filter(date__year=year).count()})',
                 x_title='Mês',
                 y_title='Quantidade',
                 series=[get_series_service(year, t) for t in TypeOfService.objects.all()],
@@ -201,7 +197,7 @@ def context_chart(req_year):
         },
         'chart-services-pie': {
             'options': SimplePie(
-                title=f'Divisão Por Procedimento - Total ({OrderOfService.objects.filter(date__year=year).count()})',
+                # title=f'Divisão Por Procedimento - Total ({OrderOfService.objects.filter(date__year=year).count()})',
                 series=[OrderOfService.objects.filter(date__year=year, type_of_service=t.pk).count() for t in
                         TypeOfService.objects.all()],
                 colors=[t.contextual for t in TypeOfService.objects.all()],
@@ -211,8 +207,8 @@ def context_chart(req_year):
     }
 
     return {
-        'headers_charts_line': headers_charts_line,
-        'headers_charts_pie': headers_charts_pie,
+        'line_charts': line_charts,
+        'pie_charts': pie_charts,
         'charts': charts,
     }
 

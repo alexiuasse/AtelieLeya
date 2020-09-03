@@ -1,68 +1,57 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 31/08/2020 19:33.
+  ~ Last modified 03/09/2020 17:28.
   -->
 
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container-fluid">
-    <!--    <div class="row">-->
-    <!--        <div class="page-header">-->
-    <!--            <div class="row align-items-center">-->
-    <!--                <div class="col-auto">-->
-    <!--                    <div class="page-pretitle">-->
-    <!--                        Gráficos-->
-    <!--                    </div>-->
-    <!--                    <h2 class="page-title">-->
-    <!--                        {{ICON_LINE_CHART|safe}}-->
-    <!--                        Informações de forma visual-->
-    <!--                    </h2>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <p>Nessa seção você terá acesso aos gráficos mostrando informações sobre seu negócio de forma visual.</p>-->
-    <!--    </div>-->
-    <div class="row">
-        {% for k,v in headers_charts_line.items %}
-        <div class="col-lg-12 col-md-12">
-            <div class="page-header">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <div class="page-pretitle">
-                            {{v.pre_title}}
-                        </div>
-                        <h2 class="page-title">
-                            {{v.title.icon|safe}}
-                            {{v.title.text}}
-                        </h2>
-                    </div>
+<div class="container-xl">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div class="page-pretitle">Gráficos</div>
+                <h2 class="page-title">
+                    {{ICON_LINE_CHART|safe}}
+                    Gráficos
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row row-deck row-cards">
+        {% for k,v in pie_charts.items %}
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        {{v.title.icon|safe}}
+                        {{v.title.text}}
+                    </h3>
+                    <div class="chart" id="{{v.chart_pie.id}}"></div>
+                </div>
+                <div class="card-footer">
+                    <p>{{v.description}}</p>
                 </div>
             </div>
-            <div class="chart" id="{{v.chart_id}}"></div>
-            <hr>
         </div>
         {% endfor %}
     </div>
-    <div class="row">
-        {% for k,v in headers_charts_pie.items %}
-        <div class="col-lg-4 col-md-12 border">
-            <div class="page-header">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <div class="page-pretitle">
-                            {{v.pre_title}}
-                        </div>
-                        <h2 class="page-title">
-                            {{v.title.icon|safe}}
-                            {{v.title.text}}
-                        </h2>
-                    </div>
+    <div class="row row-deck row-cards">
+        {% for k,v in line_charts.items %}
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        {{v.title.icon|safe}}
+                        {{v.title.text}}
+                    </h3>
+                    <div class="chart" id="{{v.chart_line.id}}"></div>
+                </div>
+                <div class="card-footer">
+                    <p>{{v.description}}</p>
                 </div>
             </div>
-            <div class="chart" id="{{v.chart_id}}"></div>
-            <hr>
         </div>
         {% endfor %}
     </div>
@@ -77,6 +66,14 @@
     chart.render();
   // @formatter:on
   });
+
+
+
+
+
+
+
+
 </script>
 {% endfor %}
 {% endblock %}>
