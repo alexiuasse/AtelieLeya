@@ -1,12 +1,14 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 02/09/2020 18:39.
+#  Last modified 04/09/2020 17:08.
 
 # users/forms.py
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Row, Field
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import CustomUser
+from .models import *
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -58,3 +60,26 @@ class SignUpForm(UserCreationForm):
             'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
         }
         fields = ('username', 'whatsapp', 'first_name', 'birth_day', 'email', 'password1', 'password2',)
+
+
+class RewardRetrievedForm(forms.ModelForm):
+    prefix = "rewardretrieved"
+
+    layout = Layout(
+        Row(
+            Field('reward', wrapper_class='col-md'),
+            # Field('quantity', wrapper_class='col-md'),
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.disable_csrf = True
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = self.layout
+        self.helper.form_class = 'form-control'
+
+    class Meta:
+        model = RewardRetrieved
+        fields = ['reward']

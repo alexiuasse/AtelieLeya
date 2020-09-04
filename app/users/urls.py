@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 02/09/2020 18:44.
+#  Last modified 04/09/2020 17:13.
 
 from django.urls import path, include
 
@@ -18,8 +18,18 @@ user_patterns = ([
                      path('<int:pk>/delete/', CustomUserDel.as_view(), name='delete'),
                  ], 'customuser')
 
+reward_retrieved_patterns = ([
+                                 path('frontend/', RewardRetrieveFrontend.as_view(), name='retrieve_frontend'),
+                                 path('<int:rpk>/frontend/create/', rewardretrieved_create,
+                                      name='retrieve_frontend_create'),
+                                 path('<int:cpk>/create/', RewardRetrievedCreate.as_view(), name='create'),
+                                 path('<int:cpk>/<int:pk>/edit/', RewardRetrievedEdit.as_view(), name='edit'),
+                                 path('<int:cpk>/<int:pk>/delete/', RewardRetrievedDel.as_view(), name='delete'),
+                             ], 'rewardretrieved')
+
 urlpatterns = [
     path('', include(user_patterns)),
     path('signup/admin/', signup, name='signup'),
     path('signup/frontend/', signup_frontend, name='signup_frontend'),
+    path('reward/retrieved/', include(reward_retrieved_patterns)),
 ]

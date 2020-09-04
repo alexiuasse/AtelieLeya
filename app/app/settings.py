@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 02/09/2020 18:51.
+#  Last modified 04/09/2020 14:55.
 
 from pathlib import Path
 from frontend.icons import *
@@ -21,6 +21,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', '0.0.0.0', '192.168.0.103']
 
 # GENERAL
+##FF63C7
 VERSION = "1.0.0"
 NAME_OF_ENTERPRISE = "Atêlie Leya Monteiro"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 02/09/2020 13:30.
+#  Last modified 04/09/2020 15:48.
 
 from base.models import BaseModel
 from django.db import models
@@ -19,7 +19,10 @@ class BaseConfigModel(BaseModel):
         abstract = True
 
     def get_absolute_url(self):
-        return reverse_lazy('{}:{}:view'.format(self._meta.app_label, self._meta.model_name))
+        return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:view')
+
+    def get_edit_url(self):
+        return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:edit', kwargs={'pk': self.pk})
 
 
 class TypeOfPayment(BaseConfigModel):
@@ -27,7 +30,12 @@ class TypeOfPayment(BaseConfigModel):
 
 
 class Reward(BaseConfigModel):
-    quantity_in_points = models.FloatField("quantidade de pontos", default=1)
+    contextual = models.CharField("cor", default="#ffffff", max_length=7,
+                                  help_text="Escolha uma cor para representar esse brinde!")
+    quantity_in_points = models.IntegerField("quantidade de pontos", default=1)
+    available = models.BooleanField("Disponível", default=True)
+    description = models.TextField("Descrição")
+    image = models.FileField("Foto", help_text="Foto representando o brinde.", blank=True, null=True)
 
 
 class TypeOfService(BaseConfigModel):

@@ -27,16 +27,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*--------------------------------------------------------------
-# Profile-boxes
+# Reward Retrieve
 --------------------------------------------------------------*/
-.profile-boxes {
+.reward-retrieve {
   background: url("../img/about-boxes-bg.jpg") center top no-repeat fixed;
   background-size: cover;
   padding: 60px 0 30px 0;
   position: relative;
 }
 
-.profile-boxes::before {
+.reward-retrieve::before {
   content: '';
   position: absolute;
   left: 0;
@@ -47,24 +47,92 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 9;
 }
 
-.profile-boxes .container, .profile-boxes .container-fluid {
+.reward-retrieve .container, .reward-retrieve .container-fluid {
   position: relative;
   z-index: 10;
 }
 
-.profile-boxes .card {
+.reward-retrieve .card {
   border-radius: 3px;
   border: 0;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
 }
 
-.profile-boxes .card-icon {
+.reward-retrieve .card-body {
+  padding-top: 12px;
+}
+
+.reward-retrieve .card-title {
+  font-weight: 700;
+}
+
+.reward-retrieve .card-title a {
+  color: #15222b;
+}
+
+.reward-retrieve .card-title a:hover {
+  color: #ff4a17;
+}
+
+.reward-retrieve .card-text {
+  color: #5e5e5e;
+}
+
+.reward-retrieve .card:hover .card-icon i {
+  background: #fff;
+  color: #ff4a17;
+}
+
+.reward-retrieve .card-img {
+ height: 200px !important;
+}
+
+@media (max-width: 1024px) {
+  .reward-retrieve {
+    background-attachment: scroll;
+  }
+}
+
+/*--------------------------------------------------------------
+# Reward Retrieve Boxes
+--------------------------------------------------------------*/
+.reward-retrieve-boxes {
+  background: url("../img/about-boxes-bg.jpg") center top no-repeat fixed;
+  background-size: cover;
+  padding: 60px 0 30px 0;
+  position: relative;
+}
+
+.reward-retrieve-boxes::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.92);
+  z-index: 9;
+}
+
+.reward-retrieve-boxes .container, .reward-retrieve-boxes .container-fluid {
+  position: relative;
+  z-index: 10;
+}
+
+.reward-retrieve-boxes .card {
+  border-radius: 3px;
+  border: 0;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.reward-retrieve-boxes .card-icon {
   text-align: center;
   margin-top: -32px;
 }
 
-.profile-boxes .card-icon i {
+.reward-retrieve-boxes .card-icon i {
   font-size: 32px;
   color: #fff;
   width: 64px;
@@ -79,34 +147,119 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
 }
 
-.profile-boxes .card-body {
+.reward-retrieve-boxes .card-body {
   padding-top: 12px;
 }
 
-.profile-boxes .card-title {
+.reward-retrieve-boxes .card-title {
   font-weight: 700;
   text-align: center;
 }
 
-.profile-boxes .card-title a {
+.reward-retrieve-boxes .card-title a {
   color: #15222b;
 }
 
-.profile-boxes .card-title a:hover {
+.reward-retrieve-boxes .card-title a:hover {
   color: #ff4a17;
 }
 
-.profile-boxes .card-text {
+.reward-retrieve-boxes .card-text {
   color: #5e5e5e;
 }
 
-.profile-boxes .card:hover .card-icon i {
+.reward-retrieve-boxes .card:hover .card-icon i {
   background: #fff;
   color: #ff4a17;
 }
 
 @media (max-width: 1024px) {
-  .profile-boxes {
+  .reward-retrieve-boxes {
+    background-attachment: scroll;
+  }
+}
+
+/*--------------------------------------------------------------
+# Profile
+--------------------------------------------------------------*/
+.profile {
+  background: url("../img/about-boxes-bg.jpg") center top no-repeat fixed;
+  background-size: cover;
+  padding: 60px 0 30px 0;
+  position: relative;
+}
+
+.profile::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.92);
+  z-index: 9;
+}
+
+.profile .container, .profile .container-fluid {
+  position: relative;
+  z-index: 10;
+}
+
+.profile .card {
+  border-radius: 3px;
+  border: 0;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.profile .card-icon {
+  text-align: center;
+  margin-top: -32px;
+}
+
+.profile .card-icon i {
+  font-size: 32px;
+  color: #fff;
+  width: 64px;
+  height: 64px;
+  padding-top: 5px;
+  text-align: center;
+  background-color: #ff4a17;
+  border-radius: 4px;
+  text-align: center;
+  border: 4px solid #fff;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.profile .card-body {
+  padding-top: 12px;
+}
+
+.profile .card-title {
+  font-weight: 700;
+  text-align: center;
+}
+
+.profile .card-title a {
+  color: #15222b;
+}
+
+.profile .card-title a:hover {
+  color: #ff4a17;
+}
+
+.profile .card-text {
+  color: #5e5e5e;
+}
+
+.profile .card:hover .card-icon i {
+  background: #fff;
+  color: #ff4a17;
+}
+
+@media (max-width: 1024px) {
+  .profile {
     background-attachment: scroll;
   }
 }

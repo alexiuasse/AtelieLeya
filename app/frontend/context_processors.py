@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 19:04.
+#  Last modified 04/09/2020 11:02.
 
 from django.conf import settings  # import the settings file
 from .icons import *
@@ -16,6 +16,7 @@ def frontend_template_context(request):
         'TOOLTIP_PAYMENT_PAY': "Mudar status para pago",
         'TOOLTIP_NEW_SERVICE': "Adicionar novo procedimento",
         'TOOLTIP_NEW_INVOICE': "Adicionar nova fatura",
+        'TOOLTIP_NEW_REWARD': "Novo Brinde",
         'TOOLTIP_SERVICE_CONFIRM': "Confirmar procedimento",
         'TOOLTIP_SERVICE_FINISH': "Mudar status para finalizado",
         'NAME_OF_ENTERPRISE': settings.NAME_OF_ENTERPRISE,

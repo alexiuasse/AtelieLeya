@@ -1,13 +1,43 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 02/09/2020 18:45.
+#  Last modified 04/09/2020 17:14.
 
-# users/models.py
 from datetime import datetime
 
+# users/models.py
+from base.models import BaseModel
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
+
+
+class RewardRetrieved(BaseModel):
+    reward = models.ForeignKey("config.Reward", on_delete=models.PROTECT, verbose_name="Brinde")
+    points = models.IntegerField("Pontos", default=0)
+    quantity = models.IntegerField("Quantidade", default=1)
+    date = models.DateField("Data", default=timezone.localtime(timezone.now()))
+    retrieved = models.BooleanField("Resgatado", default=False, help_text="Esse brinde já foi resgatado?")
+    customer = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE, verbose_name="Cliente")
+
+    def __str__(self):
+        return f"{self.reward} de {self.customer}"
+
+    @property
+    def get_absolute_url(self):
+        return reverse('users:customuser:profile_admin', kwargs={'pk': self.customer.pk})
+
+    @property
+    def get_delete_url(self):
+        return reverse('users:rewardretrieved:delete', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+
+    @property
+    def get_edit_url(self):
+        return reverse('users:rewardretrieved:edit', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+
+    @property
+    def get_back_url(self):
+        return reverse('users:customuser:profile_admin', kwargs={'pk': self.customer.pk})
 
 
 class CustomUser(AbstractUser):
@@ -15,15 +45,16 @@ class CustomUser(AbstractUser):
     whatsapp = models.CharField('whatsapp', max_length=16)
     total_of_points = models.IntegerField(default=0, verbose_name='Total de pontos')
 
-    # total_of_points_redeemed = models.FloatField(default=0, verbose_name='Total de pontos resgatados')
-    # total_of_points_not_redeemed = models.FloatField(default=0, verbose_name='Total de pontos não resgatados')
-
     def get_full_name(self):
         return "{} {}".format(self.first_name, self.last_name)
 
     @property
     def get_new_service_url(self):
         return reverse('service:orderofservice:create', kwargs={'cpk': self.pk})
+
+    @property
+    def get_new_reward_url(self):
+        return reverse('users:rewardretrieved:create', kwargs={'cpk': self.pk})
 
     def get_absolute_url(self):
         return reverse('users:customuser:profile_admin', kwargs={'pk': self.pk})
@@ -59,7 +90,7 @@ class CustomUser(AbstractUser):
 
     def get_dict_data(self):
         return {
-            'Username': self.username,
+            'Usuário': self.username,
             'Nome': self.get_full_name(),
             'Whatsapp': self.whatsapp,
             'Data de Nascimento': self.birth_day,
@@ -85,3 +116,20 @@ class CustomUser(AbstractUser):
                 retDict[m_y]['services'].append(s)
         # print(retDict)
         return retDict
+
+    def get_service_sorted_by_actual_month(self):
+        retDict = {}
+        for s in self.orderofservice_set.filter(date__month=datetime.today().month).order_by('-date', '-id'):
+            m_y = "{}/{}".format(s.date.month, s.date.year)
+            if m_y in retDict:
+                retDict[m_y]['services'].append(s)
+            else:
+                retDict[m_y] = {}
+                retDict[m_y]['services'] = []
+                retDict[m_y]['services'].append(s)
+        # print(retDict)
+        return retDict
+
+    @property
+    def sorted_reward_set(self):
+        return self.rewardretrieved_set.order_by('-date', '-id')[:5]

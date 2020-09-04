@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 02/09/2020 19:11.
+  ~ Last modified 04/09/2020 16:37.
   -->
 
 {% extends './homepage.html' %}
@@ -15,7 +15,7 @@
         <div class="row align-items-center">
             <div class="col-lg-6 col-md-auto">
                 <img alt="Aniversário" class="img-fluid img-birthday"
-                     src="{% static 'homepage/dist/img/undraw_happy_birthday_s72n.svg' %}">
+                     src="{% static 'homepage/dist/img/undraw_online_wishes_dlmr.svg' %}">
             </div>
             <div class="col-lg-6 col-md-auto">
                 <h1>Feliz Aniversário {{obj.get_full_name}}!!</h1>
@@ -28,84 +28,125 @@
 {% endblock %}
 {% block main %}
 <main id="main">
-    <section class="profile-boxes" id="profile">
+    <section class="profile" id="profile">
         <div class="container" data-aos="fade-up">
             <div class="row">
-                <div class="col-lg-6 col-md-auto">
+                <div class="col-lg-9 col-md-auto">
                     <div class="card">
                         <div class="card-body">
-                            <h3>Informações</h3>
-                            <p><a href="{{obj.get_edit_url_frontend}}">{{ICON_EDIT|safe}}Editar Informações</a></p>
-                            <div class="table-responsive mb-3">
+                            <h3 class="card-title">Informações</h3>
+                            <div class="table-responsive">
                                 <table class="table table-hover">
                                     {% for k, v in obj.get_dict_data.items %}
                                     <tr>
-                                        <td>{{k}}</td>
-                                        <td>{{v}}</td>
+                                        <td class="card-text">{{k}}</td>
+                                        <td class="card-text">{{v}}</td>
                                     </tr>
                                     {% endfor %}
+                                    <tr>
+                                        <td class="card-text">Total de Pontos</td>
+                                        <td class="card-text">
+                                            <span class="font-weight-bold" data-toggle="counter-up">
+                                                {{obj.total_of_points|unlocalize}}
+                                            </span>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <p><a data-target="#modal-logout" data-toggle="modal" href="#">{{ICON_LOGOUT|safe}}Sair</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Links</h4>
+                            <p>
+                                <a href="{{obj.get_edit_url_frontend}}">
+                                    {{ICON_EDIT|safe}}Editar Informações
+                                </a>
+                            </p>
+                            <p>
+                                <a href="{{obj.get_edit_url_frontend}}">
+                                    {{ICON_WAND|safe}} Agendar Procedimento
+                                </a>
+                            </p>
+                            <p>
+                                <a href="{% url 'users:rewardretrieved:retrieve_frontend' %}">
+                                    {{ICON_GIFT|safe}} Resgatar Brinde
+                                </a>
+                            </p>
+                            <hr>
+                            <p>
+                                <a data-target="#modal-logout" data-toggle="modal" href="#">
+                                    {{ICON_LOGOUT|safe}}Deslogar
+                                </a>
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-auto">
+                <div class="col-lg-6">
+                    {% if obj.sorted_reward_set %}
                     <div class="card">
                         <div class="card-body">
-                            <h3>Pontos</h3>
-                            <div class="table-responsive mb-3">
-                                <table class="table table-hover">
-                                    {% for k, v in obj.get_dict_data_points.items %}
-                                    <tr>
-                                        <td>{{k}}</td>
-                                        <td>
-                                    <span class="font-weight-bold" data-toggle="counter-up">
-                                        {{v|unlocalize}}
-                                    </span>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container" data-aos="fade-up">
-            <div class="row">
-                {% for k,v in obj.get_service_sorted_by_entry_date.items %}
-                <div class="col-lg-12 col-md-auto">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-header">
-                                <h4>Mês/Ano {{k}}</h4>
-                            </div>
+                            <h4 class="card-title">Últimos 5 Brindes Resgatados</h4>
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th>Procedimento</th>
-                                        <th>Data/Hora</th>
-                                        <th>Confirmado</th>
-                                        <th>Status</th>
+                                        <th class="card-text">Brinde</th>
+                                        <!--                                        <th>Quantidade</th>-->
+                                        <th class="card-text">Pontos</th>
+                                        <th class="card-text">Data</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for r in obj.sorted_reward_set %}
+                                    <tr>
+                                        <td class="card-text">{{r.reward.name}}</td>
+                                        <!--                                        <td>x<span data-toggle="counter-up">{{r.quantity}}</span></td>-->
+                                        <td class="card-text"><span data-toggle="counter-up">{{r.points}}</span>
+                                            pts
+                                        </td>
+                                        <td class="card-text">{{r.date}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-12">
+                    {% for k,v in obj.get_service_sorted_by_actual_month.items %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Procedimentos do Mês Atual ({{k}})</h3>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="card-text">Procedimento</th>
+                                        <th class="card-text">Data/Hora</th>
+                                        <th class="card-text">Confirmado</th>
+                                        <th class="card-text">Status</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {% for kk,vv in v.items %}
                                     {% for s in vv %}
                                     <tr>
-                                        <td>{{s.type_of_service}} ({{s.type_of_service.rewarded_points}}pts)</td>
-                                        <td>{{s.get_date_html|safe}}</td>
-                                        <td>{{s.get_confirmed_html|safe}}</td>
-                                        <td>
-                                            <span class="badge" style="background-color: {{s.status.contextual}};">
-                                                {{s.status}}
-                                            </span>
+                                        <td class="card-text">
+                                            {{s.type_of_service}}
+                                            ({{s.type_of_service.rewarded_points}}pts)
+                                        </td>
+                                        <td class="card-text">{{s.get_date_html|safe}}</td>
+                                        <td class="card-text">{{s.get_confirmed_html|safe}}</td>
+                                        <td class="card-text">
+                                                    <span class="badge"
+                                                          style="background-color: {{s.status.contextual}};">
+                                                        {{s.status}}
+                                                    </span>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -115,8 +156,8 @@
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
     </section>

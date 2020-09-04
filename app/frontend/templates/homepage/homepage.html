@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 02/09/2020 11:39.
+  ~ Last modified 04/09/2020 14:30.
   -->
 
 <!DOCTYPE html>
@@ -66,10 +66,8 @@
 <script src="{% static 'homepage/dist/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
 <script src="{% static 'homepage/dist/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
 <script src="{% static 'homepage/dist/vendor/aos/aos.js' %}"></script>
-
 {% block extra_vendor_js %}{% endblock %}
-
 <!-- Template Main JS File -->
 <script src="{% static 'homepage/dist/js/main.js' %}"></script>
-
+{% block javascript %}{% endblock %}
 </body>

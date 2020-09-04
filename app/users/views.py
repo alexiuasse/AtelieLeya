@@ -1,26 +1,42 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 02/09/2020 18:46.
+#  Last modified 04/09/2020 17:15.
 from typing import Dict, Any
 
+from config.models import Reward
 from config.models import TypeOfService
 from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import redirect, render
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, DeleteView, CreateView
 from django.views.generic.base import View
 from django_filters.views import FilterView
 from django_tables2 import SingleTableMixin, LazyPaginator
 from frontend.apexcharts.simple_pie import SimplePie
-from service.models import OrderOfService
 
 from .conf import *
 from .filters import *
 from .forms import *
+from .models import *
 from .tables import *
+
+
+class RewardRetrieveFrontend(LoginRequiredMixin, View):
+    template = 'homepage/reward_retrieve.html'
+    title = "Brindes"
+    subtitle = "Resgate seus brindes"
+
+    def get(self, request):
+        rewards = Reward.objects.filter(available=True)
+        return render(request, self.template, {
+            'obj': request.user,
+            'rewards': rewards,
+        })
 
 
 class CustomUserProfileFrontend(LoginRequiredMixin, View):
@@ -50,17 +66,24 @@ class CustomUserProfileAdmin(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         obj = CustomUser.objects.get(pk=pk)
-        services = OrderOfService.objects.filter(customer=obj, status=settings.STATUS_SERVICE_FINISHED)
+        services = obj.orderofservice_set.filter(customer=obj, status=settings.STATUS_SERVICE_FINISHED)
         type_of_services = TypeOfService.objects.filter(pk__in=services.values_list('type_of_service', flat=True))
+        rewards = obj.rewardretrieved_set.all()
+        rewards_type = Reward.objects.filter(pk__in=rewards.values_list('reward', flat=True))
         return render(request, self.template, {
             'obj': obj,
-            'options_chart': SimplePie(
+            'options_chart_service': SimplePie(
                 # title='Procedimentos',
                 series=[services.filter(type_of_service=t).count() for t in type_of_services],
                 colors=[t.contextual for t in type_of_services],
                 labels=[t.name for t in type_of_services],
-                width=350,
-            ).get_options()
+            ).get_options(),
+            'options_chart_reward': SimplePie(
+                # title='Procedimentos',
+                series=[rewards.filter(reward=r).count() for r in rewards_type],
+                colors=[r.contextual for r in rewards_type],
+                labels=[r.name for r in rewards_type],
+            ).get_options(),
         })
 
 
@@ -173,3 +196,111 @@ def signup_frontend(request):
     else:
         form = SignUpForm()
     return render(request, 'homepage/signup.html', {'form': form})
+
+
+########################################################################################################################
+def rewardretrieved_create(request, rpk):
+    if request.user.is_authenticated and request.method == 'GET':
+        reward = get_object_or_404(Reward, pk=rpk)
+        RewardRetrieved(
+            reward=reward,
+            points=reward.quantity_in_points,
+            customer=request.user,
+        ).save()
+        request.user.total_of_points -= reward.quantity_in_points
+        request.user.save()
+        return redirect('users:customuser:profile_frontend')
+    else:
+        raise PermissionDenied()
+
+
+class RewardRetrievedCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = RewardRetrieved
+    form_class = RewardRetrievedForm
+    template_name = 'base/form.html'
+    permission_required = 'users.create_rewardretrieved'
+    title = TITLE_CREATE_REWARDRETRIEVED
+    subtitle = SUBTITLE_REWARDRETRIEVED
+
+    def get_success_url(self):
+        if self.object:
+            return reverse_lazy(self.object.get_back_url())
+        else:
+            return reverse_lazy('users:customuser:profile_admin', kwargs={'pk': self.kwargs['cpk']})
+
+    def get_back_url(self):
+        return reverse_lazy('users:customuser:profile_admin', kwargs={'pk': self.kwargs['cpk']})
+
+    def form_valid(self, form):
+        if form.is_valid():
+            instance = form.save(commit=False)
+            customer = CustomUser.objects.get(pk=self.kwargs['cpk'])
+            points = instance.reward.quantity_in_points * instance.quantity
+            if points > customer.total_of_points:
+                form.add_error('reward', f'Pontos Insuficientes! Faltando: {points - customer.total_of_points} pts')
+                return self.render_to_response(self.get_context_data(form=form))
+            else:
+                instance.customer = customer
+                instance.points = points
+                instance.save()
+                customer.total_of_points -= instance.points
+                customer.save()
+                return HttpResponseRedirect(self.get_success_url())
+
+
+class RewardRetrievedEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = RewardRetrieved
+    form_class = RewardRetrievedForm
+    template_name = 'base/form.html'
+    permission_required = 'users.edit_rewardretrieved'
+    title = TITLE_EDIT_REWARDRETRIEVED
+    subtitle = SUBTITLE_REWARDRETRIEVED
+
+    def get_success_url(self):
+        return reverse_lazy('users:customuser:profile_admin', kwargs={'pk': self.kwargs['cpk']})
+
+    def form_valid(self, form):
+        if form.is_valid():
+            instance = form.save(commit=False)
+            customer = CustomUser.objects.get(pk=self.kwargs['cpk'])
+            points = instance.reward.quantity_in_points * instance.quantity
+            if points > customer.total_of_points:
+                form.add_error('reward', f'Pontos Insuficientes! Faltando: {points - customer.total_of_points} pts')
+                return self.render_to_response(self.get_context_data(form=form))
+            else:
+                instance.points = points
+                instance.save()
+                customer.total_of_points -= instance.points
+                customer.save()
+            return HttpResponseRedirect(self.get_success_url())
+
+
+class RewardRetrievedDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    model = RewardRetrieved
+    template_name = "service/confirm_delete.html"
+    permission_required = 'users.del_rewardretrieved'
+    title = TITLE_DEL_REWARDRETRIEVED
+    subtitle = SUBTITLE_REWARDRETRIEVED
+
+    def get_success_url(self):
+        return reverse_lazy('users:customuser:profile_admin', kwargs={'pk': self.kwargs['cpk']})
+
+    def get_context_data(self, **kwargs):
+        context: Dict[str, Any] = super().get_context_data(**kwargs)
+        collector = NestedObjects(using='default')  # or specific database
+        collector.collect([context['object']])
+        to_delete = collector.nested()
+        context['extra_object'] = to_delete
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Call the delete() method on the fetched object and then redirect to the
+        success URL.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.customer.total_of_points += self.object.points
+        self.object.customer.save()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)

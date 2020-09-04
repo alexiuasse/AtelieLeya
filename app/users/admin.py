@@ -1,13 +1,15 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 13:30.
+#  Last modified 04/09/2020 10:56.
 
 # users/admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser
+from .models import CustomUser, RewardRetrieved
+
+admin.site.register(RewardRetrieved)
 
 
 class CustomUserAdmin(UserAdmin):

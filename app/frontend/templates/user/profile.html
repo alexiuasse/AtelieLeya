@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 31/08/2020 19:50.
+  ~ Last modified 04/09/2020 11:57.
   -->
 
 {% extends '../base/profile.html' %}
@@ -11,7 +11,13 @@
    href="{{obj.get_new_service_url}}"
    title="{{TOOLTIP_NEW_SERVICE}}">
     {{ICON_ADD|safe}}
-    Novo Procedimento
+    Procedimento
+</a>
+<a class="btn btn-sm btn-info ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
+   href="{{obj.get_new_reward_url}}"
+   title="{{TOOLTIP_NEW_REWARD}}">
+    {{ICON_ADD|safe}}
+    Brinde
 </a>
 {% endblock %}
 {% block profile_content %}
@@ -53,11 +59,35 @@
                 {% endfor %}
             </table>
         </div>
+        {% if obj.sorted_reward_set %}
+        <h3>Brindes</h3>
+        <div class="table-responsive mb-3">
+            <table class="table table-hover">
+                {% for r in obj.sorted_reward_set %}
+                <tr>
+                    <td>
+                        <a href="{{r.get_edit_url}}">
+                            {{r.reward.name}}
+                        </a>
+                    </td>
+                    <td>x<span data-countup>{{r.quantity}}</span></td>
+                    <td><span data-countup>{{r.points}}</span> pts</td>
+                    <td>{{r.date}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
     </div>
     <div class="col-lg-6 col-md-auto">
         <h3>Procedimentos</h3>
         <p>Todos os procedimentos vinculados a esse cliente que foram finalizados!</p>
         <div class="chart" id="chart_service"></div>
+        {% if obj.sorted_reward_set %}
+        <h3>Brindes</h3>
+        <p>Todos os brindes vinculados a esse cliente!</p>
+        <div class="chart" id="chart_reward"></div>
+        {% endif %}
     </div>
 </div>
 <div class="row">
@@ -117,11 +147,12 @@
 <script>
   // @formatter:off
   document.addEventListener("DOMContentLoaded", function () {
-    var chart = new ApexCharts(document.getElementById('chart_service'), {{options_chart|safe}});
-    chart.render();
+    var chart1 = new ApexCharts(document.getElementById('chart_service'), {{options_chart_service|safe}});
+    chart1.render();
+    var chart2 = new ApexCharts(document.getElementById('chart_reward'), {{options_chart_reward|safe}});
+    chart2.render();
   // @formatter:on
   });
-
 
 </script>
 {% endblock %}>
