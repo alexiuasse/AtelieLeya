@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 02/09/2020 19:07.
+#  Last modified 05/09/2020 09:19.
 
 from django.contrib.auth import views as auth_views
 from django.urls import path
@@ -17,5 +17,6 @@ urlpatterns = [
     path('logout/admin/', LogoutAdmin.as_view(), name='logout_admin'),
     path('logout/frontend/', LogoutFrontend.as_view(), name='logout_frontend'),
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
+    # path('reward/', Reward.as_view(), name='reward'),
     path('chart/<int:year>/', Chart.as_view(), name='chart'),
 ]

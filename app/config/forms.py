@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 04/09/2020 15:28.
+#  Last modified 05/09/2020 10:20.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -65,6 +65,8 @@ class TypeOfServiceForm(BaseConfigForm):
             PrependedText('value', 'R$', wrapper_class='col-md-12'),
             AppendedText('time', 'min', wrapper_class='col-md-12'),
             Field('rewarded_points', wrapper_class='col-md-12'),
+            Field('description', wrapper_class='col-md-12'),
+            Field('image', wrapper_class='col-md-12'),
         ),
     )
 
@@ -72,8 +74,9 @@ class TypeOfServiceForm(BaseConfigForm):
         model = TypeOfService
         widgets = {
             'contextual': TextInput(attrs={'type': 'color'}),
+            'image': TextInput(attrs={'type': 'file'}),
         }
-        fields = ['name', 'contextual', 'value', 'time', 'rewarded_points']
+        fields = ['name', 'contextual', 'value', 'time', 'rewarded_points', 'image', 'description']
 
 
 class StatusServiceForm(BaseConfigForm):

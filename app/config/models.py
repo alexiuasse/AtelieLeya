@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 04/09/2020 15:48.
+#  Last modified 05/09/2020 10:20.
 
 from base.models import BaseModel
 from django.db import models
@@ -34,7 +34,7 @@ class Reward(BaseConfigModel):
                                   help_text="Escolha uma cor para representar esse brinde!")
     quantity_in_points = models.IntegerField("quantidade de pontos", default=1)
     available = models.BooleanField("Disponível", default=True)
-    description = models.TextField("Descrição")
+    description = models.TextField("Descrição", blank=True, help_text="Usado no site para descrever o brinde")
     image = models.FileField("Foto", help_text="Foto representando o brinde.", blank=True, null=True)
 
 
@@ -46,6 +46,8 @@ class TypeOfService(BaseConfigModel):
                                 help_text="Valor do procedimento, ele será usado para auto preenchimento de alguns "
                                           "campos!")
     rewarded_points = models.IntegerField("pontos ganhos", default=0)
+    description = models.TextField("Descrição", blank=True, help_text="Usado no site para descrever o procedimento")
+    image = models.FileField("Foto", help_text="Foto representando o procedimento.", blank=True, null=True)
 
 
 class StatusService(BaseConfigModel):

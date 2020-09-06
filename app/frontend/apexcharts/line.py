@@ -1,10 +1,10 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 03/09/2020 17:34.
+#  Last modified 06/09/2020 10:15.
 
 class Line:
 
-    def __init__(self, x_title, y_title, series, colors, height=220, chart_type='line', stroke='smooth', title=""):
+    def __init__(self, x_title, y_title, series, colors, height=220, chart_type='area', stroke='smooth', title=""):
         self.title = title
         self.x_title = x_title
         self.y_title = y_title

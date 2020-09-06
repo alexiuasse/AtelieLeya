@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 03/09/2020 17:35.
+  ~ Last modified 06/09/2020 11:06.
   -->
 {% load static %}
 <header class="navbar navbar-expand-md navbar-light">
@@ -119,14 +119,54 @@
                             <span class="nav-link-title">Gráficos</span>
                         </a>
                     </li>
-                    <li class="nav-item {% if 'config' in request.path %}active{% endif %}">
-                        <a class="nav-link" href="{% url 'config:index' %}">
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                          {{ICON_SETTINGS|safe}}
-                        </span>
+                    <li class="nav-item dropdown nav-item {% if 'config' in request.path %}active{% endif %}">
+                        <a aria-expanded="false" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                           href="#navbar-base" role="button">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">{{ICON_SETTINGS|safe}}</span>
                             <span class="nav-link-title">Configurações</span>
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-columns  dropdown-menu-columns-2">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'config:reward:view' %}">
+                                    <!--                                    <span class="nav-link-icon d-md-none d-lg-inline-block">{{ICON_COIN|safe}}</span>-->
+                                    <span class="nav-link-title">Brinde</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'config:statusservice:view' %}">
+                                    <!--                                    <span class="nav-link-icon d-md-none d-lg-inline-block">{{ICON_COIN|safe}}</span>-->
+                                    <span class="nav-link-title">Status Procedimento</span>lo
+
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'config:typeofservice:view' %}">
+                                    <!--                                    <span class="nav-link-icon d-md-none d-lg-inline-block">{{ICON_SETTINGS|safe}}</span>-->
+                                    <span class="nav-link-title">Tipo de Procedimento</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'config:typeofpayment:view' %}">
+                                    <!--                                    <span class="nav-link-icon d-md-none d-lg-inline-block">{{ICON_COIN|safe}}</span>-->
+                                    <span class="nav-link-title">Tipo de Pagamento</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'config:statuspayment:view' %}">
+                                    <!--                                    <span class="nav-link-icon d-md-none d-lg-inline-block">{{ICON_COIN|safe}}</span>-->
+                                    <span class="nav-link-title">Status de Pagamento</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+                    <!--                    <li class="nav-item {% if 'config' in request.path %}active{% endif %}">-->
+                    <!--                        <a class="nav-link" href="{% url 'config:index' %}">-->
+                    <!--                        <span class="nav-link-icon d-md-none d-lg-inline-block">-->
+                    <!--                          {{ICON_SETTINGS|safe}}-->
+                    <!--                        </span>-->
+                    <!--                            <span class="nav-link-title">Configurações</span>-->
+                    <!--                        </a>-->
+                    <!--                    </li>-->
                     <li class="nav-item {% if 'homepage' in request.path %}active{% endif %}">
                         <a class="nav-link" href="{% url 'frontend:homepage' %}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">

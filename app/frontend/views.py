@@ -1,9 +1,10 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 02/09/2020 19:13.
+#  Last modified 05/09/2020 09:48.
 
 import logging
 
+from config.models import Reward, TypeOfService
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
@@ -48,7 +49,10 @@ class HomePage(View):
     template = 'homepage/homepage.html'
 
     def get(self, request):
-        return render(request, self.template)
+        return render(request, self.template, {
+            'rewards': Reward.objects.all(),
+            'services': TypeOfService.objects.all(),
+        })
 
 
 class Index(View):
@@ -70,6 +74,13 @@ class Dashboard(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, self.template, context_dashboard())
+
+
+# class Reward(View):
+#     template = 'homepage/reward_all.html'
+#
+#     def get(self, request):
+#         return render(request, self.template)
 
 
 class Chart(LoginRequiredMixin, View):

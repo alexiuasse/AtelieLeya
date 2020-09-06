@@ -1,58 +1,41 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 04/09/2020 14:27.
+  ~ Last modified 06/09/2020 10:34.
   -->
 
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
 <div class="container-xl">
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-auto">
-                <div class="page-pretitle">Gráficos</div>
+                <div class="page-pretitle">{{config.pre_title}}</div>
                 <h2 class="page-title">
-                    {{ICON_LINE_CHART|safe}}
-                    Gráficos
+                    {{config.title.icon|safe}}
+                    {{config.title.text}}
                 </h2>
             </div>
         </div>
     </div>
     <div class="row row-deck row-cards">
-        {% for k,v in pie_charts.items %}
-        <div class="col-lg-4">
+        {% for k,v in line_charts.items %}
+        {% for kk,vv in v.items %}
+        <div class="{{vv.config.col}}">
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title">
-                        {{v.title.icon|safe}}
-                        {{v.title.text}}
+                        {{vv.title.icon|safe}}
+                        {{vv.title.text}}
                     </h3>
-                    <div class="chart" id="{{v.chart_pie.id}}"></div>
+                    <div class="{{vv.class}}" id="{{vv.id}}"></div>
                 </div>
                 <div class="card-footer">
-                    <p>{{v.description}}</p>
+                    <p>{{vv.description}}</p>
                 </div>
             </div>
         </div>
         {% endfor %}
-    </div>
-    <div class="row row-deck row-cards">
-        {% for k,v in line_charts.items %}
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">
-                        {{v.title.icon|safe}}
-                        {{v.title.text}}
-                    </h3>
-                    <div class="chart" id="{{v.chart_line.id}}"></div>
-                </div>
-                <div class="card-footer">
-                    <p>{{v.description}}</p>
-                </div>
-            </div>
-        </div>
         {% endfor %}
     </div>
 </div>

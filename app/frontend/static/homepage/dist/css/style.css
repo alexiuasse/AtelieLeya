@@ -97,6 +97,7 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 # Reward Retrieve Boxes
 --------------------------------------------------------------*/
+/*
 .reward-retrieve-boxes {
   background: url("../img/about-boxes-bg.jpg") center top no-repeat fixed;
   background-size: cover;
@@ -113,6 +114,11 @@ h1, h2, h3, h4, h5, h6 {
   bottom: 0;
   background: rgba(255, 255, 255, 0.92);
   z-index: 9;
+}
+*/
+
+.reward-retrieve-boxes {
+  background-color: #dce6ef;
 }
 
 .reward-retrieve-boxes .container, .reward-retrieve-boxes .container-fluid {
@@ -132,7 +138,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: -32px;
 }
 
-.reward-retrieve-boxes .card-icon i {
+.reward-retrieve-boxes .card-icon p {
   font-size: 32px;
   color: #fff;
   width: 64px;
@@ -1275,6 +1281,71 @@ section {
 /*--------------------------------------------------------------
 # Services
 --------------------------------------------------------------*/
+
+.services-boxes .container .container-fluid {
+  position: relative;
+  z-index: 10;
+}
+
+.services-boxes .card {
+  border-radius: 3px;
+  border: 0;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.services-boxes .card-icon {
+  text-align: center;
+  margin-top: -32px;
+}
+
+.services-boxes .card-icon p {
+  font-size: 32px;
+  color: #fff;
+  width: 64px;
+  height: 64px;
+  padding-top: 5px;
+  text-align: center;
+  background-color: #ff4a17;
+  border-radius: 4px;
+  text-align: center;
+  border: 4px solid #fff;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.services-boxes .card-body {
+  padding-top: 12px;
+}
+
+.services-boxes .card-title {
+  font-weight: 700;
+  text-align: center;
+}
+
+.services-boxes .card-title a {
+  color: #15222b;
+}
+
+.services-boxes .card-title a:hover {
+  color: #ff4a17;
+}
+
+.reward-retrieve-boxes .card-text {
+  color: #5e5e5e;
+}
+
+.services-boxes .card:hover .card-icon i {
+  background: #fff;
+  color: #ff4a17;
+}
+
+@media (max-width: 1024px) {
+  .services-boxes {
+    background-attachment: scroll;
+  }
+}
+/*
 .services .icon-box {
   margin-bottom: 20px;
   padding: 30px;
@@ -1295,12 +1366,12 @@ section {
   font-size: 18px;
 }
 
-.services .icon-box h4 a {
+.services .icon-box h4 {
   color: #365870;
   transition: 0.3s;
 }
 
-.services .icon-box .icon-box:hover h4 a {
+.services .icon-box .icon-box:hover h4 {
   color: #ff4a17;
 }
 
@@ -1310,9 +1381,10 @@ section {
   font-size: 14px;
 }
 
-.services .icon-box:hover h4 a {
+.services .icon-box:hover h4 {
   color: #ff4a17;
 }
+*/
 
 /*--------------------------------------------------------------
 # Testimonials
