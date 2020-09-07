@@ -1,13 +1,13 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 04/09/2020 17:20.
+  ~ Last modified 07/09/2020 09:50.
   -->
 
 {% extends './homepage.html' %}
 {% load l10n %}
 {% load static %}
-{% block header %}{% include './header.html' with header_class='sticky-top bg-dark ' %}{% endblock %}
+{% block header %}{% include './profile_header.html' with header_class='sticky-top bg-dark ' %}{% endblock %}
 {% block hero %}
 {% endblock %}
 {% block main %}
@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive mt-3">
-                                <table class="table table-hover table-stripped">
+                                <table class="table table-hover table-striped">
                                     <thead>
                                     <tr>
                                         <th>Brinde</th>

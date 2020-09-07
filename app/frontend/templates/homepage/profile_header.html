@@ -1,0 +1,27 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 07/09/2020 10:30.
+  -->
+
+<!-- ======= Profile Header ======= -->
+<header class="{{header_class}} " id="header">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+
+        <h1 class="logo"><a href="{% url 'frontend:homepage' %}">Leya Monteiro</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+        <nav class="nav-menu d-none d-lg-block">
+            <ul>
+                <li><a href="{% url 'users:customuser:profile_frontend' %}">Perfil</a></li>
+                <li><a href="{{obj.get_edit_url_frontend}}">Editar</a></li>
+                <li><a href="{{obj.get_edit_url_frontend}}">Agendar</a></li>
+                <li><a href="{% url 'users:rewardretrieved:retrieve_frontend' %}">Brinde</a></li>
+                <li><a data-target="#modal-logout" data-toggle="modal" href="#">Deslogar</a></li>
+            </ul>
+        </nav>
+
+        <a class="get-started-btn scrollto" href="{% url 'frontend:homepage' %}">Home</a>
+    </div>
+</header>

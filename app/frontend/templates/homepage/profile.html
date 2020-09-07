@@ -1,13 +1,13 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 04/09/2020 16:37.
+  ~ Last modified 07/09/2020 10:31.
   -->
 
 {% extends './homepage.html' %}
 {% load l10n %}
 {% load static %}
-{% block header %}{% include './header.html' with header_class='sticky-top bg-dark ' %}{% endblock %}
+{% block header %}{% include './profile_header.html' with header_class='sticky-top bg-dark ' %}{% endblock %}
 {% block hero %}
 {% if obj.is_birthday %}
 <section class="birthday" id="birthday">
@@ -30,36 +30,44 @@
 <main id="main">
     <section class="profile" id="profile">
         <div class="container" data-aos="fade-up">
-            <div class="row">
-                <div class="col-lg-9 col-md-auto">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">Informações</h3>
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    {% for k, v in obj.get_dict_data.items %}
-                                    <tr>
-                                        <td class="card-text">{{k}}</td>
-                                        <td class="card-text">{{v}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                    <tr>
-                                        <td class="card-text">Total de Pontos</td>
-                                        <td class="card-text">
-                                            <span class="font-weight-bold" data-toggle="counter-up">
-                                                {{obj.total_of_points|unlocalize}}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <h3>Olá, {{obj.get_full_name}}</h3>
+                            <p class="small">
+                                Caso algo esteja errado, você pode alterar clicando
+                                <a href="{{obj.get_edit_url_frontend}}">
+                                    {{ICON_EDIT|safe}} aqui
+                                </a>
+                                .
+                            </p>
+                            <p>Informações administrativas:</p>
+                            <ul>
+                                <li><code>Usuário</code>, <span class="font-weight-bold">{{obj.username}}</span></li>
+                                <li>
+                                    <code>Senha</code>,
+                                    <span class="font-weight-bold">********</span>,
+                                    <a href="#">mudar</a>
+                                </li>
+                            </ul>
+                            <p>O que sabemos sobre você:</p>
+                            <ul>
+                                <li><code>Nome Completo</code>, <span
+                                        class="font-weight-bold">{{obj.get_full_name}}</span></li>
+                                <li><code>Data de Nascimento</code>, <span
+                                        class="font-weight-bold">{{obj.birth_day}}</span>
+                                </li>
+                            </ul>
+                            <p>Suas informações para <code>contato</code> são:</p>
+                            <ul>
+                                <li><code>Whatsapp</code>, <span class="font-weight-bold">{{obj.whatsapp}}</span></li>
+                                <li><code>E-mail</code>, <span class="font-weight-bold">{{obj.email}}</span></li>
+                            </ul>
+
                         </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Links</h4>
+                        <div class="col">
+                            <h4 class="card-title">Links Úteis</h4>
                             <p>
                                 <a href="{{obj.get_edit_url_frontend}}">
                                     {{ICON_EDIT|safe}}Editar Informações
@@ -84,13 +92,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    {% if obj.sorted_reward_set %}
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Últimos 5 Brindes Resgatados</h4>
+            </div>
+        </div>
+
+        <div class="container" data-aos="fade-up">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h3>
+                                Você possui
+                                <span class="font-weight-bold" data-toggle="counter-up">
+                                    {{obj.total_of_points|unlocalize}}
+                                </span>
+                                pontos.
+                            </h3>
+                            <p class="small">
+                                Você pode resgatar brindes clicando
+                                <a href="{% url 'users:rewardretrieved:retrieve_frontend' %}">
+                                    {{ICON_GIFT|safe}} aqui
+                                </a>
+                                .
+                            </p>
+                            {% if obj.sorted_reward_set %}
+                            <p>Últimos 5 Brindes Resgatados</p>
                             <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table class="table table-hover table-striped">
                                     <thead>
                                     <tr>
                                         <th class="card-text">Brinde</th>
@@ -113,17 +140,28 @@
                                     </tbody>
                                 </table>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
-                    {% endif %}
                 </div>
+            </div>
+        </div>
+        <div class="container" data-aos="fade-up">
+            <div class="row">
                 <div class="col-lg-12">
                     {% for k,v in obj.get_service_sorted_by_actual_month.items %}
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="card-title">Procedimentos do Mês Atual ({{k}})</h3>
+                            <h3>Procedimentos do Mês Atual ({{k}})</h3>
+                            <p class="small">
+                                Você pode agendar novos procedimentos
+                                <a href="{{obj.get_edit_url_frontend}}">
+                                    {{ICON_WAND|safe}} aqui
+                                </a>
+                                .
+                            </p>
                             <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table class="table table-hover table-striped">
                                     <thead>
                                     <tr>
                                         <th class="card-text">Procedimento</th>
