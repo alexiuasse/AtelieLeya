@@ -1,32 +1,22 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 07/09/2020 11:08.
+  ~ Last modified 07/09/2020 17:37.
   -->
 
-{% extends 'base.html' %}
+{% extends './homepage.html' %}
+{% load l10n %}
 {% load static %}
-{% load crispy_forms_tags %}
 {% block custom_css %}
+<link href="{% static 'custom/css/custom-css.css' %}" rel="stylesheet"/>
 <link href="{% static 'dist/libs/fullcalendar/dist/main.min.css' %}" rel="stylesheet"/>
 {% endblock %}
-{% block content %}
-<div class="container-xl">
-    <div class="row">
-        <div class="page-header">
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <div class="page-pretitle">
-                        {{config.pre_title}}
-                    </div>
-                    <h2 class="page-title">
-                        {{config.title.icon|safe}}
-                        {{config.title.text}}
-                    </h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-12 col-md-auto">
+{% block header %}{% include './profile_header.html' with header_class='sticky-top bg-dark ' %}{% endblock %}
+{% block hero %}{% endblock %}
+{% block main %}
+<main id="main">
+    <section class="calendar" id="calendar">
+        <div class="container" data-aos="fade-up">
             <div class="card">
                 <div class="card-body">
                     <div id="calendar-services"></div>
@@ -42,19 +32,14 @@
                         <div class="col">Não Lotado</div>
                     </div>
                     <div class="row align-items-center">
-                        <div class="col-2 square forcedayfull ml-3"></div>
-                        <div class="col">Forçado Lotado</div>
-                    </div>
-                    <div class="row align-items-center">
                         <div class="col-2 square notworkday ml-3"></div>
                         <div class="col">Não Atendendo</div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-{% include 'business/modal_form.html' %}
+    </section>
+</main>
 {% endblock %}
 {% block javascript %}
 <script src="{% static 'dist/libs/fullcalendar/dist/main.min.js' %}"></script>
@@ -67,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         timeZone: 'UTC',
         themeSystem: 'standart',
         headerToolbar: {
-            left: 'prev next today',
+            left: 'today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
         },
@@ -87,18 +72,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // slotMinTime: '08:00',
         // slotMaxTime: '20:00',
 
-
         selectable: true,
         selectMirror: true,
 
         // Note: Make a modal show with a form, send to server validate and return response
         select: function(arg) {
            // if (!arg.allDay) {
-                $('#id_businessdayform-start').val(arg.start.toISOString().split('T')[0]);
-                $('#id_businessdayform-end').val(arg.end.toISOString().split('T')[0]);
-                $('#modal-form-business').modal('show');
+                //$('#id_businessdayform-start').val(arg.start.toISOString().split('T')[0]);
+                //$('#id_businessdayform-end').val(arg.end.toISOString().split('T')[0]);
+                //$('#modal-form-business').modal('show');
            // }
-           // calendar.unselect()
+           calendar.unselect()
         },
 
 
@@ -139,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Fetch the "events" in base of a range date, avoiding huge loads
         events: {
-            url: '{% url 'business:calendar:data_admin' %}',
+            url: '{% url 'business:calendar:data_frontend' customer=request.user.pk %}',
             success: function(data) {
                 return data.data;
             }
@@ -149,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
   });
-
 
 </script>
 {% endblock %}

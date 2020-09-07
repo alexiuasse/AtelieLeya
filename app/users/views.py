@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 04/09/2020 17:15.
+#  Last modified 07/09/2020 14:03.
 from typing import Dict, Any
 
 from config.models import Reward
@@ -51,7 +51,8 @@ class CustomUserProfileFrontend(LoginRequiredMixin, View):
     def get(self, request):
         obj = request.user
         return render(request, self.template, {
-            'obj': obj
+            'obj': obj,
+            'start_date': datetime.today().date
         })
 
 
@@ -304,3 +305,14 @@ class RewardRetrievedDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView
         self.object.customer.save()
         self.object.delete()
         return HttpResponseRedirect(success_url)
+
+
+########################################################################################################################
+
+class CalendarFrontend(LoginRequiredMixin, View):
+    template = 'homepage/calendar.html'
+
+    def get(self, request):
+        return render(request, self.template, {
+            'start_date': datetime.today().date
+        })

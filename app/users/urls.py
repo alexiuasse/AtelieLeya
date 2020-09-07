@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 04/09/2020 17:13.
+#  Last modified 07/09/2020 10:36.
 
 from django.urls import path, include
 
@@ -27,9 +27,14 @@ reward_retrieved_patterns = ([
                                  path('<int:cpk>/<int:pk>/delete/', RewardRetrievedDel.as_view(), name='delete'),
                              ], 'rewardretrieved')
 
+calendar_patterns = ([
+                         path('', CalendarFrontend.as_view(), name='calendar_frontend'),
+                     ], 'calendarfrontend')
+
 urlpatterns = [
     path('', include(user_patterns)),
     path('signup/admin/', signup, name='signup'),
     path('signup/frontend/', signup_frontend, name='signup_frontend'),
+    path('calendar/frontend/', include(calendar_patterns)),
     path('reward/retrieved/', include(reward_retrieved_patterns)),
 ]

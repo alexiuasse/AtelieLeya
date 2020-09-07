@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 04/09/2020 17:14.
+#  Last modified 07/09/2020 14:03.
 
 from datetime import datetime
 
@@ -53,6 +53,10 @@ class CustomUser(AbstractUser):
         return reverse('service:orderofservice:create', kwargs={'cpk': self.pk})
 
     @property
+    def get_new_service_url_frontend(self):
+        return reverse('service:orderofservice:create_frontend')
+
+    @property
     def get_new_reward_url(self):
         return reverse('users:rewardretrieved:create', kwargs={'cpk': self.pk})
 
@@ -70,6 +74,10 @@ class CustomUser(AbstractUser):
     @property
     def get_edit_url_frontend(self):
         return reverse('users:customuser:edit_frontend')
+
+    @property
+    def get_calendar_url_frontend(self):
+        return reverse('users:calendarfrontend:calendar_frontend')
 
     @property
     def get_back_url(self):

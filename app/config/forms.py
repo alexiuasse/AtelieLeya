@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 05/09/2020 10:20.
+#  Last modified 07/09/2020 12:50.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -74,7 +74,7 @@ class TypeOfServiceForm(BaseConfigForm):
         model = TypeOfService
         widgets = {
             'contextual': TextInput(attrs={'type': 'color'}),
-            'image': TextInput(attrs={'type': 'file'}),
+            # 'image': TextInput(attrs={'type': 'file'}),
         }
         fields = ['name', 'contextual', 'value', 'time', 'rewarded_points', 'image', 'description']
 

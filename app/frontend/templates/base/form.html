@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 03/09/2020 15:12.
+  ~ Last modified 07/09/2020 17:37.
   -->
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <form action="" method="post">
+    <form action="" enctype="multipart/form-data" method="post">
         {% csrf_token %}
         <div class="row align-items-center">
             <div class="col-auto ml-auto mr-auto">

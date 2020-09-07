@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 02/09/2020 15:06.
+#  Last modified 07/09/2020 13:15.
 
 from datetime import date
 
@@ -20,6 +20,7 @@ class OrderOfService(BaseModel):
     finished = models.BooleanField("finalizado", default=False)
     counted = models.BooleanField("contabilizado", default=False, help_text="Procedimento já foi contabilizado?")
     confirmed = models.BooleanField("confirmado", default=False, help_text="Procedimento foi confirmado?")
+    canceled = models.BooleanField("cancelado", default=False, help_text="Procedimento foi cancelado?")
     date = models.DateField("Data", default=timezone.localtime(timezone.now()))
     time = models.TimeField("Hora", default=timezone.localtime(timezone.now()))
     observation = models.TextField("observação", blank=True)
@@ -38,6 +39,9 @@ class OrderOfService(BaseModel):
 
     def get_absolute_url(self):
         return reverse(self.get_reverse_profile, kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+
+    def get_absolute_url_frontend(self):
+        return reverse('service:orderofservice:get_frontend', kwargs={'pk': self.pk})
 
     def get_delete_url(self):
         return reverse(self.get_reverse_delete, kwargs={'cpk': self.customer.pk, 'pk': self.pk})
@@ -91,6 +95,8 @@ class OrderOfService(BaseModel):
 
     def get_dict_data(self):
         return {
+            'Whatsapp': self.customer.whatsapp,
+            'Cancelado': "Sim" if self.canceled else "Não",
             'Confirmado': mark_safe(self.get_confirmed_html),
             'Data e Hora': mark_safe(self.get_date_html()),
             'Tipo de Procedimento': "{} ({} pts)".format(self.type_of_service, self.type_of_service.rewarded_points),

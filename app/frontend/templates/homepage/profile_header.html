@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 07/09/2020 10:30.
+  ~ Last modified 07/09/2020 13:42.
   -->
 
 <!-- ======= Profile Header ======= -->
@@ -15,8 +15,8 @@
         <nav class="nav-menu d-none d-lg-block">
             <ul>
                 <li><a href="{% url 'users:customuser:profile_frontend' %}">Perfil</a></li>
-                <li><a href="{{obj.get_edit_url_frontend}}">Editar</a></li>
-                <li><a href="{{obj.get_edit_url_frontend}}">Agendar</a></li>
+                <li><a href="{{request.user.get_edit_url_frontend}}">Editar</a></li>
+                <li><a href="{{request.user.get_edit_url_frontend}}">Agendar</a></li>
                 <li><a href="{% url 'users:rewardretrieved:retrieve_frontend' %}">Brinde</a></li>
                 <li><a data-target="#modal-logout" data-toggle="modal" href="#">Deslogar</a></li>
             </ul>
@@ -25,3 +25,28 @@
         <a class="get-started-btn scrollto" href="{% url 'frontend:homepage' %}">Home</a>
     </div>
 </header>
+<div aria-hidden="true" class="modal modal-blur fade" id="modal-logout" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sair</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <svg class="icon" fill="none" height="24" stroke="currentColor" stroke-linecap="round"
+                         stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 0h24v24H0z" stroke="none"/>
+                        <line x1="18" x2="6" y1="6" y2="18"/>
+                        <line x1="6" x2="18" y1="6" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                Você quer deslogar?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-white mr-auto" data-dismiss="modal" type="button">Fechar</button>
+                <a class="btn btn-primary" href="{% url 'frontend:logout_frontend' %}" type="button">Sim</a>
+            </div>
+        </div>
+    </div>
+</div>

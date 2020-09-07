@@ -1,13 +1,15 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 02/09/2020 11:09.
+#  Last modified 07/09/2020 16:19.
 from datetime import datetime
 from typing import Dict, Any
 
-from django.conf import settings
+from business.models import BusinessDay
+from config.models import StatusService, TypeOfService
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -17,7 +19,6 @@ from django_filters.views import FilterView
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin, SingleTableView
 from users.models import CustomUser
-from config.models import StatusService
 
 from .conf import *
 from .filters import *
@@ -25,10 +26,60 @@ from .forms import *
 from .tables import *
 
 
-class OrderOfServiceChangeDate(LoginRequiredMixin, View):
+class OrderOfServiceGetFrontend(LoginRequiredMixin, View):
+    template = 'homepage/service_view.html'
+
+    def get(self, request, pk):
+        return render(request, self.template, {
+            'obj': get_object_or_404(OrderOfService, pk=pk),
+        })
+
+
+class OrderOfServiceCreateFrontend(LoginRequiredMixin, View):
+    template = 'homepage/service_create.html'
+
+    def get(self, request, day, month, year):
+        s_date = datetime(year, month, day)
+        business_day = get_object_or_404(BusinessDay, day=s_date)
+        query_tp_s = TypeOfService.objects.filter(time__lte=business_day.get_remain_hours())
+        form = OrderOfServiceFormFrontend(query_tp_s=query_tp_s, initial={'date': s_date})
+        return render(request, self.template, {
+            'date': s_date.date(),
+            'form': form,
+            'hours': business_day
+        })
+
+    def post(self, request, day, month, year):
+        """
+        Must check:
+            - If service fit the remain hours
+            - Services MUST NOT overlap
+            - Check if there isn't other service with same time
+                - same time, must check the default time of the type of service
+        """
+        with transaction.atomic():
+            s_date = datetime(year, month, day)
+            business_day = get_object_or_404(BusinessDay, day=s_date)
+            form = OrderOfServiceFormFrontend(request.POST)
+            if form.is_valid():
+                instance = form.save(commit=False)
+                services = OrderOfService.objects.filter(date=s_date)
+                instance.status = get_object_or_404(StatusService, pk=settings.STATUS_SERVICE_DEFAULT)
+                instance.customer = request.user
+                instance.save()
+                return HttpResponseRedirect(reverse('users:customuser:profile_frontend'))
+        return render(request, self.template, {
+            'date': s_date.date(),
+            'form': form,
+            'hours': business_day,
+        })
+
+
+class OrderOfServiceChangeDate(LoginRequiredMixin, PermissionRequiredMixin, View):
     """
         View to easy change the date and time of an orderofservice from dashboard calendar
     """
+    permission_required = "service.edit_orderofservice"
 
     def get(self, request):
         status, error_message = True, ""

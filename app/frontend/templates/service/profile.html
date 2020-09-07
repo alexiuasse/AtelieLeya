@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 01/09/2020 10:38.
+  ~ Last modified 07/09/2020 13:14.
   -->
 
 {% extends '../base/profile.html' %}
@@ -29,6 +29,16 @@
 {% endif %}
 {% endblock %}
 {% block profile_content %}
+{% if obj.canceled %}
+<div class="col-md-12">
+    <div class="alert alert-danger">
+        <h3>
+            <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
+            Procedimento foi cancelado! Whatsapp: {{obj.customer.whatsapp}}
+        </h3>
+    </div>
+</div>
+{% endif %}
 {% if not obj.confirmed %}
 <div class="col-md-12">
     <div class="alert alert-danger">

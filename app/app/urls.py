@@ -1,7 +1,8 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 02/09/2020 14:17.
-
+#  Last modified 07/09/2020 12:54.
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
@@ -14,6 +15,9 @@ urlpatterns = [
     path('financial/', include('financial.urls')),
     path('business/', include('business.urls')),
 ]
+
+# only for debug mode?
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Handling errors, but only if debug is set to False and there is another server to serve staticfiles
 handler400 = 'frontend.views.error_400'

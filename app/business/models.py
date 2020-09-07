@@ -1,8 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 14:29.
-import datetime
-
+#  Last modified 07/09/2020 17:28.
 from base.models import BaseModel
 from config.models import TypeOfService
 from django.db import models
@@ -11,6 +9,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from service.models import OrderOfService
+import datetime
 
 
 class Expedient(BaseModel):
@@ -40,6 +39,9 @@ class Expedient(BaseModel):
 
     def get_edit_url(self):
         return reverse(self.get_reverse_edit, kwargs={'pk': self.pk})
+
+    def get_html_repr(self):
+        return f"{self.name} de {self.start_time} até {self.end_time}"
 
     def get_business_hours(self):
         end_timedelta = datetime.timedelta(hours=self.end_time.hour, minutes=self.end_time.minute)
@@ -105,12 +107,38 @@ class BusinessDay(BaseModel):
         """
         return OrderOfService.objects.filter(date=self.day).aggregate(hours=Sum('type_of_service__time'))['hours'] or 0
 
+    def get_remain_hours(self):
+        return self.get_expedient_hours() - self.get_consumed_hours()
+
     def get_is_full(self):
         """
         :return: True, if the expedient hours minus consumed hours is less than the shortest typeofservice time
         """
         return (self.get_expedient_hours() - self.get_consumed_hours()) < \
                TypeOfService.objects.all().aggregate(min_time=Min('time'))['min_time']
+
+    @staticmethod
+    def datetime_range(start, end, delta):
+        current = start
+        while current < end:
+            yield current
+            current += delta
+
+    def get_dict_remain_hours(self):
+        """
+        :return: All the remain hours separated by 30 min and excluded the hours with services
+        """
+        ret_dict = {}
+        services = OrderOfService.objects.filter(date=self.day)
+        for e in self.expedient_day.all():
+            start = datetime.datetime.combine(self.day, e.start_time)
+            end = datetime.datetime.combine(self.day, e.end_time)
+            hours_list = [
+                dt.strftime('%H:%M') for dt in self.datetime_range(start, end, datetime.timedelta(minutes=30))
+            ]
+
+            ret_dict[e] = hours_list
+        return ret_dict
 
     def get_dict_data(self):
         return {

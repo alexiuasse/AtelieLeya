@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 04/09/2020 14:55.
+#  Last modified 07/09/2020 14:05.
 
 from pathlib import Path
 from frontend.icons import *
@@ -33,6 +33,7 @@ STATUS_PAYMENT_SUCCESS = 2
 STATUS_PAYMENT_DEFAULT = 1
 # Status Service
 STATUS_SERVICE_FINISHED = 1
+STATUS_SERVICE_DEFAULT = 1
 
 # Icons
 ICON_CONFIRMED = f"<span class='badge bg-success'>{ICON_CHECK} Sim</span>"
