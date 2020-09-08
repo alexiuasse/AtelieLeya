@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 03/09/2020 15:17.
+#  Last modified 08/09/2020 14:30.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -117,51 +117,50 @@ class BusinessDayDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
         context['extra_object'] = to_delete
         return context
 
-
 ########################################################################################################################
 
-class ExpedientCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    model = Expedient
-    form_class = ExpedientForm
-    template_name = 'business/form.html'
-    permission_required = 'business.create_expedient'
-    title = TITLE_CREATE_EXPEDIENT
-    subtitle = SUBTITLE_EXPEDIENT
-
-    def get_success_url(self):
-        if self.object:
-            return reverse(self.object.get_absolute_url())
-        else:
-            return reverse('frontend:dashboard')
-
-    @staticmethod
-    def get_back_url():
-        return reverse('frontend:dashboard')
-
-
-class ExpedientEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = Expedient
-    form_class = ExpedientForm
-    template_name = 'business/form.html'
-    permission_required = 'business.edit_expedient'
-    title = TITLE_CREATE_EXPEDIENT
-    subtitle = SUBTITLE_EXPEDIENT
-
-
-class ExpedientDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
-    model = Expedient
-    template_name = "business/confirm_delete.html"
-    permission_required = 'business.del_expedient'
-    title = TITLE_CREATE_EXPEDIENT
-    subtitle = SUBTITLE_EXPEDIENT
-
-    def get_success_url(self):
-        return reverse_lazy('frontend:dashboard')
-
-    def get_context_data(self, **kwargs):
-        context: Dict[str, Any] = super().get_context_data(**kwargs)
-        collector = NestedObjects(using='default')  # or specific database
-        collector.collect([context['object']])
-        to_delete = collector.nested()
-        context['extra_object'] = to_delete
-        return context
+# class ExpedientCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+#     model = Expedient
+#     form_class = ExpedientForm
+#     template_name = 'business/form.html'
+#     permission_required = 'business.create_expedient'
+#     title = TITLE_CREATE_EXPEDIENT
+#     subtitle = SUBTITLE_EXPEDIENT
+#
+#     def get_success_url(self):
+#         if self.object:
+#             return reverse(self.object.get_absolute_url())
+#         else:
+#             return reverse('frontend:dashboard')
+#
+#     @staticmethod
+#     def get_back_url():
+#         return reverse('frontend:dashboard')
+#
+#
+# class ExpedientEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+#     model = Expedient
+#     form_class = ExpedientForm
+#     template_name = 'business/form.html'
+#     permission_required = 'business.edit_expedient'
+#     title = TITLE_CREATE_EXPEDIENT
+#     subtitle = SUBTITLE_EXPEDIENT
+#
+#
+# class ExpedientDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+#     model = Expedient
+#     template_name = "business/confirm_delete.html"
+#     permission_required = 'business.del_expedient'
+#     title = TITLE_CREATE_EXPEDIENT
+#     subtitle = SUBTITLE_EXPEDIENT
+#
+#     def get_success_url(self):
+#         return reverse_lazy('frontend:dashboard')
+#
+#     def get_context_data(self, **kwargs):
+#         context: Dict[str, Any] = super().get_context_data(**kwargs)
+#         collector = NestedObjects(using='default')  # or specific database
+#         collector.collect([context['object']])
+#         to_delete = collector.nested()
+#         context['extra_object'] = to_delete
+#         return context

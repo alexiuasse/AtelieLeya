@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 10:02.
+#  Last modified 08/09/2020 14:00.
 
 from django.urls import path, include
 
@@ -44,6 +44,13 @@ status_payment_patterns = ([
                                path('<int:pk>/del', StatusPaymentDel.as_view(), name='delete'),
                            ], 'statuspayment')
 
+expedient_day_patterns = ([
+                              path('', ExpedientView.as_view(), name='view'),
+                              path('create/', ExpedientCreate.as_view(), name='create'),
+                              path('<int:pk>/edit/', ExpedientEdit.as_view(), name='edit'),
+                              path('<int:pk>/delete/', ExpedientDel.as_view(), name='delete'),
+                          ], 'expedient')
+
 urlpatterns = [
     path('', Config.as_view(), name='index'),
     path('typeofpayment/', include(type_of_payment_patterns)),
@@ -51,4 +58,5 @@ urlpatterns = [
     path('typeofservice/', include(type_of_service_patterns)),
     path('statusservice/', include(status_service_patterns)),
     path('statuspayment/', include(status_payment_patterns)),
+    path('expedient/', include(expedient_day_patterns)),
 ]

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 12:31.
+#  Last modified 08/09/2020 13:57.
 from django_filters import FilterSet
 
 from .models import *
@@ -33,4 +33,10 @@ class StatusServiceFilter(FilterSet):
 class StatusPaymentFilter(FilterSet):
     class Meta:
         model = StatusPayment
+        fields = {'name': ['icontains'], }
+
+
+class ExpedientFilter(FilterSet):
+    class Meta:
+        model = Expedient
         fields = {'name': ['icontains'], }

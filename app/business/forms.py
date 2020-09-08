@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 09:22.
+#  Last modified 08/09/2020 13:58.
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
@@ -46,31 +46,3 @@ class BusinessDayForm(forms.ModelForm):
             'color': TextInput(attrs={'type': 'color'}),
         }
         fields = ['color', 'expedient_day', 'is_work_day', 'force_day_full', 'start', 'end']
-
-
-class ExpedientForm(forms.ModelForm):
-    prefix = "expedientform"
-
-    layout = Layout(
-        Row(
-            Field('name', wrapper_class='col-md'),
-            Field('start_time', wrapper_class='col-md'),
-            Field('end_time', wrapper_class='col-md'),
-        ),
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.disable_csrf = True
-        self.helper = FormHelper()
-        self.helper.form_tag = False
-        self.helper.layout = self.layout
-        self.helper.form_class = 'form-control'
-
-    class Meta:
-        model = Expedient
-        widgets = {
-            'start_time': forms.DateInput(format='%H:%m', attrs={'type': 'time'}),
-            'end_time': forms.DateInput(format='%H:%m', attrs={'type': 'time'}),
-        }
-        fields = ['name', 'start_time', 'end_time']

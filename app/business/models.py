@@ -1,6 +1,8 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 17:28.
+#  Last modified 08/09/2020 13:58.
+import datetime
+
 from base.models import BaseModel
 from config.models import TypeOfService
 from django.db import models
@@ -9,44 +11,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from service.models import OrderOfService
-import datetime
-
-
-class Expedient(BaseModel):
-    """
-        The expedient of a portion of day
-
-        Used like:
-            name, matutine
-            start_time, 09:00h
-            end_time, 11:30h
-    """
-    name = models.CharField("nome", max_length=28)
-    start_time = models.TimeField("horário de início")
-    end_time = models.TimeField("horário de fim")
-
-    def __str__(self):
-        return f"{self.name} de {self.start_time} até {self.end_time} ({self.get_business_hours()} min)"
-
-    def get_back_url(self):
-        return reverse('frontend:dashboard')
-
-    def get_absolute_url(self):
-        return reverse('frontend:dashboard')
-
-    def get_delete_url(self):
-        return reverse(self.get_reverse_delete, kwargs={'pk': self.pk})
-
-    def get_edit_url(self):
-        return reverse(self.get_reverse_edit, kwargs={'pk': self.pk})
-
-    def get_html_repr(self):
-        return f"{self.name} de {self.start_time} até {self.end_time}"
-
-    def get_business_hours(self):
-        end_timedelta = datetime.timedelta(hours=self.end_time.hour, minutes=self.end_time.minute)
-        start_timedelta = datetime.timedelta(hours=self.start_time.hour, minutes=self.start_time.minute)
-        return (end_timedelta - start_timedelta).seconds / 60
 
 
 class BusinessDay(BaseModel):
@@ -64,7 +28,7 @@ class BusinessDay(BaseModel):
                            help_text="Caso selecionado vários dias, deixe como está!")
     color = models.CharField("cor", default="#D40CD4", max_length=7,
                              help_text="Qual a cor que você deseja como plano de fundo")
-    expedient_day = models.ManyToManyField(Expedient, verbose_name="Expediente",
+    expedient_day = models.ManyToManyField("config.Expedient", verbose_name="Expediente",
                                            help_text="Quais são os horários disponíveis para esse dia?")
     is_work_day = models.BooleanField("dia de trabalho", default=True, help_text="Esse dia estará trabalhando?")
     force_day_full = models.BooleanField("forçar dia cheio", default=False,

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 14:03.
+#  Last modified 08/09/2020 14:05.
 
 from datetime import datetime
 
@@ -85,7 +85,7 @@ class CustomUser(AbstractUser):
 
     def is_birthday(self):
         today = datetime.today()
-        return self.birth_day.day == today.day and self.birth_day.month == today.month
+        return self.birth_day.day == today.day and self.birth_day.month == today.month if self.birth_day else False
 
     def get_age(self):
         return datetime.today().year - self.birth_day.year

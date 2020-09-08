@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 03/09/2020 15:56.
+#  Last modified 08/09/2020 13:57.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -12,8 +12,8 @@ from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django_filters.views import FilterView
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin
-from service.models import OrderOfService
 from frontend.icons import ICON_SETTINGS
+from service.models import OrderOfService
 
 from .conf import *
 from .filters import *
@@ -355,6 +355,61 @@ class RewardDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('config:reward:view')
     title = TITLE_DEL_CONFIG_REWARD
     subtitle = SUBTITLE_VIEW_CONFIG_REWARD
+
+    def get_context_data(self, **kwargs):
+        context: Dict[str, Any] = super().get_context_data(**kwargs)
+        collector = NestedObjects(using='default')  # or specific dataconfig
+        collector.collect([context['object']])
+        to_delete = collector.nested()
+        context['extra_object'] = to_delete
+        return context
+
+
+########################################################################################################################
+
+class ExpedientView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
+    model = Expedient
+    table_class = ExpedientTable
+    filterset_class = ExpedientFilter
+    paginator_class = LazyPaginator
+    permission_required = 'config.view_expedient'
+    template_name = 'config/view.html'
+    title = TITLE_VIEW_CONFIG_EXPEDIENT
+    subtitle = SUBTITLE_VIEW_CONFIG_EXPEDIENT
+    new = reverse_lazy('config:expedient:create')
+    back_url = reverse_lazy('config:index')
+
+
+class ExpedientCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = Expedient
+    form_class = ExpedientForm
+    template_name = 'config/form.html'
+    permission_required = 'config.create_expedient'
+    back_url = reverse_lazy('config:expedient:view')
+    title = TITLE_CREATE_CONFIG_EXPEDIENT
+    subtitle = SUBTITLE_VIEW_CONFIG_EXPEDIENT
+
+    def get_back_url(self):
+        return self.back_url
+
+
+class ExpedientEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Expedient
+    form_class = ExpedientForm
+    template_name = 'config/form.html'
+    permission_required = 'config.edit_expedient'
+    success_url = reverse_lazy('config:expedient:view')
+    title = TITLE_EDIT_CONFIG_EXPEDIENT
+    subtitle = SUBTITLE_VIEW_CONFIG_EXPEDIENT
+
+
+class ExpedientDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    model = Expedient
+    template_name = "config/confirm_delete.html"
+    permission_required = 'config.del_expedient'
+    success_url = reverse_lazy('config:expedient:view')
+    title = TITLE_DEL_CONFIG_EXPEDIENT
+    subtitle = SUBTITLE_VIEW_CONFIG_EXPEDIENT
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)

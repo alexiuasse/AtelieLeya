@@ -1,18 +1,12 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 11:23.
+#  Last modified 08/09/2020 14:00.
 from django.urls import path, include
 
 from .views import *
 from .mcalendar import *
 
 app_name = "business"
-
-expedient_day_patterns = ([
-                              path('create/', ExpedientCreate, name='create'),
-                              path('<int:pk>/edit/', ExpedientEdit.as_view(), name='edit'),
-                              path('<int:pk>/delete/', ExpedientDel.as_view(), name='delete'),
-                          ], 'expedient')
 
 business_day_patterns = ([
                              # path('check/full/', check_if_day_is_full, name='check_full'),
@@ -30,6 +24,5 @@ my_calendar_patterns = ([
 
 urlpatterns = [
     path('businessday/', include(business_day_patterns)),
-    path('expedient/', include(expedient_day_patterns)),
     path('calendar/', include(my_calendar_patterns)),
 ]

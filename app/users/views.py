@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 14:03.
+#  Last modified 08/09/2020 14:19.
 from typing import Dict, Any
 
 from config.models import Reward
@@ -101,14 +101,10 @@ class CustomUserView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMix
     back_url = reverse_lazy('frontend:dashboard')
 
     def get_queryset(self):
-        return CustomUser.objects.filter(is_superuser=False)
+        return CustomUser.objects.filter(is_superuser=False).order_by('first_name')
 
 
 class CustomUserCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    """
-        Create new order of service from admin panel
-    """
-
     model = CustomUser
     form_class = SignUpForm
     template_name = 'user/form.html'

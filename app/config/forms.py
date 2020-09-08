@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 12:50.
+#  Last modified 08/09/2020 13:57.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -109,3 +109,21 @@ class StatusPaymentForm(BaseConfigForm):
             'contextual': TextInput(attrs={'type': 'color'}),
         }
         fields = ['name', 'contextual']
+
+
+class ExpedientForm(BaseConfigForm):
+    layout = Layout(
+        Row(
+            Field('name', wrapper_class='col-md-12'),
+            Field('start_time', wrapper_class='col-md-12'),
+            Field('end_time', wrapper_class='col-md-12'),
+        ),
+    )
+
+    class Meta:
+        model = Expedient
+        widgets = {
+            'start_time': forms.TimeInput(format='%H:%m', attrs={'type': 'time'}),
+            'end_time': forms.TimeInput(format='%H:%m', attrs={'type': 'time'}),
+        }
+        fields = ['name', 'start_time', 'end_time']
