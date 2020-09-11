@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 14:05.
+#  Last modified 11/09/2020 14:16.
 
 from pathlib import Path
 from frontend.icons import *
@@ -21,7 +21,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', '0.0.0.0', '192.168.0.103']
 
 # GENERAL
-##FF63C7
+# #FF63C7
 VERSION = "1.0.0"
 NAME_OF_ENTERPRISE = "Atêlie Leya Monteiro"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -43,6 +43,9 @@ ICON_NOT_FINISHED = f"<span class='badge bg-warning'>{ICON_TRIANGLE_ALERT} Não<
 
 # Calendar
 BACKGROUND_COLOR_FULL = "#FFFFFF"
+
+# Slot of time, used to tell the slices of time
+SLICE_OF_TIME = 30  # min
 
 # Application definition
 

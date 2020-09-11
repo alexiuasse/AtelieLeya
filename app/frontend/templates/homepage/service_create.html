@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 07/09/2020 16:47.
+  ~ Last modified 11/09/2020 18:25.
   -->
 
 {% extends './homepage.html' %}
@@ -14,53 +14,45 @@
 <main id="main">
     <section class="profile" id="service_view">
         <div class="container" data-aos="fade-up">
-            {{hours.get_dict_remain_hours}}
-            <div class="card">
-                <div class="card-body">
-                    <h3>Agendar Procedimento para {{date}}</h3>
-                    <hr>
-                    <div class="row">
-                        <div class="col-lg-4 border-right">
-                            <h4>Atenção</h4>
-                            <p>Os procedimentos e horários podem variar dependendo de como está a disponibilidade de
-                                horários do dia!</p>
-                            <p>Os horários disponíveis são:</p>
-                            <ul>
-                                {% for h in hours.expedient_day.all %}
-                                <li><p>{{h.get_html_repr}}</p></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="col-lg-4 border-right">
-                            <h4>Formulário</h4>
-                            <p class="small">Os campos com * são obrigatórios.</p>
-                            <form action="" method="post">
-                                {% csrf_token %}
-                                <div class="row align-items-center">
-                                    <div class="col-auto ml-auto mr-auto">
-                                        {% crispy form %}
-                                        <div class="form-row">
-                                            <div class="pull-right mt-3">
-                                                <a class="btn btn-danger btn-sm mr-2"
-                                                   href="{% url 'users:customuser:profile_frontend' %}" type="button">
-                                                    Cancelar
-                                                </a>
-                                                <button class="btn btn-primary btn-sm" type="submit">Finalizar</button>
+            <div class="row">
+                <div class="col-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Agendar Procedimento para {{date}}</h3>
+                            <hr>
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 border-right">
+                                    <img alt='Agendar Procedimento' class="img-fluid"
+                                         src="{% static 'homepage/dist/img/undraw_schedule_pnbk.svg' %}">
+                                    <h4>Atenção</h4>
+                                    <p>Os procedimentos e horários podem variar dependendo de como está a
+                                        disponibilidade de
+                                        horários do dia!</p>
+                                </div>
+                                <div class="col-lg-6 col-md-auto">
+                                    <h4>Formulário</h4>
+                                    <p class="small">Os campos com * são obrigatórios.</p>
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <div class="row align-items-center">
+                                            <div class="col-auto ml-auto mr-auto">
+                                                {% crispy form %}
+                                                <div class="form-row">
+                                                    <div class="pull-right mt-3">
+                                                        <a class="btn btn-danger btn-sm mr-2"
+                                                           href="{% url 'users:customuser:profile_frontend' %}"
+                                                           type="button">
+                                                            Cancelar
+                                                        </a>
+                                                        <button class="btn btn-primary btn-sm" type="submit">Finalizar
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="col-lg-4">
-                            <h4>Passos a seguir</h4>
-                            <ul>
-                                <li><p>Selecione o tipo de procedimento</p></li>
-                                <li><p>Selecione uma data</p></li>
-                                <li><p>Selecione o horário</p></li>
-                                <li><p>Adicione alguma observação</p></li>
-                                <li><p>Aperte em finalizar</p></li>
-                            </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -68,4 +60,29 @@
         </div>
     </section>
 </main>
+{% endblock %}
+{% block javascript %}
+<script>
+// @formatter:off
+document.addEventListener('DOMContentLoaded', function() {
+    $("#id_orderOfServicefrontend-type_of_service").change(function (){
+        var service = $(this).val();
+        var business = $('#id_orderOfServicefrontend-businessday').val();
+        var url = "/business/utils/"+ business +"/" + service + "/get/hours/";
+        $.getJSON(url, function(data){
+            var sel = $("#id_orderOfServicefrontend-time");
+            $('#id_orderOfServicefrontend-time > option').remove();
+            $.each(data, function(index, value) {
+                sel.append($("<option />").val(value[0]).text(value[1]));
+            });
+        });
+    });
+});
+// @formatter:on
+
+
+
+
+
+</script>
 {% endblock %}

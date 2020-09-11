@@ -1,15 +1,16 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/09/2020 14:30.
+#  Last modified 11/09/2020 17:41.
 from typing import Dict, Any
 
+from config.models import TypeOfService
 from django.contrib.admin.utils import NestedObjects
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, DeleteView, CreateView
+from django.views.generic import UpdateView, DeleteView
 from django.views.generic.base import View
 from frontend.icons import ICON_CALENDAR
 
@@ -24,6 +25,49 @@ from .models import *
 #     return JsonResponse({
 #         'is_full': day.force_day_full if day.force_day_full else day.get_is_full(),
 #     })
+
+def datetime_range(start, end, delta):
+    """
+    Creating an range of time given an delta
+    :param start: the start time
+    :param end: the end time
+    :param delta: the step value, ex.: 30
+    :return: a list of range time
+    """
+    current = start
+    while current < end:
+        yield current
+        current += delta
+
+
+def businessday_get_hours(request, pk, bpk):
+    type_of_service = get_object_or_404(TypeOfService, pk=pk)
+    slices = type_of_service.time / settings.SLICE_OF_TIME  # how many slices is need for this service
+    businessday = get_object_or_404(BusinessDay, pk=bpk)
+    data = businessday.get_tuple_remain_hours()
+    if slices > 1:
+        # for each available hours, check if service fit in there, if not remove it
+        # the service MUST fit sequentially
+        remain_hours = businessday.get_remain_hours_list()  # list of remain hours
+        tupple_hours = []
+        # check if is consecutive
+        for rh in remain_hours:
+            start = rh
+            end = (rh + datetime.timedelta(minutes=type_of_service.time))
+            # hours that the service need
+            h_list = datetime_range(start, end, datetime.timedelta(minutes=settings.SLICE_OF_TIME))
+            f = True  # add this time?
+            for h in h_list:
+                if h not in remain_hours:
+                    f = False
+            if f:
+                tupple_hours.append((rh.strftime('%H:%M'), rh.strftime('%H:%M')))
+        data = tupple_hours
+
+    return JsonResponse(
+        data=data,
+        safe=False
+    )
 
 
 def businessday_create(request):

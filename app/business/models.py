@@ -1,10 +1,11 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/09/2020 13:58.
+#  Last modified 11/09/2020 17:05.
 import datetime
 
 from base.models import BaseModel
 from config.models import TypeOfService
+from django.conf import settings
 from django.db import models
 from django.db.models import Min, Sum, Max
 from django.urls import reverse
@@ -83,26 +84,53 @@ class BusinessDay(BaseModel):
 
     @staticmethod
     def datetime_range(start, end, delta):
+        """
+        Creating an range of time given an delta
+        :param start: the start time
+        :param end: the end time
+        :param delta: the step value, ex.: 30
+        :return: a list of range time
+        """
         current = start
         while current < end:
             yield current
             current += delta
 
-    def get_dict_remain_hours(self):
-        """
-        :return: All the remain hours separated by 30 min and excluded the hours with services
-        """
-        ret_dict = {}
-        services = OrderOfService.objects.filter(date=self.day)
+    def get_service_times_list(self):
+        s_times_list = []
+        for s in OrderOfService.objects.filter(date=self.day):
+            s_times_list.append(s.time)  # start
+            if s.type_of_service.time / settings.SLICE_OF_TIME > 1:
+                start = datetime.datetime.combine(self.day, s.time)
+                end = (
+                        datetime.datetime.combine(self.day, s.time) +
+                        datetime.timedelta(minutes=s.type_of_service.time)
+                )
+                for t in self.datetime_range(start, end, datetime.timedelta(minutes=settings.SLICE_OF_TIME)):
+                    s_times_list.append(t.time())
+        return s_times_list
+
+    def get_remain_hours_list(self):
+        h_list = []
+        ret_list = []
+        s_times_list = self.get_service_times_list()
         for e in self.expedient_day.all():
             start = datetime.datetime.combine(self.day, e.start_time)
             end = datetime.datetime.combine(self.day, e.end_time)
-            hours_list = [
-                dt.strftime('%H:%M') for dt in self.datetime_range(start, end, datetime.timedelta(minutes=30))
-            ]
+            h_list.extend(self.datetime_range(start, end, datetime.timedelta(minutes=settings.SLICE_OF_TIME)))
+        for h in h_list:
+            if h.time() not in s_times_list:
+                ret_list.append(h)
+        return ret_list
 
-            ret_dict[e] = hours_list
-        return ret_dict
+    def get_tuple_remain_hours(self):
+        """
+        :return: All the remain hours separated by 30 min and excluded the hours with services
+        """
+        hours_tupple = []
+        for h in self.get_remain_hours_list():
+            hours_tupple.append((h.strftime('%H:%M'), h.strftime('%H:%M')))
+        return hours_tupple
 
     def get_dict_data(self):
         return {
@@ -110,4 +138,5 @@ class BusinessDay(BaseModel):
             'Cor': mark_safe(f"<span class='badge' style='background-color: {self.color}'>{self.color}</span>"),
             'Dia de trabalho': 'Sim' if self.is_work_day else 'Não',
             'Forçar dia lotado': 'Sim' if self.force_day_full else 'Não',
+            'Tempo Disponível': f'{self.get_remain_hours()} min',
         }

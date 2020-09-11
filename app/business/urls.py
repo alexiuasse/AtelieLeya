@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/09/2020 14:00.
+#  Last modified 11/09/2020 16:16.
 from django.urls import path, include
 
 from .views import *
@@ -22,7 +22,12 @@ my_calendar_patterns = ([
                             path('view/', BusinessCalendarView.as_view(), name='view'),
                         ], 'calendar')
 
+utils_patterns = ([
+                      path('<int:bpk>/<int:pk>/get/hours/', businessday_get_hours, name='hours')
+                  ], 'utils')
+
 urlpatterns = [
     path('businessday/', include(business_day_patterns)),
     path('calendar/', include(my_calendar_patterns)),
+    path('utils/', include(utils_patterns)),
 ]

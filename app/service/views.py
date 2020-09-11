@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 16:19.
+#  Last modified 11/09/2020 16:23.
 from datetime import datetime
 from typing import Dict, Any
 
@@ -42,7 +42,11 @@ class OrderOfServiceCreateFrontend(LoginRequiredMixin, View):
         s_date = datetime(year, month, day)
         business_day = get_object_or_404(BusinessDay, day=s_date)
         query_tp_s = TypeOfService.objects.filter(time__lte=business_day.get_remain_hours())
-        form = OrderOfServiceFormFrontend(query_tp_s=query_tp_s, initial={'date': s_date})
+        times = business_day.get_tuple_remain_hours()
+        form = OrderOfServiceFormFrontend(query_tp_s=query_tp_s,
+                                          times=times,
+                                          businessday_pk=business_day.pk,
+                                          initial={'date': s_date})
         return render(request, self.template, {
             'date': s_date.date(),
             'form': form,
@@ -60,10 +64,14 @@ class OrderOfServiceCreateFrontend(LoginRequiredMixin, View):
         with transaction.atomic():
             s_date = datetime(year, month, day)
             business_day = get_object_or_404(BusinessDay, day=s_date)
-            form = OrderOfServiceFormFrontend(request.POST)
+            query_tp_s = TypeOfService.objects.filter(time__lte=business_day.get_remain_hours())
+            times = business_day.get_tuple_remain_hours()
+            form = OrderOfServiceFormFrontend(request.POST,
+                                              query_tp_s=query_tp_s,
+                                              times=times,
+                                              businessday_pk=business_day.pk)
             if form.is_valid():
                 instance = form.save(commit=False)
-                services = OrderOfService.objects.filter(date=s_date)
                 instance.status = get_object_or_404(StatusService, pk=settings.STATUS_SERVICE_DEFAULT)
                 instance.customer = request.user
                 instance.save()

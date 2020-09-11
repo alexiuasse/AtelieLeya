@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 05/09/2020 10:25.
+  ~ Last modified 11/09/2020 10:33.
   -->
 {% load static %}
 <!-- ======= Services Section ======= -->
@@ -9,16 +9,16 @@
     <div class="container" data-aos="fade-up">
 
         <div class="section-title">
-            <h2>Serviços</h2>
-            <p>Nossos serviços</p>
+            <h2>Procedimentos</h2>
+            <p>Nossos Procedimentos</p>
         </div>
 
         <div class="row justify-content-center">
             {% for s in services %}
             <div class="col-lg-3 col-md-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                 <div class="card">
-                    <img alt="{{r.name}}" class="card-img-top"
-                         src="{%if r.image %}{% static s.image %}{% else %}{% static 'homepage/dist/img/about-boxes-1.jpg' %}{% endif %}">
+                    <img alt="{{s.name}}" class="card-img-top"
+                         src="/media/{{s.image.name}}">
                     <div class="card-body">
                         <h5 class="card-title">{{s.name}}</h5>
                         <h5 class="card-title small">Pontos: {{s.rewarded_points}} pts</h5>

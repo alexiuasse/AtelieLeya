@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 12:28.
+#  Last modified 11/09/2020 18:10.
 from datetime import datetime
 
 from business.models import BusinessDay
@@ -12,19 +12,19 @@ def get_calendar_data_frontend(request, customer):
     start = datetime.strptime(request.GET.get('start', None), "%Y-%m-%dT%H:%M:%SZ")
     end = datetime.strptime(request.GET.get('end', None), "%Y-%m-%dT%H:%M:%SZ")
     data = []
-    if customer:
-        orderofservices = OrderOfService.objects.filter(date__range=[start, end], customer=customer)
-        for s in orderofservices:
-            data.append({
-                'type': 0,
-                'pk': s.pk,
-                'title': s.get_name_html(),
-                'start': f"{s.date}T{s.time}",
-                'url': s.get_absolute_url_frontend(),
-                'color': s.type_of_service.contextual,
-                'display': 'block',
-                'className': 'check' if s.get_contextual() else '',
-            })
+    # if customer:
+    #     orderofservices = OrderOfService.objects.filter(date__range=[start, end], customer=customer)
+    #     for s in orderofservices:
+    #         data.append({
+    #             'type': 0,
+    #             'pk': s.pk,
+    #             'title': s.get_name_html(),
+    #             'start': f"{s.date}T{s.time}",
+    #             'url': s.get_absolute_url_frontend(),
+    #             'color': s.type_of_service.contextual,
+    #             'display': 'block',
+    #             'className': 'check' if s.get_contextual() else '',
+    #         })
     businessday = BusinessDay.objects.filter(day__range=[start, end])
     for b in businessday:
         # if b.is_work_day:

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 13:15.
+#  Last modified 11/09/2020 12:47.
 
 from datetime import date
 
@@ -101,6 +101,7 @@ class OrderOfService(BaseModel):
             'Data e Hora': mark_safe(self.get_date_html()),
             'Tipo de Procedimento': "{} ({} pts)".format(self.type_of_service, self.type_of_service.rewarded_points),
             'Status': mark_safe(self.get_status_html()),
+            'Tempo': f'{self.type_of_service.time} min',
             # 'Finalizado': mark_safe(self.get_finished_html()),
             'Contabilizado os Pontos': "Sim" if self.counted else "Não",
             'Observação': self.observation,

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 07/09/2020 17:37.
+  ~ Last modified 11/09/2020 18:24.
   -->
 
 {% extends './homepage.html' %}
@@ -37,7 +37,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-9 border-right">
                             <h3>Olá, {{obj.get_full_name}}</h3>
                             <p class="small">
                                 Caso algo esteja errado, você pode alterar clicando
@@ -150,7 +150,53 @@
                 </div>
             </div>
         </div>
-
+        <div class="container" data-aos="fade-up" id="services">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Procedimentos Agendados do Mês</h3>
+                    <p class="small">
+                        Você pode agendar procedimento clicando
+                        <a href="#calendar">
+                            {{ICON_WAND|safe}} aqui
+                        </a>
+                        .
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                            <tr>
+                                <th class="card-text">Procedimento</th>
+                                <th class="card-text">Data/Hora</th>
+                                <th class="card-text">Confirmado</th>
+                                <th class="card-text">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for k,v in obj.get_service_sorted_by_actual_month.items %}
+                            {% for s in v.services %}
+                            <tr>
+                                <td class="card-text">
+                                    <a href="{{s.get_absolute_url_frontend}}">
+                                        {{s.type_of_service}}
+                                    </a>
+                                </td>
+                                <td class="card-text">{{s.get_date_html|safe}}</td>
+                                <td class="card-text">
+                                    {{s.get_confirmed_html|safe}}
+                                </td>
+                                <td class="card-text">
+                                    <span class="badge"
+                                          style="background-color: {{s.status.contextual}};">{{s.status}}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="container" data-aos="fade-up" id="calendar">
             <div class="card">
                 <div class="card-body">
@@ -192,6 +238,7 @@
 <script src="{% static 'dist/libs/fullcalendar/dist/main.min.js' %}"></script>
 <script src="{% static 'dist/libs/fullcalendar/dist/locales-all.min.js' %}"></script>
 <script>
+// @formatter:off
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar-services');
 
@@ -199,14 +246,14 @@ document.addEventListener('DOMContentLoaded', function() {
         timeZone: 'UTC',
         themeSystem: 'standart',
         headerToolbar: {
-            left: 'today',
+            left: '',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            right: ''
         },
+        height: 'auto',
         initialView: 'dayGridMonth',
         initialDate: '{{start_date|date:"Y-m-d"}}',
         locale: 'pt-br',
-        height: 'auto',
         buttonIcons: true, // show the prev/next text
         weekNumbers: false,
         navLinks: true, // can click day/week names to navigate views
@@ -214,17 +261,17 @@ document.addEventListener('DOMContentLoaded', function() {
         dayMaxEvents: true, // allow "more" link when too many events
         businessHours: true, // display business hours
         nowIndicator: true,
+        fixedWeekCount: false,
+        showNonCurrentDates: false,
 
-        selectable: true,
-        selectMirror: true,
-
-        // Note: Make a modal show with a form, send to server validate and return response
-        select: function(arg) {
-            y = arg.start.getFullYear();
-            m = arg.start.getMonth()+1;
-            d = arg.start.getDate()+1;
+        dateClick: function(info) {
+            y = info.date.getFullYear();
+            m = info.date.getUTCMonth()+1;
+            d = info.date.getUTCDate();
+            console.log(info.dayEl);
+            // change the day's background color just for fun
+            // info.dayEl.style.backgroundColor = 'red';
             window.location.replace('/service/'+d+'/'+m+'/'+y+'/create/frontend/');
-            calendar.unselect()
         },
 
         // Fetch the "events" in base of a range date, avoiding huge loads
@@ -239,6 +286,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
   });
+// @formatter:on
+
+
+
 
 </script>
 {% endblock %}

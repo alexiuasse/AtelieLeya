@@ -3,7 +3,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 02/09/2020 18:13.
+  ~ Last modified 11/09/2020 12:13.
   -->
 {% load static %}
 <body class="antialiased border-top-wide border-primary d-flex flex-column">
@@ -18,7 +18,7 @@
                 Você não possui autorização para acessar essa página
             </p>
             <div class="empty-action">
-                <a class="btn btn-primary" href="./.">
+                <a class="btn btn-primary" href="{% url 'frontend:homepage' %}">
                     <svg class="icon" fill="none" height="24" stroke="currentColor" stroke-linecap="round"
                          stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"
                          xmlns="http://www.w3.org/2000/svg">

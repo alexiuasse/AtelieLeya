@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 16:35.
+#  Last modified 11/09/2020 16:23.
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
@@ -11,17 +11,23 @@ from .models import *
 class OrderOfServiceFormFrontend(forms.ModelForm):
     prefix = "orderOfServicefrontend"
 
+    time = forms.ChoiceField(label="Horário")
+    businessday = forms.IntegerField(required=False)
+
     layout = Layout(
         Row(
             Field('type_of_service', wrapper_class='col-lg-12'),
             Field('date', wrapper_class='col-lg-12'),
             Field('time', wrapper_class='col-lg-12'),
             Field('observation', wrapper_class='col-lg-12'),
+            Field('businessday', wrapper_class='col-lg-12', type='hidden'),
         ),
     )
 
     def __init__(self, *args, **kwargs):
-        q_tp_s = kwargs.pop('query_tp_s')
+        q_tp_s = kwargs.pop('query_tp_s') if 'query_tp_s' in kwargs else None
+        times = kwargs.pop('times') if 'times' in kwargs else None
+        businessday_pk = kwargs.pop('businessday_pk') if 'businessday_pk' in kwargs else None
         super().__init__(*args, **kwargs)
         self.disable_csrf = True
         self.helper = FormHelper()
@@ -29,15 +35,17 @@ class OrderOfServiceFormFrontend(forms.ModelForm):
         self.helper.layout = self.layout
         self.helper.form_class = 'form-control'
         self.fields['type_of_service'].queryset = q_tp_s
+        self.fields['time'].choices = times
+        self.fields['businessday'].initial = businessday_pk
 
     class Meta:
         model = OrderOfService
         widgets = {
             'date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date', 'readonly': True}),
-            'time': forms.TimeInput(format='%H:%m', attrs={'type': 'time'}),
+            # 'time': forms.TimeInput(format='%H:%m', attrs={'type': 'time'}),
             'observation': forms.Textarea(attrs={"rows": 4}),
         }
-        fields = ['type_of_service', 'date', 'time', 'observation']
+        fields = ['type_of_service', 'date', 'time', 'observation', 'businessday']
 
 
 class OrderOfServiceForm(forms.ModelForm):
