@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/09/2020 14:05.
+#  Last modified 12/09/2020 16:56.
 
 from datetime import datetime
 
@@ -126,17 +126,18 @@ class CustomUser(AbstractUser):
         return retDict
 
     def get_service_sorted_by_actual_month(self):
-        retDict = {}
-        for s in self.orderofservice_set.filter(date__month=datetime.today().month).order_by('-date', '-id'):
-            m_y = "{}/{}".format(s.date.month, s.date.year)
-            if m_y in retDict:
-                retDict[m_y]['services'].append(s)
-            else:
-                retDict[m_y] = {}
-                retDict[m_y]['services'] = []
-                retDict[m_y]['services'].append(s)
-        # print(retDict)
-        return retDict
+        # retDict = {}
+        # for s in self.orderofservice_set.filter(date__month=datetime.today().month).order_by('-date', '-id'):
+        #     m_y = "{}/{}".format(s.date.month, s.date.year)
+        #     if m_y in retDict:
+        #         retDict[m_y]['services'].append(s)
+        #     else:
+        #         retDict[m_y] = {}
+        #         retDict[m_y]['services'] = []
+        #         retDict[m_y]['services'].append(s)
+        # # print(retDict)
+        # return retDict
+        return self.orderofservice_set.all().order_by('-id')[:5]
 
     @property
     def sorted_reward_set(self):

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 04/09/2020 14:30.
+  ~ Last modified 12/09/2020 17:22.
   -->
 
 <!DOCTYPE html>
@@ -47,7 +47,7 @@
 
 <body>
 
-{% block header %}{% include './header.html' with header_class='fixed-top' %}{% endblock %}
+{% block header %}{% include './header.html' with header_class='fixed-top' homepage=True %}{% endblock %}
 {% block hero %}{% include './hero.html' with hero_title='Leya Monteiro' hero_subtitle='LM' %}{% endblock %}
 {% block main %}{% include './main.html' %}{% endblock %}
 {% block footer %}{% include './footer.html' %}{% endblock %}
