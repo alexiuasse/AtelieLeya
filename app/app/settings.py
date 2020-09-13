@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 11/09/2020 14:16.
+#  Last modified 13/09/2020 10:25.
 
 from pathlib import Path
 from frontend.icons import *
@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'service',
     'financial',
     'business',
+    'worker',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,114 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 13/09/2020 13:12.
+  -->
+{% extends '../base/profile.html' %}
+{% load l10n %}
+{% block page_header_actions %}
+<a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
+   href="{{obj.get_new_service_url}}"
+   title="{{TOOLTIP_NEW_SERVICE}}">
+    {{ICON_ADD|safe}}
+    Procedimento
+</a>
+<a class="btn btn-sm btn-info ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
+   href="{{obj.get_new_reward_url}}"
+   title="{{TOOLTIP_NEW_REWARD}}">
+    {{ICON_ADD|safe}}
+    Brinde
+</a>
+{% endblock %}
+{% block profile_content %}
+<div class="row">
+    {% if obj.customuser.is_birthday %}
+    <div class="col-md-12">
+        <div class="alert alert-warning">
+            <h3>
+                {{ICON_GIFT|safe}}
+                Alerta de Aniversário!!! Deseje um feliz aniversário, whatsapp {{obj.whatsapp}}
+            </h3>
+        </div>
+    </div>
+    {% endif %}
+    <div class="col-lg-6 col-md-auto">
+        <h3>Informações</h3>
+        <div class="table-responsive mb-3">
+            <table class="table table-hover">
+                {% for k, v in obj.customuser.get_dict_data.items %}
+                <tr>
+                    <td>{{k}}</td>
+                    <td>{{v}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <h3>Procedimentos</h3>
+    {% for k,v in obj.get_service_sorted_by_entry_date.items %}
+    <div class="col-lg-12 col-md-auto">
+        <h4>Mês/Ano {{k}}</h4>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Procedimento</th>
+                    <th>Data/Hora</th>
+                    <th>Confirmado</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for kk,vv in v.items %}
+                {% for s in vv %}
+                <tr>
+                    <td>
+                        <a href="{{s.get_absolute_url}}">
+                            {{s.type_of_service}}
+                        </a>
+                    </td>
+                    <td>{{s.get_date_html|safe}}</td>
+                    <td>
+                        {{s.get_confirmed_html|safe}}
+                        {% if not s.confirmed %}
+                        <a class="badge bg-dark" data-toggle="tooltip" href="{{s.get_customer_confirmed_url}}"
+                           title="{{TOOLTIP_SERVICE_CONFIRM}}">
+                            {{ICON_CHECK|safe}} <span class="ml-1">Confirmar</span>
+                        </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="badge" style="background-color: {{s.status.contextual}};">{{s.status}}</span>
+                        {% if not s.get_is_success %}
+                        <a class="badge bg-dark" data-toggle="tooltip"
+                           href="{{s.get_customer_finished_url}}" title="{{TOOLTIP_SERVICE_FINISH}}">
+                            {{ICON_DOUBLE_CHECK|safe}} <span class="ml-1">Finalizar</span>
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+{% block javascript %}
+<script>
+  // @formatter:off
+  document.addEventListener("DOMContentLoaded", function () {
+    var chart1 = new ApexCharts(document.getElementById('chart_service'), {{options_chart_service|safe}});
+    chart1.render();
+    var chart2 = new ApexCharts(document.getElementById('chart_reward'), {{options_chart_reward|safe}});
+    chart2.render();
+  // @formatter:on
+  });
+
+
+</script>
+{% endblock %}

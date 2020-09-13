@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 12/09/2020 16:56.
+#  Last modified 13/09/2020 13:06.
 
 from datetime import datetime
 
@@ -38,6 +38,16 @@ class RewardRetrieved(BaseModel):
     @property
     def get_back_url(self):
         return reverse('users:customuser:profile_admin', kwargs={'pk': self.customer.pk})
+
+
+class Profile(BaseModel):
+    birth_day = models.DateField('data de nascimento', blank=True, null=True)
+    whatsapp = models.CharField('whatsapp', max_length=16)
+    total_of_points = models.IntegerField(default=0, verbose_name='Total de pontos')
+    user = models.OneToOneField("users.CustomUser", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
 
 
 class CustomUser(AbstractUser):
