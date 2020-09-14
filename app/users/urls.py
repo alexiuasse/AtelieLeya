@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 10:36.
+#  Last modified 14/09/2020 13:00.
 
 from django.urls import path, include
 
@@ -8,33 +8,31 @@ from .views import *
 
 app_name = "users"
 
-user_patterns = ([
-                     path('', CustomUserView.as_view(), name='view'),
-                     path('create/', CustomUserCreate.as_view(), name='create'),
-                     path('<int:pk>/profile/admin/', CustomUserProfileAdmin.as_view(), name='profile_admin'),
-                     path('profile/frontend/', CustomUserProfileFrontend.as_view(), name='profile_frontend'),
-                     path('<int:pk>/edit/', CustomUserEdit.as_view(), name='edit'),
-                     path('edit/frontend/', CustomUserEditFrontend.as_view(), name='edit_frontend'),
-                     path('<int:pk>/delete/', CustomUserDel.as_view(), name='delete'),
-                 ], 'customuser')
-
 reward_retrieved_patterns = ([
-                                 path('frontend/', RewardRetrieveFrontend.as_view(), name='retrieve_frontend'),
-                                 path('<int:rpk>/frontend/create/', rewardretrieved_create,
-                                      name='retrieve_frontend_create'),
+                                 path('list/', RewardRetrievedList.as_view(), name='list'),
+                                 path('<int:pk>/confirm/', reward_retrieved_confirm, name='confirm'),
                                  path('<int:cpk>/create/', RewardRetrievedCreate.as_view(), name='create'),
                                  path('<int:cpk>/<int:pk>/edit/', RewardRetrievedEdit.as_view(), name='edit'),
-                                 path('<int:cpk>/<int:pk>/delete/', RewardRetrievedDel.as_view(), name='delete'),
+                                 path('<int:cpk>/<int:pk>/delete/', RewardRetrievedDelete.as_view(), name='delete'),
                              ], 'rewardretrieved')
 
-calendar_patterns = ([
-                         path('', CalendarFrontend.as_view(), name='calendar_frontend'),
-                     ], 'calendarfrontend')
+admin_patterns = ([
+                      path('signup/', signup, name='signup'),
+                      path('list/', ProfileList.as_view(), name='list'),
+                      path('<int:pk>/edit/', ProfileEdit.as_view(), name='edit'),
+                      path('<int:pk>/profile/', profile_admin, name='profile'),
+                  ], 'admin')
+
+frontend_patterns = ([
+                         path('signup/', signup, name='signup'),
+                         path('profile/', profile_frontend, name='profile'),
+                         path('profile/update/', profile_update, name='update'),
+                         path('reward/', reward_frontend, name='reward'),
+                         path('<int:rpk>/reward/retrieve/', reward_retrieve_frontend, name='reward_retrieve'),
+                     ], 'frontend')
 
 urlpatterns = [
-    path('', include(user_patterns)),
-    path('signup/admin/', signup, name='signup'),
-    path('signup/frontend/', signup_frontend, name='signup_frontend'),
-    path('calendar/frontend/', include(calendar_patterns)),
-    path('reward/retrieved/', include(reward_retrieved_patterns)),
+    path('frontend/', include(frontend_patterns)),
+    path('admin/', include(admin_patterns)),
+    path('reward/', include(reward_retrieved_patterns)),
 ]

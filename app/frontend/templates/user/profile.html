@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 11/09/2020 18:14.
+  ~ Last modified 14/09/2020 13:05.
   -->
 
 {% extends '../base/profile.html' %}
@@ -66,13 +66,17 @@
                 {% for r in obj.sorted_reward_set %}
                 <tr>
                     <td>
-                        <a href="{{r.get_edit_url}}">
-                            {{r.reward.name}}
-                        </a>
+                        <a href="{{r.get_edit_url}}">{{r.reward.name}}</a>
                     </td>
-                    <td>x<span data-countup>{{r.quantity}}</span></td>
+                    <!--                    <td>x<span data-countup>{{r.quantity}}</span></td>-->
                     <td><span data-countup>{{r.points}}</span> pts</td>
                     <td>{{r.date}}</td>
+                    <td>{{r.get_retrieved_html}}</td>
+                    {% if not r.retrieved %}
+                    <td>
+                        <a href="{{r.get_confirm_url}}">Confirmar</a>
+                    </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </table>
@@ -80,17 +84,20 @@
         {% endif %}
     </div>
     <div class="col-lg-6 col-md-auto">
+        {% if obj.has_service %}
         <h3>Procedimentos</h3>
         <p>Todos os procedimentos vinculados a esse cliente que foram finalizados!</p>
         <div class="chart" id="chart_service"></div>
-        {% if obj.sorted_reward_set %}
+        {% endif %}
+        {% if obj.has_reward %}
         <h3>Brindes</h3>
         <p>Todos os brindes vinculados a esse cliente!</p>
         <div class="chart" id="chart_reward"></div>
         {% endif %}
     </div>
 </div>
-<div class="row">
+{% if obj.has_service %}
+<div class="row mb-5">
     <h3>Procedimentos</h3>
     {% for k,v in obj.get_service_sorted_by_entry_date.items %}
     <div class="col-lg-12 col-md-auto">
@@ -110,9 +117,7 @@
                 {% for s in vv %}
                 <tr>
                     <td>
-                        <a href="{{s.get_absolute_url}}">
-                            {{s.type_of_service}}
-                        </a>
+                        <a href="{{s.get_absolute_url}}">{{s.type_of_service}}</a>
                     </td>
                     <td>{{s.get_date_html|safe}}</td>
                     <td>
@@ -142,6 +147,7 @@
     </div>
     {% endfor %}
 </div>
+{% endif %}
 {% endblock %}
 {% block javascript %}
 <script>
@@ -153,6 +159,5 @@
     chart2.render();
   // @formatter:on
   });
-
 </script>
 {% endblock %}>

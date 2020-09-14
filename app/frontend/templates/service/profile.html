@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 07/09/2020 13:14.
+  ~ Last modified 14/09/2020 11:28.
   -->
 
 {% extends '../base/profile.html' %}
@@ -34,7 +34,7 @@
     <div class="alert alert-danger">
         <h3>
             <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
-            Procedimento foi cancelado! Whatsapp: {{obj.customer.whatsapp}}
+            Procedimento foi cancelado! Whatsapp: {{obj.customer.profile.whatsapp}}
         </h3>
     </div>
 </div>
@@ -44,7 +44,7 @@
     <div class="alert alert-danger">
         <h3>
             <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
-            Procedimento não está confirmado! Whatsapp: {{obj.customer.whatsapp}}
+            Procedimento não está confirmado! Whatsapp: {{obj.customer.profile.whatsapp}}
         </h3>
         <a data-toggle="tooltip" href="{{obj.get_confirmed_url}}" title="{{TOOLTIP_SERVICE_CONFIRM}}">
             {{ICON_CHECK|safe}}

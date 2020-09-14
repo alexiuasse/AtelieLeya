@@ -1,65 +1,47 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 04/09/2020 17:08.
+#  Last modified 14/09/2020 12:37.
 
 # users/forms.py
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.models import User
 
 from .models import *
 
 
-class CustomUserCreationForm(UserCreationForm):
-    class Meta:
-        model = CustomUser
-        widgets = {
-            'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
-        }
-        fields = ('username', 'email', 'birth_day', 'whatsapp')
-
-
-class CustomUserChangeFrontendForm(UserChangeForm):
-
-    def __init__(self, *args, **kwargs):
-        super(CustomUserChangeFrontendForm, self).__init__(*args, **kwargs)
-        self.fields['first_name'].label = "Nome"
+class UserChangeFormFrontend(UserChangeForm):
+    password = None
 
     class Meta:
-        model = CustomUser
-        widgets = {
-            'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
-        }
-        fields = ('username', 'whatsapp', 'first_name', 'last_name', 'birth_day', 'email')
+        model = User
+        fields = ('email',)
 
 
-class CustomUserChangeForm(UserChangeForm):
+class UserCreationFormFrontend(UserCreationForm):
     class Meta:
-        model = CustomUser
-        widgets = {
-            'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
-        }
-        fields = UserChangeForm.Meta.fields
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
 
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
-
-
-class SignUpForm(UserCreationForm):
-    whatsapp = forms.CharField(label="Whatsapp", max_length=16, required=True, help_text='Seu número com whatsapp.')
-    first_name = forms.CharField(label="Nome", max_length=30, required=True, help_text='Obrigatório.')
-    # last_name = forms.CharField(label="Último Nome", max_length=30, required=False, help_text='Opcional.')
-    email = forms.EmailField(label="E-mail", max_length=254, help_text='Informe um endereço de e-mail válido')
-    birth_day = forms.DateField(label="Data de Nascimento", widget=DateInput, help_text='Informe uma data válida')
-
+class ProfileFormFrontend(forms.ModelForm):
     class Meta:
-        model = CustomUser
+        model = Profile
         widgets = {
-            'birth_day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+            'birth_date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
         }
-        fields = ('username', 'whatsapp', 'first_name', 'birth_day', 'email', 'password1', 'password2',)
+        fields = ('name', 'whatsapp', 'birth_date')
+
+
+class ProfileFormAdmin(forms.ModelForm):
+    class Meta:
+        model = Profile
+        widgets = {
+            'birth_date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
+        }
+        fields = ('name', 'whatsapp', 'birth_date', 'total_of_points')
 
 
 class RewardRetrievedForm(forms.ModelForm):
@@ -67,8 +49,8 @@ class RewardRetrievedForm(forms.ModelForm):
 
     layout = Layout(
         Row(
-            Field('reward', wrapper_class='col-md'),
-            # Field('quantity', wrapper_class='col-md'),
+            Field('reward', wrapper_class='col-md-12'),
+            Field('retrieved', wrapper_class='col-md-12 mt-2'),
         ),
     )
 
@@ -82,4 +64,4 @@ class RewardRetrievedForm(forms.ModelForm):
 
     class Meta:
         model = RewardRetrieved
-        fields = ['reward']
+        fields = ['reward', 'retrieved']

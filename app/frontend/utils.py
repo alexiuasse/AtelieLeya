@@ -1,14 +1,15 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 06/09/2020 11:06.
+#  Last modified 14/09/2020 12:28.
 from datetime import datetime
 
 from config.models import TypeOfService, StatusPayment, Reward
+from django.contrib.auth.models import User
 from financial.models import Invoice
 from frontend.icons import ICON_COIN, ICON_PERSON, ICON_WAND, ICON_GIFT, ICON_CALENDAR, ICON_TRIANGLE_ALERT, \
     ICON_LINE_CHART
 from service.models import OrderOfService
-from users.models import CustomUser, RewardRetrieved
+from users.models import RewardRetrieved, Profile
 
 from .apexcharts.line import Line
 from .apexcharts.simple_pie import SimplePie
@@ -16,10 +17,11 @@ from .apexcharts.simple_pie import SimplePie
 
 def context_dashboard():
     today = datetime.today()
-    birthdays = CustomUser.objects.filter(birth_day__day=today.day, birth_day__month=today.month)
+    birthdays = Profile.objects.filter(birth_date__day=today.day, birth_date__month=today.month)
     services_today = OrderOfService.objects.filter(date=today)
     services_not_confirmed = OrderOfService.objects.filter(confirmed=False)
     services_invoice_not_completed = [obj for obj in OrderOfService.objects.all() if obj.get_invoice_not_completed()]
+    rewards_not_retrieved = RewardRetrieved.objects.filter(retrieved=False).order_by('-date')
     return {
         'today': {
             'pre_title': f'Hoje {today.strftime("%d/%m/%Y")}',
@@ -69,6 +71,14 @@ def context_dashboard():
             },
             'data': services_invoice_not_completed,
         },
+        'rewards_not_retrieved': {
+            'pre_title': 'Brindes',
+            'title': {
+                'text': 'Brindes não retirados',
+                'icon': ICON_GIFT,
+            },
+            'data': rewards_not_retrieved,
+        }
     }
 
 
@@ -171,7 +181,7 @@ def context_chart(req_year):
                 y_title='Quantidade',
                 series=[{
                     'data': [
-                        CustomUser.objects.filter(date_joined__month=month, date_joined__year=year).count()
+                        User.objects.filter(date_joined__month=month, date_joined__year=year).count()
                         for month in range(1, 13)
                     ],
                     'name': 'Clientes',

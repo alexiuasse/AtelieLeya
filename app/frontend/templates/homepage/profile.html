@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 13/09/2020 10:47.
+  ~ Last modified 14/09/2020 13:05.
   -->
 
 {% extends './homepage.html' %}
@@ -17,7 +17,7 @@
 <main id="main">
     <section class="profile" id="profile">
         <div class="container mt-5" data-aos="fade-up">
-            {% if obj.is_birthday %}
+            {% if user.profile.is_birthday %}
             <section class="birthday" id="birthday">
                 <div class="container" data-aos="fade-up" data-aos-delay="150">
                     <div class="row align-items-center">
@@ -26,53 +26,53 @@
                                  src="{% static 'homepage/dist/img/undraw_online_wishes_dlmr.svg' %}">
                         </div>
                         <div class="col-lg-6 col-md-auto">
-                            <h1>Feliz Aniversário {{obj.get_full_name}}!!</h1>
+                            <h1>Feliz Aniversário {{user.profile.get_full_name}}!!</h1>
                             <h4>De toda equipe {{NAME_OF_ENTERPRISE}}</h4>
                         </div>
                     </div>
                 </div>
             </section>
             {% endif %}
-            <div class="card {% if obj.is_birthday %}mt-4{% endif %}">
+            <div class="card {% if request.user.profile.is_birthday %}mt-4{% endif %}">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-9 border-right">
-                            <h3>Olá, {{obj.get_full_name}}</h3>
+                            <h3>Olá, {{user.profile.get_full_name}}</h3>
                             <p class="small">
                                 Caso algo esteja errado, você pode alterar clicando
-                                <a href="{{obj.get_edit_url_frontend}}">
+                                <a href="{{user.profile.get_edit_url_frontend}}">
                                     {{ICON_EDIT|safe}} aqui
                                 </a>
                                 .
                             </p>
                             <p>Informações administrativas:</p>
                             <ul>
-                                <li><code>Usuário</code>, <span class="font-weight-bold">{{obj.username}}</span></li>
+                                <li><code>Usuário</code>, <span class="font-weight-bold">{{user.username}}</span></li>
                                 <li>
                                     <code>Senha</code>,
-                                    <span class="font-weight-bold">********</span>,
-                                    <a href="#">mudar</a>
+                                    <span class="font-weight-bold">********</span>
                                 </li>
                             </ul>
                             <p>O que sabemos sobre você:</p>
                             <ul>
                                 <li><code>Nome Completo</code>, <span
-                                        class="font-weight-bold">{{obj.get_full_name}}</span></li>
+                                        class="font-weight-bold">{{user.profile.get_full_name}}</span></li>
                                 <li><code>Data de Nascimento</code>, <span
-                                        class="font-weight-bold">{{obj.birth_day}}</span>
+                                        class="font-weight-bold">{{user.profile.birth_date}}</span>
                                 </li>
                             </ul>
                             <p>Suas informações para <code>contato</code> são:</p>
                             <ul>
-                                <li><code>Whatsapp</code>, <span class="font-weight-bold">{{obj.whatsapp}}</span></li>
-                                <li><code>E-mail</code>, <span class="font-weight-bold">{{obj.email}}</span></li>
+                                <li><code>Whatsapp</code>, <span
+                                        class="font-weight-bold">{{user.profile.whatsapp}}</span></li>
+                                <li><code>E-mail</code>, <span class="font-weight-bold">{{user.email}}</span></li>
                             </ul>
 
                         </div>
                         <div class="col">
                             <h4 class="card-title">Links Úteis</h4>
                             <p>
-                                <a href="{{obj.get_edit_url_frontend}}">
+                                <a href="{{user.profile.get_edit_url_frontend}}">
                                     {{ICON_EDIT|safe}}Editar Informações
                                 </a>
                             </p>
@@ -82,7 +82,7 @@
                                 </a>
                             </p>
                             <p>
-                                <a href="{% url 'users:rewardretrieved:retrieve_frontend' %}">
+                                <a href="{% url 'users:frontend:reward' %}">
                                     {{ICON_GIFT|safe}} Resgatar Brinde
                                 </a>
                             </p>
@@ -99,7 +99,7 @@
                     <h3>
                         Você possui
                         <span class="font-weight-bold" data-toggle="counter-up">
-                            {{obj.total_of_points|unlocalize}}
+                            {{user.profile.total_of_points|unlocalize}}
                         </span>
                         pontos.
                     </h3>
@@ -117,13 +117,13 @@
                                     <h3>Últimos 5 Brindes</h3>
                                     <p class="small">
                                         Você pode resgatar brindes clicando
-                                        <a href="{% url 'users:rewardretrieved:retrieve_frontend' %}">
+                                        <a href="{% url 'users:frontend:reward' %}">
                                             {{ICON_GIFT|safe}} aqui
                                         </a>
                                         .
                                     </p>
                                     <div class="list-group">
-                                        {% for r in obj.sorted_reward_set %}
+                                        {% for r in user.profile.sorted_reward_set %}
                                         <p class="list-group-item list-group-item-action">
                                             {{r.reward.name}}
                                             <span data-toggle="counter-up">{{r.points}}</span> pts
@@ -148,7 +148,7 @@
                                 .
                             </p>
                             <div class="list-group">
-                                {% for s in obj.get_service_sorted_by_actual_month %}
+                                {% for s in user.profile.get_service_sorted_by_actual_month %}
                                 <a class="list-group-item list-group-item-action"
                                    href="{{s.get_absolute_url_frontend}}">
                                     {{s.type_of_service}} em {{s.date}} às {{s.time}}

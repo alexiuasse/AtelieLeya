@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 11/09/2020 16:23.
+#  Last modified 14/09/2020 10:57.
 from datetime import datetime
 from typing import Dict, Any
 
@@ -18,7 +18,6 @@ from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django_filters.views import FilterView
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin, SingleTableView
-from users.models import CustomUser
 
 from .conf import *
 from .filters import *
@@ -75,7 +74,7 @@ class OrderOfServiceCreateFrontend(LoginRequiredMixin, View):
                 instance.status = get_object_or_404(StatusService, pk=settings.STATUS_SERVICE_DEFAULT)
                 instance.customer = request.user
                 instance.save()
-                return HttpResponseRedirect(reverse('users:customuser:profile_frontend'))
+                return HttpResponseRedirect(reverse('users:frontend:profile'))
         return render(request, self.template, {
             'date': s_date.date(),
             'form': form,
@@ -247,15 +246,15 @@ class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
         if self.object:
             return reverse(self.object.get_absolute_url())
         else:
-            return reverse('users:customuser:profile_admin', kwargs={'pk': self.kwargs['cpk']})
+            return reverse('users:admin:profile', kwargs={'pk': self.kwargs['cpk']})
 
     def get_back_url(self):
-        return reverse('users:customuser:profile_admin', kwargs={'pk': self.kwargs['cpk']})
+        return reverse('users:admin:profile', kwargs={'pk': self.kwargs['cpk']})
 
     def form_valid(self, form):
         if form.is_valid():
             instance = form.save(commit=False)
-            instance.customer = CustomUser.objects.get(pk=self.kwargs['cpk'])
+            instance.customer = User.objects.get(pk=self.kwargs['cpk'])
             instance.save()
         return HttpResponseRedirect(self.get_success_url())
 
@@ -277,7 +276,7 @@ class OrderOfServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView)
     subtitle = SUBTITLE_ORDER_OF_SERVICE
 
     def get_success_url(self):
-        return reverse_lazy('users:customuser:profile_admin', kwargs={'pk': self.kwargs['cpk']})
+        return reverse_lazy('users:admin:profile', kwargs={'pk': self.kwargs['cpk']})
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)

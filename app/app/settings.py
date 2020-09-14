@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 13/09/2020 10:25.
+#  Last modified 14/09/2020 11:30.
 
 from pathlib import Path
 from frontend.icons import *
@@ -25,14 +25,14 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0', '192.168.0.103']
 VERSION = "1.0.0"
 NAME_OF_ENTERPRISE = "Atêlie Leya Monteiro"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-AUTH_USER_MODEL = 'users.CustomUser'
+# AUTH_USER_MODEL = 'users.CustomUser'
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 
 # Status Payment
 STATUS_PAYMENT_SUCCESS = 2
 STATUS_PAYMENT_DEFAULT = 1
 # Status Service
-STATUS_SERVICE_FINISHED = 1
+STATUS_SERVICE_FINISHED = 2
 STATUS_SERVICE_DEFAULT = 1
 
 # Icons

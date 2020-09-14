@@ -1,12 +1,18 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/09/2020 14:24.
+#  Last modified 14/09/2020 12:15.
 from django_filters import FilterSet
 
-from .models import CustomUser
+from .models import Profile, RewardRetrieved
 
 
-class CustomUserFilter(FilterSet):
+class ProfileFilter(FilterSet):
     class Meta:
-        model = CustomUser
-        fields = {'first_name': ['icontains']}
+        model = Profile
+        fields = {'name': ['icontains']}
+
+
+class RewardRetrievedFilter(FilterSet):
+    class Meta:
+        model = RewardRetrieved
+        fields = {'customer__profile__name': ['icontains']}

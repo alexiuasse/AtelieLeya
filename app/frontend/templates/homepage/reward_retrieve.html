@@ -1,13 +1,13 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 07/09/2020 09:50.
+  ~ Last modified 14/09/2020 12:01.
   -->
 
 {% extends './homepage.html' %}
 {% load l10n %}
 {% load static %}
-{% block header %}{% include './profile_header.html' with header_class='sticky-top bg-dark ' %}{% endblock %}
+{% block header %}{% include './header.html' with header_class='fixed-top ' %}{% endblock %}
 {% block hero %}
 {% endblock %}
 {% block main %}
@@ -24,11 +24,11 @@
                                          src="{% static 'homepage/dist/img/undraw_Gift_box_re_vau4.svg' %}">
                                 </div>
                                 <div class="col-lg-8">
-                                    <h3 class="card-title">Olá, {{obj.first_name}}</h3>
+                                    <h3 class="card-title">Olá, {{user.profile.name}}</h3>
                                     <h4 class="card-text">
                                         Você possui
                                         <span class="font-weight-bold" data-toggle="counter-up">
-                                            {{obj.total_of_points}}
+                                            {{user.profile.total_of_points}}
                                         </span>
                                         pontos!
                                     </h4>
@@ -58,8 +58,8 @@
                                             <span data-toggle="counter-up">{{r.quantity_in_points}}</span> pts
                                         </td>
                                         <td class="card-text">
-                                            {% if r.quantity_in_points < obj.total_of_points %}
-                                            <a href="{% url 'users:rewardretrieved:retrieve_frontend_create' rpk=r.pk %}">
+                                            {% if r.quantity_in_points < user.profile.total_of_points %}
+                                            <a href="{% url 'users:frontend:reward_retrieve' rpk=r.pk %}">
                                                 {{ICON_GIFT|safe}}Resgatar
                                             </a>
                                             {% else %}

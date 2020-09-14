@@ -1,7 +1,7 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 13/09/2020 12:47.
-
+#  Last modified 14/09/2020 09:25.
+from django.contrib.auth.models import User
 from django.db import models
 from base.models import BaseModel
 from django.urls import reverse
@@ -10,7 +10,7 @@ from django.urls import reverse
 class WorkerProfile(BaseModel):
     expertise = models.ManyToManyField("config.TypeOfService", blank=True, verbose_name="Especialidades",
                                        help_text="Quais procedimentos esse funcionário é capaz de fazer?")
-    customuser = models.OneToOneField("users.CustomUser", on_delete=models.CASCADE, verbose_name="Usuário do sistema")
+    customuser = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Usuário do sistema")
 
     def __str__(self):
         return self.customuser.first_name

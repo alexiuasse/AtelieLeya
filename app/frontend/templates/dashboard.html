@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 03/09/2020 17:32.
+  ~ Last modified 14/09/2020 13:05.
   -->
 
 {% extends 'base.html' %}
@@ -91,6 +91,37 @@
         </div>
     </div>
     <div class="row">
+        {% if rewards_not_retrieved.data %}
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-header bg-triangle-top-warning">
+                    <div class="card-title">
+                        {{rewards_not_retrieved.title.icon|safe}}
+                        {{rewards_not_retrieved.title.text}}
+                        <a class="ml-auto text-info" data-toggle="tooltip" href="{% url 'users:rewardretrieved:list' %}"
+                           target="_blank" title={{TOOLTIP_SEE_ALL}}>
+                            {{ICON_EYE|safe}}
+                        </a>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    {% for obj in rewards_not_retrieved.data %}
+                    <p>
+                        <span class="font-weight-bold">{{obj.reward}}</span> de
+                        <a href="{{obj.customer.profile.get_absolute_url}}" target="_blank">
+                            {{obj.customer.profile.get_full_name}}
+                        </a>
+                        requisitado no dia <span class="font-weight-bold">{{obj.date}}</span>
+                    </p>
+                    {% endfor %}
+                </div>
+                <div class="card-footer">
+                    <p>Esse aviso é para os brindes que ainda não foram retirados.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
         {% if services_not_confirmed.data %}
         <div class="col-lg-6 col-md-12">
             <div class="card">

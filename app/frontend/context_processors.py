@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 04/09/2020 11:02.
+#  Last modified 14/09/2020 12:36.
 
 from django.conf import settings  # import the settings file
 from .icons import *
@@ -19,6 +19,7 @@ def frontend_template_context(request):
         'TOOLTIP_NEW_REWARD': "Novo Brinde",
         'TOOLTIP_SERVICE_CONFIRM': "Confirmar procedimento",
         'TOOLTIP_SERVICE_FINISH': "Mudar status para finalizado",
+        'TOOLTIP_SEE_ALL': "Ver Todos",
         'NAME_OF_ENTERPRISE': settings.NAME_OF_ENTERPRISE,
         'VERSION': settings.VERSION,
 

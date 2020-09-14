@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 12:14.
+#  Last modified 14/09/2020 11:29.
 #
 from config.models import StatusPayment
 from django.conf import settings
@@ -15,8 +15,8 @@ from .models import OrderOfService
 @receiver(post_save, sender=OrderOfService)
 def count_points(sender, instance, created, **kwargs):
     if instance.finished and not instance.counted:
-        instance.customer.total_of_points += instance.type_of_service.rewarded_points
-        instance.customer.save()
+        instance.customer.profile.total_of_points += instance.type_of_service.rewarded_points
+        instance.customer.profile.save()
         OrderOfService.objects.filter(pk=instance.pk).update(counted=True)
 
     # if instance is created, then create a new invoice

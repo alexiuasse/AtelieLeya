@@ -1,11 +1,12 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 11/09/2020 12:47.
+#  Last modified 14/09/2020 12:29.
 
 from datetime import date
 
 from base.models import BaseModel
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -24,8 +25,7 @@ class OrderOfService(BaseModel):
     date = models.DateField("Data", default=timezone.localtime(timezone.now()))
     time = models.TimeField("Hora", default=timezone.localtime(timezone.now()))
     observation = models.TextField("observação", blank=True)
-    customer = models.ForeignKey("users.CustomUser", verbose_name="Cliente", on_delete=models.CASCADE, blank=True,
-                                 null=True)
+    customer = models.ForeignKey(User, verbose_name="Cliente", on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return "{} de {}".format(self.type_of_service, self.customer.first_name)
@@ -35,7 +35,7 @@ class OrderOfService(BaseModel):
         Get the back url, retrieving the customer and passing the correct url
         :return: reverse url for the profile customer owner
         """
-        return reverse('users:customuser:profile_admin', kwargs={'pk': self.customer.pk})
+        return self.customer.profile.get_back_url_child_admin()
 
     def get_absolute_url(self):
         return reverse(self.get_reverse_profile, kwargs={'cpk': self.customer.pk, 'pk': self.pk})
@@ -65,7 +65,7 @@ class OrderOfService(BaseModel):
         return reverse('service:orderofservice:confirmed', kwargs={'pk': self.pk, 'flag': 1})
 
     def get_full_name(self):
-        return "{} de {}".format(self.type_of_service, self.customer.get_full_name())
+        return "{} de {}".format(self.type_of_service, self.customer.profile.get_full_name())
 
     def get_name_html(self):
         badges = ""
@@ -95,7 +95,7 @@ class OrderOfService(BaseModel):
 
     def get_dict_data(self):
         return {
-            'Whatsapp': self.customer.whatsapp,
+            'Whatsapp': self.customer.profile.whatsapp,
             'Cancelado': "Sim" if self.canceled else "Não",
             'Confirmado': mark_safe(self.get_confirmed_html),
             'Data e Hora': mark_safe(self.get_date_html()),

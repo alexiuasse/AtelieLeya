@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 05/09/2020 09:48.
+#  Last modified 14/09/2020 09:41.
 
 import logging
 
@@ -101,4 +101,4 @@ class LogoutFrontend(View):
 
     def get(self, request):
         logout(request)
-        return HttpResponseRedirect(f'/login/frontend/?next={reverse_lazy("users:customuser:profile_frontend")}')
+        return HttpResponseRedirect(f'/login/frontend/?next={reverse_lazy("users:frontend:profile")}')
