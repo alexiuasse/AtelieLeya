@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 15/09/2020 21:50.
+#  Last modified 16/09/2020 17:18.
 import datetime
 
 from base.models import BaseModel
@@ -49,6 +49,9 @@ class TypeOfService(BaseConfigModel):
     description = models.TextField("Descrição", blank=True, help_text="Usado no site para descrever o procedimento")
     image = models.ImageField("Foto", upload_to='images/', help_text="Foto representando o procedimento.",
                               blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.time} min"
 
 
 class StatusService(BaseConfigModel):
