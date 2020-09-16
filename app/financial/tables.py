@@ -1,7 +1,7 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 10:24.
-from django_tables2 import tables, TemplateColumn, Column
+#  Last modified 16/09/2020 09:06.
+from django_tables2 import tables, TemplateColumn
 
 from .models import *
 

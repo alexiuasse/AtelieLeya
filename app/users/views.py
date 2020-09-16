@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 15/09/2020 17:42.
+#  Last modified 16/09/2020 09:06.
 from typing import Dict, Any
 
 from config.models import Reward, TypeOfService
@@ -52,6 +52,7 @@ def profile_admin(request, pk):
     })
 
 
+@staff_member_required()
 class ProfileList(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
     model = Profile
     table_class = ProfileTable
@@ -67,6 +68,7 @@ class ProfileList(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin,
         return Profile.objects.filter(user__is_superuser=False).order_by('name')
 
 
+@staff_member_required()
 class ProfileEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileFormAdmin
@@ -167,6 +169,7 @@ def reward_retrieved_confirm(request, pk):
     return HttpResponseRedirect(reward.customer.profile.get_absolute_url())
 
 
+@staff_member_required()
 class RewardRetrievedList(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
     model = RewardRetrieved
     table_class = RewardRetrievedTable
@@ -182,6 +185,7 @@ class RewardRetrievedList(LoginRequiredMixin, PermissionRequiredMixin, SingleTab
         return RewardRetrieved.objects.filter(retrieved=False).order_by('-date')
 
 
+@staff_member_required()
 class RewardRetrievedCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = RewardRetrieved
     form_class = RewardRetrievedForm
@@ -217,6 +221,7 @@ class RewardRetrievedCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateV
                 return HttpResponseRedirect(self.get_success_url())
 
 
+@staff_member_required()
 class RewardRetrievedEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = RewardRetrieved
     form_class = RewardRetrievedForm
@@ -244,6 +249,7 @@ class RewardRetrievedEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
             return HttpResponseRedirect(self.get_success_url())
 
 
+@staff_member_required()
 class RewardRetrievedDelete(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = RewardRetrieved
     template_name = "reward/confirm_delete.html"

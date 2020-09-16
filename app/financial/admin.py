@@ -1,7 +1,8 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/08/2020 09:25.
+#  Last modified 16/09/2020 09:06.
 
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+admin.site.register(Invoice)

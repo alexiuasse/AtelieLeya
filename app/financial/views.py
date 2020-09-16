@@ -1,17 +1,20 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 27/08/2020 09:36.
+#  Last modified 16/09/2020 09:06.
 
 from typing import Dict, Any
 
 from config.models import StatusPayment
 from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_http_methods
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from service.models import OrderOfService
 
@@ -20,41 +23,23 @@ from .forms import *
 from .tables import *
 
 
-# class InvoiceProfile(LoginRequiredMixin, View):
-#     template = 'financial/profile.html'
-#     title = TITLE_VIEW_INVOICE
-#     subtitle = SUBTITLE_INVOICE
-#
-#     def get(self, request, cpk, pk):
-#         return render(request, self.template, {'obj': Invoice.objects.get(pk=pk)})
-#
-#
-# class InvoiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
-#     model = Invoice
-#     table_class = InvoiceTable
-#     filterset_class = InvoiceFilter
-#     paginator_class = LazyPaginator
-#     permission_required = 'financial.view_invoice'
-#     template_name = 'financial/view.html'
-#     title = TITLE_VIEW_INVOICE
-#     subtitle = SUBTITLE_INVOICE
-#     new = reverse_lazy('financial:index')
-
+@login_required
+@staff_member_required()
+@require_http_methods(["GET"])
+@permission_required('financial.edit_invoice', raise_exception=True)
 def invoice_payment_success(request, pk):
-    if request.user.is_superuser and request.user.is_authenticated:
-        instance = get_object_or_404(Invoice, pk=pk)
-        instance.status = get_object_or_404(StatusPayment, pk=settings.STATUS_PAYMENT_SUCCESS)
-        instance.save()
-        return redirect(instance.order_of_service.get_absolute_url())
-    else:
-        raise PermissionDenied()
+    instance = get_object_or_404(Invoice, pk=pk)
+    instance.status = get_object_or_404(StatusPayment, pk=settings.STATUS_PAYMENT_SUCCESS)
+    instance.save()
+    return redirect(instance.order_of_service.get_absolute_url())
 
 
+@staff_member_required()
 class InvoiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Invoice
     form_class = InvoiceForm
     template_name = 'financial/form.html'
-    permission_required = 'financial.create_invoice'
+    permission_required = ('financial.create_invoice',)
     title = TITLE_CREATE_INVOICE
     subtitle = SUBTITLE_INVOICE
 
@@ -74,6 +59,7 @@ class InvoiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+@staff_member_required()
 class InvoiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Invoice
     form_class = InvoiceForm
@@ -83,6 +69,7 @@ class InvoiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     subtitle = SUBTITLE_INVOICE
 
 
+@staff_member_required()
 class InvoiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Invoice
     template_name = "financial/confirm_delete.html"

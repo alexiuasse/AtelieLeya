@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 14/09/2020 19:38.
+  ~ Last modified 16/09/2020 08:57.
   -->
 
 {% extends './base.html' %}
@@ -42,12 +42,12 @@
                         {% crispy form %}
                         <div class="form-row">
                             <div class="pull-right mt-3">
-                                <a class="btn btn-danger btn-sm mr-2"
-                                   href="{% url 'users:frontend:profile' %}"
+                                <a class="btn btn-danger mr-2"
+                                   href="{% url 'users:frontend:calendar' %}"
                                    type="button">
                                     Cancelar
                                 </a>
-                                <button class="btn btn-primary btn-sm" type="submit">Finalizar
+                                <button class="btn btn-primary" type="submit">Finalizar
                                 </button>
                             </div>
                         </div>
