@@ -1,15 +1,18 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 11/09/2020 17:41.
+#  Last modified 16/09/2020 09:37.
 from typing import Dict, Any
 
 from config.models import TypeOfService
 from django.contrib.admin.utils import NestedObjects
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_http_methods
 from django.views.generic import UpdateView, DeleteView
 from django.views.generic.base import View
 from frontend.icons import ICON_CALENDAR
@@ -20,11 +23,6 @@ from .models import *
 
 
 ########################################################################################################################
-# def check_if_day_is_full(request):
-#     day = BusinessDay.objects.get(day=request.GET.get('date', None))
-#     return JsonResponse({
-#         'is_full': day.force_day_full if day.force_day_full else day.get_is_full(),
-#     })
 
 def datetime_range(start, end, delta):
     """
@@ -40,7 +38,16 @@ def datetime_range(start, end, delta):
         current += delta
 
 
+@login_required
+@require_http_methods(["GET"])
 def businessday_get_hours(request, pk, bpk):
+    """
+    Check if a Type Of Service fit in the businessday, called from client schedule service
+    :param request:
+    :param pk: type of service
+    :param bpk: bussinesday
+    :return: JsonResponse with the hours, Empty if not exists
+    """
     type_of_service = get_object_or_404(TypeOfService, pk=pk)
     slices = type_of_service.time / settings.SLICE_OF_TIME  # how many slices is need for this service
     businessday = get_object_or_404(BusinessDay, pk=bpk)
@@ -70,11 +77,15 @@ def businessday_get_hours(request, pk, bpk):
     )
 
 
+@login_required
+@staff_member_required()
+@require_http_methods(["GET"])
+@permission_required('business.create_businessday', 'business.edit_businessday', raise_exception=True)
 def businessday_create(request):
     """
-    Create businessday getting the start and end date from request and the rest from form
+    Create businessday getting the start and end date from request and the rest from form, called from calendar admin
     :param request:
-    :return:
+    :return: redirect to page
     """
     form = BusinessDayForm(request.POST)
     if form.is_valid():
@@ -106,8 +117,9 @@ def businessday_create(request):
 
 
 ########################################################################################################################
-class BusinessCalendarView(LoginRequiredMixin, View):
+class BusinessCalendarView(LoginRequiredMixin, PermissionRequiredMixin, View):
     template = 'business/calendar.html'
+    permission_required = 'business.view_businessday'
     title = TITLE_VIEW_CALENDAR
     subtitle = SUBTITLE_CALENDAR
 
@@ -125,8 +137,9 @@ class BusinessCalendarView(LoginRequiredMixin, View):
         })
 
 
-class BusinessDayProfile(LoginRequiredMixin, View):
+class BusinessDayProfile(LoginRequiredMixin, PermissionRequiredMixin, View):
     template = 'business/profile.html'
+    permission_required = 'business.view_businessday'
     title = TITLE_EDIT_BUSINESS_DAY
     subtitle = SUBTITLE_BUSINESS_DAY
 
@@ -162,49 +175,3 @@ class BusinessDayDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
         return context
 
 ########################################################################################################################
-
-# class ExpedientCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-#     model = Expedient
-#     form_class = ExpedientForm
-#     template_name = 'business/form.html'
-#     permission_required = 'business.create_expedient'
-#     title = TITLE_CREATE_EXPEDIENT
-#     subtitle = SUBTITLE_EXPEDIENT
-#
-#     def get_success_url(self):
-#         if self.object:
-#             return reverse(self.object.get_absolute_url())
-#         else:
-#             return reverse('frontend:dashboard')
-#
-#     @staticmethod
-#     def get_back_url():
-#         return reverse('frontend:dashboard')
-#
-#
-# class ExpedientEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-#     model = Expedient
-#     form_class = ExpedientForm
-#     template_name = 'business/form.html'
-#     permission_required = 'business.edit_expedient'
-#     title = TITLE_CREATE_EXPEDIENT
-#     subtitle = SUBTITLE_EXPEDIENT
-#
-#
-# class ExpedientDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
-#     model = Expedient
-#     template_name = "business/confirm_delete.html"
-#     permission_required = 'business.del_expedient'
-#     title = TITLE_CREATE_EXPEDIENT
-#     subtitle = SUBTITLE_EXPEDIENT
-#
-#     def get_success_url(self):
-#         return reverse_lazy('frontend:dashboard')
-#
-#     def get_context_data(self, **kwargs):
-#         context: Dict[str, Any] = super().get_context_data(**kwargs)
-#         collector = NestedObjects(using='default')  # or specific database
-#         collector.collect([context['object']])
-#         to_delete = collector.nested()
-#         context['extra_object'] = to_delete
-#         return context

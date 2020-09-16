@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 11/09/2020 16:16.
+#  Last modified 16/09/2020 09:37.
 from django.urls import path, include
 
 from .views import *
@@ -9,7 +9,6 @@ from .mcalendar import *
 app_name = "business"
 
 business_day_patterns = ([
-                             # path('check/full/', check_if_day_is_full, name='check_full'),
                              path('create/', businessday_create, name='create'),
                              path('<int:pk>/profile/', BusinessDayProfile.as_view(), name='profile'),
                              path('<int:pk>/edit/', BusinessDayEdit.as_view(), name='edit'),

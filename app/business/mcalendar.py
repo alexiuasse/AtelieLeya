@@ -1,13 +1,18 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 11/09/2020 18:10.
+#  Last modified 16/09/2020 09:14.
 from datetime import datetime
 
 from business.models import BusinessDay
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 from service.models import OrderOfService
 
 
+@login_required
+@require_http_methods(["GET"])
 def get_calendar_data_frontend(request, customer):
     start = datetime.strptime(request.GET.get('start', None), "%Y-%m-%dT%H:%M:%SZ")
     end = datetime.strptime(request.GET.get('end', None), "%Y-%m-%dT%H:%M:%SZ")
@@ -55,6 +60,10 @@ def get_calendar_data_frontend(request, customer):
     return JsonResponse({'data': data})
 
 
+@login_required
+@staff_member_required()
+@require_http_methods(["GET"])
+@permission_required('business.view_businessday', 'service.view_orderofservice', raise_exception=True)
 def get_calendar_data_admin(request):
     data = []
     if request.user.is_superuser:
