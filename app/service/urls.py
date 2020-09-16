@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 15/09/2020 23:01.
+#  Last modified 16/09/2020 15:51.
 from django.urls import path, include
 
 from .views import *
@@ -17,12 +17,14 @@ order_of_service_patterns = ([
 # utils admin
 admin_patterns = ([
                       path('change/date/', change_date_order_of_service, name='change_date'),
+                      path('<int:pk>/cancel/', cancel_order_of_service_admin, name='cancel'),
                       path('<int:pk>/<int:flag>/confirm/', confirm_order_of_service, name='confirm'),
                       path('<int:pk>/<int:flag>/finish/', finish_order_of_service, name='finish'),
                   ], 'admin')
 
 frontend_patterns = ([
                          path('<int:pk>/get/', get_order_of_service, name='get'),
+                         path('<int:pk>/cancel/', cancel_order_of_service_frontend, name='cancel'),
                          path('<int:d>/<int:m>/<int:y>/create/', create_order_of_service, name='create'),
                      ], 'frontend')
 

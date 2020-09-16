@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 15/09/2020 23:01.
+#  Last modified 16/09/2020 16:44.
 
 from datetime import date
 
@@ -60,6 +60,12 @@ class OrderOfService(BaseModel):
     def get_customer_confirmed_url(self):
         return reverse('service:admin:confirm', kwargs={'pk': self.pk, 'flag': 1})
 
+    def get_cancel_url_admin(self):
+        return reverse('service:admin:cancel', kwargs={'pk': self.pk})
+
+    def get_cancel_url_frontend(self):
+        return reverse('service:frontend:cancel', kwargs={'pk': self.pk})
+
     def get_full_name(self):
         return f"{self.type_of_service} de {self.customer.profile.get_full_name()}"
 
@@ -88,6 +94,27 @@ class OrderOfService(BaseModel):
     def get_is_success(self):
         return self.status.pk == settings.STATUS_SERVICE_FINISHED
 
+    def get_contextual_html(self):
+        if self.finished:
+            text = "<span class='font-weight-bold text-success'>Finalizado</span>"
+        elif self.canceled:
+            text = "<span class='font-weight-bold text-danger'>Cancelado</span>"
+        elif not self.confirmed:
+            text = "<span class='font-weight-bold text-warning'>Não Confirmado</span>"
+        elif self.confirmed:
+            text = "<span class='font-weight-bold text-info'>Confirmado</span>"
+        else:
+            text = "<span class='font-weight-bold text-default'>Em Aguardo</span>"
+        return mark_safe(text)
+
+    def get_contextual_html_admin(self):
+        text = ""
+        if self.canceled:
+            text = "<span class='font-weight-bold text-danger'>Cancelado</span>"
+        elif self.get_invoice_not_completed():
+            text = "<span class='font-weight-bold text-warning'>Fatura</span>"
+        return mark_safe(text)
+
     def get_dict_data(self):
         return {
             'Whatsapp': self.customer.profile.whatsapp,
@@ -102,24 +129,27 @@ class OrderOfService(BaseModel):
             'Observação': self.observation,
         }
 
-    def get_invoice_sorted_by_date(self):
-        retDict = {}
-        for s in self.invoice_set.all().order_by('-date', '-id'):
-            m_y = "{}/{}".format(s.date.month, s.date.year)
-            if m_y in retDict:
-                retDict[m_y]['invoices'].append(s)
-            else:
-                retDict[m_y] = {}
-                retDict[m_y]['invoices'] = []
-                retDict[m_y]['invoices'].append(s)
-        return retDict
-
-    def get_past_date_without_invoice(self):
-        return self.date < date.today() and self.invoice_set.all().count() == 0
+    # def get_invoice_sorted_by_date(self):
+    #     retDict = {}
+    #     for s in self.invoice_set.all().order_by('-date', '-id'):
+    #         m_y = "{}/{}".format(s.date.month, s.date.year)
+    #         if m_y in retDict:
+    #             retDict[m_y]['invoices'].append(s)
+    #         else:
+    #             retDict[m_y] = {}
+    #             retDict[m_y]['invoices'] = []
+    #             retDict[m_y]['invoices'].append(s)
+    #     return retDict
 
     def get_invoice_not_completed(self):
-        if self.date < date.today():
-            for i in self.invoice_set.all():
-                if not i.type_of_payment:
-                    return True
-        return False
+        return self.invoice.type_of_payment is None
+
+    def get_past_date_without_invoice(self):
+        return self.invoice is None
+
+    # def get_invoice_not_completed(self):
+    #     if self.date < date.today():
+    #         for i in self.invoice_set.all():
+    #             if not i.type_of_payment:
+    #                 return True
+    #     return False

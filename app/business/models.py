@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 11/09/2020 17:05.
+#  Last modified 16/09/2020 14:27.
 import datetime
 
 from base.models import BaseModel
@@ -31,6 +31,8 @@ class BusinessDay(BaseModel):
                              help_text="Qual a cor que você deseja como plano de fundo")
     expedient_day = models.ManyToManyField("config.Expedient", verbose_name="Expediente",
                                            help_text="Quais são os horários disponíveis para esse dia?")
+    workers = models.ManyToManyField("worker.WorkerProfile", verbose_name="Funcionários", blank=True,
+                                     help_text="Quais funcionários estão trabalhando nesse dia?")
     is_work_day = models.BooleanField("dia de trabalho", default=True, help_text="Esse dia estará trabalhando?")
     force_day_full = models.BooleanField("forçar dia cheio", default=False,
                                          help_text="Forçar para que o dia mostre como lotado!")
@@ -39,7 +41,8 @@ class BusinessDay(BaseModel):
         return f"Dia: {self.day} Max: {self.get_expedient_hours()} min Ocupados: {self.get_consumed_hours()} min " \
                f"Lotado: {self.get_is_full()} "
 
-    def get_back_url(self):
+    @staticmethod
+    def get_back_url():
         return reverse('business:calendar:view')
 
     def get_absolute_url(self):
@@ -54,7 +57,8 @@ class BusinessDay(BaseModel):
     def get_full_name(self):
         return f"Expediente do dia {self.day.strftime('%d/%m/%Y')}"
 
-    def get_name_html(self):
+    @staticmethod
+    def get_name_html():
         return "Expediente"
 
     def get_start_date_time(self):
@@ -136,6 +140,7 @@ class BusinessDay(BaseModel):
         return {
             'Dia': self.day,
             'Cor': mark_safe(f"<span class='badge' style='background-color: {self.color}'>{self.color}</span>"),
+            'Funcionários': self.workers,
             'Dia de trabalho': 'Sim' if self.is_work_day else 'Não',
             'Forçar dia lotado': 'Sim' if self.force_day_full else 'Não',
             'Tempo Disponível': f'{self.get_remain_hours()} min',

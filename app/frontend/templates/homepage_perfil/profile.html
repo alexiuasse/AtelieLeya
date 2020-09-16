@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 16/09/2020 10:01.
+  ~ Last modified 16/09/2020 16:14.
   -->
 
 {% extends './base.html' %}
@@ -125,14 +125,9 @@
                     </p>
                     <div class="list-group">
                         {% for s in user.profile.get_service_sorted_by_actual_month %}
-                        <a class="list-group-item list-group-item-action
-                           {% if s.finished %}
-                           list-group-item-success
-                           {% else %}
-                           list-group-item-warning
-                           {% endif %}"
+                        <a class="list-group-item list-group-item-action"
                            href="{{s.get_absolute_url_frontend}}">
-                            {{s.type_of_service}} em {{s.date}} às {{s.time}}
+                            {{s.type_of_service}} em {{s.date}} às {{s.time}} - {{s.get_contextual_html}}
                         </a>
                         {% endfor %}
                     </div>
@@ -156,7 +151,7 @@
                         <a class="list-group-item list-group-item-action" href="#">
                             {{r.reward.name}}
                             <span data-toggle="counter-up">{{r.points}}</span> pts
-                            em {{r.date}}
+                            em {{r.date}} - {{r.get_contextual_html}}
                         </a>
                         {% endfor %}
                     </div>

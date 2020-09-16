@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 16/09/2020 10:42.
+  ~ Last modified 16/09/2020 16:50.
   -->
 
 {% extends '../base/profile.html' %}
@@ -76,6 +76,14 @@
             <div class="card-body">
                 <div class="table-responsive mb-3">
                     <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Brinde</th>
+                            <th>Pontos</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
                         {% for r in obj.sorted_reward_set %}
                         <tr>
                             <td>
@@ -84,10 +92,13 @@
                             <!--                    <td>x<span data-countup>{{r.quantity}}</span></td>-->
                             <td><span data-countup>{{r.points}}</span> pts</td>
                             <td>{{r.date}}</td>
-                            <td>{{r.get_retrieved_html}}</td>
+                            <td>{{r.get_contextual_html}}</td>
                             {% if not r.retrieved %}
                             <td>
-                                <a href="{{r.get_confirm_url}}">Confirmar</a>
+                                <a data-toggle="tooltip" href="{{r.get_confirm_url}}"
+                                   title="{{TOOLTIP_RETRIEVED_REWARD}}">
+                                    {{ICON_CHECK|safe}} Retirado
+                                </a>
                             </td>
                             {% endif %}
                         </tr>
@@ -148,6 +159,7 @@
                         <th>Data/Hora</th>
                         <th>Confirmado</th>
                         <th>Status</th>
+                        <th>Context</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -177,6 +189,9 @@
                             </a>
                             {% endif %}
                         </td>
+                        <td>
+                            {{s.get_contextual_html_admin}}
+                        </td>
                     </tr>
                     {% endfor %}
                     {% endfor %}
@@ -199,6 +214,8 @@
     chart2.render();
   // @formatter:on
   });
+
+
 
 </script>
 {% endblock %}>

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 09:11.
+#  Last modified 16/09/2020 15:56.
 from datetime import datetime
 from typing import Dict, Any
 
@@ -10,6 +10,7 @@ from django.contrib.admin.utils import NestedObjects
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -73,6 +74,42 @@ def create_order_of_service(request, d, m, y):
             'form': form,
             'hours': business_day,
         })
+
+
+@login_required
+@require_http_methods(["GET"])
+@transaction.atomic()
+@permission_required('service.edit_orderofservice', raise_exception=True)
+def cancel_order_of_service_admin(request, pk):
+    """
+    Cancel a order of service from admin
+    :param request:
+    :param pk: order of service
+    :return: redirect to abosulute url (maybe profile)
+    """
+    instance = get_object_or_404(OrderOfService, pk=pk)
+    instance.canceled = True
+    instance.save()
+    return redirect(instance.get_absolute_url())
+
+
+@login_required
+@require_http_methods(["GET"])
+@transaction.atomic()
+def cancel_order_of_service_frontend(request, pk):
+    """
+    Cancel a order of service from frontend, client is canceling
+    :param request:
+    :param pk: order of service
+    :return: redirect to profile or permission denied if user is not owner of service
+    """
+    instance = get_object_or_404(OrderOfService, pk=pk)
+    if instance.customer == request.user:
+        instance.canceled = True
+        instance.save()
+        return redirect('users:frontend:profile')
+    else:
+        raise PermissionDenied()
 
 
 @login_required

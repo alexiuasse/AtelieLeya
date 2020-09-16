@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 20:02.
+#  Last modified 16/09/2020 16:49.
 
 from django.conf import settings  # import the settings file
 from .icons import *
@@ -16,13 +16,16 @@ def frontend_template_context(request):
         'TOOLTIP_PAYMENT_PAY': "Mudar status para pago",
         'TOOLTIP_NEW_SERVICE': "Adicionar novo procedimento",
         'TOOLTIP_NEW_INVOICE': "Adicionar nova fatura",
+        'TOOLTIP_SEE_INVOICE': "Ver Fatura",
         'TOOLTIP_NEW_REWARD': "Novo Brinde",
         'TOOLTIP_SERVICE_CONFIRM': "Confirmar procedimento",
         'TOOLTIP_SERVICE_FINISH': "Mudar status para finalizado",
+        'TOOLTIP_SERVICE_CANCEL': "Cancelar Procedimento",
         'TOOLTIP_SEE_ALL': "Ver Todos",
         'TOOLTIP_SCHEDULE_SERVICE': "Agendar Novo Procedimento",
         'TOOLTIP_EDIT_PROFILE': "Editar Perfil",
         'TOOLTIP_RETRIEVE_REWARD': "Resgatar Brinde",
+        'TOOLTIP_RETRIEVED_REWARD': "Brinde foi Retirado",
         'NAME_OF_ENTERPRISE': settings.NAME_OF_ENTERPRISE,
         'VERSION': settings.VERSION,
 

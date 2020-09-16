@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 10:56.
+#  Last modified 16/09/2020 16:51.
 from django.conf import settings
 from django.db import models
 
@@ -14,9 +14,9 @@ from django.utils.timezone import now
 
 class Invoice(BaseModel):
     # customer can be retrived from service
-    order_of_service = models.ForeignKey("service.OrderOfService", verbose_name="Procedimento",
-                                         on_delete=models.CASCADE, null=True, blank=True,
-                                         help_text="Procedimento a qual esse lançamento pertence.")
+    order_of_service = models.OneToOneField("service.OrderOfService", verbose_name="Procedimento",
+                                            on_delete=models.CASCADE, null=True, blank=True,
+                                            help_text="Procedimento a qual esse lançamento pertence.")
     type_of_payment = models.ForeignKey("config.TypeOfPayment", verbose_name="Tipo de Pagamento", null=True,
                                         on_delete=models.PROTECT, help_text="Qual foi o tipo de pagamento?")
     status = models.ForeignKey("config.StatusPayment", verbose_name="Status", on_delete=models.PROTECT, null=True)

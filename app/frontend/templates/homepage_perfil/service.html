@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/09/2020 20:52.
+  ~ Last modified 16/09/2020 16:03.
   -->
 
 {% extends './base.html' %}
@@ -34,7 +34,9 @@
                 <div class="col">
                     <h3>{{obj.type_of_service.name}}</h3>
                     <p class="small">
-                        <a href="#">{{ICON_TRIANGLE_ALERT|safe}} cancelar</a>
+                        <a data-toggle="tooltip" href="{{obj.get_cancel_url_frontend}}"
+                           title="{{TOOLTIP_SERVICE_CANCEL}}">{{ICON_TRIANGLE_ALERT|safe}} cancelar
+                        </a>
                     </p>
                     {% if obj.confirmed %}
                     <p>

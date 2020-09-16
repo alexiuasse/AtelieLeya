@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 15/09/2020 23:01.
+#  Last modified 16/09/2020 16:16.
 from django_tables2 import tables, TemplateColumn, Column
 
 from .models import *

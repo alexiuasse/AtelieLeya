@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 16/09/2020 10:57.
+  ~ Last modified 16/09/2020 16:42.
   -->
 
 {% extends '../base/profile.html' %}
@@ -79,6 +79,10 @@
                     {{ICON_TRIANGLE_ALERT|safe}}
                     Fatura do procedimento está incompleta!
                 </h3>
+                <a data-toggle="tooltip" href="{{obj.invoice.get_edit_url}}" title="{{TOOLTIP_SEE_INVOICE}}">
+                    {{ICON_EYE|safe}}
+                    Ver Fatura
+                </a>
             </div>
         </div>
         {% endif %}
@@ -92,8 +96,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="row">
     <div class="col-md-6">
         <div class="card">
@@ -110,6 +112,41 @@
                         </tr>
                         {% endfor %}
                     </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col">
+                        {% if not obj.canceled and not obj.finished %}
+                        <p>
+                            <a class="text-danger" data-toggle="tooltip" href="{{obj.get_cancel_url_admin}}"
+                               title="{{TOOLTIP_SERVICE_CANCEL}}">
+                                {{ICON_TRIANGLE_ALERT|safe}} Cancelar
+                            </a>
+                        </p>
+                        {% endif %}
+                    </div>
+                    <div class="col">
+                        {% if not obj.confirmed %}
+                        <p>
+                            <a data-toggle="tooltip" href="{{obj.get_confirmed_url}}"
+                               title="{{TOOLTIP_SERVICE_CONFIRM}}">
+                                {{ICON_CHECK|safe}}
+                                Confirmar
+                            </a>
+                        </p>
+                        {% endif %}
+                    </div>
+                    <div class="col">
+                        {% if not obj.finished %}
+                        <p>
+                            <a data-toggle="tooltip" href="{{obj.get_finished_url}}" title="{{TOOLTIP_SERVICE_FINISH}}">
+                                {{ICON_DOUBLE_CHECK|safe}}
+                                Finalizar
+                            </a>
+                        </p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,32 +167,26 @@
                             <th>Status</th>
                         </tr>
                         </thead>
-                        {% for k, v in obj.get_invoice_sorted_by_date.items %}
-                        {% for kk,vv in v.items %}
-                        {% for s in vv %}
                         <tr>
                             <td>
-                                <a href="{{s.get_edit_url}}">
-                                    {{s.type_of_payment|default_if_none:"Nenhum"}}
+                                <a href="{{obj.invoice.get_edit_url}}">
+                                    {{obj.invoice.type_of_payment|default_if_none:"Nenhum"}}
                                 </a>
                             </td>
-                            <td>R$ {{s.value}}</td>
-                            <td>{{s.date|date:"SHORT_DATE_FORMAT"}}</td>
+                            <td>R$ {{obj.invoice.value}}</td>
+                            <td>{{obj.invoice.date|date:"SHORT_DATE_FORMAT"}}</td>
                             <td>
-                        <span class="badge" style="background-color: {{s.status.contextual}};">
-                            {{s.status|default_if_none:"Nenhum"}}
-                        </span>
-                                {% if not s.get_is_success %}
-                                <a data-toggle="tooltip" href="{% url 'financial:invoice:success' pk=s.pk %}"
+                                <span class="badge" style="background-color: {{s.status.contextual}};">
+                                    {{obj.invoice.status|default_if_none:"Nenhum"}}
+                                </span>
+                                {% if not obj.invoice.get_is_success %}
+                                <a data-toggle="tooltip" href="{% url 'financial:invoice:success' pk=obj.invoice.pk %}"
                                    title="{{TOOLTIP_PAYMENT_PAY}}">
                                     <span class="badge bg-dark">{{ICON_DOUBLE_CHECK|safe}} Pago</span>
                                 </a>
                                 {% endif %}
                             </td>
                         </tr>
-                        {% endfor %}
-                        {% endfor %}
-                        {% endfor %}
                     </table>
                 </div>
             </div>

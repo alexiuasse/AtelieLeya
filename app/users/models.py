@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 11:00.
+#  Last modified 16/09/2020 16:46.
 
 from datetime import datetime
 
@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 
 
 class RewardRetrieved(BaseModel):
@@ -44,7 +45,12 @@ class RewardRetrieved(BaseModel):
         return reverse('users:rewardretrieved:confirm', kwargs={'pk': self.pk})
 
     def get_retrieved_html(self):
-        return "Resgatado" if self.retrieved else "Não Resgatado"
+        return "Retirado" if self.retrieved else "Não Retirado"
+
+    def get_contextual_html(self):
+        return mark_safe(
+            f"<span class='font-weight-bold text-success'>Retirado</span>" if self.retrieved
+            else f"<span class='font-weight-bold text-warning'>Não Retirado</span>")
 
 
 class Profile(BaseModel):
