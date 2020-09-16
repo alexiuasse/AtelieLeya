@@ -1,18 +1,20 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/09/2020 13:57.
+#  Last modified 14/09/2020 13:54.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.views import View
+from django.views.decorators.http import require_http_methods
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django_filters.views import FilterView
 from django_tables2.paginators import LazyPaginator
 from django_tables2.views import SingleTableMixin
-from frontend.icons import ICON_SETTINGS
 from service.models import OrderOfService
 
 from .conf import *
@@ -20,69 +22,6 @@ from .filters import *
 from .forms import *
 from .tables import *
 
-
-class Config(LoginRequiredMixin, View):
-    template = 'config/index.html'
-    title = 'Configurações'
-    subtitle = 'Configuração do sistema'
-
-    def get(self, request):
-        links = {
-            'reward': {
-                'pre_title': 'Configuração',
-                'title': {
-                    'text': 'Brinde',
-                    'icon': ICON_SETTINGS,
-                },
-                'link': reverse_lazy('config:reward:view'),
-                # 'count': Reward.objects.count(),
-            },
-            'status_service': {
-                'pre_title': 'Configuração',
-                'title': {
-                    'text': 'Status do Serviço',
-                    'icon': ICON_SETTINGS,
-                },
-                'link': reverse_lazy('config:statusservice:view'),
-                # 'count': StatusService.objects.count(),
-            },
-            'type_of_service': {
-                'pre_title': 'Configuração',
-                'title': {
-                    'text': 'Tipo de Serviço',
-                    'icon': ICON_SETTINGS,
-                },
-                'link': reverse_lazy('config:typeofservice:view'),
-                # 'count': TypeOfService.objects.count(),
-            },
-            'type_of_payment': {
-                'pre_title': 'Configuração',
-                'title': {
-                    'text': 'Tipo de Pagamento',
-                    'icon': ICON_SETTINGS,
-                },
-                'link': reverse_lazy('config:typeofpayment:view'),
-                # 'count': TypeOfPayment.objects.count(),
-            },
-            'status_payment': {
-                'pre_title': 'Configuração',
-                'title': {
-                    'text': 'Status de Pagamento',
-                    'icon': ICON_SETTINGS,
-                },
-                'link': reverse_lazy('config:statuspayment:view'),
-                # 'count': StatusPayment.objects.count(),
-            },
-        }
-        context = {
-            'title': self.title,
-            'subtitle': self.subtitle,
-            'links': links,
-        }
-        return render(request, self.template, context)
-
-
-########################################################################################################################
 
 class TypeOfPaymentView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
     model = TypeOfPayment
@@ -94,7 +33,7 @@ class TypeOfPaymentView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
     title = TITLE_VIEW_CONFIG_TYPE_OF_PAYMENT
     subtitle = SUBTITLE_VIEW_CONFIG_TYPE_OF_PAYMENT
     new = reverse_lazy('config:typeofpayment:create')
-    back_url = reverse_lazy('config:index')
+    back_url = reverse_lazy('frontend:dashboard')
 
 
 class TypeOfPaymentCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -138,11 +77,12 @@ class TypeOfPaymentDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
 
 
 ########################################################################################################################
-class TyperOfServiceGetValue(LoginRequiredMixin, View):
-
-    def get(self, request, pk):
-        order_of_service = get_object_or_404(OrderOfService, pk=pk)
-        return JsonResponse({'value': order_of_service.type_of_service.value}, safe=False)
+@login_required
+@require_http_methods(["GET"])
+@staff_member_required()
+@permission_required('config.get_typeofservice', raise_exception=True)
+def type_of_service_get_value(request, pk):
+    return JsonResponse({'value': get_object_or_404(OrderOfService, pk=pk).type_of_service.value}, safe=False)
 
 
 class TypeOfServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
@@ -155,7 +95,7 @@ class TypeOfServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
     title = TITLE_VIEW_CONFIG_TYPE_OF_SERVICE
     subtitle = SUBTITLE_VIEW_CONFIG_TYPE_OF_SERVICE
     new = reverse_lazy('config:typeofservice:create')
-    back_url = reverse_lazy('config:index')
+    back_url = reverse_lazy('frontend:dashboard')
 
 
 class TypeOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -211,7 +151,7 @@ class StatusServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
     title = TITLE_VIEW_CONFIG_STATUS_SERVICE
     subtitle = SUBTITLE_VIEW_CONFIG_STATUS_SERVICE
     new = reverse_lazy('config:statusservice:create')
-    back_url = reverse_lazy('config:index')
+    back_url = reverse_lazy('frontend:dashboard')
 
 
 class StatusServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -267,7 +207,7 @@ class StatusPaymentView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
     title = TITLE_VIEW_CONFIG_STATUS_PAYMENT
     subtitle = SUBTITLE_VIEW_CONFIG_STATUS_PAYMENT
     new = reverse_lazy('config:statuspayment:create')
-    back_url = reverse_lazy('config:index')
+    back_url = reverse_lazy('frontend:dashboard')
 
 
 class StatusPaymentCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -322,7 +262,7 @@ class RewardView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, 
     title = TITLE_VIEW_CONFIG_REWARD
     subtitle = SUBTITLE_VIEW_CONFIG_REWARD
     new = reverse_lazy('config:reward:create')
-    back_url = reverse_lazy('config:index')
+    back_url = reverse_lazy('frontend:dashboard')
 
 
 class RewardCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -377,7 +317,7 @@ class ExpedientView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixi
     title = TITLE_VIEW_CONFIG_EXPEDIENT
     subtitle = SUBTITLE_VIEW_CONFIG_EXPEDIENT
     new = reverse_lazy('config:expedient:create')
-    back_url = reverse_lazy('config:index')
+    back_url = reverse_lazy('frontend:dashboard')
 
 
 class ExpedientCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):

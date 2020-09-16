@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 12:29.
+#  Last modified 15/09/2020 20:56.
 
 from datetime import date
 
@@ -41,7 +41,7 @@ class OrderOfService(BaseModel):
         return reverse(self.get_reverse_profile, kwargs={'cpk': self.customer.pk, 'pk': self.pk})
 
     def get_absolute_url_frontend(self):
-        return reverse('service:orderofservice:get_frontend', kwargs={'pk': self.pk})
+        return reverse('service:frontend:get', kwargs={'pk': self.pk})
 
     def get_delete_url(self):
         return reverse(self.get_reverse_delete, kwargs={'cpk': self.customer.pk, 'pk': self.pk})

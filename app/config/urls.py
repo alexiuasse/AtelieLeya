@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/09/2020 14:00.
+#  Last modified 14/09/2020 13:53.
 
 from django.urls import path, include
 
@@ -24,7 +24,7 @@ reward_patterns = ([
 
 type_of_service_patterns = ([
                                 path('', TypeOfServiceView.as_view(), name='view'),
-                                path('<int:pk>/get/value/', TyperOfServiceGetValue.as_view(), name='value'),
+                                path('<int:pk>/get/value/', type_of_service_get_value, name='value'),
                                 path('create/', TypeOfServiceCreate.as_view(), name='create'),
                                 path('<int:pk>/edit/', TypeOfServiceEdit.as_view(), name='edit'),
                                 path('<int:pk>/del', TypeOfServiceDel.as_view(), name='delete'),
@@ -52,7 +52,6 @@ expedient_day_patterns = ([
                           ], 'expedient')
 
 urlpatterns = [
-    path('', Config.as_view(), name='index'),
     path('typeofpayment/', include(type_of_payment_patterns)),
     path('reward/', include(reward_patterns)),
     path('typeofservice/', include(type_of_service_patterns)),

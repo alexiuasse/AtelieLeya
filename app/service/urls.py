@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 07/09/2020 15:09.
+#  Last modified 15/09/2020 20:55.
 from django.urls import path, include
 
 from .views import *
@@ -28,7 +28,12 @@ order_of_service_patterns = ([
                                       name='finished'),
                              ], 'orderofservice')
 
+frontend_patterns = ([
+                         path('<int:pk>/get/', get_order_of_service, name='get'),
+                     ], 'frontend')
+
 urlpatterns = [
     path('', include(order_of_service_patterns)),
+    path('frontend/', include(frontend_patterns)),
     path('calendar/', include(calendar_patterns)),
 ]

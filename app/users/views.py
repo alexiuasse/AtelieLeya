@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 13:01.
+#  Last modified 15/09/2020 17:42.
 from typing import Dict, Any
 
 from config.models import Reward, TypeOfService
@@ -80,7 +80,13 @@ class ProfileEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 @login_required
 @require_http_methods(["GET"])
 def profile_frontend(request):
-    return render(request, "homepage/profile.html", {'start_date': datetime.today().date})
+    return render(request, "homepage_perfil/profile.html")
+
+
+@login_required
+@require_http_methods(["GET"])
+def calendar_service_frontend(request):
+    return render(request, "homepage_perfil/calendar.html", {'start_date': datetime.today().date})
 
 
 @login_required
@@ -96,7 +102,7 @@ def profile_update(request):
     else:
         user_form = UserChangeFormFrontend(instance=request.user)
         profile_form = ProfileFormFrontend(instance=request.user.profile)
-    return render(request, 'homepage/signup_update.html', {
+    return render(request, 'homepage_perfil/signup.html', {
         'user_form': user_form,
         'profile_form': profile_form
     })
@@ -120,7 +126,7 @@ def signup(request):
     else:
         user_form = UserCreationFormFrontend()
         profile_form = ProfileFormFrontend()
-    return render(request, 'homepage/signup_update.html', {
+    return render(request, 'homepage_perfil/signup.html', {
         'user_form': user_form,
         'profile_form': profile_form
     })
@@ -131,7 +137,7 @@ def signup(request):
 @login_required
 @require_http_methods(["GET"])
 def reward_frontend(request):
-    return render(request, template_name='homepage/reward_retrieve.html', context={
+    return render(request, template_name='homepage_perfil/reward.html', context={
         'rewards': Reward.objects.filter(available=True),
     })
 

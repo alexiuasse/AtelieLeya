@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 14/09/2020 10:19.
+  ~ Last modified 15/09/2020 09:50.
   -->
 
 <!-- ======= Header ======= -->
@@ -24,7 +24,7 @@
                 {% endif %}
                 {% if not user.is_authenticated %}
                 <li>
-                    <a href="{% url 'frontend:login_frontend' %}?next={% url 'users:frontend:profile' %}">Login</a>
+                    <a href="{% url 'frontend:login' %}">Login</a>
                 </li>
                 {% else %}
                 <li><a href="{% url 'users:frontend:profile' %}">Perfil</a></li>

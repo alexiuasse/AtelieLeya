@@ -1,12 +1,13 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 10:57.
+#  Last modified 15/09/2020 20:55.
 from datetime import datetime
 from typing import Dict, Any
 
 from business.models import BusinessDay
 from config.models import StatusService, TypeOfService
 from django.contrib.admin.utils import NestedObjects
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -14,6 +15,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
+from django.views.decorators.http import require_http_methods
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django_filters.views import FilterView
 from django_tables2.paginators import LazyPaginator
@@ -34,8 +36,16 @@ class OrderOfServiceGetFrontend(LoginRequiredMixin, View):
         })
 
 
+@login_required
+@require_http_methods(["GET"])
+def get_order_of_service(request, pk):
+    return render(request, 'homepage_perfil/service.html', {
+        'obj': get_object_or_404(OrderOfService, pk=pk),
+    })
+
+
 class OrderOfServiceCreateFrontend(LoginRequiredMixin, View):
-    template = 'homepage/service_create.html'
+    template = 'homepage_perfil/schedule_service.html'
 
     def get(self, request, day, month, year):
         s_date = datetime(year, month, day)

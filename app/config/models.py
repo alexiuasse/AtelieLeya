@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/09/2020 14:11.
+#  Last modified 15/09/2020 21:50.
 import datetime
 
 from base.models import BaseModel
@@ -96,3 +96,7 @@ class Expedient(BaseModel):
         end_timedelta = datetime.timedelta(hours=self.end_time.hour, minutes=self.end_time.minute)
         start_timedelta = datetime.timedelta(hours=self.start_time.hour, minutes=self.start_time.minute)
         return (end_timedelta - start_timedelta).seconds / 60
+
+
+class Site(BaseModel):
+    pass

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 03/09/2020 15:11.
+  ~ Last modified 15/09/2020 17:34.
   -->
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
@@ -10,12 +10,15 @@
 <body class="antialiased ">
 <div class="page bg-login">
     <div class="content" id="content">
-        {% include 'under_construction.html' %}
         <div class="container-xl">
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col-auto">
+                        <div class="page-pretitle">Login</div>
                         <h2 class="page-title">
+                            <a data-toggle="tooltip" href="{% url 'frontend:homepage' %}" title="Voltar">
+                                <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                            </a>
                             {{NAME_OF_ENTERPRISE}}
                         </h2>
                     </div>
@@ -23,29 +26,45 @@
             </div>
         </div>
         <div class="container-xl">
-            <div class="row ">
-                <div class="col-lg-6 col-md-6 ml-auto mr-auto">
-                    <div class="card bg-transparent">
-                        <div class="row row-0">
-                            <div class="col-6 m-3">
-                                <img alt="{{NAME_OF_ENTERPRISE}}" class="w-100 h-100 object-cover"
-                                     src="{% static 'logo.svg' %}">
+            <div class="row row-deck">
+                <div class="col-sm-6 mr-auto ml-auto">
+                    <div class="card d-flex flex-column">
+                        <div class="row row-0 flex-fill">
+                            <div class="col-md-6 d-none d-md-flex ">
+                                <img alt="{{NAME_OF_ENTERPRISE}}" class="w-100 h-100 p-1" src="{% static 'logo.svg' %}">
                             </div>
                             <div class="col">
                                 <div class="card-body">
-                                    <h3 class="card-title">Login</h3>
-                                    <form method="post">
-                                        {% csrf_token %}
+                                    <h3 class="card-title">
+                                        Login
+                                    </h3>
+                                    <div class="text-muted">
                                         {% if form.errors %}
                                         <p class="text-danger text-center font-weight-bold mb-2">
-                                            Usuário ousenha errado*
+                                            Usuário ou senha errado*
                                         </p>
                                         {% endif %}
+                                    </div>
+                                    <form method="post">
+                                        {% csrf_token %}
                                         {{form.username|as_crispy_field}}
                                         {{form.password|as_crispy_field}}
                                         <button class="btn bg-gold btn-block mt-3" type="submit">Entrar
                                         </button>
                                     </form>
+                                    <div class="d-flex align-items-center pt-5 mt-auto">
+                                        <span class="avatar avatar-md"
+                                              style="background-image: url('{% static 'avatars/000.png' %}')">
+                                        </span>
+                                        <div class="ml-3">
+                                            <span class="text-body">Não tem uma conta?</span>
+                                            <small class="d-block text-muted">
+                                                <a href="{% url 'users:frontend:signup' %}">
+                                                    Criar Conta
+                                                </a>
+                                            </small>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -57,8 +76,7 @@
     </div>
 </div>
 <script>
-  document.body.style.display = "block"
-
+  document.body.style.display = "block";
 </script>
 </body>
 {% endblock %}

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/09/2020 13:57.
+#  Last modified 15/09/2020 10:36.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -52,7 +52,7 @@ class RewardForm(BaseConfigForm):
         model = Reward
         widgets = {
             'contextual': TextInput(attrs={'type': 'color'}),
-            'image': TextInput(attrs={'type': 'file'}),
+            # 'image': TextInput(attrs={'type': 'file'}),
         }
         fields = ['name', 'quantity_in_points', 'contextual', 'available', 'description', 'image']
 

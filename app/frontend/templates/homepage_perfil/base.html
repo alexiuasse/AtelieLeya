@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/09/2020 16:40.
+  ~ Last modified 15/09/2020 21:50.
   -->
 
 <!DOCTYPE html>
@@ -33,13 +33,14 @@
       body {
       	display: none;
       }
+
     </style>
     <!--  Block of links  -->
     {% block links %}{% endblock %}
 </head>
 {% block body_html %}
 <body class="antialiased">
-{% block sidebar %}{% include "topbar.html" %}{% endblock %}
+{% block sidebar %}{% include "./topbar.html" %}{% endblock %}
 <div class="page">
     <div class="content" id="content">
         {% block content %}{% include "dashboard.html" %}{% endblock %}
@@ -57,7 +58,8 @@
 <script src="{% static 'dist/js/tabler.min.js' %}"></script>
 
 <script>
-    document.body.style.display = "block";
+    document.body.style.display = "block"
+
 </script>
 {% block javascript %}{% endblock %}
 </body>

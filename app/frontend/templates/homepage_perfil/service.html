@@ -1,0 +1,76 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 15/09/2020 20:52.
+  -->
+
+{% extends './base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-xl">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div class="page-pretitle">Procedimento</div>
+                <h2 class="page-title">
+                    <a data-toggle="tooltip" href="{% url 'users:frontend:profile' %}" title="Voltar">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    Informações do Procedimento
+                </h2>
+            </div>
+            <div class="col-auto ml-auto d-print-none">
+                {% block page_header_actions %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <img alt="{{obj.type_of_service.name}}" class="img-fluid"
+                         src="/media/{{obj.type_of_service.image.name}}">
+                </div>
+                <div class="col">
+                    <h3>{{obj.type_of_service.name}}</h3>
+                    <p class="small">
+                        <a href="#">{{ICON_TRIANGLE_ALERT|safe}} cancelar</a>
+                    </p>
+                    {% if obj.confirmed %}
+                    <p>
+                        Seu procedimento foi <code>confirmado</code>!
+                    </p>
+                    {% else %}
+                    <p>
+                        Seu procedimento ainda <code>não</code> foi <code>confirmado</code>,
+                        logo estaremos confirmando pelo seu número
+                        <span class="font-weight-bold">{{obj.customer.whatsapp}}</span>.
+                    </p>
+                    {% endif %}
+                    {% if not obj.finished %}
+                    <p>
+                        Seu procedimento está <code>agendado</code> para
+                        <span class="font-weight-bold">{{obj.date}}</span> ás
+                        <span class="font-weight-bold">{{obj.time}}</span>.
+                    </p>
+                    {% else %}
+                    <p>
+                        Seu procedimento foi <code>finalizado</code> no dia
+                        <span class="font-weight-bold">{{obj.date}}</span> ás
+                        <span class="font-weight-bold">{{obj.time}}</span>.
+                    </p>
+                    {% endif %}
+                    <h3 class="mt-3">Sobre</h3>
+                    <p>
+                        Esse procedimento vale
+                        <span class="font-weight-bold"
+                              data-toggle="counter-up">{{obj.type_of_service.rewarded_points}}</span>
+                        pontos.
+                    </p>
+                    <p>{{obj.type_of_service.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

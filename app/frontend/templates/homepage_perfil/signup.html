@@ -1,0 +1,130 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 15/09/2020 21:50.
+  -->
+
+{% extends './base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block body_html %}
+<body class="antialiased ">
+<div class="page bg-login">
+    <div class="content" id="content">
+        <div class="container-xl">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <div class="page-pretitle">
+                            {% if user.is_authenticated %}
+                            Atualizar Informações
+                            {% else %}
+                            Cadastro
+                            {% endif %}
+                        </div>
+                        <h2 class="page-title">
+                            {% if not user.is_authenticated %}
+                            <a data-toggle="tooltip" href="{% url 'frontend:homepage' %}" title="Voltar">
+                                <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                            </a>
+                            {% endif %}
+                            {{NAME_OF_ENTERPRISE}}
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-xl">
+            <div class="row row-deck">
+                <div class="col-lg-12 mr-auto ml-auto">
+                    <div class="card d-flex flex-column">
+                        <div class="row row-0 flex-fill">
+                            <div class="col-md-6 d-none d-md-flex ">
+                                <img alt="{{NAME_OF_ENTERPRISE}}" class="w-100 h-100 p-3" src="{% static 'logo.svg' %}">
+                            </div>
+                            <div class="col">
+                                <div class="card-body">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            {% if profile_form %}
+                                            <div class="col-lg-6 {% if not user_form %}mr-auto ml-auto{% endif %}">
+                                                <h5 class="card-title text-center">Perfil</h5>
+                                                {% for field in profile_form %}
+                                                {{ field|as_crispy_field }}
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                            {% if user_form %}
+                                            <div class="col-lg-6">
+                                                <h5 class="card-title text-center">Autenticação</h5>
+                                                {% for field in user_form %}
+                                                {{ field|as_crispy_field }}
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-row mt-3">
+                                            {% if user.is_authenticated %}
+                                            <a class="btn btn-danger"
+                                               href="{% url 'users:frontend:profile' %}"
+                                               type="button">
+                                                Cancelar
+                                            </a>
+                                            <button class="btn btn-success" type="submit">
+                                                Confirmar
+                                            </button>
+                                            {% else %}
+                                            <button class="btn bg-gold btn-block" type="submit">
+                                                Cadastrar
+                                            </button>
+                                            {% endif %}
+                                        </div>
+                                    </form>
+                                    <div class="d-flex align-items-center pt-5 mt-auto">
+                                        {% if not user.is_authenticated %}
+                                        <span class="avatar avatar-md"
+                                              style="background-image: url('{% static 'avatars/000.png' %}')">
+                                        </span>
+                                        <div class="ml-3">
+                                            <span class="text-body">Já tem uma conta?</span>
+                                            <small class="d-block text-muted">
+                                                <a href="{% url 'frontend:login' %}">
+                                                    Entrar
+                                                </a>
+                                            </small>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% block footer %}{% include "footer.html" %}{% endblock %}
+    </div>
+</div>
+<script>
+  document.body.style.display = "block";
+
+</script>
+</body>
+{% block javascript %}
+<script src="{% static 'dist/libs/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'dist/libs/imask/dist/imask.min.js' %}"></script>
+<script>
+// @formatter:off
+$(document).ready(function(){
+    var element = document.getElementById('id_whatsapp');
+    var maskOptions = {
+      mask: '(00) 0 0000-0000'
+    };
+    var mask = IMask(element, maskOptions);
+});
+// @formatter:on
+
+</script>
+{% endblock %}
+{% endblock %}

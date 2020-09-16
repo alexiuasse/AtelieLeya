@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 13:00.
+#  Last modified 14/09/2020 19:18.
 
 from django.urls import path, include
 
@@ -28,6 +28,7 @@ frontend_patterns = ([
                          path('profile/', profile_frontend, name='profile'),
                          path('profile/update/', profile_update, name='update'),
                          path('reward/', reward_frontend, name='reward'),
+                         path('calendar/', calendar_service_frontend, name='calendar'),
                          path('<int:rpk>/reward/retrieve/', reward_retrieve_frontend, name='reward_retrieve'),
                      ], 'frontend')
 
