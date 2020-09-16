@@ -1,10 +1,11 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 13/09/2020 13:12.
+  ~ Last modified 16/09/2020 10:02.
   -->
 {% extends '../base/profile.html' %}
 {% load l10n %}
+{% load static %}
 {% block page_header_actions %}
 <a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
    href="{{obj.get_new_service_url}}"
@@ -21,31 +22,45 @@
 {% endblock %}
 {% block profile_content %}
 <div class="row">
-    {% if obj.customuser.is_birthday %}
-    <div class="col-md-12">
-        <div class="alert alert-warning">
-            <h3>
-                {{ICON_GIFT|safe}}
-                Alerta de Aniversário!!! Deseje um feliz aniversário, whatsapp {{obj.whatsapp}}
-            </h3>
+    {% if obj.user.workerprofile.is_birthday %}
+    <div class="col-lg-12">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-auto ml-auto mr-auto">
+                        <img alt="Aniversário" class="img-fluid img-birthday"
+                             src="{% static 'homepage/dist/img/undraw_online_wishes_dlmr.svg' %}">
+                    </div>
+                    <div class="col-lg-6 col-md-auto">
+                        <h1>Feliz Aniversário {{obj.get_full_name}}!!</h1>
+                        <h4>De toda equipe {{NAME_OF_ENTERPRISE}}</h4>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     {% endif %}
-    <div class="col-lg-6 col-md-auto">
-        <h3>Informações</h3>
-        <div class="table-responsive mb-3">
-            <table class="table table-hover">
-                {% for k, v in obj.customuser.get_dict_data.items %}
-                <tr>
-                    <td>{{k}}</td>
-                    <td>{{v}}</td>
-                </tr>
-                {% endfor %}
-            </table>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Informações</h3>
+                <div class="table-responsive mb-3">
+                    <table class="table table-hover">
+                        {% for k, v in obj.get_dict_data.items %}
+                        <tr>
+                            <td>{{k}}</td>
+                            <td>{{v}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
 <div class="row">
+    {% if obj.has_service %}
     <h3>Procedimentos</h3>
     {% for k,v in obj.get_service_sorted_by_entry_date.items %}
     <div class="col-lg-12 col-md-auto">
@@ -96,6 +111,7 @@
         </div>
     </div>
     {% endfor %}
+    {% endif %}
 </div>
 {% endblock %}
 {% block javascript %}
@@ -108,6 +124,7 @@
     chart2.render();
   // @formatter:on
   });
+
 
 
 </script>

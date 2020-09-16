@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 13/09/2020 13:12.
+#  Last modified 16/09/2020 09:57.
 
 from typing import Dict, Any
 
@@ -38,14 +38,14 @@ class WorkerProfileView(LoginRequiredMixin, PermissionRequiredMixin, SingleTable
     filterset_class = WorkerProfileFilter
     paginator_class = LazyPaginator
     permission_required = 'worker.view_workerprofile'
-    template_name = 'user/view.html'
+    template_name = 'worker/view.html'
     title = TITLE_VIEW_WORKER_PROFILE
     subtitle = SUBTITLE_WORKER_PROFILE
     new = reverse_lazy('worker:workerprofile:create')
     back_url = reverse_lazy('frontend:dashboard')
 
     def get_queryset(self):
-        return WorkerProfile.objects.all().order_by('customuser__first_name')
+        return WorkerProfile.objects.all().order_by('name')
 
 
 class WorkerProfileCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -55,6 +55,11 @@ class WorkerProfileCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     permission_required = 'worker.create_workerprofile'
     title = TITLE_CREATE_WORKER_PROFILE
     subtitle = SUBTITLE_WORKER_PROFILE
+
+    def get_form_kwargs(self):
+        kwargs = super(WorkerProfileCreate, self).get_form_kwargs()
+        kwargs['users'] = User.objects.filter(is_staff=True)
+        return kwargs
 
     def get_success_url(self):
         return self.object.get_absolute_url() if self.object else reverse_lazy('worker:workerprofile:view')
@@ -71,6 +76,11 @@ class WorkerProfileEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     permission_required = 'worker.edit_workerprofile'
     title = TITLE_EDIT_WORKER_PROFILE
     subtitle = SUBTITLE_WORKER_PROFILE
+
+    def get_form_kwargs(self):
+        kwargs = super(WorkerProfileEdit, self).get_form_kwargs()
+        kwargs['users'] = User.objects.filter(is_staff=True)
+        return kwargs
 
 
 class WorkerProfileDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):

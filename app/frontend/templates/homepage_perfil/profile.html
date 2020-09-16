@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/09/2020 21:00.
+  ~ Last modified 16/09/2020 10:01.
   -->
 
 {% extends './base.html' %}
@@ -35,14 +35,20 @@
     </div>
     <div class="row">
         {% if user.profile.is_birthday %}
-        <div class="row align-items-center">
-            <div class="col-lg-3 col-md-auto ml-auto mr-auto">
-                <img alt="Aniversário" class="img-fluid img-birthday"
-                     src="{% static 'homepage/dist/img/undraw_online_wishes_dlmr.svg' %}">
-            </div>
-            <div class="col-lg-6 col-md-auto">
-                <h1>Feliz Aniversário {{user.profile.get_full_name}}!!</h1>
-                <h4>De toda equipe {{NAME_OF_ENTERPRISE}}</h4>
+        <div class="col-lg-12">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 col-md-auto ml-auto mr-auto">
+                            <img alt="Aniversário" class="img-fluid img-birthday"
+                                 src="{% static 'homepage/dist/img/undraw_online_wishes_dlmr.svg' %}">
+                        </div>
+                        <div class="col-lg-6 col-md-auto">
+                            <h1>Feliz Aniversário {{user.profile.get_full_name}}!!</h1>
+                            <h4>De toda equipe {{NAME_OF_ENTERPRISE}}</h4>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         {% endif %}
