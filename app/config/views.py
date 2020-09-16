@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 13:54.
+#  Last modified 16/09/2020 09:12.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.views import View
 from django.views.decorators.http import require_http_methods
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django_filters.views import FilterView
@@ -82,6 +81,12 @@ class TypeOfPaymentDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
 @staff_member_required()
 @permission_required('config.get_typeofservice', raise_exception=True)
 def type_of_service_get_value(request, pk):
+    """
+    Used to get the value of a type of service when creating/editing an Invoice
+    :param request:
+    :param pk: type of service
+    :return: JsonResponse with the value
+    """
     return JsonResponse({'value': get_object_or_404(OrderOfService, pk=pk).type_of_service.value}, safe=False)
 
 

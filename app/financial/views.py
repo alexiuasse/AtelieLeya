@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 09:06.
+#  Last modified 16/09/2020 09:11.
 
 from typing import Dict, Any
 
@@ -34,7 +34,6 @@ def invoice_payment_success(request, pk):
     return redirect(instance.order_of_service.get_absolute_url())
 
 
-@staff_member_required()
 class InvoiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Invoice
     form_class = InvoiceForm
@@ -59,7 +58,6 @@ class InvoiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-@staff_member_required()
 class InvoiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Invoice
     form_class = InvoiceForm
@@ -69,7 +67,6 @@ class InvoiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     subtitle = SUBTITLE_INVOICE
 
 
-@staff_member_required()
 class InvoiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Invoice
     template_name = "financial/confirm_delete.html"

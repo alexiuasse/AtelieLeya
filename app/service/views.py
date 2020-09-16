@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 09:06.
+#  Last modified 16/09/2020 09:11.
 from datetime import datetime
 from typing import Dict, Any
 
@@ -154,7 +154,6 @@ def profile_order_of_service(request, cpk, pk):
     return render(request, 'service/profile.html', {'obj': OrderOfService.objects.get(pk=pk)})
 
 
-@staff_member_required()
 class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = OrderOfService
     form_class = OrderOfServiceForm
@@ -180,7 +179,6 @@ class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
         return HttpResponseRedirect(self.get_success_url())
 
 
-@staff_member_required()
 class OrderOfServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = OrderOfService
     form_class = OrderOfServiceForm
@@ -190,7 +188,6 @@ class OrderOfServiceEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
     subtitle = SUBTITLE_ORDER_OF_SERVICE
 
 
-@staff_member_required()
 class OrderOfServiceDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     model = OrderOfService
     template_name = "service/confirm_delete.html"
