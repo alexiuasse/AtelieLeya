@@ -1,39 +1,25 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 15/09/2020 20:55.
+#  Last modified 15/09/2020 23:01.
 from datetime import datetime
 from typing import Dict, Any
 
 from business.models import BusinessDay
 from config.models import StatusService, TypeOfService
 from django.contrib.admin.utils import NestedObjects
-from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.decorators.http import require_http_methods
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
-from django_filters.views import FilterView
-from django_tables2.paginators import LazyPaginator
-from django_tables2.views import SingleTableMixin, SingleTableView
 
 from .conf import *
-from .filters import *
 from .forms import *
 from .tables import *
-
-
-class OrderOfServiceGetFrontend(LoginRequiredMixin, View):
-    template = 'homepage/service_view.html'
-
-    def get(self, request, pk):
-        return render(request, self.template, {
-            'obj': get_object_or_404(OrderOfService, pk=pk),
-        })
 
 
 @login_required
@@ -44,37 +30,34 @@ def get_order_of_service(request, pk):
     })
 
 
-class OrderOfServiceCreateFrontend(LoginRequiredMixin, View):
+@login_required
+@require_http_methods(["GET", "POST"])
+def create_order_of_service(request, d, m, y):
+    """
+    User (client) create a order of service from frontend when clicked on calendar
+    :param request:
+    :param d: day
+    :param m: month
+    :param y: year
+    :return: a correspond view
+    """
     template = 'homepage_perfil/schedule_service.html'
-
-    def get(self, request, day, month, year):
-        s_date = datetime(year, month, day)
-        business_day = get_object_or_404(BusinessDay, day=s_date)
-        query_tp_s = TypeOfService.objects.filter(time__lte=business_day.get_remain_hours())
-        times = business_day.get_tuple_remain_hours()
+    s_date = datetime(y, m, d)
+    business_day = get_object_or_404(BusinessDay, day=s_date)
+    query_tp_s = TypeOfService.objects.filter(time__lte=business_day.get_remain_hours())
+    times = business_day.get_tuple_remain_hours()
+    if request.method == "GET":
         form = OrderOfServiceFormFrontend(query_tp_s=query_tp_s,
                                           times=times,
                                           businessday_pk=business_day.pk,
                                           initial={'date': s_date})
-        return render(request, self.template, {
+        return render(request, template_name=template, context={
             'date': s_date.date(),
             'form': form,
             'hours': business_day
         })
-
-    def post(self, request, day, month, year):
-        """
-        Must check:
-            - If service fit the remain hours
-            - Services MUST NOT overlap
-            - Check if there isn't other service with same time
-                - same time, must check the default time of the type of service
-        """
+    else:
         with transaction.atomic():
-            s_date = datetime(year, month, day)
-            business_day = get_object_or_404(BusinessDay, day=s_date)
-            query_tp_s = TypeOfService.objects.filter(time__lte=business_day.get_remain_hours())
-            times = business_day.get_tuple_remain_hours()
             form = OrderOfServiceFormFrontend(request.POST,
                                               query_tp_s=query_tp_s,
                                               times=times,
@@ -85,166 +68,93 @@ class OrderOfServiceCreateFrontend(LoginRequiredMixin, View):
                 instance.customer = request.user
                 instance.save()
                 return HttpResponseRedirect(reverse('users:frontend:profile'))
-        return render(request, self.template, {
+        return render(request, template_name=template, context={
             'date': s_date.date(),
             'form': form,
             'hours': business_day,
         })
 
 
-class OrderOfServiceChangeDate(LoginRequiredMixin, PermissionRequiredMixin, View):
-    """
-        View to easy change the date and time of an orderofservice from dashboard calendar
-    """
-    permission_required = "service.edit_orderofservice"
-
-    def get(self, request):
-        status, error_message = True, ""
-        pk = request.GET.get('pk', None)
-        try:
-            if pk:
-                instance = get_object_or_404(OrderOfService, pk=pk)
-                new_date, new_time = request.GET.get('date', None), request.GET.get('time', None)
-                if new_date and new_time:
-                    instance.date = new_date
-                    instance.time = new_time
-                    instance.save()
-                else:
-                    status, error_message = False, "Data ou Hora inválidos!"
+@login_required
+@staff_member_required()
+@require_http_methods(["GET"])
+@permission_required('service.edit_orderofservice', raise_exception=True)
+def change_date_order_of_service(request):
+    status, error_message = True, ""
+    pk = request.GET.get('pk', None)
+    try:
+        if pk:
+            instance = get_object_or_404(OrderOfService, pk=pk)
+            new_date, new_time = request.GET.get('date', None), request.GET.get('time', None)
+            if new_date and new_time:
+                instance.date = new_date
+                instance.time = new_time
+                instance.save()
             else:
-                status, error_message = False, "Faltando informações: 'PK' "
-        except Exception as e:
-            status, error_message = False, "O seguinte erro aconteceu %s" % e
-        return JsonResponse({
-            'status': status,
-            'error_message': error_message,
-        })
-
-
-class OrderOfServiceConfirmed(LoginRequiredMixin, View):
-    """
-        View to easy confirm orderofservice
-    """
-
-    def get(self, request, pk, flag):
-        if request.user.is_superuser and request.user.is_authenticated:
-            instance = get_object_or_404(OrderOfService, pk=pk)
-            instance.confirmed = True
-            instance.save()
-            return redirect(
-                instance.get_absolute_url() if flag == 0 else instance.get_back_url()
-            )
+                status, error_message = False, "Data ou Hora inválidos!"
         else:
-            raise PermissionDenied()
+            status, error_message = False, "Faltando informações: 'PK' "
+    except Exception as e:
+        status, error_message = False, "O seguinte erro aconteceu %s" % e
+    return JsonResponse({
+        'status': status,
+        'error_message': error_message,
+    })
 
 
-class OrderOfServiceFinished(LoginRequiredMixin, View):
+@login_required
+@staff_member_required()
+@require_http_methods(["GET"])
+@permission_required('service.edit_orderofservice', raise_exception=True)
+def confirm_order_of_service(request, pk, flag):
     """
-        View to easy change the status of orderofservice to finished
+    Set an order of service to confirmed
+    :param request:
+    :param pk: pk of an order of service
+    :param flag: used to tell where to redirect, 0 to profile and 1 to owner user
+    :return:
     """
-
-    def get(self, request, pk, flag):
-        if request.user.is_superuser and request.user.is_authenticated:
-            instance = get_object_or_404(OrderOfService, pk=pk)
-            instance.status = get_object_or_404(StatusService, pk=settings.STATUS_SERVICE_FINISHED)
-            instance.finished = True
-            instance.save()
-            return redirect(
-                instance.get_absolute_url() if flag == 0 else instance.get_back_url()
-            )
-        else:
-            raise PermissionDenied()
+    instance = get_object_or_404(OrderOfService, pk=pk)
+    instance.confirmed = True
+    instance.save()
+    return redirect(instance.get_absolute_url() if flag == 0 else instance.get_back_url())
 
 
-########################################################################################################################
-
-class ServiceCalendarCustomer(LoginRequiredMixin, View):
-    template = 'homepage/calendar.html'
-    title = 'Agendamento Fácil'
-    subtitle = 'Agende seu horário'
-
-    def get(self, request):
-        return render(request, self.template, {
-            'start_date': datetime.today().date,
-            'title': self.title,
-            'subtitle': self.subtitle,
-            'services': OrderOfService.objects.all()
-        })
-
-
-class ServiceCalendarAdmin(LoginRequiredMixin, View):
-    template = 'service/calendar.html'
-    title = 'Calendário Admin'
-    subtitle = 'Serviços'
-
-    def get(self, request):
-        return render(request, self.template, {
-            'start_date': datetime.today().date,
-            'title': self.title,
-            'subtitle': self.subtitle,
-            'services': OrderOfService.objects.all()
-        })
-
-
-########################################################################################################################
-
-class OrderOfServiceProfile(LoginRequiredMixin, View):
+@login_required
+@staff_member_required()
+@require_http_methods(["GET"])
+@permission_required('service.edit_orderofservice', raise_exception=True)
+def finish_order_of_service(request, pk, flag):
     """
-        Show one order of service given the pk
+    Set an order of service to confirmed
+    :param request:
+    :param pk: pk of an order of service
+    :param flag: used to tell where to redirect, 0 to profile and 1 to owner user
+    :return:
     """
-
-    template = 'service/profile.html'
-    title = TITLE_VIEW_ORDER_OF_SERVICE
-    subtitle = SUBTITLE_ORDER_OF_SERVICE
-
-    def get(self, request, cpk, pk):
-        return render(request, self.template, {'obj': OrderOfService.objects.get(pk=pk)})
+    instance = get_object_or_404(OrderOfService, pk=pk)
+    instance.status = get_object_or_404(StatusService, pk=settings.STATUS_SERVICE_FINISHED)
+    instance.finished = True
+    instance.save()
+    return redirect(instance.get_absolute_url() if flag == 0 else instance.get_back_url())
 
 
-# unused
-class OrderOfServiceIndex(LoginRequiredMixin, SingleTableView):
+@login_required
+@staff_member_required()
+@require_http_methods(["GET"])
+@permission_required('service.view_orderofservice', raise_exception=True)
+def profile_order_of_service(request, cpk, pk):
     """
-        View to show all orderofservices in a table
+    Rendering the profile of an order of service
+    :param request:
+    :param cpk: customer pk
+    :param pk: order of service
+    :return:
     """
-    template_name = 'service/view.html'
-    title = TITLE_VIEW_ORDER_OF_SERVICE
-    subtitle = SUBTITLE_ORDER_OF_SERVICE
-    table_class = OrderOfServiceTable
-    paginator_class = LazyPaginator
-
-    def get_queryset(self):
-        query = {'date__year': self.kwargs['year'], 'scheduled': self.kwargs['scheduled']}
-        if self.kwargs['status'] != 0:
-            query['status'] = self.kwargs['status']
-        if self.kwargs['day'] != 0:
-            query['date__day'] = self.kwargs['day']
-        if self.kwargs['month'] != 0:
-            query['date__month'] = self.kwargs['month']
-        return OrderOfService.objects.filter(**query).order_by('-date')
-
-    @staticmethod
-    def get_back_url():
-        return reverse_lazy('frontend:dashboard')
-
-
-# unused
-class OrderOfServiceView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
-    model = OrderOfService
-    table_class = OrderOfServiceTable
-    filterset_class = OrderOfServiceFilter
-    paginator_class = LazyPaginator
-    permission_required = 'service.view_orderofservice'
-    template_name = 'service/view.html'
-    title = TITLE_VIEW_ORDER_OF_SERVICE
-    subtitle = SUBTITLE_ORDER_OF_SERVICE
-    new = reverse_lazy('service:index')
+    return render(request, 'service/profile.html', {'obj': OrderOfService.objects.get(pk=pk)})
 
 
 class OrderOfServiceCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    """
-        Create new order of service from admin panel
-    """
-
     model = OrderOfService
     form_class = OrderOfServiceForm
     template_name = 'service/form.html'

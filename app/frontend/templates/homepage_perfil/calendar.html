@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/09/2020 21:50.
+  ~ Last modified 15/09/2020 22:42.
   -->
 {% extends './base.html' %}
 {% load static %}
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // console.log(info.dayEl);
             // change the day's background color just for fun
             // info.dayEl.style.backgroundColor = 'red';
-            window.location.replace('/service/'+d+'/'+m+'/'+y+'/create/frontend/');
+            window.location.replace('/service/frontend/'+d+'/'+m+'/'+y+'/create/');
         },
 
         // Fetch the "events" in base of a range date, avoiding huge loads

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 07/09/2020 11:08.
+  ~ Last modified 15/09/2020 22:45.
   -->
 
 {% extends 'base.html' %}
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         eventDrop: function(eventDropInfo) {
             if (eventDropInfo.event.extendedProps['type'] == 0) {
                 $.ajax({
-                    url: '{% url 'service:orderofservice:change_date' %}',
+                    url: '{% url 'service:admin:change_date' %}',
                     data: {
                         'pk': eventDropInfo.event.extendedProps['pk'],
                         'date': eventDropInfo.event.start.toISOString().split('T')[0],

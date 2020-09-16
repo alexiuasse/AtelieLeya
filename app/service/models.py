@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 15/09/2020 20:56.
+#  Last modified 15/09/2020 23:01.
 
 from datetime import date
 
@@ -28,13 +28,9 @@ class OrderOfService(BaseModel):
     customer = models.ForeignKey(User, verbose_name="Cliente", on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return "{} de {}".format(self.type_of_service, self.customer.first_name)
+        return f"{self.type_of_service} de {self.customer.profile.name}"
 
     def get_back_url(self):
-        """
-        Get the back url, retrieving the customer and passing the correct url
-        :return: reverse url for the profile customer owner
-        """
         return self.customer.profile.get_back_url_child_admin()
 
     def get_absolute_url(self):
@@ -53,19 +49,19 @@ class OrderOfService(BaseModel):
         return reverse('financial:invoice:create', kwargs={'spk': self.pk})
 
     def get_confirmed_url(self):
-        return reverse('service:orderofservice:confirmed', kwargs={'pk': self.pk, 'flag': 0})
+        return reverse('service:admin:confirm', kwargs={'pk': self.pk, 'flag': 0})
 
     def get_finished_url(self):
-        return reverse('service:orderofservice:finished', kwargs={'pk': self.pk, 'flag': 0})
+        return reverse('service:admin:finish', kwargs={'pk': self.pk, 'flag': 0})
 
     def get_customer_finished_url(self):
-        return reverse('service:orderofservice:finished', kwargs={'pk': self.pk, 'flag': 1})
+        return reverse('service:admin:finish', kwargs={'pk': self.pk, 'flag': 1})
 
     def get_customer_confirmed_url(self):
-        return reverse('service:orderofservice:confirmed', kwargs={'pk': self.pk, 'flag': 1})
+        return reverse('service:admin:confirm', kwargs={'pk': self.pk, 'flag': 1})
 
     def get_full_name(self):
-        return "{} de {}".format(self.type_of_service, self.customer.profile.get_full_name())
+        return f"{self.type_of_service} de {self.customer.profile.get_full_name()}"
 
     def get_name_html(self):
         badges = ""
@@ -83,9 +79,8 @@ class OrderOfService(BaseModel):
         return settings.ICON_FINISHED if self.finished else settings.ICON_NOT_FINISHED
 
     def get_date_html(self):
-        return "Hoje às {} <span class='text-info'>{}</span>".format(self.time,
-                                                                     ICON_CALENDAR) if self.date == date.today() \
-            else "{} às {}".format(self.date.strftime("%d/%m/%Y"), self.time)
+        return f"Hoje às {self.time} <span class='text-info'>{ICON_CALENDAR}</span>" if self.date == date.today() \
+            else f"{self.date.strftime('%d/%m/%Y')} às {self.time}"
 
     def get_status_html(self):
         return f"<span class='badge' style='background-color: {self.status.contextual};'>{self.status}</span>"
