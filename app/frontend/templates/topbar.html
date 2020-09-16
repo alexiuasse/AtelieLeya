@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/09/2020 09:37.
+  ~ Last modified 16/09/2020 10:59.
   -->
 {% load static %}
 <header class="navbar navbar-expand-md navbar-light">
@@ -103,7 +103,7 @@
                         </a>
                     </li>
                     <li class="nav-item {% if 'user' in request.path %}active{% endif %}">
-                        <a class="nav-link" href="{% url 'users:admin:list' %}">
+                        <a class="nav-link" href="{% url 'users:admin:view' %}">
                          <span class="nav-link-icon d-md-none d-lg-inline-block">
                           {{ICON_PERSON|safe}}
                         </span>

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 15/09/2020 10:36.
+#  Last modified 16/09/2020 10:17.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -53,6 +53,7 @@ class RewardForm(BaseConfigForm):
         widgets = {
             'contextual': TextInput(attrs={'type': 'color'}),
             # 'image': TextInput(attrs={'type': 'file'}),
+            'description': forms.Textarea(attrs={"rows": 4}),
         }
         fields = ['name', 'quantity_in_points', 'contextual', 'available', 'description', 'image']
 
@@ -75,6 +76,7 @@ class TypeOfServiceForm(BaseConfigForm):
         widgets = {
             'contextual': TextInput(attrs={'type': 'color'}),
             # 'image': TextInput(attrs={'type': 'file'}),
+            'description': forms.Textarea(attrs={"rows": 4}),
         }
         fields = ['name', 'contextual', 'value', 'time', 'rewarded_points', 'image', 'description']
 

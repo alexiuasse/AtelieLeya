@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 19:18.
+#  Last modified 16/09/2020 10:58.
 
 from django.urls import path, include
 
@@ -18,8 +18,9 @@ reward_retrieved_patterns = ([
 
 admin_patterns = ([
                       path('signup/', signup, name='signup'),
-                      path('list/', ProfileList.as_view(), name='list'),
+                      path('view/', ProfileView.as_view(), name='view'),
                       path('<int:pk>/edit/', ProfileEdit.as_view(), name='edit'),
+                      path('<int:pk>/delete/', ProfileDelete.as_view(), name='delete'),
                       path('<int:pk>/profile/', profile_admin, name='profile'),
                   ], 'admin')
 

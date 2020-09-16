@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 09:55.
+#  Last modified 16/09/2020 11:00.
 from datetime import datetime
 
 from django.contrib.auth.models import User
@@ -46,7 +46,7 @@ class WorkerProfile(BaseModel):
         return self.birth_date.day == today.day and self.birth_date.month == today.month if self.birth_date else False
 
     def get_age(self):
-        return datetime.today().year - self.birth_day.year
+        return datetime.today().year - self.birth_date.year
 
     def get_dict_data(self):
         return {

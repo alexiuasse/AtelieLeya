@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 09:11.
+#  Last modified 16/09/2020 10:58.
 from typing import Dict, Any
 
 from config.models import Reward, TypeOfService
@@ -35,7 +35,7 @@ def profile_admin(request, pk):
     user = User.objects.get(pk=pk)
     services = user.orderofservice_set.filter(customer=user, status=settings.STATUS_SERVICE_FINISHED)
     type_of_services = TypeOfService.objects.filter(pk__in=services.values_list('type_of_service', flat=True))
-    rewards = user.rewardretrieved_set.all()
+    rewards = user.rewardretrieved_set.filter(retrieved=True)
     rewards_type = Reward.objects.filter(pk__in=rewards.values_list('reward', flat=True))
     return render(request, template_name='user/profile.html', context={
         'obj': user.profile,
@@ -52,13 +52,13 @@ def profile_admin(request, pk):
     })
 
 
-class ProfileList(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
+class ProfileView(LoginRequiredMixin, PermissionRequiredMixin, SingleTableMixin, FilterView):
     model = Profile
     table_class = ProfileTable
     filterset_class = ProfileFilter
     paginator_class = LazyPaginator
     permission_required = ('users.view_profile',)
-    template_name = 'user/list.html'
+    template_name = 'user/view.html'
     title = TITLE_VIEW_USER
     subtitle = SUBTITLE_USER
     back_url = reverse_lazy('frontend:dashboard')
@@ -74,6 +74,23 @@ class ProfileEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = ('users.edit_profile',)
     title = TITLE_EDIT_USER
     subtitle = SUBTITLE_USER
+
+
+class ProfileDelete(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    model = Profile
+    template_name = "user/confirm_delete.html"
+    permission_required = 'users.del_profile'
+    success_url = reverse_lazy('users:admin:list')
+    title = TITLE_EDIT_USER
+    subtitle = SUBTITLE_USER
+
+    def get_context_data(self, **kwargs):
+        context: Dict[str, Any] = super().get_context_data(**kwargs)
+        collector = NestedObjects(using='default')  # or specific datafinancial
+        collector.collect([context['object']])
+        to_delete = collector.nested()
+        context['extra_object'] = to_delete
+        return context
 
 
 # login_url='/accounts/login/'

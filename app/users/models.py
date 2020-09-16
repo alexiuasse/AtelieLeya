@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 13:05.
+#  Last modified 16/09/2020 11:00.
 
 from datetime import datetime
 
@@ -77,7 +77,7 @@ class Profile(BaseModel):
 
     @property
     def get_delete_url(self):
-        return self.get_absolute_url()
+        return reverse('users:admin:delete', kwargs={'pk': self.pk})
 
     @property
     def get_edit_url(self):
@@ -88,7 +88,7 @@ class Profile(BaseModel):
 
     @property
     def get_back_url(self):
-        return reverse('users:admin:list')
+        return reverse('users:admin:view')
 
     @property
     def get_edit_url_frontend(self):
@@ -99,7 +99,7 @@ class Profile(BaseModel):
         return self.birth_date.day == today.day and self.birth_date.month == today.month if self.birth_date else False
 
     def get_age(self):
-        return datetime.today().year - self.birth_day.year
+        return datetime.today().year - self.birth_date.year
 
     def get_birth_day_data(self):
         return {

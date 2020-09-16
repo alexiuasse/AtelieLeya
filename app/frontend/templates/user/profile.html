@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 14/09/2020 13:05.
+  ~ Last modified 16/09/2020 10:42.
   -->
 
 {% extends '../base/profile.html' %}
@@ -23,129 +23,169 @@
 {% block profile_content %}
 <div class="row">
     {% if obj.is_birthday %}
-    <div class="col-md-12">
-        <div class="alert alert-warning">
-            <h3>
-                {{ICON_GIFT|safe}}
-                Alerta de Aniversário!!! Deseje um feliz aniversário, whatsapp {{obj.whatsapp}}
-            </h3>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header bg-triangle-top-warning">
+                <h3 class="card-title">Avisos</h3>
+            </div>
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="alert alert-warning">
+                        <h3>
+                            {{ICON_GIFT|safe}}
+                            Alerta de Aniversário!!! Deseje um feliz aniversário, whatsapp {{obj.whatsapp}}
+                        </h3>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     {% endif %}
+
     <div class="col-lg-6 col-md-auto">
-        <h3>Informações</h3>
-        <div class="table-responsive mb-3">
-            <table class="table table-hover">
-                {% for k, v in obj.get_dict_data.items %}
-                <tr>
-                    <td>{{k}}</td>
-                    <td>{{v}}</td>
-                </tr>
-                {% endfor %}
-            </table>
+        <div class="card">
+            <div class="card-header bg-triangle-top-primary">
+                <h3 class="card-title">Informações</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        {% for k, v in obj.get_dict_data.items %}
+                        <tr>
+                            <td>{{k}}</td>
+                            <td>{{v}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>Pontos</td>
+                            <td>
+                                <span class="font-weight-bold" data-countup>{{obj.total_of_points|unlocalize}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
-        <h3>Pontos</h3>
-        <div class="table-responsive mb-3">
-            <table class="table table-hover">
-                {% for k, v in obj.get_dict_data_points.items %}
-                <tr>
-                    <td>{{k}}</td>
-                    <td>
-                        <span class="font-weight-bold" data-countup>
-                            {{v|unlocalize}}
-                        </span>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
+    </div>
+    <div class="col-lg-6 col-md-auto">
         {% if obj.sorted_reward_set %}
-        <h3>Brindes</h3>
-        <div class="table-responsive mb-3">
-            <table class="table table-hover">
-                {% for r in obj.sorted_reward_set %}
-                <tr>
-                    <td>
-                        <a href="{{r.get_edit_url}}">{{r.reward.name}}</a>
-                    </td>
-                    <!--                    <td>x<span data-countup>{{r.quantity}}</span></td>-->
-                    <td><span data-countup>{{r.points}}</span> pts</td>
-                    <td>{{r.date}}</td>
-                    <td>{{r.get_retrieved_html}}</td>
-                    {% if not r.retrieved %}
-                    <td>
-                        <a href="{{r.get_confirm_url}}">Confirmar</a>
-                    </td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-            </table>
+        <div class="card">
+            <div class="card-header bg-triangle-top-info">
+                <h3 class="card-title">Brindes</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive mb-3">
+                    <table class="table table-hover">
+                        {% for r in obj.sorted_reward_set %}
+                        <tr>
+                            <td>
+                                <a href="{{r.get_edit_url}}">{{r.reward.name}}</a>
+                            </td>
+                            <!--                    <td>x<span data-countup>{{r.quantity}}</span></td>-->
+                            <td><span data-countup>{{r.points}}</span> pts</td>
+                            <td>{{r.date}}</td>
+                            <td>{{r.get_retrieved_html}}</td>
+                            {% if not r.retrieved %}
+                            <td>
+                                <a href="{{r.get_confirm_url}}">Confirmar</a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row align-items-center">
+    <div class="col-lg-6 col-md-auto">
+        {% if obj.has_service %}
+        <div class="card">
+            <div class="card-header bg-triangle-top-info">
+                <h3 class="card-title">Procedimentos</h3>
+            </div>
+            <div class="card-body d-flex flex-column text-center">
+                <p>Todos os procedimentos vinculados a esse cliente que foram finalizados!</p>
+                <div class="d-flex align-items-center ml-auto mr-auto">
+                    <div class="chart" id="chart_service"></div>
+                </div>
+            </div>
         </div>
         {% endif %}
     </div>
     <div class="col-lg-6 col-md-auto">
-        {% if obj.has_service %}
-        <h3>Procedimentos</h3>
-        <p>Todos os procedimentos vinculados a esse cliente que foram finalizados!</p>
-        <div class="chart" id="chart_service"></div>
-        {% endif %}
         {% if obj.has_reward %}
-        <h3>Brindes</h3>
-        <p>Todos os brindes vinculados a esse cliente!</p>
-        <div class="chart" id="chart_reward"></div>
+        <div class="card">
+            <div class="card-header bg-triangle-top-info">
+                <h3 class="card-title">Brindes</h3>
+            </div>
+            <div class="card-body d-flex flex-column text-center">
+                <p>Todos os brindes resgatados pelo cliente!</p>
+                <div class="d-flex align-items-center ml-auto mr-auto">
+                    <div class="chart" id="chart_reward"></div>
+                </div>
+            </div>
+        </div>
         {% endif %}
     </div>
 </div>
 {% if obj.has_service %}
-<div class="row mb-5">
-    <h3>Procedimentos</h3>
-    {% for k,v in obj.get_service_sorted_by_entry_date.items %}
-    <div class="col-lg-12 col-md-auto">
-        <h4>Mês/Ano {{k}}</h4>
-        <div class="table-responsive">
-            <table class="table table-hover table-striped">
-                <thead>
-                <tr>
-                    <th>Procedimento</th>
-                    <th>Data/Hora</th>
-                    <th>Confirmado</th>
-                    <th>Status</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for kk,vv in v.items %}
-                {% for s in vv %}
-                <tr>
-                    <td>
-                        <a href="{{s.get_absolute_url}}">{{s.type_of_service}}</a>
-                    </td>
-                    <td>{{s.get_date_html|safe}}</td>
-                    <td>
-                        {{s.get_confirmed_html|safe}}
-                        {% if not s.confirmed %}
-                        <a class="badge bg-dark" data-toggle="tooltip" href="{{s.get_customer_confirmed_url}}"
-                           title="{{TOOLTIP_SERVICE_CONFIRM}}">
-                            {{ICON_CHECK|safe}} <span class="ml-1">Confirmar</span>
-                        </a>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <span class="badge" style="background-color: {{s.status.contextual}};">{{s.status}}</span>
-                        {% if not s.get_is_success %}
-                        <a class="badge bg-dark" data-toggle="tooltip"
-                           href="{{s.get_customer_finished_url}}" title="{{TOOLTIP_SERVICE_FINISH}}">
-                            {{ICON_DOUBLE_CHECK|safe}} <span class="ml-1">Finalizar</span>
-                        </a>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+<div class="card mb-5">
+    <div class="card-header bg-triangle-top-success">
+        <h3 class="card-title">Procedimentos do Cliente</h3>
     </div>
-    {% endfor %}
+    <div class="card-body">
+        {% for k,v in obj.get_service_sorted_by_entry_date.items %}
+        <div class="col-lg-12 col-md-auto">
+            <h4>Mês/Ano {{k}}</h4>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>Procedimento</th>
+                        <th>Data/Hora</th>
+                        <th>Confirmado</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for kk,vv in v.items %}
+                    {% for s in vv %}
+                    <tr>
+                        <td>
+                            <a href="{{s.get_absolute_url}}">{{s.type_of_service}}</a>
+                        </td>
+                        <td>{{s.get_date_html|safe}}</td>
+                        <td>
+                            {{s.get_confirmed_html|safe}}
+                            {% if not s.confirmed %}
+                            <a class="badge bg-dark" data-toggle="tooltip" href="{{s.get_customer_confirmed_url}}"
+                               title="{{TOOLTIP_SERVICE_CONFIRM}}">
+                                {{ICON_CHECK|safe}} <span class="ml-1">Confirmar</span>
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                                <span class="badge"
+                                      style="background-color: {{s.status.contextual}};">{{s.status}}</span>
+                            {% if not s.get_is_success %}
+                            <a class="badge bg-dark" data-toggle="tooltip"
+                               href="{{s.get_customer_finished_url}}" title="{{TOOLTIP_SERVICE_FINISH}}">
+                                {{ICON_DOUBLE_CHECK|safe}} <span class="ml-1">Finalizar</span>
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endif %}
 {% endblock %}
@@ -159,5 +199,6 @@
     chart2.render();
   // @formatter:on
   });
+
 </script>
 {% endblock %}>

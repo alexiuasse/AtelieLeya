@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 26/08/2020 13:45.
+  ~ Last modified 16/09/2020 10:20.
   -->
 
 {% extends 'base.html' %}
@@ -13,8 +13,9 @@
         <div class="row align-items-center">
             <div class="col-auto">
                 <h2 class="page-title">
-                    <a href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
-                       data-toggle="tooltip" title="{{TOOLTIP_BACK}}">
+                    <a data-toggle="tooltip"
+                       href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
+                       title="{{TOOLTIP_BACK}}">
                         <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
                     </a>
                     {{view.title}}
@@ -27,26 +28,35 @@
             </div>
         </div>
     </div>
-    <form method="post">
-        {% csrf_token %}
-        <div class="row align-items-center">
-            <div class="col-auto ml-auto mr-auto">
-                {% for field in form %}
-                {{ field|as_crispy_field }}
-                {% endfor %}
-                <div class="form-row">
-                    <div class="pull-right mt-3">
-                        <a class="btn btn-danger btn-sm mr-2"
-                           href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
-                           type="button">
-                            Cancelar
-                        </a>
-                        <button class="btn btn-primary btn-sm" type="submit">Finalizar</button>
-                    </div>
+    <div class="row align-items-center">
+        <div class="col-lg-4 ml-auto mr-auto">
+            <div class="card">
+                <div class="card-header bg-triangle-top-primary">
+                    <h3 class="card-title">Formulário</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        {{ field|as_crispy_field }}
+                        {% endfor %}
+                        <hr>
+                        <div class="form-row">
+                            <div class="pull-right mt-3">
+                                <a class="btn btn-danger mr-2"
+                                   href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
+                                   type="button">
+                                    Cancelar
+                                </a>
+                                <button class="btn btn-primary" type="submit">Finalizar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+
 </div>
 {% endblock %}
 {% block javascript %}
@@ -59,5 +69,7 @@
         };
         var mask = IMask(element, maskOptions);
     });
+
+
 </script>
 {% endblock %}

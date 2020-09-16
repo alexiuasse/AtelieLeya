@@ -1,12 +1,11 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 14/09/2020 11:28.
+  ~ Last modified 16/09/2020 10:57.
   -->
 
 {% extends '../base/profile.html' %}
 {% block page_header_actions %}
-
 <a class="btn btn-sm btn-primary d-none d-sm-inline-block ml-auto" data-toggle="tooltip"
    href="{{obj.get_new_invoice_url}}"
    title="{{TOOLTIP_NEW_INVOICE}}">
@@ -29,115 +28,137 @@
 {% endif %}
 {% endblock %}
 {% block profile_content %}
-{% if obj.canceled %}
-<div class="col-md-12">
-    <div class="alert alert-danger">
-        <h3>
-            <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
-            Procedimento foi cancelado! Whatsapp: {{obj.customer.profile.whatsapp}}
-        </h3>
+
+<div class="card">
+    <div class="card-header bg-triangle-top-warning">
+        <div class="card-title">Avisos</div>
+    </div>
+    <div class="card-body">
+        {% if obj.canceled %}
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                <h3>
+                    <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
+                    Procedimento foi cancelado! Whatsapp: {{obj.customer.profile.whatsapp}}
+                </h3>
+            </div>
+        </div>
+        {% endif %}
+        {% if not obj.confirmed %}
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                <h3>
+                    <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
+                    Procedimento não está confirmado! Whatsapp: {{obj.customer.profile.whatsapp}}
+                </h3>
+                <a data-toggle="tooltip" href="{{obj.get_confirmed_url}}" title="{{TOOLTIP_SERVICE_CONFIRM}}">
+                    {{ICON_CHECK|safe}}
+                    Confirmar
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        {% if obj.get_past_date_without_invoice %}
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                <h3>
+                    <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
+                    Procedimento sem fatura lançada!
+                </h3>
+                <a data-toggle="tooltip" href="{{obj.get_new_invoice_url}}" title="{{TOOLTIP_NEW_INVOICE}}">
+                    {{ICON_ADD|safe}}
+                    Lançar Fatura
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        {% if obj.get_invoice_not_completed %}
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                <h3>
+                    {{ICON_TRIANGLE_ALERT|safe}}
+                    Fatura do procedimento está incompleta!
+                </h3>
+            </div>
+        </div>
+        {% endif %}
+        <div class="col-md-12">
+            <div class="alert alert-primary">
+                <h3>
+                    {{ICON_CALENDAR|safe}}
+                    Data e Hora do procedimento: {{obj.date}} Às {{obj.time}}
+                </h3>
+            </div>
+        </div>
     </div>
 </div>
-{% endif %}
-{% if not obj.confirmed %}
-<div class="col-md-12">
-    <div class="alert alert-danger">
-        <h3>
-            <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
-            Procedimento não está confirmado! Whatsapp: {{obj.customer.profile.whatsapp}}
-        </h3>
-        <a data-toggle="tooltip" href="{{obj.get_confirmed_url}}" title="{{TOOLTIP_SERVICE_CONFIRM}}">
-            {{ICON_CHECK|safe}}
-            Confirmar
-        </a>
-    </div>
-</div>
-{% endif %}
-{% if obj.get_past_date_without_invoice %}
-<div class="col-md-12">
-    <div class="alert alert-danger">
-        <h3>
-            <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
-            Procedimento sem fatura lançada!
-        </h3>
-        <a data-toggle="tooltip" href="{{obj.get_new_invoice_url}}" title="{{TOOLTIP_NEW_INVOICE}}">
-            {{ICON_ADD|safe}}
-            Lançar Fatura
-        </a>
-    </div>
-</div>
-{% endif %}
-{% if obj.get_invoice_not_completed %}
-<div class="col-md-12">
-    <div class="alert alert-danger">
-        <h3>
-            {{ICON_TRIANGLE_ALERT|safe}}
-            Fatura do procedimento está incompleta!
-        </h3>
-    </div>
-</div>
-{% endif %}
-<div class="col-md-12">
-    <div class="alert alert-primary">
-        <h3>
-            {{ICON_CALENDAR|safe}}
-            Data e Hora do procedimento: {{obj.date}} Às {{obj.time}}
-        </h3>
-    </div>
-</div>
+
+
 <div class="row">
     <div class="col-md-6">
-        <h3>Dados do Procedimento</h3>
-        <div class="table-responsive">
-            <table class="table table-hover table-striped">
-                {% for k, v in obj.get_dict_data.items %}
-                <tr>
-                    <td>{{k}}</td>
-                    <td>{{v|default_if_none:""}}</td>
-                </tr>
-                {% endfor %}
-            </table>
+        <div class="card">
+            <div class="card-header bg-triangle-top-primary">
+                <h3 class="card-title">Dados do Procedimento</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        {% for k, v in obj.get_dict_data.items %}
+                        <tr>
+                            <td>{{k}}</td>
+                            <td>{{v|default_if_none:""}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-6">
-        <h3>Dados de Fatura</h3>
-        <div class="table-responsive">
-            <table class="table table-hover table-striped">
-                <thead>
-                <tr>
-                    <th>Tipo de Pagamento</th>
-                    <th>Valor</th>
-                    <th>Data</th>
-                    <th>Status</th>
-                </tr>
-                </thead>
-                {% for k, v in obj.get_invoice_sorted_by_date.items %}
-                {% for kk,vv in v.items %}
-                {% for s in vv %}
-                <tr>
-                    <td>
-                        <a href="{{s.get_edit_url}}">
-                            {{s.type_of_payment|default_if_none:"Nenhum"}}
-                        </a>
-                    </td>
-                    <td>R$ {{s.value}}</td>
-                    <td>{{s.date|date:"SHORT_DATE_FORMAT"}}</td>
-                    <td>
+        <div class="card">
+            <div class="card-header bg-triangle-top-info">
+                <h3 class="card-title">Dados de Fatura</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Tipo de Pagamento</th>
+                            <th>Valor</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        {% for k, v in obj.get_invoice_sorted_by_date.items %}
+                        {% for kk,vv in v.items %}
+                        {% for s in vv %}
+                        <tr>
+                            <td>
+                                <a href="{{s.get_edit_url}}">
+                                    {{s.type_of_payment|default_if_none:"Nenhum"}}
+                                </a>
+                            </td>
+                            <td>R$ {{s.value}}</td>
+                            <td>{{s.date|date:"SHORT_DATE_FORMAT"}}</td>
+                            <td>
                         <span class="badge" style="background-color: {{s.status.contextual}};">
                             {{s.status|default_if_none:"Nenhum"}}
                         </span>
-                        {% if not s.get_is_success %}
-                        <a data-toggle="tooltip" href="{% url 'financial:invoice:success' pk=s.pk %}"
-                           title="{{TOOLTIP_PAYMENT_PAY}}">
-                            <span class="badge bg-dark">{{ICON_DOUBLE_CHECK|safe}} Pago</span>
-                        </a>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-                {% endfor %}
-                {% endfor %}
-            </table>
+                                {% if not s.get_is_success %}
+                                <a data-toggle="tooltip" href="{% url 'financial:invoice:success' pk=s.pk %}"
+                                   title="{{TOOLTIP_PAYMENT_PAY}}">
+                                    <span class="badge bg-dark">{{ICON_DOUBLE_CHECK|safe}} Pago</span>
+                                </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% endfor %}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

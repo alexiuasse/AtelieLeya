@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 03/09/2020 17:20.
+#  Last modified 16/09/2020 10:31.
 
 class SimplePie:
 
@@ -25,15 +25,15 @@ class SimplePie:
                 'text': self.title,
                 'align': 'left'
             },
+            'legend': {
+                'position': 'bottom'
+            },
             'responsive': [{
                 'breakpoint': 480,
                 'options': {
                     'chart': {
                         'width': 300
                     },
-                    'legend': {
-                        'position': 'bottom'
-                    }
                 }
             }],
         }

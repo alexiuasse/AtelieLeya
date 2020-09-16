@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 03/09/2020 15:12.
+  ~ Last modified 16/09/2020 10:15.
   -->
 {% extends 'base.html' %}
 {% load i18n %}
@@ -19,16 +19,29 @@
             </div>
         </div>
     </div>
-    <form method="post">
-        {% csrf_token %}
-        <h3>Você tem certeza que quer deletar "{{ object }}" ?</h3>
-        <h5>Todos os itens abaixo serão excluidos!</h5>
-        <h6>Objetos</h6>
-        <ul>{{ extra_object|unordered_list }}</ul>
-        <div class="mt-3">
-            <a class="btn btn-sm btn-primary" href="{{ object.get_absolute_url }}">Cancelar</a>
-            <button class="btn btn-sm btn-danger mr-4" type="submit">Confirmar</button>
+    <div class="row align-items-center">
+        <div class="col-auto ml-auto mr-auto">
+            <div class="card">
+                <div class="card-header bg-triangle-top-danger">
+                    <h3 class="card-title">Você tem certeza que quer deletar "{{ object }}" ?</h3>
+                </div>
+                <div class="card-body">
+                    <p>Todos os itens abaixo serão excluidos!</p>
+                    <p>Objetos</p>
+                    <ul>{{ extra_object|unordered_list }}</ul>
+                    <form method="post">
+                        {% csrf_token %}
+                        <hr>
+                        <div class="mt-3">
+                            <a class="btn btn-primary" href="{{ object.get_absolute_url }}">Cancelar</a>
+                            <button class="btn btn-danger mr-4" type="submit">Confirmar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
-    </form>
+    </div>
+
 </div>
 {% endblock %}
