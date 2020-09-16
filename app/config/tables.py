@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 15/09/2020 10:26.
+#  Last modified 16/09/2020 11:08.
 from django.utils.safestring import mark_safe
 from django_tables2 import tables, TemplateColumn, Column
 
@@ -23,7 +23,7 @@ class RewardTable(tables.Table):
     _ = TemplateColumn(template_name='base/table/buttons.html')
 
     class Meta:
-        model = StatusService
+        model = Reward
         attrs = {'class': 'table table-striped table-hover'}
         per_page = 10
         fields = ['name', 'quantity_in_points', 'contextual', 'available', 'image', 'description']
@@ -39,6 +39,10 @@ class RewardTable(tables.Table):
     @staticmethod
     def render_contextual(value):
         return mark_safe(f"<span class='badge' style='background-color: {value}'>{value}</span>")
+
+    @staticmethod
+    def render_description(value):
+        return f"{value[:18]} ..."
 
 
 class TypeOfServiceTable(tables.Table):
@@ -66,6 +70,10 @@ class TypeOfServiceTable(tables.Table):
     @staticmethod
     def render_contextual(value):
         return mark_safe(f"<span class='badge' style='background-color: {value}'>{value}</span>")
+
+    @staticmethod
+    def render_description(value):
+        return f"{value[:18]} ..."
 
 
 class StatusServiceTable(tables.Table):
