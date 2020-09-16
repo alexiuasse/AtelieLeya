@@ -1,17 +1,19 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 16/09/2020 16:42.
+  ~ Last modified 16/09/2020 17:02.
   -->
 
 {% extends '../base/profile.html' %}
 {% block page_header_actions %}
+{% if obj.is_without_invoice %}
 <a class="btn btn-sm btn-primary d-none d-sm-inline-block ml-auto" data-toggle="tooltip"
    href="{{obj.get_new_invoice_url}}"
    title="{{TOOLTIP_NEW_INVOICE}}">
     {{ICON_ADD|safe}}
     Nova Fatura
 </a>
+{% endif %}
 {% if not obj.confirmed %}
 <a class="btn btn-sm btn-info d-none d-sm-inline-block" data-toggle="tooltip"
    href="{{obj.get_confirmed_url}}" title="{{TOOLTIP_SERVICE_CONFIRM}}">
@@ -58,7 +60,7 @@
             </div>
         </div>
         {% endif %}
-        {% if obj.get_past_date_without_invoice %}
+        {% if obj.is_without_invoice %}
         <div class="col-md-12">
             <div class="alert alert-danger">
                 <h3>
@@ -72,12 +74,26 @@
             </div>
         </div>
         {% endif %}
-        {% if obj.get_invoice_not_completed %}
+        {% if obj.is_invoice_not_completed %}
         <div class="col-md-12">
             <div class="alert alert-danger">
                 <h3>
                     {{ICON_TRIANGLE_ALERT|safe}}
                     Fatura do procedimento está incompleta!
+                </h3>
+                <a data-toggle="tooltip" href="{{obj.invoice.get_edit_url}}" title="{{TOOLTIP_SEE_INVOICE}}">
+                    {{ICON_EYE|safe}}
+                    Ver Fatura
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        {% if obj.is_past_date_invoice %}
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                <h3>
+                    {{ICON_TRIANGLE_ALERT|safe}}
+                    Fatura do procedimento está em atraso!
                 </h3>
                 <a data-toggle="tooltip" href="{{obj.invoice.get_edit_url}}" title="{{TOOLTIP_SEE_INVOICE}}">
                     {{ICON_EYE|safe}}
@@ -157,6 +173,7 @@
                 <h3 class="card-title">Dados de Fatura</h3>
             </div>
             <div class="card-body">
+                {% if obj.invoice %}
                 <div class="table-responsive">
                     <table class="table table-hover table-striped">
                         <thead>
@@ -180,7 +197,7 @@
                                     {{obj.invoice.status|default_if_none:"Nenhum"}}
                                 </span>
                                 {% if not obj.invoice.get_is_success %}
-                                <a data-toggle="tooltip" href="{% url 'financial:invoice:success' pk=obj.invoice.pk %}"
+                                <a data-toggle="tooltip" href="{{obj.invoice.get_success_url}}"
                                    title="{{TOOLTIP_PAYMENT_PAY}}">
                                     <span class="badge bg-dark">{{ICON_DOUBLE_CHECK|safe}} Pago</span>
                                 </a>
@@ -189,6 +206,15 @@
                         </tr>
                     </table>
                 </div>
+                {% else %}
+                <p>
+                    Nenhuma Fatura Encontrada
+                    <a data-toggle="tooltip" href="{{obj.get_new_invoice_url}}" title="{{TOOLTIP_NEW_INVOICE}}">
+                        {{ICON_ADD|safe}}
+                        Lançar Fatura
+                    </a>
+                </p>
+                {% endif %}
             </div>
         </div>
     </div>

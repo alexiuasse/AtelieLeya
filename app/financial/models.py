@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 16:51.
+#  Last modified 16/09/2020 16:53.
 from django.conf import settings
 from django.db import models
 
@@ -50,6 +50,9 @@ class Invoice(BaseModel):
 
     def get_edit_url(self):
         return reverse(self.get_reverse_edit, kwargs={'spk': self.order_of_service.pk, 'pk': self.pk})
+
+    def get_success_url(self):
+        return reverse('financial:invoice:success', kwargs={'pk': self.pk})
 
     def get_is_success(self):
         return self.status.pk == settings.STATUS_PAYMENT_SUCCESS

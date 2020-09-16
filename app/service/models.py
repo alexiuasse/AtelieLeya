@@ -1,8 +1,8 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 16:44.
+#  Last modified 16/09/2020 17:13.
 
-from datetime import date
+from datetime import date, datetime
 
 from base.models import BaseModel
 from django.conf import settings
@@ -71,12 +71,12 @@ class OrderOfService(BaseModel):
 
     def get_name_html(self):
         badges = ""
-        if not self.confirmed or self.get_past_date_without_invoice():
+        if not self.confirmed or self.is_without_invoice():
             badges += '*'
         return mark_safe(f'{self.type_of_service} {badges}')
 
     def get_contextual(self):
-        return not self.confirmed or self.get_past_date_without_invoice()
+        return not self.confirmed or self.is_without_invoice()
 
     def get_confirmed_html(self):
         return settings.ICON_CONFIRMED if self.confirmed else settings.ICON_NOT_CONFIRMED
@@ -111,7 +111,7 @@ class OrderOfService(BaseModel):
         text = ""
         if self.canceled:
             text = "<span class='font-weight-bold text-danger'>Cancelado</span>"
-        elif self.get_invoice_not_completed():
+        elif self.is_invoice_not_completed() or self.is_past_date_invoice():
             text = "<span class='font-weight-bold text-warning'>Fatura</span>"
         return mark_safe(text)
 
@@ -141,11 +141,14 @@ class OrderOfService(BaseModel):
     #             retDict[m_y]['invoices'].append(s)
     #     return retDict
 
-    def get_invoice_not_completed(self):
+    def is_invoice_not_completed(self):
         return self.invoice.type_of_payment is None
 
-    def get_past_date_without_invoice(self):
+    def is_without_invoice(self):
         return self.invoice is None
+
+    def is_past_date_invoice(self):
+        return self.invoice.date < date.today() and self.invoice.status.pk != settings.STATUS_PAYMENT_SUCCESS
 
     # def get_invoice_not_completed(self):
     #     if self.date < date.today():
