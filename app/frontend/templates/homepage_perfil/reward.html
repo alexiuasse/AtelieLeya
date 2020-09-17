@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/09/2020 10:49.
+  ~ Last modified 17/09/2020 20:08.
   -->
 
 {% extends './base.html' %}
@@ -58,7 +58,8 @@
                         <div class="ml-auto">
                             {% if r.quantity_in_points < user.profile.total_of_points %}
                             <a class="icon ml-3 text-red"
-                               href="{% url 'users:frontend:reward_retrieve' rpk=r.pk %}">
+                               href="#"
+                               onclick="event.preventDefault(); confirm('{{r.name}}', '{% url 'users:frontend:reward_retrieve' rpk=r.pk %}')">
                                 {{ICON_GIFT|safe}} Resgatar
                             </a>
                             {% else %}
@@ -74,4 +75,18 @@
         {% endfor %}
     </div>
 </div>
+{% include '../modal/confirm.html' %}
+{% endblock %}
+{% block javascript %}
+<script>
+// @formatter:off
+function confirm(name, link) {
+    //console.log(link);
+    $("#modal-confirm-text").text("Você quer resgatar "+name+" ?");
+    $("#modal-confirm-link").attr('href', link);
+    $("#modal-confirm").modal('show');
+}
+// @formatter:on
+
+</script>
 {% endblock %}

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 17/09/2020 19:49.
+  ~ Last modified 17/09/2020 20:08.
   -->
 
 {% extends './base.html' %}
@@ -35,7 +35,8 @@
                     <h3 class="card-title">{{obj.type_of_service.name}}</h3>
                     {% if not obj.canceled %}
                     <p class="small">
-                        <a data-toggle="tooltip" href="#" onclick="confirm('{{obj.get_cancel_url_frontend}}')"
+                        <a data-toggle="tooltip" href="#"
+                           onclick="event.preventDefault(); confirm('{{obj.get_cancel_url_frontend}}')"
                            title="{{TOOLTIP_SERVICE_CANCEL}}">{{ICON_TRIANGLE_ALERT|safe}} cancelar procedimento
                         </a>
                     </p>
@@ -83,17 +84,14 @@
 {% include '../modal/confirm.html' %}
 {% endblock %}
 {% block javascript %}
-<script src="{% static 'dist/libs/fullcalendar/dist/main.min.js' %}"></script>
-<script src="{% static 'dist/libs/fullcalendar/dist/locales-all.min.js' %}"></script>
 <script>
 // @formatter:off
 function confirm(link) {
-    console.log(link);
+    //console.log(link);
     $("#modal-confirm-text").text("Você quer cancelar o procedimento?");
     $("#modal-confirm-link").attr('href', link);
     $("#modal-confirm").modal('show');
 }
 // @formatter:on
-
 </script>
 {% endblock %}
