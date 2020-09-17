@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 28/08/2020 17:20.
+  ~ Last modified 17/09/2020 09:54.
   -->
 
 {% extends '../base/profile.html' %}
@@ -9,45 +9,61 @@
 {% block profile_content %}
 <div class="row">
     <div class="col-md-6">
-        <h3>Dados do Dia</h3>
-        <div class="table-responsive">
-            <table class="table table-hover table-striped">
-                {% for k, v in obj.get_dict_data.items %}
-                <tr>
-                    <td>{{k}}</td>
-                    <td>{{v|default_if_none:""}}</td>
-                </tr>
-                {% endfor %}
-            </table>
+        <div class="card">
+            <div class="card-header bg-triangle-top-primary">
+                <h3 class="card-title">Dados do Dia</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        {% for k, v in obj.get_dict_data.items %}
+                        <tr>
+                            <td>{{k}}</td>
+                            <td>{{v|default_if_none:""}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td><span class="font-weight-bold">Funcionários</span></td>
+                            <td>{{obj.workers.all|join:", " }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-6">
-        <h3>Horários</h3>
-        <div class="table-responsive">
-            <table class="table table-hover table-striped">
-                <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Início</th>
-                    <th>Fim</th>
-                    <th>Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for e in obj.expedient_day.all %}
-                <tr>
-                    <td>
-                        <a href="{{e.get_edit_url}}" target="_blank">
-                            {{e.name}}
-                        </a>
-                    </td>
-                    <td>{{e.start_time}}</td>
-                    <td>{{e.end_time}}</td>
-                    <td>{{e.get_business_hours}} min</td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+        <div class="card">
+            <div class="card-header bg-triangle-top-info">
+                <h3 class="card-title">Horários</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Início</th>
+                            <th>Fim</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for e in obj.expedient_day.all %}
+                        <tr>
+                            <td>
+                                <a href="{{e.get_edit_url}}" target="_blank">
+                                    {{e.name}}
+                                </a>
+                            </td>
+                            <td>{{e.start_time}}</td>
+                            <td>{{e.end_time}}</td>
+                            <td>{{e.get_business_hours}} min</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

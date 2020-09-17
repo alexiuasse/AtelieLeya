@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 16/09/2020 10:59.
+  ~ Last modified 17/09/2020 09:37.
   -->
 {% load static %}
 <header class="navbar navbar-expand-md navbar-light">
@@ -95,7 +95,7 @@
                         </a>
                     </li>
                     <li class="nav-item {% if 'business' in request.path %}active{% endif %}">
-                        <a class="nav-link" href="{% url 'business:calendar:view' %}">
+                        <a class="nav-link" href="{% url 'business:admin:calendar' %}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           {{ICON_CALENDAR|safe}}
                         </span>

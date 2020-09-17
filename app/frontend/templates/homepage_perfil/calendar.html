@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/09/2020 22:42.
+  ~ Last modified 17/09/2020 09:44.
   -->
 {% extends './base.html' %}
 {% load static %}
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Fetch the "events" in base of a range date, avoiding huge loads
         events: {
-            url: '{% url 'business:calendar:data_frontend' customer=request.user.pk %}',
+            url: '{% url 'business:frontend:data' %}',
             success: function(data) {
                 return data.data;
             }

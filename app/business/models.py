@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 14:27.
+#  Last modified 17/09/2020 09:54.
 import datetime
 
 from base.models import BaseModel
@@ -43,7 +43,7 @@ class BusinessDay(BaseModel):
 
     @staticmethod
     def get_back_url():
-        return reverse('business:calendar:view')
+        return reverse('business:admin:calendar')
 
     def get_absolute_url(self):
         return reverse(self.get_reverse_profile, kwargs={'pk': self.pk})
@@ -101,8 +101,11 @@ class BusinessDay(BaseModel):
             current += delta
 
     def get_service_times_list(self):
+        """
+        :return: List of order of service that is on the day of business and not Canceled
+        """
         s_times_list = []
-        for s in OrderOfService.objects.filter(date=self.day):
+        for s in OrderOfService.objects.filter(date=self.day, canceled=False):
             s_times_list.append(s.time)  # start
             if s.type_of_service.time / settings.SLICE_OF_TIME > 1:
                 start = datetime.datetime.combine(self.day, s.time)
@@ -140,7 +143,7 @@ class BusinessDay(BaseModel):
         return {
             'Dia': self.day,
             'Cor': mark_safe(f"<span class='badge' style='background-color: {self.color}'>{self.color}</span>"),
-            'Funcionários': self.workers,
+            # 'Funcionários': self.workers,
             'Dia de trabalho': 'Sim' if self.is_work_day else 'Não',
             'Forçar dia lotado': 'Sim' if self.force_day_full else 'Não',
             'Tempo Disponível': f'{self.get_remain_hours()} min',

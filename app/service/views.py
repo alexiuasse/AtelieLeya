@@ -1,7 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 15:56.
-from datetime import datetime
+#  Last modified 17/09/2020 11:04.
 from typing import Dict, Any
 
 from business.models import BusinessDay

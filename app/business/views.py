@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 09:37.
+#  Last modified 17/09/2020 11:04.
 from typing import Dict, Any
 
 from config.models import TypeOfService
@@ -14,29 +14,97 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_http_methods
 from django.views.generic import UpdateView, DeleteView
-from django.views.generic.base import View
 from frontend.icons import ICON_CALENDAR
+from service.models import OrderOfService
 
 from .conf import *
 from .forms import *
 from .models import *
+from .utils import *
 
 
 ########################################################################################################################
 
-def datetime_range(start, end, delta):
-    """
-    Creating an range of time given an delta
-    :param start: the start time
-    :param end: the end time
-    :param delta: the step value, ex.: 30
-    :return: a list of range time
-    """
-    current = start
-    while current < end:
-        yield current
-        current += delta
 
+@login_required
+@require_http_methods(["GET"])
+def get_calendar_data_frontend(request):
+    start = datetime.datetime.strptime(request.GET.get('start', None), "%Y-%m-%dT%H:%M:%SZ")
+    end = datetime.datetime.strptime(request.GET.get('end', None), "%Y-%m-%dT%H:%M:%SZ")
+    data = []
+    businessday = BusinessDay.objects.filter(day__range=[start, end])
+    for b in businessday:
+        if b.get_is_full() or b.force_day_full:
+            className = 'dayfull'
+        elif not b.is_work_day:
+            className = 'notworkday'
+        else:
+            className = 'daynotfull'
+        data.append({
+            'isFull': 'true',
+            'start': b.get_start_date_time(),
+            'end': b.get_end_date_time(),
+            'allDay': 'true',
+            'display': 'background',
+            'className': className,
+        })
+    return JsonResponse({'data': data})
+
+
+@login_required
+@staff_member_required()
+@require_http_methods(["GET"])
+@permission_required('business.view_businessday', 'service.view_orderofservice', raise_exception=True)
+def get_calendar_data_admin(request):
+    data = []
+    if request.user.is_superuser:
+        start = datetime.datetime.strptime(request.GET.get('start', None), "%Y-%m-%dT%H:%M:%SZ")
+        end = datetime.datetime.strptime(request.GET.get('end', None), "%Y-%m-%dT%H:%M:%SZ")
+        orderofservices = OrderOfService.objects.filter(date__range=[start, end])
+        for s in orderofservices:
+            data.append({
+                'type': 0,
+                'pk': s.pk,
+                'title': s.get_name_html() if not s.canceled else 'CANCELADO',
+                'start': f"{s.date}T{s.time}",
+                'url': s.get_absolute_url(),
+                'color': s.type_of_service.contextual,
+                'display': 'block',
+                'className': 'check' if s.get_contextual() else '',
+            })
+        businessday = BusinessDay.objects.filter(day__range=[start, end])
+        for b in businessday:
+            if b.is_work_day:
+                data.append({
+                    'type': 1,
+                    'pk': b.pk,
+                    'title': b.get_name_html(),
+                    'start': b.get_start_date_time(),
+                    'end': b.get_end_date_time(),
+                    'url': b.get_absolute_url(),
+                    'color': b.color,
+                    'display': 'block',
+                })
+            if b.get_is_full():
+                className = 'dayfull'
+            elif b.force_day_full:
+                className = 'forcedayfull'
+            elif not b.is_work_day:
+                className = 'notworkday'
+            else:
+                className = 'daynotfull'
+            data.append({
+                'isFull': 'true',
+                'start': b.get_start_date_time(),
+                'end': b.get_end_date_time(),
+                'allDay': 'true',
+                'display': 'background',
+                'className': className,
+            })
+    return JsonResponse({'data': data})
+
+
+########################################################################################################################
 
 @login_required
 @require_http_methods(["GET"])
@@ -111,40 +179,33 @@ def businessday_create(request):
                     )
                     instance.save()
                     instance.expedient_day.add(*form['expedient_day'].value())
-            return redirect('business:calendar:view')
-    else:
-        return redirect('business:calendar:view')
+    return redirect('business:admin:calendar')
 
 
-########################################################################################################################
-class BusinessCalendarView(LoginRequiredMixin, PermissionRequiredMixin, View):
-    template = 'business/calendar.html'
-    permission_required = 'business.view_businessday'
-    title = TITLE_VIEW_CALENDAR
-    subtitle = SUBTITLE_CALENDAR
-
-    def get(self, request):
-        return render(request, self.template, {
-            'config': {
-                'title': {
-                    'text': self.title,
-                    'icon': ICON_CALENDAR
-                },
-                'pre_title': self.subtitle,
+@login_required
+@staff_member_required()
+@require_http_methods(["GET"])
+@permission_required('business.view_businessday', raise_exception=True)
+def business_calendar(request):
+    return render(request, 'business/calendar.html', {
+        'config': {
+            'title': {
+                'text': TITLE_VIEW_CALENDAR,
+                'icon': ICON_CALENDAR
             },
-            'start_date': datetime.datetime.today().date,
-            'form': BusinessDayForm(),
-        })
+            'pre_title': SUBTITLE_CALENDAR,
+        },
+        'start_date': datetime.datetime.today().date,
+        'form': BusinessDayForm(),
+    })
 
 
-class BusinessDayProfile(LoginRequiredMixin, PermissionRequiredMixin, View):
-    template = 'business/profile.html'
-    permission_required = 'business.view_businessday'
-    title = TITLE_EDIT_BUSINESS_DAY
-    subtitle = SUBTITLE_BUSINESS_DAY
-
-    def get(self, request, pk):
-        return render(request, self.template, {'obj': BusinessDay.objects.get(pk=pk)})
+@login_required
+@staff_member_required()
+@require_http_methods(["GET"])
+@permission_required('business.view_businessday', raise_exception=True)
+def business_profile(request, pk):
+    return render(request, 'business/profile.html', {'obj': BusinessDay.objects.get(pk=pk)})
 
 
 class BusinessDayEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -164,7 +225,7 @@ class BusinessDayDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     subtitle = SUBTITLE_BUSINESS_DAY
 
     def get_success_url(self):
-        return reverse_lazy('frontend:dashboard')
+        return reverse_lazy('business:admin:calendar')
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)

@@ -1,25 +1,27 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 09:37.
+#  Last modified 17/09/2020 11:04.
 from django.urls import path, include
 
 from .views import *
-from .mcalendar import *
 
 app_name = "business"
 
 business_day_patterns = ([
                              path('create/', businessday_create, name='create'),
-                             path('<int:pk>/profile/', BusinessDayProfile.as_view(), name='profile'),
+                             path('<int:pk>/profile/', business_profile, name='profile'),
                              path('<int:pk>/edit/', BusinessDayEdit.as_view(), name='edit'),
                              path('<int:pk>/delete/', BusinessDayDel.as_view(), name='delete'),
                          ], 'businessday')
 
-my_calendar_patterns = ([
-                            path('data/admin/', get_calendar_data_admin, name='data_admin'),
-                            path('data/frontend/<int:customer>/', get_calendar_data_frontend, name='data_frontend'),
-                            path('view/', BusinessCalendarView.as_view(), name='view'),
-                        ], 'calendar')
+admin_patterns = ([
+                      path('calendar/', business_calendar, name='calendar'),
+                      path('calendar/data/', get_calendar_data_admin, name='data'),
+                  ], 'admin')
+
+frontend_patterns = ([
+                         path('calendar/data/', get_calendar_data_frontend, name='data'),
+                     ], 'frontend')
 
 utils_patterns = ([
                       path('<int:bpk>/<int:pk>/get/hours/', businessday_get_hours, name='hours')
@@ -27,6 +29,7 @@ utils_patterns = ([
 
 urlpatterns = [
     path('businessday/', include(business_day_patterns)),
-    path('calendar/', include(my_calendar_patterns)),
+    path('admin/', include(admin_patterns)),
+    path('frontend/', include(frontend_patterns)),
     path('utils/', include(utils_patterns)),
 ]

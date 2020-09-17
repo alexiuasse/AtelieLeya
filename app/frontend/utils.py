@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 12:28.
+#  Last modified 17/09/2020 09:21.
 from datetime import datetime
 
 from config.models import TypeOfService, StatusPayment, Reward
@@ -20,7 +20,7 @@ def context_dashboard():
     birthdays = Profile.objects.filter(birth_date__day=today.day, birth_date__month=today.month)
     services_today = OrderOfService.objects.filter(date=today)
     services_not_confirmed = OrderOfService.objects.filter(confirmed=False)
-    services_invoice_not_completed = [obj for obj in OrderOfService.objects.all() if obj.get_invoice_not_completed()]
+    services_invoice_not_completed = [obj for obj in OrderOfService.objects.all() if obj.is_invoice_not_completed()]
     rewards_not_retrieved = RewardRetrieved.objects.filter(retrieved=False).order_by('-date')
     return {
         'today': {
