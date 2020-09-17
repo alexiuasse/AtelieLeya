@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/09/2020 09:54.
+#  Last modified 17/09/2020 17:14.
 import datetime
 
 from base.models import BaseModel
@@ -74,7 +74,8 @@ class BusinessDay(BaseModel):
         """
         :return: quantity in minutes of time consumed by orderofservices
         """
-        return OrderOfService.objects.filter(date=self.day).aggregate(hours=Sum('type_of_service__time'))['hours'] or 0
+        return OrderOfService.objects.filter(date=self.day, canceled=False) \
+                   .aggregate(hours=Sum('type_of_service__time'))['hours'] or 0
 
     def get_remain_hours(self):
         return self.get_expedient_hours() - self.get_consumed_hours()
