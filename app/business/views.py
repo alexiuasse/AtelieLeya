@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/09/2020 11:04.
+#  Last modified 17/09/2020 18:55.
 from typing import Dict, Any
 
 from config.models import TypeOfService
@@ -24,6 +24,23 @@ from .utils import *
 
 
 ########################################################################################################################
+
+@login_required
+@require_http_methods(["GET"])
+def check_businessday(request, d, m, y):
+    s_date = datetime.datetime(y, m, d)
+    response = {}
+    try:
+        businesss_day = BusinessDay.objects.get(day=s_date)
+        data = businesss_day.get_is_full()
+        response['is_ok'] = not data
+        print(data)
+        if data:
+            response['error'] = 'Esse dia está lotado!'
+    except BusinessDay.DoesNotExist:
+        response['is_ok'] = False
+        response['error'] = 'Esse dia não está disponível!'
+    return JsonResponse(response, safe=False)
 
 
 @login_required

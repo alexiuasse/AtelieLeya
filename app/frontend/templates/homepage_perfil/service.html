@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 16/09/2020 16:03.
+  ~ Last modified 17/09/2020 19:49.
   -->
 
 {% extends './base.html' %}
@@ -32,32 +32,38 @@
                          src="/media/{{obj.type_of_service.image.name}}">
                 </div>
                 <div class="col">
-                    <h3>{{obj.type_of_service.name}}</h3>
+                    <h3 class="card-title">{{obj.type_of_service.name}}</h3>
+                    {% if not obj.canceled %}
                     <p class="small">
-                        <a data-toggle="tooltip" href="{{obj.get_cancel_url_frontend}}"
-                           title="{{TOOLTIP_SERVICE_CANCEL}}">{{ICON_TRIANGLE_ALERT|safe}} cancelar
+                        <a data-toggle="tooltip" href="#" onclick="confirm('{{obj.get_cancel_url_frontend}}')"
+                           title="{{TOOLTIP_SERVICE_CANCEL}}">{{ICON_TRIANGLE_ALERT|safe}} cancelar procedimento
                         </a>
                     </p>
-                    {% if obj.confirmed %}
-                    <p>
-                        Seu procedimento foi <code>confirmado</code>!
-                    </p>
+                    {% endif %}
+                    {% if obj.canceled %}
+                    <p>Procedimento foi <span class="font-weight-bold text-danger">CANCELADO</span>!</p>
+                    {% elif obj.confirmed %}
+                    <p>Seu procedimento foi <span class="font-weight-bold text-primary">confirmado</span>!</p>
                     {% else %}
                     <p>
-                        Seu procedimento ainda <code>não</code> foi <code>confirmado</code>,
+                        Seu procedimento ainda <span class="font-weight-bold text-danger">não</span> foi
+                        <span class="font-weight-bold text-primary">confirmado</span>,
                         logo estaremos confirmando pelo seu número
-                        <span class="font-weight-bold">{{obj.customer.whatsapp}}</span>.
+                        <span class="font-weight-bold">{{obj.customer.profile.whatsapp}}</span>
+                        <a data-toggle="tooltip" href="{% url 'users:frontend:update' %}"
+                           title="{{TOOLTIP_EDIT_PROFILE}}">{{ICON_EDIT|safe}} alterar
+                        </a>.
                     </p>
                     {% endif %}
-                    {% if not obj.finished %}
+                    {% if not obj.finished and not obj.canceled %}
                     <p>
-                        Seu procedimento está <code>agendado</code> para
+                        Seu procedimento está <span class="font-weight-bold">agendado</span> para
                         <span class="font-weight-bold">{{obj.date}}</span> ás
                         <span class="font-weight-bold">{{obj.time}}</span>.
                     </p>
-                    {% else %}
+                    {% elif not obj.canceled %}
                     <p>
-                        Seu procedimento foi <code>finalizado</code> no dia
+                        Seu procedimento foi <span class="font-weight-bold">finalizado</span> no dia
                         <span class="font-weight-bold">{{obj.date}}</span> ás
                         <span class="font-weight-bold">{{obj.time}}</span>.
                     </p>
@@ -65,8 +71,7 @@
                     <h3 class="mt-3">Sobre</h3>
                     <p>
                         Esse procedimento vale
-                        <span class="font-weight-bold"
-                              data-toggle="counter-up">{{obj.type_of_service.rewarded_points}}</span>
+                        <span class="font-weight-bold" data-countup>{{obj.type_of_service.rewarded_points}}</span>
                         pontos.
                     </p>
                     <p>{{obj.type_of_service.description}}</p>
@@ -75,4 +80,20 @@
         </div>
     </div>
 </div>
+{% include '../modal/confirm.html' %}
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'dist/libs/fullcalendar/dist/main.min.js' %}"></script>
+<script src="{% static 'dist/libs/fullcalendar/dist/locales-all.min.js' %}"></script>
+<script>
+// @formatter:off
+function confirm(link) {
+    console.log(link);
+    $("#modal-confirm-text").text("Você quer cancelar o procedimento?");
+    $("#modal-confirm-link").attr('href', link);
+    $("#modal-confirm").modal('show');
+}
+// @formatter:on
+
+</script>
 {% endblock %}

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/09/2020 11:04.
+#  Last modified 17/09/2020 18:45.
 from django.urls import path, include
 
 from .views import *
@@ -24,7 +24,8 @@ frontend_patterns = ([
                      ], 'frontend')
 
 utils_patterns = ([
-                      path('<int:bpk>/<int:pk>/get/hours/', businessday_get_hours, name='hours')
+                      path('<int:bpk>/<int:pk>/get/hours/', businessday_get_hours, name='hours'),
+                      path('<int:d>/<int:m>/<int:y>/check/', check_businessday, name='check')
                   ], 'utils')
 
 urlpatterns = [

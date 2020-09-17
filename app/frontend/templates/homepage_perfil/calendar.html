@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 17/09/2020 09:44.
+  ~ Last modified 17/09/2020 19:14.
   -->
 {% extends './base.html' %}
 {% load static %}
@@ -50,6 +50,7 @@
         </div>
     </div>
 </div>
+{% include '../modal/message.html' %}
 {% endblock %}
 {% block javascript %}
 <script src="{% static 'dist/libs/fullcalendar/dist/main.min.js' %}"></script>
@@ -85,10 +86,15 @@ document.addEventListener('DOMContentLoaded', function() {
             y = info.date.getFullYear();
             m = info.date.getUTCMonth()+1;
             d = info.date.getUTCDate();
-            // console.log(info.dayEl);
-            // change the day's background color just for fun
-            // info.dayEl.style.backgroundColor = 'red';
-            window.location.replace('/service/frontend/'+d+'/'+m+'/'+y+'/create/');
+            var url = '/business/utils/'+d+'/'+m+'/'+y+'/check/';
+            $.getJSON(url ,function(data){
+                if (data.is_ok) {
+                    window.location.replace('/service/frontend/'+d+'/'+m+'/'+y+'/create/');
+                } else {
+                    $("#modal-message-text").text(data.error);
+                    $("#modal-message").modal('show');
+                }
+            });
         },
 
         // Fetch the "events" in base of a range date, avoiding huge loads
@@ -104,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar.render();
   });
 // @formatter:on
-
 
 </script>
 {% endblock %}
