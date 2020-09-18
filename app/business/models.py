@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/09/2020 17:14.
+#  Last modified 18/09/2020 11:49.
 import datetime
 
 from base.models import BaseModel
@@ -57,15 +57,20 @@ class BusinessDay(BaseModel):
     def get_full_name(self):
         return f"Expediente do dia {self.day.strftime('%d/%m/%Y')}"
 
-    @staticmethod
-    def get_name_html():
-        return "Expediente"
+    def get_name_html(self):
+        return f"Exp. - {self.get_start_time()} até {self.get_end_time()}"
+
+    def get_start_time(self):
+        return self.expedient_day.all().aggregate(min_time=Min('start_time'))['min_time'].strftime('%H:%M')
+
+    def get_end_time(self):
+        return self.expedient_day.all().aggregate(max_time=Max('end_time'))['max_time'].strftime('%H:%M')
 
     def get_start_date_time(self):
-        return f"{self.day} {self.expedient_day.all().aggregate(min_time=Min('start_time'))['min_time'].strftime('%H:%m')}"
+        return f"{self.day} {self.get_start_time()}"
 
     def get_end_date_time(self):
-        return f"{self.day} {self.expedient_day.all().aggregate(min_time=Max('end_time'))['min_time'].strftime('%H:%m')}"
+        return f"{self.day} {self.get_end_time()}"
 
     def get_expedient_hours(self):
         return sum(e.get_business_hours() for e in self.expedient_day.all())
@@ -100,6 +105,14 @@ class BusinessDay(BaseModel):
         while current < end:
             yield current
             current += delta
+
+    def get_all_hours_list(self):
+        h_list = []
+        for e in self.expedient_day.all():
+            start = datetime.datetime.combine(self.day, e.start_time)
+            end = datetime.datetime.combine(self.day, e.end_time)
+            h_list.extend(self.datetime_range(start, end, datetime.timedelta(minutes=settings.SLICE_OF_TIME)))
+        return h_list
 
     def get_service_times_list(self):
         """

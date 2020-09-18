@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 17:13.
+#  Last modified 18/09/2020 11:06.
 
 from datetime import date, datetime
 
@@ -121,7 +121,7 @@ class OrderOfService(BaseModel):
             'Cancelado': "Sim" if self.canceled else "Não",
             'Confirmado': mark_safe(self.get_confirmed_html),
             'Data e Hora': mark_safe(self.get_date_html()),
-            'Tipo de Procedimento': "{} ({} pts)".format(self.type_of_service, self.type_of_service.rewarded_points),
+            'Tipo de Procedimento': mark_safe(self.type_of_service.to_html),
             'Status': mark_safe(self.get_status_html()),
             'Tempo': f'{self.type_of_service.time} min',
             # 'Finalizado': mark_safe(self.get_finished_html()),

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 10:17.
+#  Last modified 18/09/2020 11:43.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -125,7 +125,7 @@ class ExpedientForm(BaseConfigForm):
     class Meta:
         model = Expedient
         widgets = {
-            'start_time': forms.TimeInput(format='%H:%m', attrs={'type': 'time'}),
-            'end_time': forms.TimeInput(format='%H:%m', attrs={'type': 'time'}),
+            'start_time': forms.TimeInput(format='%H:%M', attrs={'type': 'time'}),
+            'end_time': forms.TimeInput(format='%H:%M', attrs={'type': 'time'}),
         }
         fields = ['name', 'start_time', 'end_time']

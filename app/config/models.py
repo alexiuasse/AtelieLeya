@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 17:18.
+#  Last modified 18/09/2020 12:24.
 import datetime
 
 from base.models import BaseModel
@@ -53,6 +53,9 @@ class TypeOfService(BaseConfigModel):
     def __str__(self):
         return f"{self.name} - {self.time} min"
 
+    def to_html(self):
+        return f"<a href={self.get_edit_url()}>{self.name}</a> (<span data-countup>{self.rewarded_points}</span> pts)"
+
 
 class StatusService(BaseConfigModel):
     contextual = models.CharField("cor", default="#ffffff", max_length=7,
@@ -74,8 +77,8 @@ class Expedient(BaseModel):
             end_time, 11:30h
     """
     name = models.CharField("nome", max_length=28)
-    start_time = models.TimeField("horário de início")
-    end_time = models.TimeField("horário de fim")
+    start_time = models.TimeField("horário de início", help_text="Primeiro horário disponível para agendar.")
+    end_time = models.TimeField("horário de fim", help_text="Último horário disponível para agendar.")
 
     def __str__(self):
         return f"{self.name} de {self.start_time} até {self.end_time} ({self.get_business_hours()} min)"

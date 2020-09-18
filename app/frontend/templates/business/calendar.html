@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 17/09/2020 09:39.
+  ~ Last modified 18/09/2020 11:53.
   -->
 
 {% extends 'base.html' %}
@@ -55,6 +55,7 @@
     </div>
 </div>
 {% include 'business/modal_form.html' %}
+{% include '../modal/message.html' %}
 {% endblock %}
 {% block javascript %}
 <script src="{% static 'dist/libs/fullcalendar/dist/main.min.js' %}"></script>
@@ -114,12 +115,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     dataType: 'json',
                     success: function (data) {
                         if (!data.status) {
-                            alert(data.error_message);
+                            $("#modal-message-text").text("Atenção: " + data.error_message);
+                            $("#modal-message").modal('show');
                             eventDropInfo.revert();
+                        } else {
+                            calendar.refetchEvents();
                         }
                     },
                     error: function (data) {
-                        alert("Error: " + data.status + " " + data.statusText);
+                        $("#modal-message-text").text("Error: " + data.status + " " + data.error_message);
+                        $("#modal-message").modal('show');
                         eventDropInfo.revert();
                     }
                 });
@@ -149,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
   });
+
 
 
 </script>

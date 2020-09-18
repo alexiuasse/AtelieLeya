@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/09/2020 18:55.
+#  Last modified 18/09/2020 14:56.
 from typing import Dict, Any
 
 from config.models import TypeOfService
@@ -19,7 +19,6 @@ from service.models import OrderOfService
 
 from .conf import *
 from .forms import *
-from .models import *
 from .utils import *
 
 
@@ -34,7 +33,6 @@ def check_businessday(request, d, m, y):
         businesss_day = BusinessDay.objects.get(day=s_date)
         data = businesss_day.get_is_full()
         response['is_ok'] = not data
-        print(data)
         if data:
             response['error'] = 'Esse dia está lotado!'
     except BusinessDay.DoesNotExist:
@@ -79,11 +77,13 @@ def get_calendar_data_admin(request):
         end = datetime.datetime.strptime(request.GET.get('end', None), "%Y-%m-%dT%H:%M:%SZ")
         orderofservices = OrderOfService.objects.filter(date__range=[start, end])
         for s in orderofservices:
+            date_time = datetime.datetime.combine(s.date, s.time)
             data.append({
                 'type': 0,
                 'pk': s.pk,
                 'title': s.get_name_html() if not s.canceled else 'CANCELADO',
-                'start': f"{s.date}T{s.time}",
+                'start': f"{date_time}",
+                'end': f"{(date_time + datetime.timedelta(minutes=s.type_of_service.time))}",
                 'url': s.get_absolute_url(),
                 'color': s.type_of_service.contextual,
                 'display': 'block',
@@ -137,6 +137,7 @@ def businessday_get_hours(request, pk, bpk):
     slices = type_of_service.time / settings.SLICE_OF_TIME  # how many slices is need for this service
     businessday = get_object_or_404(BusinessDay, pk=bpk)
     data = businessday.get_tuple_remain_hours()
+    # only check if it needs more than one slice of time, because if it needs so must be sequentially
     if slices > 1:
         # for each available hours, check if service fit in there, if not remove it
         # the service MUST fit sequentially
@@ -144,12 +145,20 @@ def businessday_get_hours(request, pk, bpk):
         tupple_hours = []
         # check if is consecutive
         for rh in remain_hours:
+            # start of service that is equal to the remain hour
             start = rh
+            # the estimate end of service
             end = (rh + datetime.timedelta(minutes=type_of_service.time))
-            # hours that the service need
+            # make a list with the hours that the service need in base of remain hours
+            # if rh is 09:00 and the service needs 60min (2 slices) the h_list is:
+            # [09:00 (rh), 09:30]
+            # if rh is 09:00 and the service needs 90min (3 slices) the h_list is:
+            # [09:00 (rh), 09:30, 10:00]
+            # So the h_list is all the hours (times) that the service occupy
             h_list = datetime_range(start, end, datetime.timedelta(minutes=settings.SLICE_OF_TIME))
             f = True  # add this time?
             for h in h_list:
+                # if one of the hour in h_list is not in remain_hours, so this rh is not compatible
                 if h not in remain_hours:
                     f = False
             if f:
@@ -164,7 +173,7 @@ def businessday_get_hours(request, pk, bpk):
 
 @login_required
 @staff_member_required()
-@require_http_methods(["GET"])
+@require_http_methods(["POST"])
 @permission_required('business.create_businessday', 'business.edit_businessday', raise_exception=True)
 def businessday_create(request):
     """
@@ -214,6 +223,7 @@ def business_calendar(request):
         },
         'start_date': datetime.datetime.today().date,
         'form': BusinessDayForm(),
+        # 'filters': CalendarFiltersForm(),
     })
 
 

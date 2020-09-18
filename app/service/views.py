@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/09/2020 11:04.
+#  Last modified 18/09/2020 14:55.
 from typing import Dict, Any
 
 from business.models import BusinessDay
@@ -16,6 +16,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_http_methods
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
+from business.utils import check_if_service_fits, check_if_has_other_service
 
 from .conf import *
 from .forms import *
@@ -57,6 +58,9 @@ def create_order_of_service(request, d, m, y):
             'hours': business_day
         })
     else:
+        """
+        MUST confirm time
+        """
         with transaction.atomic():
             form = OrderOfServiceFormFrontend(request.POST,
                                               query_tp_s=query_tp_s,
@@ -116,22 +120,48 @@ def cancel_order_of_service_frontend(request, pk):
 @require_http_methods(["GET"])
 @permission_required('service.edit_orderofservice', raise_exception=True)
 def change_date_order_of_service(request):
-    status, error_message = True, ""
+    """
+    MUST check if the new date is in range of expedient and if there is no other service on that time.
+    :param request:
+    :return: JsonResponse with status (ok or not) and the error_message if on error to show in an alert/modal.
+    """
+    status, error_message = False, "Algum erro aconteceu!"
     pk = request.GET.get('pk', None)
-    try:
-        if pk:
-            instance = get_object_or_404(OrderOfService, pk=pk)
-            new_date, new_time = request.GET.get('date', None), request.GET.get('time', None)
-            if new_date and new_time:
-                instance.date = new_date
-                instance.time = new_time
-                instance.save()
+    with transaction.atomic():
+        try:
+            if pk:
+                order_of_service = get_object_or_404(OrderOfService, pk=pk)
+                new_date, new_time = request.GET.get('date', None), request.GET.get('time', None)
+                if new_date and new_time:
+                    business_day = get_object_or_404(BusinessDay, day=new_date)
+                    date_time = datetime.strptime(new_date + new_time, '%Y-%m-%d%H:%M:%S.%fZ')
+                    # if the new datetime are in range of the expedient of the businessday
+                    if date_time in business_day.get_all_hours_list():
+                        # if the new date_time is in the remain hours of the day
+                        # if date_time in business_day.get_remain_hours_list():
+                        if check_if_has_other_service(date_time, business_day, order_of_service):
+                            # if the businessday is not full
+                            if not business_day.get_is_full():
+                                # must check if the service fits in the remain hours of the day
+                                if check_if_service_fits(business_day, order_of_service):
+                                    order_of_service.date = new_date
+                                    order_of_service.time = new_time
+                                    order_of_service.save()
+                                    status, error_message = True, ""
+                                else:
+                                    status, error_message = False, "Ops, esse horário não acomoda esse procedimento!"
+                            else:
+                                status, error_message = False, "O dia está lotado, nenhum horário disponível!"
+                        else:
+                            status, error_message = False, "Já tem um procedimento nesse horário!"
+                    else:
+                        status, error_message = False, "Horário fora do expediente!"
+                else:
+                    status, error_message = False, "Data ou Hora inválidos!"
             else:
-                status, error_message = False, "Data ou Hora inválidos!"
-        else:
-            status, error_message = False, "Faltando informações: 'PK' "
-    except Exception as e:
-        status, error_message = False, "O seguinte erro aconteceu %s" % e
+                status, error_message = False, "Faltando informações: 'PK' "
+        except Exception as e:
+            status, error_message = False, "O seguinte erro aconteceu %s" % e
     return JsonResponse({
         'status': status,
         'error_message': error_message,

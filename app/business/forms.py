@@ -1,8 +1,8 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 14:27.
+#  Last modified 17/09/2020 22:24.
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Field
+from crispy_forms.layout import Layout, Row, Field, Column
 from django import forms
 from django.forms import TextInput
 
@@ -47,3 +47,29 @@ class BusinessDayForm(forms.ModelForm):
             'color': TextInput(attrs={'type': 'color'}),
         }
         fields = ['color', 'expedient_day', 'workers', 'is_work_day', 'force_day_full', 'start', 'end']
+
+
+class CalendarFiltersForm(forms.Form):
+    prefix = "calendarfilters"
+
+    all = forms.BooleanField(initial=True)
+    canceled = forms.BooleanField(initial=False)
+    finished = forms.BooleanField(initial=False)
+    confirmed = forms.BooleanField(initial=False)
+
+    layout = Layout(
+        Row(
+            Column('all'),
+            Column('canceled'),
+            Column('finished'),
+            Column('confirmed'),
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.disable_csrf = True
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = self.layout
+        self.helper.form_class = 'form-control'
