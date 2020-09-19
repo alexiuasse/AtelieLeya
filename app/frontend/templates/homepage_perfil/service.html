@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 17/09/2020 20:08.
+  ~ Last modified 19/09/2020 15:28.
   -->
 
 {% extends './base.html' %}
@@ -70,6 +70,7 @@
                     </p>
                     {% endif %}
                     <h3 class="mt-3">Sobre</h3>
+                    <p class="font-weight-bold">Valor de R$ {{obj.type_of_service.value}}</p>
                     <p>
                         Esse procedimento vale
                         <span class="font-weight-bold" data-countup>{{obj.type_of_service.rewarded_points}}</span>

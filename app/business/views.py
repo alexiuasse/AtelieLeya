@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/09/2020 11:31.
+#  Last modified 19/09/2020 15:21.
 from typing import Dict, Any
 
 from config.models import TypeOfService
@@ -145,7 +145,10 @@ def businessday_get_hours(request, pk, bpk):
     type_of_service = get_object_or_404(TypeOfService, pk=pk)
     slices = type_of_service.time / settings.SLICE_OF_TIME  # how many slices is need for this service
     businessday = get_object_or_404(BusinessDay, pk=bpk)
-    data = businessday.get_tuple_remain_hours()
+    data = {
+        'data': businessday.get_tuple_remain_hours(),
+        'value': type_of_service.value,
+    }
     # only check if it needs more than one slice of time, because if it needs so must be sequentially
     if slices > 1:
         # for each available hours, check if service fit in there, if not remove it
@@ -172,7 +175,7 @@ def businessday_get_hours(request, pk, bpk):
                     f = False
             if f:
                 tupple_hours.append((rh.strftime('%H:%M'), rh.strftime('%H:%M')))
-        data = tupple_hours
+        data['data'] = tupple_hours
 
     return JsonResponse(
         data=data,
