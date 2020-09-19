@@ -1,13 +1,12 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 12:37.
+#  Last modified 19/09/2020 13:47.
 
 # users/forms.py
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth.models import User
 
 from .models import *
 
@@ -49,8 +48,8 @@ class RewardRetrievedForm(forms.ModelForm):
 
     layout = Layout(
         Row(
-            Field('reward', wrapper_class='col-md-12'),
-            Field('retrieved', wrapper_class='col-md-12 mt-2'),
+            Field('reward'),
+            Field('retrieved', wrapper_class='mt-2'),
         ),
     )
 

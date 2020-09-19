@@ -1,7 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 09:51.
-from crispy_forms.bootstrap import PrependedText
+#  Last modified 19/09/2020 13:47.
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
@@ -14,11 +13,11 @@ class WorkerProfileForm(forms.ModelForm):
 
     layout = Layout(
         Row(
-            Field('name', wrapper_class='col-md-12'),
-            Field('birth_date', wrapper_class='col-md-12'),
-            Field('whatsapp', wrapper_class='col-md-12'),
-            Field('expertise', wrapper_class='col-md-12'),
-            Field('user', wrapper_class='col-md-12'),
+            Field('name'),
+            Field('birth_date'),
+            Field('whatsapp'),
+            Field('expertise'),
+            Field('user'),
         ),
     )
 

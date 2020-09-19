@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/09/2020 11:44.
+#  Last modified 19/09/2020 13:44.
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
 from django import forms
@@ -16,11 +16,11 @@ class OrderOfServiceFormFrontend(forms.ModelForm):
 
     layout = Layout(
         Row(
-            Field('type_of_service', wrapper_class='col-lg-12'),
-            Field('date', wrapper_class='col-lg-12'),
-            Field('time', wrapper_class='col-lg-12'),
-            Field('observation', wrapper_class='col-lg-12'),
-            Field('businessday', wrapper_class='col-lg-12', type='hidden'),
+            Field('type_of_service'),
+            Field('date'),
+            Field('time'),
+            Field('observation'),
+            Field('businessday', type='hidden'),
         ),
     )
 
@@ -52,14 +52,13 @@ class OrderOfServiceForm(forms.ModelForm):
 
     layout = Layout(
         Row(
-            Field('type_of_service', wrapper_class='col-md'),
-            Field('date', wrapper_class='col-md'),
-            Field('time', wrapper_class='col-md'),
-            # Field('finished', wrapper_class='col-md'),
-            Field('confirmed', wrapper_class='col-md'),
-            Field('canceled', wrapper_class='col-md'),
-            Field('status', wrapper_class='col-md'),
-            Field('observation', wrapper_class='col-md'),
+            Field('type_of_service'),
+            Field('date'),
+            Field('time'),
+            Field('confirmed'),
+            Field('canceled'),
+            Field('status'),
+            Field('observation'),
         ),
     )
 

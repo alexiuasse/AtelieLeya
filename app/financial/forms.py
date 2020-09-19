@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/08/2020 10:03.
+#  Last modified 19/09/2020 13:47.
 from crispy_forms.bootstrap import PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -14,12 +14,11 @@ class InvoiceForm(forms.ModelForm):
 
     layout = Layout(
         Row(
-            # Field('order_of_service', wrapper_class='col-md'),
-            Field('type_of_payment', wrapper_class='col-md'),
-            Field('status', wrapper_class='col-md'),
-            PrependedText('value', 'R$', wrapper_class='col-md'),
-            Field('date', wrapper_class='col-md'),
-            Field('observation', wrapper_class='col-md'),
+            Field('type_of_payment'),
+            Field('status'),
+            PrependedText('value', 'R$'),
+            Field('date'),
+            Field('observation'),
         ),
     )
 

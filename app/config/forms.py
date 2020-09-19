@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/09/2020 11:43.
+#  Last modified 19/09/2020 13:46.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -16,7 +16,7 @@ from .models import *
 class BaseConfigForm(forms.ModelForm):
     layout = Layout(
         Row(
-            Field('name', wrapper_class='col-md-12'),
+            Field('name'),
         ),
     )
 
@@ -39,12 +39,12 @@ class TypeOfPaymentForm(BaseConfigForm):
 class RewardForm(BaseConfigForm):
     layout = Layout(
         Row(
-            Field('name', wrapper_class='col-md-12'),
-            Field('quantity_in_points', wrapper_class='col-md-12'),
-            Field('contextual', wrapper_class='col-md-12'),
-            Field('available', wrapper_class='col-md-12'),
-            Field('description', wrapper_class='col-md-12'),
-            Field('image', wrapper_class='col-md-12'),
+            Field('name'),
+            Field('quantity_in_points'),
+            Field('contextual'),
+            Field('available'),
+            Field('description'),
+            Field('image'),
         ),
     )
 
@@ -61,13 +61,13 @@ class RewardForm(BaseConfigForm):
 class TypeOfServiceForm(BaseConfigForm):
     layout = Layout(
         Row(
-            Field('name', wrapper_class='col-md-12'),
-            Field('contextual', wrapper_class='col-md-12'),
-            PrependedText('value', 'R$', wrapper_class='col-md-12'),
-            AppendedText('time', 'min', wrapper_class='col-md-12'),
-            Field('rewarded_points', wrapper_class='col-md-12'),
-            Field('description', wrapper_class='col-md-12'),
-            Field('image', wrapper_class='col-md-12'),
+            Field('name'),
+            Field('contextual'),
+            PrependedText('value', 'R$'),
+            AppendedText('time', 'min'),
+            Field('rewarded_points'),
+            Field('description'),
+            Field('image'),
         ),
     )
 
@@ -84,8 +84,8 @@ class TypeOfServiceForm(BaseConfigForm):
 class StatusServiceForm(BaseConfigForm):
     layout = Layout(
         Row(
-            Field('name', wrapper_class='col-md-12'),
-            Field('contextual', wrapper_class='col-md-12'),
+            Field('name'),
+            Field('contextual'),
         ),
     )
 
@@ -100,8 +100,8 @@ class StatusServiceForm(BaseConfigForm):
 class StatusPaymentForm(BaseConfigForm):
     layout = Layout(
         Row(
-            Field('name', wrapper_class='col-md-12'),
-            Field('contextual', wrapper_class='col-md-12'),
+            Field('name'),
+            Field('contextual'),
         ),
     )
 
@@ -116,9 +116,9 @@ class StatusPaymentForm(BaseConfigForm):
 class ExpedientForm(BaseConfigForm):
     layout = Layout(
         Row(
-            Field('name', wrapper_class='col-md-12'),
-            Field('start_time', wrapper_class='col-md-12'),
-            Field('end_time', wrapper_class='col-md-12'),
+            Field('name'),
+            Field('start_time'),
+            Field('end_time'),
         ),
     )
 

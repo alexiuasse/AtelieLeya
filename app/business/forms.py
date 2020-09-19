@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/09/2020 22:24.
+#  Last modified 19/09/2020 13:45.
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field, Column
 from django import forms
@@ -17,14 +17,13 @@ class BusinessDayForm(forms.ModelForm):
 
     layout = Layout(
         Row(
-            # Field('day', wrapper_class='col-md-12'),
-            Field('start', wrapper_class='col-md-12', type='hidden'),
-            Field('end', wrapper_class='col-md-12', type='hidden'),
-            Field('color', wrapper_class='col-md-12'),
-            Field('expedient_day', wrapper_class='col-md-12'),
-            Field('workers', wrapper_class='col-md-12'),
-            Field('is_work_day', wrapper_class='col-md-12'),
-            Field('force_day_full', wrapper_class='col-md-12'),
+            Field('start', type='hidden'),
+            Field('end', type='hidden'),
+            Field('color'),
+            Field('expedient_day'),
+            Field('workers'),
+            Field('is_work_day'),
+            Field('force_day_full'),
         ),
     )
 
