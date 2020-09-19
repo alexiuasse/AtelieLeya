@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 19/09/2020 09:58.
+  ~ Last modified 19/09/2020 13:01.
   -->
 
 {% extends 'base.html' %}
@@ -29,6 +29,7 @@
         <div class="col-lg-12 col-md-auto">
             <div class="card">
                 <div class="card-body">
+                    <p class="text-center">Recarregando em <span id="count"></span> segundos...</p>
                     <div id="calendar-services"></div>
                 </div>
                 <div class="card-footer">
@@ -61,6 +62,7 @@
 <script src="{% static 'dist/libs/fullcalendar/dist/main.min.js' %}"></script>
 <script src="{% static 'dist/libs/fullcalendar/dist/locales-all.min.js' %}"></script>
 <script>
+// @formatter:off
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar-services');
 
@@ -151,7 +153,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     calendar.render();
-  });
 
+    var ajax_call = function() {
+        //console.log('refecthing events');
+        calendar.refetchEvents();
+    };
+
+    var interval_refetch = 1000 * 60 * 5; // where X is your every X minutes
+    var interval = 300;
+
+    setInterval(ajax_call, interval_refetch);
+    var counter = interval;
+    setInterval(function() {
+        counter--;
+        if (counter >= 0) {
+          span = document.getElementById("count");
+          span.innerHTML = counter;
+        }
+        // Display 'counter' wherever you want to display it.
+        if (counter === 0) {
+            counter = interval;
+        }
+    }, 1000);
+
+  });
+// @formatter:on
 </script>
 {% endblock %}

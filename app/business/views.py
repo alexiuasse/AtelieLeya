@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/09/2020 10:20.
+#  Last modified 19/09/2020 11:31.
 from typing import Dict, Any
 
 from config.models import TypeOfService
@@ -29,17 +29,18 @@ from .utils import *
 def check_businessday(request, d, m, y):
     s_date = datetime.datetime(y, m, d)
     response = {}
-    if s_date.date() >= datetime.datetime.today().date():
-        try:
+
+    try:
+        if s_date.date() >= datetime.datetime.today().date():
             businesss_day = BusinessDay.objects.get(day=s_date)
             data = businesss_day.get_is_full()
             response['is_ok'] = not data
             if data:
                 response['error'] = 'Esse dia está lotado!'
-        except BusinessDay.DoesNotExist:
+        else:
             response['is_ok'] = False
-            response['error'] = 'Esse dia não está disponível!'
-    else:
+            response['error'] = 'Esse dia está lotado!'
+    except BusinessDay.DoesNotExist:
         response['is_ok'] = False
         response['error'] = 'Esse dia não está disponível!'
     return JsonResponse(response, safe=False)
