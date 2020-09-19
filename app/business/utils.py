@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/09/2020 14:56.
+#  Last modified 19/09/2020 09:51.
 
 from .models import *
 
@@ -52,8 +52,16 @@ def check_if_service_fits(businessday, order_of_service):
     if slices > 1:
         # for each available hours, check if service fit in there, if not remove it
         # the service MUST fit sequentially
-        remain_hours = businessday.get_remain_hours_list()  # list of remain hours
+        # list of remain hours of the businessday
+        remain_hours = businessday.get_remain_hours_list()
+        service_start = datetime.datetime.combine(order_of_service.date, order_of_service.time)
+        service_end = (service_start + datetime.timedelta(minutes=order_of_service.type_of_service.time))
+        # list of the hours occupied by service
+        service_hours = datetime_range(service_start, service_end, datetime.timedelta(minutes=settings.SLICE_OF_TIME))
+        # must put the service_hours with remain_hours to allow check for sequential
+        remain_hours.extend(service_hours)
         tupple_hours = []
+        # print(f"Remain Hours: {remain_hours}")
         # check if is consecutive
         for rh in remain_hours:
             # start of service that is equal to the remain hour
@@ -77,5 +85,6 @@ def check_if_service_fits(businessday, order_of_service):
             if f:
                 tupple_hours.append((rh.strftime('%H:%M'), rh.strftime('%H:%M')))
         response = tupple_hours
+        # print(response)
     # print(len(response), response)
     return len(response) > 0

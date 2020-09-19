@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 18/09/2020 11:53.
+  ~ Last modified 19/09/2020 09:58.
   -->
 
 {% extends 'base.html' %}
@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
         navLinks: true, // can click day/week names to navigate views
         editable: true, // can drag and change date/time of events
         dayMaxEvents: true, // allow "more" link when too many events
-        businessHours: true, // display business hours
-        nowIndicator: true,
+        businessHours: false, // display business hours
+        nowIndicator: false,
 
         // hours to be displayed
         // slotMinTime: '08:00',
@@ -94,11 +94,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Note: Make a modal show with a form, send to server validate and return response
         select: function(arg) {
-           // if (!arg.allDay) {
-                $('#id_businessdayform-start').val(arg.start.toISOString().split('T')[0]);
-                $('#id_businessdayform-end').val(arg.end.toISOString().split('T')[0]);
-                $('#modal-form-business').modal('show');
-           // }
+            $('#id_businessdayform-start').val(arg.start.toISOString().split('T')[0]);
+            $('#id_businessdayform-end').val(arg.end.toISOString().split('T')[0]);
+            $('#modal-form-business').modal('show');
            // calendar.unselect()
         },
 
@@ -154,8 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
   });
-
-
 
 </script>
 {% endblock %}

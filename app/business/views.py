@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/09/2020 14:56.
+#  Last modified 19/09/2020 10:20.
 from typing import Dict, Any
 
 from config.models import TypeOfService
@@ -29,13 +29,17 @@ from .utils import *
 def check_businessday(request, d, m, y):
     s_date = datetime.datetime(y, m, d)
     response = {}
-    try:
-        businesss_day = BusinessDay.objects.get(day=s_date)
-        data = businesss_day.get_is_full()
-        response['is_ok'] = not data
-        if data:
-            response['error'] = 'Esse dia está lotado!'
-    except BusinessDay.DoesNotExist:
+    if s_date.date() >= datetime.datetime.today().date():
+        try:
+            businesss_day = BusinessDay.objects.get(day=s_date)
+            data = businesss_day.get_is_full()
+            response['is_ok'] = not data
+            if data:
+                response['error'] = 'Esse dia está lotado!'
+        except BusinessDay.DoesNotExist:
+            response['is_ok'] = False
+            response['error'] = 'Esse dia não está disponível!'
+    else:
         response['is_ok'] = False
         response['error'] = 'Esse dia não está disponível!'
     return JsonResponse(response, safe=False)
@@ -44,12 +48,16 @@ def check_businessday(request, d, m, y):
 @login_required
 @require_http_methods(["GET"])
 def get_calendar_data_frontend(request):
+    # start of the month
     start = datetime.datetime.strptime(request.GET.get('start', None), "%Y-%m-%dT%H:%M:%SZ")
+    # end of the month + 1 day (or start of the other month)
     end = datetime.datetime.strptime(request.GET.get('end', None), "%Y-%m-%dT%H:%M:%SZ")
     data = []
     businessday = BusinessDay.objects.filter(day__range=[start, end])
+    today = datetime.datetime.today().date()
     for b in businessday:
-        if b.get_is_full() or b.force_day_full:
+        # if the day is full or the day is forced full or the day is on the past
+        if b.get_is_full() or b.force_day_full or b.day < today:
             className = 'dayfull'
         elif not b.is_work_day:
             className = 'notworkday'
