@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 16:46.
+#  Last modified 21/09/2020 21:05.
 
 from datetime import datetime
 
@@ -62,6 +62,9 @@ class Profile(BaseModel):
 
     def __str__(self):
         return self.name
+
+    def get_short_name(self):
+        return self.name[:10]
 
     def get_full_name(self):
         return self.name

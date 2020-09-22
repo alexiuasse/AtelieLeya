@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/09/2020 11:49.
+#  Last modified 21/09/2020 14:02.
 import datetime
 
 from base.models import BaseModel
@@ -31,8 +31,6 @@ class BusinessDay(BaseModel):
                              help_text="Qual a cor que você deseja como plano de fundo")
     expedient_day = models.ManyToManyField("config.Expedient", verbose_name="Expediente",
                                            help_text="Quais são os horários disponíveis para esse dia?")
-    workers = models.ManyToManyField("worker.WorkerProfile", verbose_name="Funcionários", blank=True,
-                                     help_text="Quais funcionários estão trabalhando nesse dia?")
     is_work_day = models.BooleanField("dia de trabalho", default=True, help_text="Esse dia estará trabalhando?")
     force_day_full = models.BooleanField("forçar dia cheio", default=False,
                                          help_text="Forçar para que o dia mostre como lotado!")
@@ -89,8 +87,9 @@ class BusinessDay(BaseModel):
         """
         :return: True, if the expedient hours minus consumed hours is less than the shortest typeofservice time
         """
-        return (self.get_expedient_hours() - self.get_consumed_hours()) < \
-               TypeOfService.objects.all().aggregate(min_time=Min('time'))['min_time']
+        min_time = TypeOfService.objects.all().aggregate(min_time=Min('time'))['min_time']
+        min_time = min_time if min_time else 0
+        return (self.get_expedient_hours() - self.get_consumed_hours()) < min_time
 
     @staticmethod
     def datetime_range(start, end, delta):

@@ -1,74 +1,202 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 14/09/2020 13:05.
+  ~ Last modified 21/09/2020 21:42.
   -->
 
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
 <div class="container-xl">
-    <div class="hr-text">Hoje</div>
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-auto">
-                <div class="page-pretitle">
-                    {{today.pre_title}}
-                </div>
-                <h2 class="page-title">
-                    <span class="text-primary">{{today.title.icon|safe}}</span>
-                    {{today.title.text}}
-                </h2>
+                <div class="page-pretitle">Dashboard</div>
+                <h3 class="page-title">
+                    <span class="text-primary">{{ICON_DASHBOARD|safe}}</span> Dashboard
+                </h3>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-6 col-md-12">
-            <div class="card">
-                <div class="card-header bg-triangle-top-primary">
-                    <div class="card-title">
-                        {{birthdays.title.icon|safe}}
-                        {{birthdays.title.text}}
+    <div class="row row-deck row-cards">
+        <h3 class="text-muted">Resumo do ano de {{year}}</h3>
+        {% for k,v in top_row_deck.items %}
+        <div class="col-sm-6 col-xl-3">
+            <div class="card card-sm">
+                <div class="card-body d-flex align-items-center">
+                    <span class="{{v.bg_color}} text-white stamp mr-3">{{v.icon|safe}}</span>
+                    <div class="mr-3 lh-sm">
+                        <div class="strong">{{v.title}}</div>
+                        <div class="text-muted">{{v.subtitle}}</div>
                     </div>
-                </div>
-                <div class="card-body">
-                    {% if birthdays.data %}
-                    {% for obj in birthdays.data %}
-                    <p>
-                        <a href="{{obj.get_absolute_url}}" target="_blank">
-                            {{obj.get_full_name}}
-                        </a>
-                        faz <span class="font-weight-bold">{{obj.get_age}}</span> anos hoje,
-                        Whatsapp: <span class="font-weight-bold">{{obj.whatsapp}}</span>
-                    </p>
-                    {% endfor %}
-                    {% else %}
-                    <p>Nenhum aniversariante hoje!</p>
-                    {% endif %}
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-12">
+        {% endfor %}
+    </div>
+
+    <div class="row row-deck row-cards">
+        <h3 class="text-muted">Para hoje {{today}}</h3>
+        <div class="col-lg-5">
             <div class="card">
-                <div class="card-header bg-triangle-top-success">
-                    <div class="card-title">
-                        {{services_today.title.icon|safe}}
-                        {{services_today.title.text}}
+                <div class="card-body">
+                    <h4 class="card-title">{{birthdays_row_card.icon|safe}} {{birthdays_row_card.title}}</h4>
+                    <div class="card-subtitle">{{birthdays_row_card.subtitle}}</div>
+                    <div class="table-responsive">
+                        <table class="card-table table-vcenter">
+                            {% if birthdays_row_card.data %}
+                            {% for d in birthdays_row_card.data %}
+                            <tr>
+                                <td class="w-100">
+                                    <a href="{{d.get_absolute_url}}" target="_blank">{{d.name}} {{ICON_LINK|safe}}</a>
+                                </td>
+                                <td class="text-nowrap text-muted">
+                                    {{ICON_WHATSAPP|safe}} {{d.whatsapp}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td>Nenhum aniversariante hoje</td>
+                            </tr>
+                            {% endif %}
+                        </table>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="card">
                 <div class="card-body">
-                    {% if services_today.data %}
-                    {% for obj in services_today.data %}
-                    <p>
-                        <a href="{{obj.get_absolute_url}}" target="_blank">
-                            {{obj.get_full_name}}
-                        </a>
-                        para às <span class="font-weight-bold">{{obj.time}}</span>
-                    </p>
-                    {% endfor %}
-                    {% else %}
-                    <p>Nenhum procedimento para hoje!</p>
-                    {% endif %}
+                    <h4 class="card-title">{{services_row_card.icon|safe}} {{services_row_card.title}}</h4>
+                    <div class="card-subtitle">{{services_row_card.subtitle}}</div>
+                    <div class="table-responsive">
+                        <table class="card-table table-vcenter">
+                            {% if services_row_card.data %}
+                            {% for s in services_row_card.data %}
+                            <tr>
+                                <td class="w-100">
+                                    <a href="{{s.get_absolute_url}}" target="_blank">
+                                        {{s.get_full_name}} {{ICON_LINK|safe}}
+                                    </a>
+                                </td>
+                                <td class="text-nowrap text-muted">
+                                    {{ICON_CALENDAR|safe}} {{s.time}}
+                                </td>
+                                <td class="text-nowrap text-muted">
+                                    {{s.status}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td>Nenhum procedimento para hoje</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-deck row-cards">
+        <h3 class="text-muted">{{ICON_TRIANGLE_ALERT|safe}} Atenção</h3>
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        {{service_not_confirmed_row_card.icon|safe}}
+                        {{service_not_confirmed_row_card.title}}
+                    </h4>
+                    <div class="card-subtitle">{{service_not_confirmed_row_card.subtitle}}</div>
+                    <div class="table-responsive">
+                        <table class="card-table table-vcenter">
+                            {% if service_not_confirmed_row_card.data %}
+                            {% for s in service_not_confirmed_row_card.data %}
+                            <tr>
+                                <td class="w-100">
+                                    <a href="{{s.get_absolute_url}}" target="_blank">
+                                        {{s.get_full_name}} {{ICON_LINK|safe}}
+                                    </a>
+                                </td>
+                                <td class="text-nowrap text-muted">
+                                    {{ICON_CALENDAR|safe}} {{s.date}} às {{s.time}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td>Está tudo certo por aqui.</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{rewards_not_retrieved_row_card.icon|safe}}
+                        {{rewards_not_retrieved_row_card.title}}</h4>
+                    <div class="card-subtitle">{{rewards_not_retrieved_row_card.subtitle}}</div>
+                    <div class="table-responsive">
+                        <table class="card-table table-vcenter">
+                            {% if rewards_not_retrieved_row_card.data %}
+                            {% for r in rewards_not_retrieved_row_card.data %}
+                            <tr>
+                                <td class="w-100">
+                                    <a href="{{r.customer.profile.get_absolute_url}}" target="_blank">
+                                        {{r.customer.profile.get_full_name}} {{ICON_LINK|safe}}
+                                    </a>
+                                </td>
+                                <td class="text-nowrap text-muted">
+                                    {{ICON_CALENDAR|safe}} {{r.date}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td>Está tudo certo por aqui.</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{service_not_completed_row_card.icon|safe}}
+                        {{service_not_completed_row_card.title}}</h4>
+                    <div class="card-subtitle">{{service_not_completed_row_card.subtitle}}</div>
+                    <div class="table-responsive">
+                        <table class="card-table table-vcenter">
+                            {% if service_not_completed_row_card.data %}
+                            {% for s in service_not_completed_row_card.data %}
+                            <tr>
+                                <td class="w-100">
+                                    <a href="{{s.get_absolute_url}}" target="_blank">
+                                        {{s.get_full_name}} {{ICON_LINK|safe}}
+                                    </a>
+                                </td>
+                                <td class="text-nowrap text-muted">
+                                    {{ICON_CALENDAR|safe}} {{s.date}} às {{s.time}}
+                                </td>
+                                <td class="text-nowrap text-muted">
+                                    {{ICON_TRIANGLE_ALERT|safe}} {{s.status}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td>Está tudo certo por aqui.</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,7 +204,6 @@
 </div>
 
 <div class="container-xl dashboard">
-    <div class="hr-text">Atenção</div>
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-auto">
@@ -90,64 +217,8 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        {% if rewards_not_retrieved.data %}
-        <div class="col-lg-6 col-md-12">
-            <div class="card">
-                <div class="card-header bg-triangle-top-warning">
-                    <div class="card-title">
-                        {{rewards_not_retrieved.title.icon|safe}}
-                        {{rewards_not_retrieved.title.text}}
-                        <a class="ml-auto text-info" data-toggle="tooltip" href="{% url 'users:rewardretrieved:list' %}"
-                           target="_blank" title={{TOOLTIP_SEE_ALL}}>
-                            {{ICON_EYE|safe}}
-                        </a>
-                    </div>
 
-                </div>
-                <div class="card-body">
-                    {% for obj in rewards_not_retrieved.data %}
-                    <p>
-                        <span class="font-weight-bold">{{obj.reward}}</span> de
-                        <a href="{{obj.customer.profile.get_absolute_url}}" target="_blank">
-                            {{obj.customer.profile.get_full_name}}
-                        </a>
-                        requisitado no dia <span class="font-weight-bold">{{obj.date}}</span>
-                    </p>
-                    {% endfor %}
-                </div>
-                <div class="card-footer">
-                    <p>Esse aviso é para os brindes que ainda não foram retirados.</p>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-        {% if services_not_confirmed.data %}
-        <div class="col-lg-6 col-md-12">
-            <div class="card">
-                <div class="card-header bg-triangle-top-warning">
-                    <div class="card-title">
-                        {{services_not_confirmed.title.icon|safe}}
-                        {{services_not_confirmed.title.text}}
-                    </div>
-                </div>
-                <div class="card-body">
-                    {% for obj in services_not_confirmed.data %}
-                    <p>
-                        <a href="{{obj.get_absolute_url}}" target="_blank">
-                            {{obj.get_full_name}}
-                        </a>
-                        para o dia <span class="font-weight-bold">{{obj.date}}</span>
-                        às <span class="font-weight-bold">{{obj.time}}</span>
-                    </p>
-                    {% endfor %}
-                </div>
-                <div class="card-footer">
-                    <p>Esse aviso é para os procedimentos que ainda não foram confirmados.</p>
-                </div>
-            </div>
-        </div>
-        {% endif %}
+    <div class="row">
         {% if services_invoice_not_completed.data %}
         <div class="col-lg-6 col-md-12">
             <div class="card">

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 17/09/2020 09:21.
+#  Last modified 21/09/2020 21:10.
 from datetime import datetime
 
 from config.models import TypeOfService, StatusPayment, Reward
@@ -22,63 +22,75 @@ def context_dashboard():
     services_not_confirmed = OrderOfService.objects.filter(confirmed=False)
     services_invoice_not_completed = [obj for obj in OrderOfService.objects.all() if obj.is_invoice_not_completed()]
     rewards_not_retrieved = RewardRetrieved.objects.filter(retrieved=False).order_by('-date')
+
+    order_of_service_year = OrderOfService.objects.filter(date__year=today.year)
+    reward_retrieved_year = RewardRetrieved.objects.filter(date__year=today.year)
+    # row deck in top page
+    top_row_deck = {
+        'card_1': {
+            'title': f'{Profile.objects.filter(user__date_joined__year=today.year).count()} Clientes registrados',
+            'subtitle': f'{Profile.objects.filter(user__date_joined=today).count()} registrados hoje.',
+            'icon': ICON_PERSON,
+            'bg_color': 'bg-blue',
+        },
+        'card_2': {
+            'title': f'{order_of_service_year.count()} Procedimentos',
+            'subtitle': f'{services_today.count()} agendados para hoje.',
+            'icon': ICON_WAND,
+            'bg_color': 'bg-green',
+        },
+        'card_3': {
+            'title': f'{reward_retrieved_year.filter(retrieved=True).count()} Brindes Resgatados',
+            'subtitle': f'{reward_retrieved_year.filter(retrieved=False).count()} em espera.',
+            'icon': ICON_GIFT,
+            'bg_color': 'bg-pink',
+        },
+    }
+
+    birthdays_row_card = {
+        'title': 'Aniversariantes',
+        'subtitle': 'Clientes Que Fazem Aniversário.',
+        'icon': ICON_GIFT,
+        'data': birthdays,
+    }
+
+    services_row_card = {
+        'title': 'Procedimentos',
+        'subtitle': 'Procedimentos Agendados.',
+        'icon': ICON_WAND,
+        'data': services_today,
+    }
+
+    service_not_confirmed_row_card = {
+        'title': 'Procedimentos',
+        'subtitle': 'Procedimentos que ainda não foram confirmados.',
+        'icon': ICON_WAND,
+        'data': services_not_confirmed,
+    }
+
+    service_not_completed_row_card = {
+        'title': 'Procedimentos',
+        'subtitle': 'Procedimentos com fatura incompleta.',
+        'icon': ICON_COIN,
+        'data': services_invoice_not_completed,
+    }
+
+    rewards_not_retrieved_row_card = {
+        'title': 'Brindes',
+        'subtitle': 'Brindes não retirados.',
+        'icon': ICON_GIFT,
+        'data': rewards_not_retrieved,
+    }
+
     return {
-        'today': {
-            'pre_title': f'Hoje {today.strftime("%d/%m/%Y")}',
-            'title': {
-                'text': 'O que você tem para Hoje',
-                'icon': ICON_CALENDAR,
-            },
-            'class': 'today',
-        },
-        'birthdays': {
-            'pre_title': 'Clientes',
-            'title': {
-                'text': 'Aniversariantes de Hoje',
-                'icon': ICON_GIFT,
-            },
-            'data': birthdays,
-        },
-        'services_today': {
-            'pre_title': 'Procedimentos',
-            'title': {
-                'text': 'Procedimentos para Hoje',
-                'icon': ICON_WAND,
-            },
-            'data': services_today,
-        },
-        'atention': {
-            'pre_title': 'Atenção!',
-            'title': {
-                'text': 'Algumas coisas que precisam de atenção',
-                'icon': ICON_TRIANGLE_ALERT
-            },
-            'class': 'atention',
-        },
-        'services_not_confirmed': {
-            'pre_title': 'Procedimentos',
-            'title': {
-                'text': 'Procedimentos não confirmados',
-                'icon': ICON_WAND,
-            },
-            'data': services_not_confirmed,
-        },
-        'services_invoice_not_completed': {
-            'pre_title': 'Procedimentos',
-            'title': {
-                'text': 'Procedimentos com faturamento não completo',
-                'icon': ICON_WAND,
-            },
-            'data': services_invoice_not_completed,
-        },
-        'rewards_not_retrieved': {
-            'pre_title': 'Brindes',
-            'title': {
-                'text': 'Brindes não retirados',
-                'icon': ICON_GIFT,
-            },
-            'data': rewards_not_retrieved,
-        }
+        'year': today.year,
+        'today': today.date(),
+        'top_row_deck': top_row_deck,
+        'birthdays_row_card': birthdays_row_card,
+        'services_row_card': services_row_card,
+        'service_not_confirmed_row_card': service_not_confirmed_row_card,
+        'service_not_completed_row_card': service_not_completed_row_card,
+        'rewards_not_retrieved_row_card': rewards_not_retrieved_row_card,
     }
 
 

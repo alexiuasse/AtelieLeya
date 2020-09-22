@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/09/2020 15:21.
+#  Last modified 21/09/2020 14:16.
 from typing import Dict, Any
 
 from config.models import TypeOfService
@@ -100,17 +100,18 @@ def get_calendar_data_admin(request):
             })
         businessday = BusinessDay.objects.filter(day__range=[start, end])
         for b in businessday:
-            if b.is_work_day:
-                data.append({
-                    'type': 1,
-                    'pk': b.pk,
-                    'title': b.get_name_html(),
-                    'start': b.get_start_date_time(),
-                    'end': b.get_end_date_time(),
-                    'url': b.get_absolute_url(),
-                    'color': b.color,
-                    'display': 'block',
-                })
+            for e in b.expedient_day.all():
+                if b.is_work_day:
+                    data.append({
+                        'type': 1,
+                        'pk': b.pk,
+                        'title': f'Exp. {e.start_time} - {e.end_time}',
+                        'start': f'{b.day} {e.start_time}',
+                        'end': f'{b.day} {e.end_time}',
+                        'url': b.get_absolute_url(),
+                        'color': b.color,
+                        'display': 'block',
+                    })
             if b.get_is_full():
                 className = 'dayfull'
             elif b.force_day_full:

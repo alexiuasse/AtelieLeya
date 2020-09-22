@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 31/08/2020 19:04.
+#  Last modified 21/09/2020 20:41.
 
 ICON_ARROW_BACK = '<svg class="icon icon-md" fill="none" height="24" ' \
                   'stroke="currentColor" stroke-linecap="round"stroke-linejoin="round" stroke-width="2" viewBox="0 0 ' \
@@ -146,3 +146,23 @@ ICON_LINE_CHART = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" 
                   '24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" ' \
                   'stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><line x1="4" y1="19" x2="20" ' \
                   'y2="19"></line><polyline points="4 15 8 9 12 11 16 6 20 10"></polyline></svg> '
+
+ICON_WHATSAPP = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon icon-md" ' \
+                'fill="currentColor"><path d="M17.498 ' \
+                '14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 ' \
+                '1.162-.175.195-.349.21-.646.075-.3-.15-1.263-.465-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3' \
+                '-.019-.465.13-.615.136-.135.301-.345.451-.523.146-.181.194-.301.297-.496.1-.21.049-.375-.025-.524' \
+                '-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 ' \
+                '0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.195 2.105 3.195 5.1 ' \
+                '4.485.714.3 1.27.48 1.704.629.714.227 1.365.195 1.88.121.574-.091 1.767-.721 ' \
+                '2.016-1.426.255-.705.255-1.29.18-1.425-.074-.135-.27-.21-.57-.345m-5.446 7.443h-.016c-1.77 ' \
+                '0-3.524-.48-5.055-1.38l-.36-.214-3.75.975 1.005-3.645-.239-.375a9.869 9.869 0 0 1-1.516-5.26c0-5.445 ' \
+                '4.455-9.885 9.942-9.885a9.865 9.865 0 0 1 7.021 2.91 9.788 9.788 0 0 1 2.909 6.99c-.004 5.444-4.46 ' \
+                '9.885-9.935 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 ' \
+                '4.14 1.595 5.945L0 24l6.335-1.652a12.062 12.062 0 0 0 5.71 1.447h.006c6.585 0 11.946-5.336 ' \
+                '11.949-11.896 0-3.176-1.24-6.165-3.495-8.411"></path></svg> '
+
+# ICON_LINK = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" ' \
+#             'stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path ' \
+#             'stroke="none" d="M0 0h24v24H0z"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 ' \
+#             '.5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg> '

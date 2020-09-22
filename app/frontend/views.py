@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 15/09/2020 10:06.
+#  Last modified 21/09/2020 19:13.
 
 import logging
 
@@ -20,30 +20,48 @@ logger = logging.getLogger(__name__)
 
 def error_400(request, exception):
     logger.error("Error 400: [%s]" % exception)
-    return render(request, '400.html', {}, status=400)
+    return render(request, 'error.html', {
+        'error_code': 400,
+        'error_text': 'A sua requisição possui alguma coisa errada!',
+    }, status=400)
 
 
 def error_401(request, exception):
     logger.error("Error 401: [%s]" % exception)
-    return render(request, '401.html', {}, status=401)
+    return render(request, 'error.html', {
+        'error_code': 401,
+        'error_text': 'Você não possui autorização para acessar essa página!',
+    }, status=401)
 
 
 def error_403(request, exception):
     logger.error("Error 403: [%s]" % exception)
-    return render(request, '403.html', {}, status=403)
+    return render(request, 'error.html', {
+        'error_code': 403,
+        'error_text': 'Você não possui autorização para acessar essa página!',
+    }, status=403)
 
 
 def error_404(request, exception):
     logger.error("Error 404: [%s]" % exception)
-    return render(request, '404.html', {}, status=404)
+    return render(request, 'error.html', {
+        'error_code': 404,
+        'error_text': 'Página não foi encontrada!',
+    }, status=404)
 
 
 def error_500(request):
-    return render(request, '500.html', {}, status=500)
+    return render(request, 'error.html', {
+        'error_code': 500,
+        'error_text': 'Aconteceu um erro interno no servidor!',
+    }, status=500)
 
 
 def error_503(request):
-    return render(request, '503.html', {}, status=503)
+    return render(request, 'error.html', {
+        'error_code': 503,
+        'error_text': 'Nosso serviço não está disponível no momento!',
+    }, status=503)
 
 
 @require_http_methods(["GET"])
@@ -62,6 +80,11 @@ def homepage(request):
         'rewards': Reward.objects.all(),
         'services': TypeOfService.objects.all(),
     })
+
+
+@require_http_methods(["GET"])
+def maintenance(request):
+    return render(request, 'maintenance.html', {})
 
 
 @login_required

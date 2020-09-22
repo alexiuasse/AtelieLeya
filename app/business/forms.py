@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/09/2020 13:45.
+#  Last modified 21/09/2020 13:34.
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field, Column
 from django import forms
@@ -21,7 +21,6 @@ class BusinessDayForm(forms.ModelForm):
             Field('end', type='hidden'),
             Field('color'),
             Field('expedient_day'),
-            Field('workers'),
             Field('is_work_day'),
             Field('force_day_full'),
         ),
@@ -45,7 +44,7 @@ class BusinessDayForm(forms.ModelForm):
             # 'day': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date'}),
             'color': TextInput(attrs={'type': 'color'}),
         }
-        fields = ['color', 'expedient_day', 'workers', 'is_work_day', 'force_day_full', 'start', 'end']
+        fields = ['color', 'expedient_day', 'is_work_day', 'force_day_full', 'start', 'end']
 
 
 class CalendarFiltersForm(forms.Form):

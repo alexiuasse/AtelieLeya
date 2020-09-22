@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/09/2020 12:24.
+#  Last modified 21/09/2020 21:42.
 import datetime
 
 from base.models import BaseModel
@@ -103,6 +103,10 @@ class Expedient(BaseModel):
         start_timedelta = datetime.timedelta(hours=self.start_time.hour, minutes=self.start_time.minute)
         return (end_timedelta - start_timedelta).seconds / 60
 
-
-class Site(BaseModel):
-    pass
+# class Site(BaseModel):
+# image_1 = models.ImageField("Imagem 1", upload_to='images/', blank=True, null=True,
+#                             help_text="Imagem de fundo do topo do site (primeira parte que se vê)")
+# video_url_1 = models.CharField("URL Video 1", max_length=255, help_text="URL do primeiro video")
+# video_url_2 = models.CharField("URL Video 2", max_length=255, help_text="URL do segundo video")
+# about_title = models.CharField("Titulo Sobre", max_length=128, help_text="Título da seção sobre")
+# about_text = models.TextField("Texto Sobre", help_text="Breve texto da seção sobre")
