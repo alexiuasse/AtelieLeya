@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 22/09/2020 10:15.
+  ~ Last modified 22/09/2020 11:59.
   -->
 
 {% extends 'base.html' %}
@@ -31,16 +31,14 @@
     <div class="row align-items-center">
         <div class="col-lg-4 ml-auto mr-auto">
             <div class="card">
-                <div class="card-header bg-triangle-top-primary">
-                    <h3 class="card-title">Formulário</h3>
-                </div>
                 <div class="card-body">
+                    <h3 class="card-title">Formulário</h3>
+                    <div class="card-subtitle">Os campos com * são obrigatórios</div>
                     <form method="post">
                         {% csrf_token %}
                         {% for field in form %}
                         {{ field|as_crispy_field }}
                         {% endfor %}
-                        <hr>
                         <div class="form-row">
                             <div class="pull-right mt-3">
                                 <a class="btn btn-danger mr-2"

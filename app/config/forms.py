@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 19/09/2020 13:46.
+#  Last modified 22/09/2020 11:46.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -27,7 +27,6 @@ class BaseConfigForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = self.layout
         self.helper.form_class = 'form-control'
-        self.helper.label_class = 'bmd-label-floating'
 
 
 class TypeOfPaymentForm(BaseConfigForm):

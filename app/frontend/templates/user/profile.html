@@ -1,10 +1,11 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 22/09/2020 11:29.
+  ~ Last modified 22/09/2020 12:00.
   -->
 
 {% extends '../base/profile.html' %}
+{% load static %}
 {% load l10n %}
 {% block page_header_actions %}
 <a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
@@ -185,6 +186,7 @@
 {% endif %}
 {% endblock %}
 {% block javascript %}
+<script src="{% static 'dist/libs/apexcharts/dist/apexcharts.min.js' %}"></script>
 <script>
 // @formatter:off
 document.addEventListener("DOMContentLoaded", function () {
@@ -194,7 +196,6 @@ document.addEventListener("DOMContentLoaded", function () {
     chart2.render();
 // @formatter:on
 });
-
 
 </script>
 {% endblock %}

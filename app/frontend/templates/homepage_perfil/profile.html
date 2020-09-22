@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 22/09/2020 11:29.
+  ~ Last modified 22/09/2020 12:00.
   -->
 
 {% extends './base.html' %}
@@ -161,6 +161,7 @@
 </div>
 {% endblock %}
 {% block javascript %}
+<script src="{% static 'dist/libs/apexcharts/dist/apexcharts.min.js' %}"></script>
 <script>
 // @formatter:off
 document.addEventListener("DOMContentLoaded", function () {

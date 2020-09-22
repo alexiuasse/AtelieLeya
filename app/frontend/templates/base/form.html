@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 16/09/2020 10:17.
+  ~ Last modified 22/09/2020 11:58.
   -->
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
@@ -29,14 +29,12 @@
     <div class="row align-items-center">
         <div class="col-lg-6 ml-auto mr-auto">
             <div class="card">
-                <div class="card-header bg-triangle-top-primary">
-                    <h3 class="card-title">Formulário</h3>
-                </div>
                 <div class="card-body">
+                    <h3 class="card-title">Formulário</h3>
+                    <div class="card-subtitle">Os campos com * são obrigatórios</div>
                     <form action="" enctype="multipart/form-data" method="post">
                         {% csrf_token %}
                         {% crispy form %}
-                        <hr>
                         <div class="form-row">
                             <div class="pull-right mt-3">
                                 <a class="btn btn-danger mr-2"

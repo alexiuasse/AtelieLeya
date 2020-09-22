@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/09/2020 13:33.
+#  Last modified 22/09/2020 11:44.
 
 from pathlib import Path
 from frontend.icons import *
@@ -25,24 +25,20 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0', '192.168.0.103']
 VERSION = "1.0.0"
 NAME_OF_ENTERPRISE = "Atêlie Leya Monteiro"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-# AUTH_USER_MODEL = 'users.CustomUser'
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 
 # Status Payment
-STATUS_PAYMENT_SUCCESS = 2
 STATUS_PAYMENT_DEFAULT = 1
+STATUS_PAYMENT_SUCCESS = 2
 # Status Service
-STATUS_SERVICE_FINISHED = 2
 STATUS_SERVICE_DEFAULT = 1
+STATUS_SERVICE_FINISHED = 2
 
 # Icons
 ICON_CONFIRMED = f"<span class='badge bg-success'>{ICON_CHECK} Sim</span>"
 ICON_NOT_CONFIRMED = f"<span class='badge bg-warning'>{ICON_TRIANGLE_ALERT} Não </span>"
 ICON_FINISHED = f"<span class='badge bg-success'>{ICON_DOUBLE_CHECK} Sim</span>"
 ICON_NOT_FINISHED = f"<span class='badge bg-warning'>{ICON_TRIANGLE_ALERT} Não</span>"
-
-# Calendar
-BACKGROUND_COLOR_FULL = "#FFFFFF"
 
 # Slot of time, used to tell the slices of time
 SLICE_OF_TIME = 30  # min
@@ -81,7 +77,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'simple_history.middleware.HistoryRequestMiddleware',
-    'base.middleware.BaseMiddleware',
+    # 'base.middleware.BaseMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
