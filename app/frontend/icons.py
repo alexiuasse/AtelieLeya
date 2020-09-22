@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/09/2020 09:38.
+#  Last modified 22/09/2020 10:07.
 
 ICON_ARROW_BACK = '<svg class="icon icon-md" fill="none" height="24" ' \
                   'stroke="currentColor" stroke-linecap="round"stroke-linejoin="round" stroke-width="2" viewBox="0 0 ' \
@@ -132,9 +132,9 @@ ICON_COIN = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width=
 
 ICON_WAND = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" ' \
             'stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path ' \
-            'stroke="none" d="M0 0h24v24H0z"></path><polyline points="6 21 21 6 18 3 3 18 6 21"></polyline><line ' \
-            'x1="15" y1="6" x2="18" y2="9"></line><path d="M9 3a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 ' \
-            '0 2 -2"></path><path d="M19 13a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path></svg> '
+            'stroke="none" d="M0 0h24v24H0z"></path><path d="M3 21v-4a4 4 0 1 1 4 4h-4"></path><path d="M21 3a16 16 0 ' \
+            '0 0 -12.8 10.2"></path><path d="M21 3a16 16 0 0 1 -10.2 12.8"></path><path d="M10.6 9a9 9 0 0 1 4.4 ' \
+            '4.4"></path></svg> '
 
 ICON_PIE_CHART = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 ' \
                  '24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" ' \

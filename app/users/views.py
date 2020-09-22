@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/09/2020 10:00.
+#  Last modified 22/09/2020 10:44.
 from typing import Dict, Any
 
 from config.models import Reward, TypeOfService
@@ -42,11 +42,13 @@ def profile_admin(request, pk):
     return render(request, template_name='user/profile.html', context={
         'obj': user.profile,
         'options_chart_service': SimplePie(
+            width=300,
             series=[services.filter(type_of_service=t).count() for t in type_of_services],
             colors=[t.contextual for t in type_of_services],
             labels=[t.name for t in type_of_services],
         ).get_options(),
         'options_chart_reward': SimplePie(
+            width=300,
             series=[rewards.filter(reward=r).count() for r in rewards_type],
             colors=[r.contextual for r in rewards_type],
             labels=[r.name for r in rewards_type],

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/09/2020 21:05.
+#  Last modified 22/09/2020 10:48.
 
 from datetime import datetime
 
@@ -162,5 +162,11 @@ class Profile(BaseModel):
     def has_reward(self):
         return self.user.rewardretrieved_set.count()
 
+    def has_reward_admin(self):
+        return self.user.rewardretrieved_set.filter(retrieved=False).count()
+
     def sorted_reward_set(self):
         return self.user.rewardretrieved_set.order_by('-date', '-id')[:5]
+
+    def sorted_reward_set_admin(self):
+        return self.user.rewardretrieved_set.filter(retrieved=False).order_by('-date', '-id')

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 06/09/2020 10:34.
+  ~ Last modified 22/09/2020 10:09.
   -->
 
 {% extends 'base.html' %}
@@ -28,10 +28,8 @@
                         {{vv.title.icon|safe}}
                         {{vv.title.text}}
                     </h3>
+                    <div class="card-subtitle">{{vv.description}}</div>
                     <div class="{{vv.class}}" id="{{vv.id}}"></div>
-                </div>
-                <div class="card-footer">
-                    <p>{{vv.description}}</p>
                 </div>
             </div>
         </div>

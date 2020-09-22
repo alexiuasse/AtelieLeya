@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 12:14.
+#  Last modified 22/09/2020 10:10.
 from datetime import datetime
 
 from django.utils.safestring import mark_safe
@@ -18,7 +18,7 @@ class ProfileTable(tables.Table):
         model = Profile
         attrs = {'class': 'table table-striped table-hover'}
         per_page = 20
-        fields = ['name', 'whatsapp', 'birth_day']
+        fields = ['name', 'whatsapp', 'birth_date']
 
     @staticmethod
     def render_birth_day(value):
