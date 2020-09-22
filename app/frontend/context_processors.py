@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/09/2020 20:41.
+#  Last modified 22/09/2020 09:38.
 
 from django.conf import settings  # import the settings file
 from .icons import *
@@ -53,5 +53,6 @@ def frontend_template_context(request):
         'ICON_PIE_CHART': ICON_PIE_CHART,
         'ICON_LINE_CHART': ICON_LINE_CHART,
         'ICON_WHATSAPP': ICON_WHATSAPP,
+        'ICON_AWARD': ICON_AWARD,
         # 'ICON_LINK': ICON_LINK,
     }

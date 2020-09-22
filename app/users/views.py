@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 10:58.
+#  Last modified 22/09/2020 10:00.
 from typing import Dict, Any
 
 from config.models import Reward, TypeOfService
@@ -19,6 +19,8 @@ from django.views.generic import UpdateView, DeleteView, CreateView
 from django_filters.views import FilterView
 from django_tables2 import SingleTableMixin, LazyPaginator
 from frontend.apexcharts.simple_pie import SimplePie
+from frontend.icons import ICON_AWARD, ICON_WAND, ICON_GIFT, ICON_LINK
+from service.models import OrderOfService
 
 from .conf import *
 from .filters import *
@@ -97,7 +99,33 @@ class ProfileDelete(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
 @login_required
 @require_http_methods(["GET"])
 def profile_frontend(request):
-    return render(request, "homepage_perfil/profile.html")
+    order_of_services = OrderOfService.objects.filter(customer=request.user)
+    reward_retrieved = RewardRetrieved.objects.filter(customer=request.user)
+    top_row_deck = {
+        'card_1': {
+            'title': mark_safe(f'<span data-countup>{request.user.profile.total_of_points}</span> Pontos'),
+            'subtitle': mark_safe(f'<a data-toggle="tooltip"href="{reverse("users:frontend:reward")}">'
+                                  f'{ICON_LINK} Resgatar Brinde</a>'),
+            'icon': ICON_AWARD,
+            'bg_color': 'bg-blue',
+        },
+        'card_2': {
+            'title': f'{order_of_services.count()} Procedimentos',
+            'subtitle': mark_safe(f'<a data-toggle="tooltip"href="{reverse("users:frontend:calendar")}">'
+                                  f'{ICON_LINK} Agendar Procedimento</a>'),
+            'icon': ICON_WAND,
+            'bg_color': 'bg-green',
+        },
+        'card_3': {
+            'title': f'{reward_retrieved.filter(retrieved=True).count()} Brindes Resgatados',
+            'subtitle': f'{reward_retrieved.filter(retrieved=False).count()} em espera.',
+            'icon': ICON_GIFT,
+            'bg_color': 'bg-pink',
+        },
+    }
+    return render(request, "homepage_perfil/profile.html", {
+        'top_row_deck': top_row_deck,
+    })
 
 
 @login_required

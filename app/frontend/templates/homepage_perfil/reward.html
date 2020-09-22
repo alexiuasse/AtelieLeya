@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 17/09/2020 20:08.
+  ~ Last modified 22/09/2020 10:01.
   -->
 
 {% extends './base.html' %}
@@ -27,11 +27,11 @@
     <div class="card">
         <div class="card-body">
             <h3 class="card-title">Olá, {{user.profile.name}}</h3>
-            <h4 class="card-text">
+            <div class="card-subtitle">
                 Você possui
                 <span class="font-weight-bold" data-countup="">{{user.profile.total_of_points}}</span>
                 pontos!
-            </h4>
+            </div>
             <p class="card-text small">
                 Você pode trocar seus pontos, caso tenha o suficiente,
                 por algum brinde abaixo. Basta clicar em resgatar, caso disponível, que logo
@@ -87,6 +87,8 @@ function confirm(name, link) {
     $("#modal-confirm").modal('show');
 }
 // @formatter:on
+
+
 
 </script>
 {% endblock %}

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 16/09/2020 16:14.
+  ~ Last modified 22/09/2020 09:58.
   -->
 
 {% extends './base.html' %}
@@ -33,96 +33,76 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        {% if user.profile.is_birthday %}
-        <div class="col-lg-12">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-lg-3 col-md-auto ml-auto mr-auto">
-                            <img alt="Aniversário" class="img-fluid img-birthday"
-                                 src="{% static 'homepage/dist/img/undraw_online_wishes_dlmr.svg' %}">
-                        </div>
-                        <div class="col-lg-6 col-md-auto">
-                            <h1>Feliz Aniversário {{user.profile.get_full_name}}!!</h1>
-                            <h4>De toda equipe {{NAME_OF_ENTERPRISE}}</h4>
-                        </div>
+    {% if user.profile.is_birthday %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-auto ml-auto mr-auto">
+                    <img alt="Aniversário" class="img-fluid img-birthday"
+                         src="{% static 'homepage/dist/img/undraw_online_wishes_dlmr.svg' %}">
+                </div>
+                <div class="col-lg-6 col-md-auto">
+                    <h1>Feliz Aniversário {{user.profile.get_full_name}}!!</h1>
+                    <h4>De toda equipe {{NAME_OF_ENTERPRISE}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="row row-deck row-cards">
+        {% for k,v in top_row_deck.items %}
+        <div class="col-sm-6 col-xl-3">
+            <div class="card card-sm">
+                <div class="card-body d-flex align-items-center">
+                    <span class="{{v.bg_color}} text-white stamp mr-3">{{v.icon|safe}}</span>
+                    <div class="mr-3 lh-sm">
+                        <div class="strong">{{v.title}}</div>
+                        <div class="text-muted">{{v.subtitle}}</div>
                     </div>
                 </div>
             </div>
         </div>
-        {% endif %}
-        <div class="col-lg-6 col-md-auto">
-            <!--            <div class="hr-text">Informações</div>-->
+        {% endfor %}
+    </div>
+    <div class="row row-deck row-cards">
+        <div class="col-lg-5">
             <div class="card">
-                <div class="card-header bg-triangle-top-primary">
-                    <h3 class="card-title">Informações sobre você</h3>
-                </div>
                 <div class="card-body">
-                    <div class="table-responsive mb-3">
-                        <table class="table table-hover">
+                    <h4 class="card-title">Informações</h4>
+                    <div class="card-subtitle">
+                        <a href="{% url 'users:frontend:update' %}">
+                            {{ICON_LINK|safe}} Editar Informações
+                        </a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="card-table table-hover">
                             {% for k, v in user.profile.get_dict_data.items %}
                             <tr>
-                                <td>{{k}}</td>
-                                <td>{{v}}</td>
+                                <td class="w-100">{{k}}</td>
+                                <td class="text-nowrap text-muted">{{v}}</td>
                             </tr>
                             {% endfor %}
                             <tr>
-                                <td><span class="font-weight-bold">Pontos</span></td>
-                                <td>
+                                <td class="w-100"><span class="font-weight-bold">Pontos</span></td>
+                                <td class="text-nowrap text-muted">
                                     <span class="font-weight-bold" data-countup>{{user.profile.total_of_points}}</span>
                                     pts
                                 </td>
                             </tr>
                         </table>
                     </div>
-                    <div class="hr-text">Ações</div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <p>
-                                <a data-toggle="tooltip"
-                                   href="{% url 'users:frontend:update' %}"
-                                   title="{{TOOLTIP_EDIT_PROFILE}}">
-                                    {{ICON_EDIT|safe}} Editar Informações
-                                </a>
-                            </p>
-                            <p>
-                                <a data-toggle="tooltip"
-                                   href="{% url 'users:frontend:reward' %}"
-                                   title="{{TOOLTIP_RETRIEVE_REWARD}}">
-                                    {{ICON_GIFT|safe}} Resgatar Brinde
-                                </a>
-                            </p>
-                        </div>
-                        <div class="col-lg-6">
-                            <p>
-                                <a data-toggle="tooltip"
-                                   href="{% url 'users:frontend:calendar' %}"
-                                   title="{{TOOLTIP_SCHEDULE_SERVICE}}">
-                                    {{ICON_CALENDAR|safe}}
-                                    Agendar Procedimento
-                                </a>
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-auto">
-            <!--            <div class="hr-text">Procedimentos</div>-->
+        <div class="col-lg-4">
             <div class="card">
-                <div class="card-header bg-triangle-top-success">
-                    <h3 class="card-title">{{ICON_WAND|safe}} Últimos 5 Procedimentos</h3>
-                </div>
                 <div class="card-body">
-                    <p>
-                        <a data-toggle="tooltip"
-                           href="{% url 'users:frontend:calendar' %}"
-                           title="{{TOOLTIP_SCHEDULE_SERVICE}}">
-                            {{ICON_CALENDAR|safe}}
-                            Agendar Procedimento
+                    <h4 class="card-title">{{ICON_WAND|safe}} Últimos 5 Procedimentos</h4>
+                    <div class="card-subtitle">
+                        <a href="{% url 'users:frontend:calendar' %}">
+                            {{ICON_LINK|safe}} Agendar Procedimento
                         </a>
-                    </p>
+                    </div>
                     <div class="list-group">
                         {% for s in user.profile.get_service_sorted_by_actual_month %}
                         <a class="list-group-item list-group-item-action"
@@ -133,25 +113,20 @@
                     </div>
                 </div>
             </div>
-            <!--            <div class="hr-text">Brindes</div>-->
+        </div>
+        <div class="col-lg-3">
             <div class="card">
-                <div class="card-header bg-triangle-top-success">
-                    <h3 class="card-title">{{ICON_GIFT|safe}} Últimos 5 Brindes</h3>
-                </div>
                 <div class="card-body">
-                    <p>
-                        <a data-toggle="tooltip"
-                           href="{% url 'users:frontend:reward' %}"
-                           title="{{TOOLTIP_RETRIEVE_REWARD}}">
-                            {{ICON_GIFT|safe}} Resgatar Brinde
+                    <h4 class="card-title">{{ICON_GIFT|safe}} Últimos 5 Brindes</h4>
+                    <div class="card-subtitle">
+                        <a href="{% url 'users:frontend:reward' %}">
+                            {{ICON_LINK|safe}} Resgatar Brinde
                         </a>
-                    </p>
+                    </div>
                     <div class="list-group">
                         {% for r in user.profile.sorted_reward_set %}
                         <a class="list-group-item list-group-item-action" href="#">
-                            {{r.reward.name}}
-                            <span data-toggle="counter-up">{{r.points}}</span> pts
-                            em {{r.date}} - {{r.get_contextual_html}}
+                            {{r.reward.name}} em {{r.date}} - {{r.get_contextual_html}}
                         </a>
                         {% endfor %}
                     </div>

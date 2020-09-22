@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/09/2020 20:41.
+#  Last modified 22/09/2020 09:38.
 
 ICON_ARROW_BACK = '<svg class="icon icon-md" fill="none" height="24" ' \
                   'stroke="currentColor" stroke-linecap="round"stroke-linejoin="round" stroke-width="2" viewBox="0 0 ' \
@@ -162,7 +162,8 @@ ICON_WHATSAPP = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" cla
                 '4.14 1.595 5.945L0 24l6.335-1.652a12.062 12.062 0 0 0 5.71 1.447h.006c6.585 0 11.946-5.336 ' \
                 '11.949-11.896 0-3.176-1.24-6.165-3.495-8.411"></path></svg> '
 
-# ICON_LINK = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" ' \
-#             'stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path ' \
-#             'stroke="none" d="M0 0h24v24H0z"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 ' \
-#             '.5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></svg> '
+ICON_AWARD = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" ' \
+             'stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path ' \
+             'stroke="none" d="M0 0h24v24H0z"></path><circle cx="12" cy="9" r="6"></circle><polyline points="9 14.2 9 ' \
+             '21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)"></polyline><polyline points="9 14.2 9 21 12 19 15 ' \
+             '21 15 14.2" transform="rotate(30 12 9)"></polyline></svg> '
