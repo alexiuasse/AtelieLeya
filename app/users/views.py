@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/09/2020 10:44.
+#  Last modified 22/09/2020 11:21.
 from typing import Dict, Any
 
 from config.models import Reward, TypeOfService
@@ -103,6 +103,10 @@ class ProfileDelete(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
 def profile_frontend(request):
     order_of_services = OrderOfService.objects.filter(customer=request.user)
     reward_retrieved = RewardRetrieved.objects.filter(customer=request.user)
+    services = order_of_services.filter(status=settings.STATUS_SERVICE_FINISHED)
+    type_of_services = TypeOfService.objects.filter(pk__in=services.values_list('type_of_service', flat=True))
+    rewards = reward_retrieved.filter(retrieved=True)
+    rewards_type = Reward.objects.filter(pk__in=rewards.values_list('reward', flat=True))
     top_row_deck = {
         'card_1': {
             'title': mark_safe(f'<span data-countup>{request.user.profile.total_of_points}</span> Pontos'),
@@ -127,6 +131,18 @@ def profile_frontend(request):
     }
     return render(request, "homepage_perfil/profile.html", {
         'top_row_deck': top_row_deck,
+        'options_chart_service': SimplePie(
+            width=250,
+            series=[services.filter(type_of_service=t).count() for t in type_of_services],
+            colors=[t.contextual for t in type_of_services],
+            labels=[t.name for t in type_of_services],
+        ).get_options(),
+        'options_chart_reward': SimplePie(
+            width=250,
+            series=[rewards.filter(reward=r).count() for r in rewards_type],
+            colors=[r.contextual for r in rewards_type],
+            labels=[r.name for r in rewards_type],
+        ).get_options(),
     })
 
 
