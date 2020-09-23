@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 14:04.
+#  Last modified 23/09/2020 14:51.
 import datetime
 
 from base.models import BaseModel
@@ -151,6 +151,17 @@ class BusinessDay(BaseModel):
         for h in self.get_remain_hours_list():
             hours_tupple.append((h.strftime('%H:%M'), h.strftime('%H:%M')))
         return hours_tupple
+
+    def get_tupple_hours(self):
+        h_all = self.get_all_hours_list()
+        h_remain = self.get_remain_hours_list()
+        h_tupple = []
+        for h in h_all:
+            if h in h_remain:
+                h_tupple.append((h, mark_safe('<span class="text-success">Livre</span>')))
+            else:
+                h_tupple.append((h, mark_safe('<span class="text-danger">Ocupado</span>')))
+        return h_tupple
 
     def get_dict_data(self):
         return {

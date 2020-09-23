@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/09/2020 10:07.
+#  Last modified 23/09/2020 15:01.
 
 ICON_ARROW_BACK = '<svg class="icon icon-md" fill="none" height="24" ' \
                   'stroke="currentColor" stroke-linecap="round"stroke-linejoin="round" stroke-width="2" viewBox="0 0 ' \
@@ -167,3 +167,22 @@ ICON_AWARD = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width
              'stroke="none" d="M0 0h24v24H0z"></path><circle cx="12" cy="9" r="6"></circle><polyline points="9 14.2 9 ' \
              '21 12 19 15 21 15 14.2" transform="rotate(-30 12 9)"></polyline><polyline points="9 14.2 9 21 12 19 15 ' \
              '21 15 14.2" transform="rotate(30 12 9)"></polyline></svg> '
+
+ICON_ALARM = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" ' \
+             'stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path ' \
+             'stroke="none" d="M0 0h24v24H0z"></path><circle cx="12" cy="13" r="7"></circle><polyline points="12 10 ' \
+             '12 13 14 13"></polyline><line x1="7" y1="4" x2="4.25" y2="6"></line><line x1="17" y1="4" x2="19.75" ' \
+             'y2="6"></line></svg> '
+
+ICON_LIST = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" ' \
+            'stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path ' \
+            'stroke="none" d="M0 0h24v24H0z"></path><line x1="9" y1="6" x2="20" y2="6"></line><line x1="9" y1="12" ' \
+            'x2="20" y2="12"></line><line x1="9" y1="18" x2="20" y2="18"></line><line x1="5" y1="6" x2="5" ' \
+            'y2="6.01"></line><line x1="5" y1="12" x2="5" y2="12.01"></line><line x1="5" y1="18" x2="5" ' \
+            'y2="18.01"></line></svg> '
+
+ICON_INFO_CIRCLE = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 ' \
+                   '24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" ' \
+                   'stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><circle cx="12" cy="12" ' \
+                   'r="9"></circle><line x1="12" y1="8" x2="12.01" y2="8"></line><polyline points="11 12 12 12 12 16 ' \
+                   '13 16"></polyline></svg> '
