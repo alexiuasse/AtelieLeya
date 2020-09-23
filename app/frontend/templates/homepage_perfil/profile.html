@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 22/09/2020 12:00.
+  ~ Last modified 23/09/2020 15:12.
   -->
 
 {% extends './base.html' %}
@@ -47,6 +47,7 @@
                 </div>
             </div>
         </div>
+        <div class="ribbon ">{{ICON_GIFT|safe}}</div>
     </div>
     {% endif %}
     <div class="row row-deck row-cards">
@@ -92,6 +93,7 @@
                         </table>
                     </div>
                 </div>
+                <div class="ribbon bg-info">{{ICON_INFO_CIRCLE|safe}}</div>
             </div>
         </div>
         <div class="col-lg-3 ml-auto">
@@ -103,6 +105,7 @@
                         <div class="chart-sm" id="chart_service"></div>
                     </div>
                 </div>
+                <div class="ribbon bg-success">{{ICON_WAND|safe}}</div>
             </div>
         </div>
         <div class="col-lg-3 ml-auto">
@@ -114,6 +117,7 @@
                         <div class="chart-sm" id="chart_reward"></div>
                     </div>
                 </div>
+                <div class="ribbon ">{{ICON_GIFT|safe}}</div>
             </div>
         </div>
     </div>
@@ -136,6 +140,7 @@
                         {% endfor %}
                     </div>
                 </div>
+                <div class="ribbon bg-success">{{ICON_WAND|safe}}</div>
             </div>
         </div>
         <div class="col-lg-6">
@@ -155,6 +160,7 @@
                         {% endfor %}
                     </div>
                 </div>
+                <div class="ribbon ">{{ICON_GIFT|safe}}</div>
             </div>
         </div>
     </div>
