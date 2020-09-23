@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 22/09/2020 12:00.
+  ~ Last modified 23/09/2020 15:06.
   -->
 
 {% extends '../base/profile.html' %}
@@ -31,6 +31,7 @@
                 <div class="card-subtitle">Hoje é o aniversário de {{obj.name}}</div>
                 <h3>{{ICON_WHATSAPP|safe}} {{obj.whatsapp}}</h3>
             </div>
+            <div class="ribbon bg-pink">{{ICON_GIFT|safe}}</div>
         </div>
     </div>
     {% endif %}
@@ -61,6 +62,7 @@
                     </table>
                 </div>
             </div>
+            <div class="ribbon bg-info">{{ICON_INFO_CIRCLE|safe}}</div>
         </div>
     </div>
     <div class="col-lg-7">
@@ -101,6 +103,7 @@
                 <p>Tudo certo por aqui!</p>
                 {% endif %}
             </div>
+            <div class="ribbon ">{{ICON_GIFT|safe}}</div>
         </div>
     </div>
     <div class="col-lg-4 ml-auto">
@@ -112,6 +115,7 @@
                     <div class="chart-sm" id="chart_service"></div>
                 </div>
             </div>
+            <div class="ribbon bg-success">{{ICON_WAND|safe}}</div>
         </div>
     </div>
     <div class="col-lg-4 mr-auto">
@@ -123,6 +127,7 @@
                     <div class="chart-sm" id="chart_reward"></div>
                 </div>
             </div>
+            <div class="ribbon ">{{ICON_GIFT|safe}}</div>
         </div>
     </div>
 </div>
@@ -182,6 +187,7 @@
         </div>
         {% endfor %}
     </div>
+    <div class="ribbon bg-success">{{ICON_WAND|safe}}</div>
 </div>
 {% endif %}
 {% endblock %}

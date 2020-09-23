@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 21/09/2020 21:42.
+  ~ Last modified 23/09/2020 15:09.
   -->
 
 {% extends 'base.html' %}
@@ -43,7 +43,7 @@
                     <h4 class="card-title">{{birthdays_row_card.icon|safe}} {{birthdays_row_card.title}}</h4>
                     <div class="card-subtitle">{{birthdays_row_card.subtitle}}</div>
                     <div class="table-responsive">
-                        <table class="card-table table-vcenter">
+                        <table class="card-table table-hover">
                             {% if birthdays_row_card.data %}
                             {% for d in birthdays_row_card.data %}
                             <tr>
@@ -63,6 +63,7 @@
                         </table>
                     </div>
                 </div>
+                <div class="ribbon ">{{ICON_GIFT|safe}}</div>
             </div>
         </div>
         <div class="col-lg-7">
@@ -71,7 +72,7 @@
                     <h4 class="card-title">{{services_row_card.icon|safe}} {{services_row_card.title}}</h4>
                     <div class="card-subtitle">{{services_row_card.subtitle}}</div>
                     <div class="table-responsive">
-                        <table class="card-table table-vcenter">
+                        <table class="card-table table-hover">
                             {% if services_row_card.data %}
                             {% for s in services_row_card.data %}
                             <tr>
@@ -96,6 +97,7 @@
                         </table>
                     </div>
                 </div>
+                <div class="ribbon bg-success">{{ICON_WAND|safe}}</div>
             </div>
         </div>
     </div>
@@ -111,7 +113,7 @@
                     </h4>
                     <div class="card-subtitle">{{service_not_confirmed_row_card.subtitle}}</div>
                     <div class="table-responsive">
-                        <table class="card-table table-vcenter">
+                        <table class="card-table table-hover">
                             {% if service_not_confirmed_row_card.data %}
                             {% for s in service_not_confirmed_row_card.data %}
                             <tr>
@@ -133,6 +135,7 @@
                         </table>
                     </div>
                 </div>
+                <div class="ribbon bg-success">{{ICON_WAND|safe}}</div>
             </div>
         </div>
         <div class="col-lg-5">
@@ -142,7 +145,7 @@
                         {{rewards_not_retrieved_row_card.title}}</h4>
                     <div class="card-subtitle">{{rewards_not_retrieved_row_card.subtitle}}</div>
                     <div class="table-responsive">
-                        <table class="card-table table-vcenter">
+                        <table class="card-table table-hover">
                             {% if rewards_not_retrieved_row_card.data %}
                             {% for r in rewards_not_retrieved_row_card.data %}
                             <tr>
@@ -164,6 +167,7 @@
                         </table>
                     </div>
                 </div>
+                <div class="ribbon ">{{ICON_GIFT|safe}}</div>
             </div>
         </div>
         <div class="col-lg-10">
@@ -173,7 +177,7 @@
                         {{service_not_completed_row_card.title}}</h4>
                     <div class="card-subtitle">{{service_not_completed_row_card.subtitle}}</div>
                     <div class="table-responsive">
-                        <table class="card-table table-vcenter">
+                        <table class="card-table table-hover">
                             {% if service_not_completed_row_card.data %}
                             {% for s in service_not_completed_row_card.data %}
                             <tr>
@@ -198,6 +202,7 @@
                         </table>
                     </div>
                 </div>
+                <div class="ribbon bg-success">{{ICON_WAND|safe}}</div>
             </div>
         </div>
     </div>
