@@ -1,17 +1,17 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 18/09/2020 11:06.
+#  Last modified 23/09/2020 14:04.
 
-from datetime import date, datetime
+from datetime import date
 
 from base.models import BaseModel
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.safestring import mark_safe
-from frontend.icons import ICON_TRIANGLE_ALERT, ICON_CHECK, ICON_DOUBLE_CHECK, ICON_CALENDAR
+from django.utils.timezone import now
+from frontend.icons import ICON_CALENDAR
 
 
 class OrderOfService(BaseModel):
@@ -22,8 +22,8 @@ class OrderOfService(BaseModel):
     counted = models.BooleanField("contabilizado", default=False, help_text="Procedimento já foi contabilizado?")
     confirmed = models.BooleanField("confirmado", default=False, help_text="Procedimento foi confirmado?")
     canceled = models.BooleanField("cancelado", default=False, help_text="Procedimento foi cancelado?")
-    date = models.DateField("Data", default=timezone.localtime(timezone.now()))
-    time = models.TimeField("Hora", default=timezone.localtime(timezone.now()))
+    date = models.DateField("Data", default=now)
+    time = models.TimeField("Hora", default=now)
     observation = models.TextField("observação", blank=True)
     customer = models.ForeignKey(User, verbose_name="Cliente", on_delete=models.CASCADE, blank=True, null=True)
 

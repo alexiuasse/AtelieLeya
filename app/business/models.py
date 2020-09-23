@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/09/2020 14:02.
+#  Last modified 23/09/2020 14:04.
 import datetime
 
 from base.models import BaseModel
@@ -9,8 +9,8 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Min, Sum, Max
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.safestring import mark_safe
+from django.utils.timezone import now
 from service.models import OrderOfService
 
 
@@ -25,7 +25,7 @@ class BusinessDay(BaseModel):
             - Exclude all the time consumed by the orderofservices
             - Check if the remain time fit orderofservice
     """
-    day = models.DateField("dia", default=timezone.localtime(timezone.now()),
+    day = models.DateField("dia", default=now,
                            help_text="Caso selecionado vários dias, deixe como está!")
     color = models.CharField("cor", default="#D40CD4", max_length=7,
                              help_text="Qual a cor que você deseja como plano de fundo")

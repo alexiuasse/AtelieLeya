@@ -1,23 +1,22 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/09/2020 10:48.
+#  Last modified 23/09/2020 14:04.
 
 from datetime import datetime
 
-# users/models.py
 from base.models import BaseModel
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.safestring import mark_safe
+from django.utils.timezone import now
 
 
 class RewardRetrieved(BaseModel):
     reward = models.ForeignKey("config.Reward", on_delete=models.PROTECT, verbose_name="Brinde")
     points = models.IntegerField("Pontos", default=0)
     quantity = models.IntegerField("Quantidade", default=1)
-    date = models.DateField("Data", default=timezone.localtime(timezone.now()))
+    date = models.DateField("Data", default=now)
     retrieved = models.BooleanField("Resgatado", default=False, help_text="Esse brinde já foi resgatado?")
     customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Cliente")
 
