@@ -1,20 +1,24 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/09/2020 09:50.
+  ~ Last modified 23/09/2020 11:46.
   -->
 
+{% load static %}
 <!-- ======= Header ======= -->
 <header class="{{header_class}} " id="header">
     <div class="container-fluid d-flex align-items-center justify-content-between">
-        <h1 class="logo"><a href="{% url 'frontend:homepage' %}">{{NAME_OF_ENTERPRISE}}</a></h1>
+        <h1 class="logo"><a href="{% url 'frontend:homepage' %}">{{NAME_OF_ENTERPRISE_SHORT}}</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+        <!--        <a class="" href="{% url 'frontend:homepage' %}">-->
+        <!--            <img alt="{{NAME_OF_ENTERPRISE}}" class="w-100 h-100 img-fluid" src="{% static 'logo-gold.svgz' %}">-->
+        <!--        </a>-->
         <nav class="nav-menu d-none d-lg-block">
             <ul>
                 <li class="active"><a href="{% url 'frontend:homepage' %}">Home</a></li>
                 {% if homepage %}
                 <li><a href="#about">Sobre</a></li>
+                <li><a href="#schedule">Agendamento</a></li>
                 <li><a href="#services">Serviços</a></li>
                 <li><a href="#reward_retrieve_boxes">Brindes</a></li>
                 <li><a href="#contact">Contato</a></li>
@@ -23,9 +27,7 @@
                 <li><a href="{% url 'frontend:dashboard' %}">Admin</a></li>
                 {% endif %}
                 {% if not user.is_authenticated %}
-                <li>
-                    <a href="{% url 'frontend:login' %}">Login</a>
-                </li>
+                <li><a href="{% url 'frontend:login' %}">Login</a></li>
                 {% else %}
                 <li><a href="{% url 'users:frontend:profile' %}">Perfil</a></li>
                 {% endif %}

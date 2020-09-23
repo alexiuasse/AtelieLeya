@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/09/2020 11:44.
+#  Last modified 23/09/2020 11:08.
 
 from pathlib import Path
 from frontend.icons import *
@@ -24,6 +24,7 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0', '192.168.0.103']
 # #FF63C7
 VERSION = "1.0.0"
 NAME_OF_ENTERPRISE = "Atêlie Leya Monteiro"
+NAME_OF_ENTERPRISE_SHORT = "Leya Monteiro"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/09/2020 09:38.
+#  Last modified 23/09/2020 11:08.
 
 from django.conf import settings  # import the settings file
 from .icons import *
@@ -27,6 +27,7 @@ def frontend_template_context(request):
         'TOOLTIP_RETRIEVE_REWARD': "Resgatar Brinde",
         'TOOLTIP_RETRIEVED_REWARD': "Brinde foi Retirado",
         'NAME_OF_ENTERPRISE': settings.NAME_OF_ENTERPRISE,
+        'NAME_OF_ENTERPRISE_SHORT': settings.NAME_OF_ENTERPRISE_SHORT,
         'VERSION': settings.VERSION,
 
         'ICON_HOME': ICON_HOME,
