@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 23/09/2020 16:13.
+  ~ Last modified 23/09/2020 16:34.
   -->
 
 {% extends 'base.html' %}
@@ -43,14 +43,14 @@
                     <h4 class="card-title">{{birthdays_row_card.icon|safe}} {{birthdays_row_card.title}}</h4>
                     <div class="card-subtitle">{{birthdays_row_card.subtitle}}</div>
                     <div class="table-responsive">
-                        <table class="card-table table-hover">
+                        <table class="card-table table-hover w-100">
                             {% if birthdays_row_card.data %}
                             {% for d in birthdays_row_card.data %}
                             <tr>
-                                <td class="w-100">
+                                <td>
                                     <a href="{{d.get_absolute_url}}" target="_blank">{{d.name}} {{ICON_LINK|safe}}</a>
                                 </td>
-                                <td class="text-nowrap text-muted">
+                                <td class="float-right text-muted">
                                     {{ICON_WHATSAPP|safe}} {{d.whatsapp}}
                                 </td>
                             </tr>
@@ -72,20 +72,18 @@
                     <h4 class="card-title">{{services_row_card.icon|safe}} {{services_row_card.title}}</h4>
                     <div class="card-subtitle">{{services_row_card.subtitle}}</div>
                     <div class="table-responsive">
-                        <table class="card-table table-hover">
+                        <table class="card-table table-hover w-100">
                             {% if services_row_card.data %}
                             {% for s in services_row_card.data %}
                             <tr>
-                                <td class="w-100">
+                                <td>
                                     <a href="{{s.get_absolute_url}}" target="_blank">
                                         {{s.get_full_name}} {{ICON_LINK|safe}}
                                     </a>
                                 </td>
-                                <td class="text-nowrap text-muted">
+                                <td class="text-muted">
                                     {{ICON_CALENDAR|safe}} {{s.time}}
-                                </td>
-                                <td class="text-nowrap text-muted">
-                                    {{s.status}}
+                                    {{ICON_INFO_CIRCLE|safe}}{{s.status}}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -113,16 +111,16 @@
                     </h4>
                     <div class="card-subtitle">{{service_not_confirmed_row_card.subtitle}}</div>
                     <div class="table-responsive">
-                        <table class="card-table table-hover">
+                        <table class="card-table table-hover w-100">
                             {% if service_not_confirmed_row_card.data %}
                             {% for s in service_not_confirmed_row_card.data %}
                             <tr>
-                                <td class="w-100">
+                                <td>
                                     <a href="{{s.get_absolute_url}}" target="_blank">
                                         {{s.get_full_name}} {{ICON_LINK|safe}}
                                     </a>
                                 </td>
-                                <td class="text-nowrap text-muted">
+                                <td class=" text-muted">
                                     {{ICON_CALENDAR|safe}} {{s.get_date_dashboard}}
                                 </td>
                             </tr>
@@ -145,16 +143,16 @@
                         {{rewards_not_retrieved_row_card.title}}</h4>
                     <div class="card-subtitle">{{rewards_not_retrieved_row_card.subtitle}}</div>
                     <div class="table-responsive">
-                        <table class="card-table table-hover">
+                        <table class="card-table table-hover w-100">
                             {% if rewards_not_retrieved_row_card.data %}
                             {% for r in rewards_not_retrieved_row_card.data %}
                             <tr>
-                                <td class="w-100">
+                                <td>
                                     <a href="{{r.customer.profile.get_absolute_url}}" target="_blank">
                                         {{r.customer.profile.get_full_name}} {{ICON_LINK|safe}}
                                     </a>
                                 </td>
-                                <td class="text-nowrap text-muted">
+                                <td class="text-muted">
                                     {{ICON_CALENDAR|safe}} {{r.date}}
                                 </td>
                             </tr>
@@ -179,19 +177,17 @@
                     </h4>
                     <div class="card-subtitle">{{service_not_completed_row_card.subtitle}}</div>
                     <div class="table-responsive">
-                        <table class="card-table table-hover">
+                        <table class="card-table table-hover w-100">
                             {% if service_not_completed_row_card.data %}
                             {% for s in service_not_completed_row_card.data %}
                             <tr>
-                                <td class="w-100">
+                                <td>
                                     <a href="{{s.get_absolute_url}}" target="_blank">
                                         {{s.get_full_name}} {{ICON_LINK|safe}}
                                     </a>
                                 </td>
-                                <td class="text-nowrap text-muted">
+                                <td class="text-muted">
                                     {{ICON_CALENDAR|safe}} {{s.get_date_dashboard|safe}}
-                                </td>
-                                <td class="text-nowrap text-muted">
                                     {{ICON_TRIANGLE_ALERT|safe}} {{s.status}}
                                 </td>
                             </tr>
@@ -216,11 +212,11 @@
                     </h4>
                     <div class="card-subtitle">{{service_canceled_month_row_card.subtitle}}</div>
                     <div class="table-responsive">
-                        <table class="card-table table-hover">
+                        <table class="card-table table-hover w-100">
                             {% if service_canceled_month_row_card.data %}
                             {% for s in service_canceled_month_row_card.data %}
                             <tr>
-                                <td class="w-100">
+                                <td>
                                     <a href="{{s.get_absolute_url}}" target="_blank">
                                         {{s.get_full_name}} {{ICON_LINK|safe}}
                                     </a>
