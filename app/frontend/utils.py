@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/09/2020 21:10.
+#  Last modified 23/09/2020 16:16.
 from datetime import datetime
 
 from config.models import TypeOfService, StatusPayment, Reward
@@ -24,6 +24,7 @@ def context_dashboard():
     rewards_not_retrieved = RewardRetrieved.objects.filter(retrieved=False).order_by('-date')
 
     order_of_service_year = OrderOfService.objects.filter(date__year=today.year)
+    order_of_service_month = OrderOfService.objects.filter(date__month=today.month, date__year=today.year)
     reward_retrieved_year = RewardRetrieved.objects.filter(date__year=today.year)
     # row deck in top page
     top_row_deck = {
@@ -56,7 +57,7 @@ def context_dashboard():
 
     services_row_card = {
         'title': 'Procedimentos',
-        'subtitle': 'Procedimentos Agendados.',
+        'subtitle': 'Procedimentos Agendados para Hoje.',
         'icon': ICON_WAND,
         'data': services_today,
     }
@@ -75,6 +76,13 @@ def context_dashboard():
         'data': services_invoice_not_completed,
     }
 
+    service_canceled_month_row_card = {
+        'title': 'Procedimentos',
+        'subtitle': 'Procedimentos cancelados esse mês.',
+        'icon': ICON_WAND,
+        'data': order_of_service_month.filter(canceled=True),
+    }
+
     rewards_not_retrieved_row_card = {
         'title': 'Brindes',
         'subtitle': 'Brindes não retirados.',
@@ -91,6 +99,7 @@ def context_dashboard():
         'service_not_confirmed_row_card': service_not_confirmed_row_card,
         'service_not_completed_row_card': service_not_completed_row_card,
         'rewards_not_retrieved_row_card': rewards_not_retrieved_row_card,
+        'service_canceled_month_row_card': service_canceled_month_row_card,
     }
 
 

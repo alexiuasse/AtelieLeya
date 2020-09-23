@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 23/09/2020 15:09.
+  ~ Last modified 23/09/2020 16:13.
   -->
 
 {% extends 'base.html' %}
@@ -35,7 +35,7 @@
         {% endfor %}
     </div>
 
-    <div class="row row-deck row-cards">
+    <div class="row">
         <h3 class="text-muted">Para hoje {{today}}</h3>
         <div class="col-lg-5">
             <div class="card">
@@ -102,7 +102,7 @@
         </div>
     </div>
 
-    <div class="row row-deck row-cards">
+    <div class="row">
         <h3 class="text-muted">{{ICON_TRIANGLE_ALERT|safe}} Atenção</h3>
         <div class="col-lg-7">
             <div class="card">
@@ -123,7 +123,7 @@
                                     </a>
                                 </td>
                                 <td class="text-nowrap text-muted">
-                                    {{ICON_CALENDAR|safe}} {{s.date}} às {{s.time}}
+                                    {{ICON_CALENDAR|safe}} {{s.get_date_dashboard}}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -170,11 +170,13 @@
                 <div class="ribbon ">{{ICON_GIFT|safe}}</div>
             </div>
         </div>
-        <div class="col-lg-10">
+        <div class="col-lg-9">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{service_not_completed_row_card.icon|safe}}
-                        {{service_not_completed_row_card.title}}</h4>
+                    <h4 class="card-title">
+                        {{service_not_completed_row_card.icon|safe}}
+                        {{service_not_completed_row_card.title}}
+                    </h4>
                     <div class="card-subtitle">{{service_not_completed_row_card.subtitle}}</div>
                     <div class="table-responsive">
                         <table class="card-table table-hover">
@@ -187,7 +189,7 @@
                                     </a>
                                 </td>
                                 <td class="text-nowrap text-muted">
-                                    {{ICON_CALENDAR|safe}} {{s.date}} às {{s.time}}
+                                    {{ICON_CALENDAR|safe}} {{s.get_date_dashboard|safe}}
                                 </td>
                                 <td class="text-nowrap text-muted">
                                     {{ICON_TRIANGLE_ALERT|safe}} {{s.status}}
@@ -205,53 +207,37 @@
                 <div class="ribbon bg-success">{{ICON_WAND|safe}}</div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="container-xl dashboard">
-    <div class="page-header">
-        <div class="row align-items-center">
-            <div class="col-auto">
-                <div class="page-pretitle">
-                    {{atention.pre_title}}
-                </div>
-                <h2 class="page-title">
-                    <span class="text-warning">{{atention.title.icon|safe}}</span>
-                    {{atention.title.text}}
-                </h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        {% if services_invoice_not_completed.data %}
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-3">
             <div class="card">
-                <div class="card-header bg-triangle-top-danger">
-                    <div class="card-title">
-                        {{services_invoice_not_completed.title.icon|safe}}
-                        {{services_invoice_not_completed.title.text}}
+                <div class="card-body">
+                    <h4 class="card-title">
+                        {{service_canceled_month_row_card.icon|safe}}
+                        {{service_canceled_month_row_card.title}}
+                    </h4>
+                    <div class="card-subtitle">{{service_canceled_month_row_card.subtitle}}</div>
+                    <div class="table-responsive">
+                        <table class="card-table table-hover">
+                            {% if service_canceled_month_row_card.data %}
+                            {% for s in service_canceled_month_row_card.data %}
+                            <tr>
+                                <td class="w-100">
+                                    <a href="{{s.get_absolute_url}}" target="_blank">
+                                        {{s.get_full_name}} {{ICON_LINK|safe}}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td>Está tudo certo por aqui.</td>
+                            </tr>
+                            {% endif %}
+                        </table>
                     </div>
                 </div>
-                <div class="card-body">
-                    {% for obj in services_invoice_not_completed.data %}
-                    <p>
-                        <a href="{{obj.get_absolute_url}}" target="_blank">
-                            {{obj.get_full_name}}
-                        </a>
-                        para o dia <span class="font-weight-bold">{{obj.date}}</span>
-                        às <span class="font-weight-bold">{{obj.time}}</span>
-                    </p>
-                    {% endfor %}
-                </div>
-                <div class="card-footer">
-                    <p>Esse aviso é para os procedimentos que não tiveram o faturamento completo depois da data
-                        agendada.</p>
-                </div>
+                <div class="ribbon bg-danger">{{ICON_TRIANGLE_ALERT|safe}}</div>
             </div>
         </div>
-        {% endif %}
     </div>
-
 </div>
 {% endblock %}

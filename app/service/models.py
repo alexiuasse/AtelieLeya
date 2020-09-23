@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 14:04.
+#  Last modified 23/09/2020 15:48.
 
 from datetime import date
 
@@ -86,6 +86,10 @@ class OrderOfService(BaseModel):
 
     def get_date_html(self):
         return f"Hoje às {self.time} <span class='text-info'>{ICON_CALENDAR}</span>" if self.date == date.today() \
+            else f"{self.date.strftime('%d/%m/%Y')} às {self.time}"
+
+    def get_date_dashboard(self):
+        return f"Hoje às {self.time}" if self.date == date.today() \
             else f"{self.date.strftime('%d/%m/%Y')} às {self.time}"
 
     def get_status_html(self):
