@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 09:12.
+#  Last modified 23/09/2020 10:38.
 from typing import Dict, Any
 
 from django.contrib.admin.utils import NestedObjects
@@ -8,7 +8,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_http_methods
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django_filters.views import FilterView
@@ -364,4 +364,29 @@ class ExpedientDel(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
         context['extra_object'] = to_delete
         return context
 
+
 ########################################################################################################################
+
+@login_required
+@require_http_methods(["GET"])
+@staff_member_required()
+@permission_required('config.view_homepage', raise_exception=True)
+def homepage_view(request):
+    if HomePage.objects.all().count() == 0:
+        obj = HomePage(
+            address="Adicionar Endereço",
+            whatsapp='(00) 0 0000-0000',
+        ).save()
+    else:
+        obj = HomePage.objects.first()
+    return render(request, "config/homepage/homepage.html", {'obj': obj})
+
+
+class HomePageEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = HomePage
+    form_class = HomePageForm
+    template_name = 'config/homepage/form.html'
+    permission_required = 'config.edit_homepage'
+    success_url = reverse_lazy('config:homepage:view')
+    title = TITLE_EDIT_CONFIG_HOMEPAGE
+    subtitle = SUBTITLE_VIEW_CONFIG_HOMEPAGE

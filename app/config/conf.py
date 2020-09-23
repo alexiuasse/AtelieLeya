@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/09/2020 13:57.
+#  Last modified 23/09/2020 10:24.
 TITLE_VIEW_CONFIG_TYPE_OF_PAYMENT = "Tipo de Pagamento"
 TITLE_CREATE_CONFIG_TYPE_OF_PAYMENT = "Novo Tipo de Pagamento"
 TITLE_EDIT_CONFIG_TYPE_OF_PAYMENT = "Editar Tipo de Pagamento"
@@ -36,3 +36,7 @@ TITLE_CREATE_CONFIG_EXPEDIENT = "Novo Expedient"
 TITLE_EDIT_CONFIG_EXPEDIENT = "Editar Expediente"
 TITLE_DEL_CONFIG_EXPEDIENT = "Deletar Expediente"
 SUBTITLE_VIEW_CONFIG_EXPEDIENT = "Configuração de expediente"
+# CONFIG HOMEPAGE
+TITLE_VIEW_CONFIG_HOMEPAGE = "Home Page"
+TITLE_EDIT_CONFIG_HOMEPAGE = "Editar Home Page"
+SUBTITLE_VIEW_CONFIG_HOMEPAGE = "Configuração de home page"

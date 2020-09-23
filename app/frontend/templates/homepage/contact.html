@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 11/09/2020 10:17.
+  ~ Last modified 23/09/2020 10:50.
   -->
 
 <!-- ======= Contact Section ======= -->
@@ -21,22 +21,24 @@
                     <div class="col-md-12">
                         <div class="info-box">
                             <i class="bx bx-map"></i>
-                            <h3>Our Address</h3>
-                            <p>A108 Adam Street, New York, NY 535022</p>
+                            <h3>Nosso Endereço</h3>
+                            <p>{{homepage.address}}</p>
                         </div>
                     </div>
+                    {% if homepage.email %}
                     <div class="col-md-6">
                         <div class="info-box mt-4">
                             <i class="bx bx-envelope"></i>
-                            <h3>Email Us</h3>
-                            <p>info@example.com<br>contact@example.com</p>
+                            <h3>Email</h3>
+                            <p>{{homepage.email}}</p>
                         </div>
                     </div>
+                    {% endif %}
                     <div class="col-md-6">
                         <div class="info-box mt-4">
                             <i class="bx bx-phone-call"></i>
-                            <h3>Call Us</h3>
-                            <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
+                            <h3>Whatsapp</h3>
+                            <p>{{homepage.whatsapp}}</p>
                         </div>
                     </div>
                 </div>

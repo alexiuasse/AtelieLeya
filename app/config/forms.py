@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/09/2020 11:46.
+#  Last modified 23/09/2020 10:43.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -128,3 +128,25 @@ class ExpedientForm(BaseConfigForm):
             'end_time': forms.TimeInput(format='%H:%M', attrs={'type': 'time'}),
         }
         fields = ['name', 'start_time', 'end_time']
+
+
+class HomePageForm(forms.ModelForm):
+    layout = Layout(
+        Row(
+            Field('address'),
+            Field('whatsapp'),
+            Field('email'),
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.disable_csrf = True
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = self.layout
+        self.helper.form_class = 'form-control'
+
+    class Meta:
+        model = HomePage
+        fields = ['address', 'whatsapp', 'email']

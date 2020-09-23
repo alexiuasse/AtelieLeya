@@ -1,10 +1,10 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/09/2020 19:13.
+#  Last modified 23/09/2020 10:48.
 
 import logging
 
-from config.models import Reward, TypeOfService
+from config.models import Reward, TypeOfService, HomePage
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -76,7 +76,15 @@ def index(request):
 
 @require_http_methods(["GET"])
 def homepage(request):
+    if HomePage.objects.all().count() == 0:
+        obj = HomePage(
+            address="Adicionar Endereço",
+            whatsapp='(00) 0 0000-0000',
+        ).save()
+    else:
+        obj = HomePage.objects.first()
     return render(request, 'homepage/homepage.html', {
+        'homepage': obj,
         'rewards': Reward.objects.all(),
         'services': TypeOfService.objects.all(),
     })

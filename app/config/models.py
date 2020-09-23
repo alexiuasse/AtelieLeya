@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/09/2020 21:42.
+#  Last modified 23/09/2020 10:44.
 import datetime
 
 from base.models import BaseModel
@@ -103,10 +103,25 @@ class Expedient(BaseModel):
         start_timedelta = datetime.timedelta(hours=self.start_time.hour, minutes=self.start_time.minute)
         return (end_timedelta - start_timedelta).seconds / 60
 
-# class Site(BaseModel):
-# image_1 = models.ImageField("Imagem 1", upload_to='images/', blank=True, null=True,
-#                             help_text="Imagem de fundo do topo do site (primeira parte que se vê)")
-# video_url_1 = models.CharField("URL Video 1", max_length=255, help_text="URL do primeiro video")
-# video_url_2 = models.CharField("URL Video 2", max_length=255, help_text="URL do segundo video")
-# about_title = models.CharField("Titulo Sobre", max_length=128, help_text="Título da seção sobre")
-# about_text = models.TextField("Texto Sobre", help_text="Breve texto da seção sobre")
+
+class HomePage(BaseModel):
+    address = models.CharField("Endereço Completo", max_length=255,
+                               help_text="Sugestão: Rua, Número, Cidade - Estado, CEP")
+    whatsapp = models.CharField("Whatsapp", max_length=16, help_text="Número para contato.")
+    email = models.EmailField("E-mail", help_text="Opcional!", blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.address} {self.whatsapp}"
+
+    def get_absolute_url(self):
+        return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:view')
+
+    def get_edit_url(self):
+        return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:edit', kwargs={'pk': self.pk})
+
+    def get_dict_data(self):
+        return {
+            'Endereço': self.address,
+            'Whatsapp': self.whatsapp,
+            'E-mail': self.email if self.email else "Nenhum",
+        }

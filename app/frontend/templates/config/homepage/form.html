@@ -1,10 +1,12 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 23/09/2020 10:36.
+  ~ Last modified 23/09/2020 10:54.
   -->
+
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 <div class="container-xl">
     <div class="page-header">
@@ -50,6 +52,18 @@
             </div>
         </div>
     </div>
-
 </div>
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'dist/libs/imask/dist/imask.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        var element = document.getElementById('id_whatsapp');
+        var maskOptions = {
+          mask: '(00) 0 0000-0000'
+        };
+        var mask = IMask(element, maskOptions);
+    });
+
+</script>
 {% endblock %}
