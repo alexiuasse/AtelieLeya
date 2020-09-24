@@ -1,130 +1,59 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/09/2020 21:50.
+  ~ Last modified 24/09/2020 17:36.
   -->
-
-{% extends './base.html' %}
+{% extends '../base/base.html' %}
+{% load socialaccount %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% block custom_css %}
+<link href="{% static 'dist/css/tabler-buttons.min.css' %}" rel="stylesheet"/>
+{% endblock %}
 {% block body_html %}
-<body class="antialiased ">
-<div class="page bg-login">
-    <div class="content" id="content">
-        <div class="container-xl">
-            <div class="page-header">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <div class="page-pretitle">
-                            {% if user.is_authenticated %}
-                            Atualizar Informações
-                            {% else %}
-                            Cadastro
-                            {% endif %}
-                        </div>
-                        <h2 class="page-title">
-                            {% if not user.is_authenticated %}
-                            <a data-toggle="tooltip" href="{% url 'frontend:homepage' %}" title="Voltar">
-                                <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
-                            </a>
-                            {% endif %}
-                            {{NAME_OF_ENTERPRISE}}
-                        </h2>
+<body class="antialiased border-top-wide border-primary d-flex flex-column">
+<div class="flex-fill d-flex flex-column justify-content-center">
+    <div class="container-tight py-6">
+        <div class="text-center mb-4">
+            <img alt="{{NAME_OF_ENTERPRISE}}" height="50" src="{% static 'logo-bar.svgz' %}">
+        </div>
+        <div class="card card-md">
+            <div class="card-body">
+                <h2 class="text-center">Registre-se</h2>
+                <p class="mb-4 text-center text-muted">Com apenas um clique</p>
+                <div class="card-body">
+                    <div class="btn-list">
+                        <a class="btn btn-google btn-block"
+                           href="{% provider_login_url 'google' action='reauthenticate' %}">
+                            <svg class="icon" fill="currentColor" viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z"/>
+                            </svg>
+                            Registrar com Google
+                        </a>
+                        <!--                    <a class="btn btn-white btn-block" href="#">-->
+                        <!--                        <svg class="icon text-twitter" fill="currentColor" viewBox="0 0 24 24"-->
+                        <!--                             xmlns="http://www.w3.org/2000/svg">-->
+                        <!--                            <path d="M23.954 4.569a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 0 0-8.384 4.482C7.691 8.094 4.066 6.13 1.64 3.161a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.061a4.923 4.923 0 0 0 3.946 4.827 4.996 4.996 0 0 1-2.212.085 4.937 4.937 0 0 0 4.604 3.417 9.868 9.868 0 0 1-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0 0 7.557 2.209c9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63a9.936 9.936 0 0 0 2.46-2.548l-.047-.02z"/>-->
+                        <!--                        </svg>-->
+                        <!--                        Login with Twitter-->
+                        <!--                    </a>-->
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container-xl">
-            <div class="row row-deck">
-                <div class="col-lg-12 mr-auto ml-auto">
-                    <div class="card d-flex flex-column">
-                        <div class="row row-0 flex-fill">
-                            <div class="col-md-6 d-none d-md-flex ">
-                                <img alt="{{NAME_OF_ENTERPRISE}}" class="w-100 h-100 p-3" src="{% static 'logo.svg' %}">
-                            </div>
-                            <div class="col">
-                                <div class="card-body">
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        <div class="row">
-                                            {% if profile_form %}
-                                            <div class="col-lg-6 {% if not user_form %}mr-auto ml-auto{% endif %}">
-                                                <h5 class="card-title text-center">Perfil</h5>
-                                                {% for field in profile_form %}
-                                                {{ field|as_crispy_field }}
-                                                {% endfor %}
-                                            </div>
-                                            {% endif %}
-                                            {% if user_form %}
-                                            <div class="col-lg-6">
-                                                <h5 class="card-title text-center">Autenticação</h5>
-                                                {% for field in user_form %}
-                                                {{ field|as_crispy_field }}
-                                                {% endfor %}
-                                            </div>
-                                            {% endif %}
-                                        </div>
-                                        <div class="form-row mt-3">
-                                            {% if user.is_authenticated %}
-                                            <a class="btn btn-danger"
-                                               href="{% url 'users:frontend:profile' %}"
-                                               type="button">
-                                                Cancelar
-                                            </a>
-                                            <button class="btn btn-success" type="submit">
-                                                Confirmar
-                                            </button>
-                                            {% else %}
-                                            <button class="btn bg-gold btn-block" type="submit">
-                                                Cadastrar
-                                            </button>
-                                            {% endif %}
-                                        </div>
-                                    </form>
-                                    <div class="d-flex align-items-center pt-5 mt-auto">
-                                        {% if not user.is_authenticated %}
-                                        <span class="avatar avatar-md"
-                                              style="background-image: url('{% static 'avatars/000.png' %}')">
-                                        </span>
-                                        <div class="ml-3">
-                                            <span class="text-body">Já tem uma conta?</span>
-                                            <small class="d-block text-muted">
-                                                <a href="{% url 'frontend:login' %}">
-                                                    Entrar
-                                                </a>
-                                            </small>
-                                        </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="text-center text-muted">
+            Já tem uma conta? <a href="{% url 'frontend:login' %}" tabindex="-1">Faça Login</a>
         </div>
-        {% block footer %}{% include "footer.html" %}{% endblock %}
     </div>
 </div>
+<!-- Libs JS -->
+<script src="{% static 'dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Tabler Core -->
+<script src="{% static 'dist/js/tabler.min.js' %}"></script>
 <script>
-  document.body.style.display = "block";
+      document.body.style.display = "block"
 
 </script>
 </body>
-{% block javascript %}
-<script src="{% static 'dist/libs/jquery/dist/jquery.min.js' %}"></script>
-<script src="{% static 'dist/libs/imask/dist/imask.min.js' %}"></script>
-<script>
-// @formatter:off
-$(document).ready(function(){
-    var element = document.getElementById('id_whatsapp');
-    var maskOptions = {
-      mask: '(00) 0 0000-0000'
-    };
-    var mask = IMask(element, maskOptions);
-});
-// @formatter:on
-
-</script>
-{% endblock %}
 {% endblock %}

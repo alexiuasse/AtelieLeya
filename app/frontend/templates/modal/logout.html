@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 17/09/2020 19:16.
+  ~ Last modified 24/09/2020 14:03.
   -->
 
 <div aria-hidden="true" class="modal modal-blur fade" id="modal-logout" role="dialog" tabindex="-1">
@@ -19,13 +19,15 @@
                     </svg>
                 </button>
             </div>
-            <div class="modal-body">
-                Você quer sair do sistema ?
-            </div>
-            <div class="modal-footer">
+            <div class="modal-body">Você quer sair do sistema ?</div>
+            <form action="{% url 'account_logout' %}" class="modal-footer" method="post">
+                {% csrf_token %}
+                {% if redirect_field_value %}
+                <input name="{{ redirect_field_name }}" type="hidden" value="{{ redirect_field_value }}"/>
+                {% endif %}
                 <button class="btn btn-primary mr-auto" data-dismiss="modal" type="button">Fechar</button>
-                <a class="btn btn-danger" href="{% url 'frontend:logout' %}" type="button">Sim</a>
-            </div>
+                <button class="btn btn-danger" type="submit">Sim</button>
+            </form>
         </div>
     </div>
 </div>

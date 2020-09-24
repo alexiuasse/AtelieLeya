@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 19/09/2020 15:22.
+  ~ Last modified 24/09/2020 15:45.
   -->
 
 {% extends './base.html' %}
@@ -25,18 +25,18 @@
             </div>
         </div>
     </div>
-    <div class="row align-items-center">
+    <div class="row">
         <div class="col-lg-6 ml-auto mr-auto">
             <div class="card">
-                <div class="card-header bg-triangle-top-success">
-                    <h3 class="card-title">Agendar Procedimento para {{date}}</h3>
-                </div>
                 <div class="card-body">
-                    <div class="hr-text">Atenção</div>
-                    <p class="text-center">Os procedimentos e horários podem variar dependendo de como está a
-                        disponibilidade de horários do dia!</p>
-                    <div class="hr-text">Formulário</div>
-                    <p class="text-center">Os campos com * são obrigatórios.</p>
+                    <h3 class="card-title">Agendar Procedimento</h3>
+                    <div class="card-subtitle">Data {{date}}</div>
+                    <h3 class="card-title">Atenção</h3>
+                    <div class="card-subtitle">Os procedimentos e horários podem variar dependendo de como está a
+                        disponibilidade de horários do dia!
+                    </div>
+                    <h3 class="card-title">Formulário</h3>
+                    <div class="card-subtitle">Os campos com * são obrigatórios.</div>
                     <form action="" method="post">
                         {% csrf_token %}
                         {% crispy form %}
@@ -47,12 +47,12 @@
                                    type="button">
                                     Cancelar
                                 </a>
-                                <button class="btn btn-primary" type="submit">Finalizar
-                                </button>
+                                <button class="btn btn-primary" type="submit">Finalizar</button>
                             </div>
                         </div>
                     </form>
                 </div>
+                <div class="ribbon bg-cyan">{{ICON_CALENDAR|safe}}</div>
             </div>
         </div>
     </div>
@@ -77,6 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 // @formatter:on
+
+
 
 </script>
 {% endblock %}

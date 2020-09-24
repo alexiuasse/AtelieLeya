@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 14:04.
+#  Last modified 24/09/2020 15:38.
 
 from datetime import datetime
 
@@ -58,6 +58,7 @@ class Profile(BaseModel):
     whatsapp = models.CharField('whatsapp', max_length=16, help_text="Esse será o número usado para contato!")
     total_of_points = models.IntegerField(default=0, verbose_name='Total de pontos')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    picture = models.ImageField(default='default.png', upload_to='profile_pics/', max_length=255)
 
     def __str__(self):
         return self.name

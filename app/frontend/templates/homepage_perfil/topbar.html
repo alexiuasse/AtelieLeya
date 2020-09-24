@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 22/09/2020 10:03.
+  ~ Last modified 24/09/2020 14:31.
   -->
 
 {% load static %}
@@ -17,7 +17,7 @@
         <div class="navbar-nav flex-row order-md-last">
             <div class="nav-item dropdown">
                 <a class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown" href="#">
-                    <span class="avatar" style="background-image: url('{% static 'avatars/000.png' %}')"></span>
+                    <span class="avatar" style="background-image: url('{{ user.profile.picture }}')"></span>
                     <div class="d-none d-xl-block pl-2">
                         <div>{{request.user.profile.name}}</div>
                         <div class="mt-1 small text-muted">

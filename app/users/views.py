@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 10:24.
+#  Last modified 24/09/2020 15:46.
 from typing import Dict, Any
 
 from config.models import Reward, TypeOfService
@@ -165,7 +165,7 @@ def profile_update(request):
     else:
         user_form = UserChangeFormFrontend(instance=request.user)
         profile_form = ProfileFormFrontend(instance=request.user.profile)
-    return render(request, 'homepage_perfil/signup.html', {
+    return render(request, 'homepage_perfil/update.html', {
         'user_form': user_form,
         'profile_form': profile_form
     })

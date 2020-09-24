@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 15:01.
+#  Last modified 24/09/2020 15:58.
 
 from django.conf import settings  # import the settings file
 from .icons import *
@@ -58,4 +58,5 @@ def frontend_template_context(request):
         'ICON_ALARM': ICON_ALARM,
         'ICON_LIST': ICON_LIST,
         'ICON_INFO_CIRCLE': ICON_INFO_CIRCLE,
+        'ICON_BAN': ICON_BAN,
     }

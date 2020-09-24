@@ -1,0 +1,71 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 24/09/2020 17:36.
+  -->
+{% extends './base.html' %}
+{% load static %}
+{% load l10n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container-xl">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div class="page-pretitle">Editar</div>
+                <h2 class="page-title">
+                    <a data-toggle="tooltip" href="{% url 'users:frontend:profile' %}" title="Voltar">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    Perfil
+                </h2>
+            </div>
+            <div class="col-auto ml-auto d-print-none"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5 mr-auto ml-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Formulário</h3>
+                    <div class="card-subtitle">Editar Perfil</div>
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in profile_form %}
+                        {{ field|as_crispy_field }}
+                        {% endfor %}
+                        {% for field in user_form %}
+                        {{ field|as_crispy_field }}
+                        {% endfor %}
+                        <div class="pull-right mt-3">
+                            <a class="btn btn-danger mr-2"
+                               href="{% url 'users:frontend:profile' %}"
+                               type="button">
+                                Cancelar
+                            </a>
+                            <button class="btn btn-primary" type="submit">Finalizar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="ribbon bg-warning">{{ICON_EDIT|safe}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block javascript %}
+<script src="{% static 'dist/libs/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'dist/libs/imask/dist/imask.min.js' %}"></script>
+<script>
+// @formatter:off
+$(document).ready(function(){
+    var element = document.getElementById('id_whatsapp');
+    var maskOptions = {
+      mask: '(00) 0 0000-0000'
+    };
+    var mask = IMask(element, maskOptions);
+});
+// @formatter:on
+
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 22/09/2020 10:01.
+  ~ Last modified 24/09/2020 16:00.
   -->
 
 {% extends './base.html' %}
@@ -70,6 +70,17 @@
                         </div>
                     </div>
                 </div>
+
+                {% if r.quantity_in_points < user.profile.total_of_points %}
+                <div class="ribbon bg-success">
+                    <a class="text-white" href="#"
+                       onclick="event.preventDefault(); confirm('{{r.name}}', '{% url 'users:frontend:reward_retrieve' rpk=r.pk %}')">
+                        {{ICON_GIFT|safe}}
+                    </a>
+                </div>
+                {% else %}
+                <div class="ribbon bg-danger">{{ICON_BAN|safe}}</div>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
@@ -87,6 +98,10 @@ function confirm(name, link) {
     $("#modal-confirm").modal('show');
 }
 // @formatter:on
+
+
+
+
 
 
 
