@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 21/09/2020 19:13.
+#  Last modified 24/09/2020 11:29.
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -8,6 +8,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('frontend.urls')),
+    path('accounts/', include('allauth.urls')),
     path('user/', include('users.urls')),
     path('admin/', admin.site.urls),
     path('config/', include('config.urls')),

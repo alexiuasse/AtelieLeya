@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 11:08.
+#  Last modified 24/09/2020 11:29.
 
 from pathlib import Path
 from frontend.icons import *
@@ -53,8 +53,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django_cleanup.apps.CleanupConfig',
     'corsheaders',
     'simple_history',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'bootstrap4',
     'crispy_forms',
     'django_tables2',
@@ -67,6 +72,8 @@ INSTALLED_APPS = [
     'financial',
     'business',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -98,6 +105,13 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'app.wsgi.application'
