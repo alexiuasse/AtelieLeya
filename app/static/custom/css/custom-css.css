@@ -1,0 +1,71 @@
+.bg-login {
+    background: linear-gradient(-70deg, pink 30%, white 30.1%);
+}
+
+.bg-login .card {
+    background: linear-gradient(-70deg, pink 30%, white 30.1%);
+}
+
+.bg-gold {
+    background: rgba(215, 179, 105,1);
+}
+
+.bg-triangle-bottom-pink {
+    background: linear-gradient(-70deg, pink 30%, rgba(255,255,255, 1) 30.1%);
+}
+
+.bg-triangle-top-primary {
+    background: linear-gradient(-140deg, #206bc4 10%, rgba(0, 0, 0, 0) 10.3%);
+}
+
+.bg-triangle-top-secondary {
+    background: linear-gradient(-140deg, #6e7582 10%, rgba(0, 0, 0, 0) 10.3%);
+}
+
+.bg-triangle-top-success {
+    background: linear-gradient(-140deg, #5eba00 10%, rgba(0, 0, 0, 0) 10.3%);
+}
+
+.bg-triangle-top-info {
+    background: linear-gradient(-140deg, #45aaf2 10%, rgba(0, 0, 0, 0) 10.3%);
+}
+
+.bg-triangle-top-warning {
+    background: linear-gradient(-140deg, #fab005 10%, rgba(0, 0, 0, 0) 10.3%);
+}
+
+.bg-triangle-top-danger {
+    background: linear-gradient(-140deg, #cd201f 10%, rgba(0, 0, 0, 0) 10.3%);
+}
+
+.check {
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 5px,
+        rgba(255, 234, 0, .3) 5px,
+        rgba(255, 234, 0, .3) 10px
+    );
+}
+
+.dayfull {
+    background: #ff0000 !important;
+}
+
+.daynotfull {
+    background: #9bd47d !important;
+}
+
+.forcedayfull {
+    background: #0522ff !important;
+}
+
+.notworkday {
+    background: #ffbb00 !important;
+}
+
+.square {
+  height: 20px;
+  width: 20px;
+  opacity: .3;
+}
