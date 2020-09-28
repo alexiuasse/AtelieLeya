@@ -1,11 +1,12 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 10:44.
+#  Last modified 28/09/2020 08:46.
 import datetime
 
 from base.models import BaseModel
 from django.db import models
 from django.urls import reverse_lazy, reverse
+from django.utils.safestring import mark_safe
 
 
 class BaseConfigModel(BaseModel):
@@ -105,6 +106,18 @@ class Expedient(BaseModel):
 
 
 class HomePage(BaseModel):
+    first_image = models.ImageField("Primeira Imagem", upload_to='homepage/',
+                                    help_text="Imagem que fica no início da página.",
+                                    blank=True, null=True)
+    first_video_url = models.CharField("Primeiro Video", max_length=255,
+                                       help_text="URL do primeiro vídeo, fica no início da página",
+                                       blank=True, null=True)
+    second_image = models.ImageField("Segunda Imagem", upload_to='homepage/',
+                                     help_text="Imagem que fica na parte sobre como plano de fundo do video.",
+                                     blank=True, null=True)
+    second_video_url = models.CharField("Segundo Video", max_length=255,
+                                        help_text="URL do segundo vídeo, fica na primeira página de sobre",
+                                        blank=True, null=True)
     address = models.CharField("Endereço Completo", max_length=255,
                                help_text="Sugestão: Rua, Número, Cidade - Estado, CEP")
     whatsapp = models.CharField("Whatsapp", max_length=16, help_text="Número para contato.")
@@ -124,4 +137,12 @@ class HomePage(BaseModel):
             'Endereço': self.address,
             'Whatsapp': self.whatsapp,
             'E-mail': self.email if self.email else "Nenhum",
+            'Primeira Imagem': mark_safe(
+                f'<a href="/media/{self.first_image.name}" target="_blank">{self.first_image}</a>'),
+            'Primeiro Video': mark_safe(
+                f'<a href="{self.first_video_url}" target="_blank">{self.first_video_url}</a>'),
+            'Segunda Imagem': mark_safe(
+                f'<a href="/media/{self.second_image.name}" target="_blank">{self.second_image}</a>'),
+            'Segundo Video': mark_safe(
+                f'<a href="{self.second_video_url}" target="_blank">{self.second_video_url}</a>'),
         }

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 10:43.
+#  Last modified 28/09/2020 08:42.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -136,6 +136,10 @@ class HomePageForm(forms.ModelForm):
             Field('address'),
             Field('whatsapp'),
             Field('email'),
+            Field('first_image'),
+            Field('first_video_url'),
+            Field('second_image'),
+            Field('second_video_url'),
         ),
     )
 
@@ -149,4 +153,4 @@ class HomePageForm(forms.ModelForm):
 
     class Meta:
         model = HomePage
-        fields = ['address', 'whatsapp', 'email']
+        fields = ['address', 'whatsapp', 'email', 'first_image', 'first_video_url', 'second_image', 'second_video_url']
