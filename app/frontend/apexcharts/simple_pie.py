@@ -1,10 +1,10 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 10:31.
+#  Last modified 25/09/2020 14:41.
 
 class SimplePie:
 
-    def __init__(self, labels, series, colors, width=360, chart_type='pie', title=""):
+    def __init__(self, labels, series, colors, width=360, chart_type='donut', title=""):
         self.title = title
         self.labels = labels
         self.width = width

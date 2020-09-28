@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/09/2020 15:38.
+#  Last modified 25/09/2020 12:46.
 
 from datetime import datetime
 
@@ -10,6 +10,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now
+from frontend.icons import ICON_TRIANGLE_ALERT
 
 
 class RewardRetrieved(BaseModel):
@@ -54,7 +55,9 @@ class RewardRetrieved(BaseModel):
 
 class Profile(BaseModel):
     name = models.CharField("nome completo", max_length=150)
-    birth_date = models.DateField('data de nascimento', blank=True, null=True, help_text="Informe uma data válida!")
+    birth_date = models.DateField('data de nascimento', blank=True, null=True,
+                                  help_text="Dica.: No calendário clique em cima do ano no canto superior direito "
+                                            "para mudar o ano!")
     whatsapp = models.CharField('whatsapp', max_length=16, help_text="Esse será o número usado para contato!")
     total_of_points = models.IntegerField(default=0, verbose_name='Total de pontos')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -121,7 +124,8 @@ class Profile(BaseModel):
             'Usuário': self.user.username,
             'Nome': self.get_full_name(),
             'Whatsapp': self.whatsapp,
-            'Data de Nascimento': self.birth_date,
+            'Data de Nascimento': self.birth_date if self.birth_date
+            else mark_safe(f"--- <span class='text-warning'>{ICON_TRIANGLE_ALERT}</span>"),
             'E-mail': self.user.email,
         }
 

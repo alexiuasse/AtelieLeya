@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 24/09/2020 14:19.
+  ~ Last modified 25/09/2020 12:03.
   -->
 {% load static %}
 <header class="navbar navbar-expand-md navbar-light">
@@ -140,14 +140,16 @@
                             </li>
                         </ul>
                     </li>
+                    {% if request.user.is_superuser %}
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/">
                          <span class="nav-link-icon d-md-none d-lg-inline-block">
-                          {{ICON_CONFIG|safe}}
+                          {{ICON_LOCK|safe}}
                         </span>
                             <span class="nav-link-title">Admin</span>
                         </a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

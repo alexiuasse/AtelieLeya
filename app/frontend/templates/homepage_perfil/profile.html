@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 23/09/2020 15:12.
+  ~ Last modified 25/09/2020 12:42.
   -->
 
 {% extends './base.html' %}
@@ -33,6 +33,24 @@
             </div>
         </div>
     </div>
+    {% if not user.profile.whatsapp %}
+    <div class="alert alert-danger">
+        {{ICON_TRIANGLE_ALERT|safe}}
+        Você precisa adicionar um número de telefone com whatsapp para agendar procedimentos.
+        <a href="{% url 'users:frontend:update' %}">
+            {{ICON_LINK|safe}} Editar Informações
+        </a>
+    </div>
+    {% endif %}
+    {% if not user.profile.birth_date %}
+    <div class="alert alert-warning">
+        {{ICON_TRIANGLE_ALERT|safe}}
+        Parece que você não adicionou sua data de nascimento.
+        <a href="{% url 'users:frontend:update' %}">
+            {{ICON_LINK|safe}} Editar Informações
+        </a>
+    </div>
+    {% endif %}
     {% if user.profile.is_birthday %}
     <div class="card mb-3">
         <div class="card-body">
@@ -177,6 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
     chart2.render();
 // @formatter:on
 });
+
 
 </script>
 {% endblock %}
