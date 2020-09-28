@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 23/09/2020 11:46.
+  ~ Last modified 28/09/2020 11:52.
   -->
 
 {% load static %}
@@ -9,10 +9,6 @@
 <header class="{{header_class}} " id="header">
     <div class="container-fluid d-flex align-items-center justify-content-between">
         <h1 class="logo"><a href="{% url 'frontend:homepage' %}">{{NAME_OF_ENTERPRISE_SHORT}}</a></h1>
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <!--        <a class="" href="{% url 'frontend:homepage' %}">-->
-        <!--            <img alt="{{NAME_OF_ENTERPRISE}}" class="w-100 h-100 img-fluid" src="{% static 'logo-gold.svgz' %}">-->
-        <!--        </a>-->
         <nav class="nav-menu d-none d-lg-block">
             <ul>
                 <li class="active"><a href="{% url 'frontend:homepage' %}">Home</a></li>

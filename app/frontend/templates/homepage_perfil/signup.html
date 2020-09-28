@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 24/09/2020 17:36.
+  ~ Last modified 28/09/2020 12:51.
   -->
 {% extends '../base/base.html' %}
 {% load socialaccount %}
@@ -11,11 +11,12 @@
 <link href="{% static 'dist/css/tabler-buttons.min.css' %}" rel="stylesheet"/>
 {% endblock %}
 {% block body_html %}
+{% include "socialaccount/snippets/login_extra.html" %}
 <body class="antialiased border-top-wide border-primary d-flex flex-column">
 <div class="flex-fill d-flex flex-column justify-content-center">
     <div class="container-tight py-6">
         <div class="text-center mb-4">
-            <img alt="{{NAME_OF_ENTERPRISE}}" height="50" src="{% static 'logo-bar.svgz' %}">
+            <img alt="{{NAME_OF_ENTERPRISE}}" height="50" src="{% static 'logo-bar.svg' %}">
         </div>
         <div class="card card-md">
             <div class="card-body">
@@ -31,13 +32,14 @@
                             </svg>
                             Registrar com Google
                         </a>
-                        <!--                    <a class="btn btn-white btn-block" href="#">-->
-                        <!--                        <svg class="icon text-twitter" fill="currentColor" viewBox="0 0 24 24"-->
-                        <!--                             xmlns="http://www.w3.org/2000/svg">-->
-                        <!--                            <path d="M23.954 4.569a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 0 0-8.384 4.482C7.691 8.094 4.066 6.13 1.64 3.161a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.061a4.923 4.923 0 0 0 3.946 4.827 4.996 4.996 0 0 1-2.212.085 4.937 4.937 0 0 0 4.604 3.417 9.868 9.868 0 0 1-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0 0 7.557 2.209c9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63a9.936 9.936 0 0 0 2.46-2.548l-.047-.02z"/>-->
-                        <!--                        </svg>-->
-                        <!--                        Login with Twitter-->
-                        <!--                    </a>-->
+                        <a class="btn btn-facebook btn-block"
+                           href="{% provider_login_url 'facebook' method='js_sdk' action='reauthenticate' %}">
+                            <svg class="icon" fill="currentColor" viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22.676 0H1.324C.593 0 0 .593 0 1.324v21.352C0 23.408.593 24 1.324 24h11.494v-9.294H9.689v-3.621h3.129V8.41c0-3.099 1.894-4.785 4.659-4.785 1.325 0 2.464.097 2.796.141v3.24h-1.921c-1.5 0-1.792.721-1.792 1.771v2.311h3.584l-.465 3.63H16.56V24h6.115c.733 0 1.325-.592 1.325-1.324V1.324C24 .593 23.408 0 22.676 0"/>
+                            </svg>
+                            Registrar com Facebook
+                        </a>
                     </div>
                 </div>
             </div>
@@ -53,7 +55,6 @@
 <script src="{% static 'dist/js/tabler.min.js' %}"></script>
 <script>
       document.body.style.display = "block"
-
 </script>
 </body>
 {% endblock %}

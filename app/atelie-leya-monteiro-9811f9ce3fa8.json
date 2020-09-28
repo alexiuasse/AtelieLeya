@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "atelie-leya-monteiro",
+  "private_key_id": "9811f9ce3fa82f45941b59169a7c1d356dd90d11",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDkv00XM765WrTy\n1zqrfCuFcMVfQGHTwujchkdxVJhyU4zRUq2eolc6/fGOXRu8G1k/bkxJj7ZJgp+Q\nG0meoNxMM7XvWK67wm/rIkJt9z/unJYPCbd/jWTLEaMUof7Mj8ZNGIqH+k4lC+7I\nAUFhfyDOo4S1P9zicCOKLZmMJMXwD+T6NtT4EWKrrzFfHtJyHGXwDKGIM01olEDK\n9rXGh2quiL+4v/fgsxvPpEd3OveaTyvDWU1E3hpaDMKdqoF1+UYSArAgXXtOMtbM\nkKCbYJKf7bLuP1fA2pXbw24u4744GzXrEnvvyKyclC02jVyEVODHC63LhwHVwsah\nCbBf9aD3AgMBAAECggEAT0iK9L7HnUD2NLEqsaNBBmg20LPk9Fu7ECwuePZkPEP/\nK9InQTNtXpID9l8JLOKhxV16bYi1Grd+jJkYpDWHBZZqucGYFpXm6q2eLrUi4JY/\nYIjyo/Ai/ktnpdAcG1S925zk7wpvqWGAaqwcuCky+swsRBIVghpyBwOVE8DvJiwE\nM91FhvuUTLX3+VUCsDAVVHgW7mjSaD9DSC+Th3QOeXvXoNNdSsqWSdIYIp6/YM9g\n8Eqn6RnEWQ02v4MvduxnTx/qU/2/C69E29oi5NreusBOWfIYlJoDw0+8pL7xHSry\nV055ETHCwEi6ZtSL2j/qBKlv9eLoz48EXRWOxmnW6QKBgQD+Ba3uzjKtmpTnuIj1\nmwibvaEOxNi/4AmyxlouRqVanG3lz2cub25RBsxyO963z4DlUt7UcTl5hfdlsSqe\nrH+OY8+2DBzVht6aELPQuWfPG7n8ppn1pId7zNt6x1IW6bK9jCzRmmjqjYw3Va+3\nxHDSYoV5mPGSQa5jptMxk4Db4wKBgQDmhz5PKgEFgmi7JfuNaujbMoFxqyMYR1Mw\nrJI1iCjz0mFYJse3jhlVcnQdn3OIgCIGp4as2ikrsHDsZSWFyPhERNJAfAEM0PBb\nCaj2E747SbLWYrBu6rff8ixIJnGdQIuSHrdRjS96RIwd9bRr0L4ERAFBRGobFNHc\nNWSaUg5a3QKBgQDm6NbBO+NJeDlfopmtWW6r0+bx+/JkCQ4H2tLjOgjZo1UrECvl\nRBntwdZbCR1dzVyIGZrBVuM+Go9Xe4MYlgmlsAmCnOQhHeZ/+ira048P705T4kYV\ny6f027WvmDyA45M9Roz/Q/OXM3CAZH3E+Obt9+0JKgR+RQJ3R5C3gjQirQKBgCyC\nxIcohxX3Ph2UkeOWVuur7s5xys7vRqLJT1nCtpWNc3o/0qQgbcfP15e4p+gdRXSf\neCN75CMpaERcq0gPq9ASsb39s340AZSyYstQuJReAIfgekyQSXyWF/K+aYWBZvGJ\nuL+oURh8j8lhHbsLjQTp1Iwzl4EvHe406P3bBiaJAoGAZzsXVp0pm8gCzWX3hFNH\n2p2G7S639Vu9RMwZBDbUURSq1haV9/t+IITyH4AV5ofbUmkfPfoHvDuTsYIpjKi5\nK+SV6Dbwp1Xqkhcg5y1eEWCpPEfca021idb8XoCBAwi88htU8U1Uyo+y0Kfyps2n\nbjDHGvCROmEuQ7iuST5kqh8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "storage-static@atelie-leya-monteiro.iam.gserviceaccount.com",
+  "client_id": "103893697308889642548",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/storage-static%40atelie-leya-monteiro.iam.gserviceaccount.com"
+}

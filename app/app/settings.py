@@ -1,9 +1,11 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/09/2020 18:34.
-
+#  Last modified 28/09/2020 12:27.
+import os
 from pathlib import Path
+
 from frontend.icons import *
+from google.oauth2 import service_account
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -18,7 +20,10 @@ SECRET_KEY = '#h&#*+%u34e_e&3ryjifv8y)&m)t#tia09ejqdvyv(7x_c3+5g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '0.0.0.0', '192.168.0.103']
+if os.getenv('GAE_APPLICATION', None):
+    ALLOWED_HOSTS = ['atelie-leya-monteiro.uc.r.appspot.com', 'localhost']
+else:
+    ALLOWED_HOSTS = ['localhost', '0.0.0.0', '192.168.0.103']
 
 # GENERAL
 # #FF63C7
@@ -76,6 +81,9 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 1
+# CORS Config
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -112,9 +120,14 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+# facebook
+SOCIAL_AUTH_FACEBOOK_KEY = '349631929715958'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'da8b84713e506f6ba658aaace91a5431'  # app key
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -155,13 +168,44 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.getenv('GAE_APPLICATION', None):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'db',
+            'USER': 'admin-leya',
+            'PASSWORD': '$enhadeMerda123',
+            'HOST': '/cloudsql/atelie-leya-monteiro:us-central1:atelie-leya-monteiro-db',
+            'PORT': '3309',
+            'OPTIONS': {
+                'sql_mode': 'STRICT_TRANS_TABLES',
+            },
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '127.0.0.1',
+            'PORT': '3308',
+            'NAME': 'db',
+            'USER': 'admin-leya',
+            'PASSWORD': '$enhadeMerda123',
+        }
+    }
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': BASE_DIR / 'db.sqlite3',
+    #     }
+    # }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -185,14 +229,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
-
 TIME_ZONE = 'America/Sao_Paulo'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
+
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'atelie-leya-monteiro-bucket-static'
+GS_DEFAULT_ACL = 'publicRead'
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    "atelie-leya-monteiro-9811f9ce3fa8.json"
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -205,3 +253,6 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 # Login redirect
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = '/'
+
+# Social Allauth
+ACCOUNT_EMAIL_VERIFICATION = 'none'
