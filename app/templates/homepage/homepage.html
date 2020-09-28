@@ -1,0 +1,73 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 28/09/2020 14:20.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+    <title>{{NAME_OF_ENTERPRISE}}</title>
+    <link crossorigin href="https://fonts.gstatic.com/" rel="preconnect">
+    <meta content="#206bc4" name="msapplication-TileColor"/>
+    <meta content="#206bc4" name="theme-color"/>
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="mobile-web-app-capable"/>
+    <meta content="True" name="HandheldFriendly"/>
+    <meta content="320" name="MobileOptimized"/>
+    <meta content="noindex,nofollow,noarchive" name="robots"/>
+    <link href="{% static 'logo.svg' %}" rel="icon" type="image/x-icon"/>
+    <link href="{% static 'logo.svg' %}" rel="shortcut icon" type="image/x-icon"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'homepage/dist/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'homepage/dist/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+    <link href="{% static 'homepage/dist/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'homepage/dist/vendor/venobox/venobox.css' %}" rel="stylesheet">
+    <link href="{% static 'homepage/dist/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+    <link href="{% static 'homepage/dist/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'homepage/dist/vendor/aos/aos.css' %}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'homepage/dist/css/style.css' %}" rel="stylesheet"/>
+
+    <!-- Block of custom css -->
+    {% block custom_css %}{% endblock %}
+    <!--  Block of links  -->
+    {% block links %}{% endblock %}
+</head>
+
+<body>
+
+{% block header %}{% include './header.html' with header_class='fixed-top' homepage=True %}{% endblock %}
+{% block hero %}{% include './hero.html' with hero_title='Leya Monteiro' hero_subtitle='LM' %}{% endblock %}
+{% block main %}{% include './main.html' %}{% endblock %}
+{% block footer %}{% include './footer.html' %}{% endblock %}
+
+<a class="back-to-top" href="#"><i class="ri-arrow-up-line"></i></a>
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src="{% static 'homepage/dist/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'homepage/dist/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'homepage/dist/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+<script src="{% static 'homepage/dist/vendor/php-email-form/validate.js' %}"></script>
+<script src="{% static 'homepage/dist/vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'homepage/dist/vendor/counterup/counterup.min.js' %}"></script>
+<script src="{% static 'homepage/dist/vendor/venobox/venobox.min.js' %}"></script>
+<script src="{% static 'homepage/dist/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+<script src="{% static 'homepage/dist/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'homepage/dist/vendor/aos/aos.js' %}"></script>
+{% block extra_vendor_js %}{% endblock %}
+<!-- Template Main JS File -->
+<script src="{% static 'homepage/dist/js/main.js' %}"></script>
+{% block javascript %}{% endblock %}
+</body>

@@ -1,0 +1,24 @@
+{% extends "openid/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}OpenID Sign In{% endblock %}
+
+{% block content %}
+
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 28/09/2020 18:41.
+  -->
+
+<h1>{% trans 'OpenID Sign In' %}</h1>
+
+
+<form action="{% url 'openid_login' %}" class="openid_login" id="openid_login_form" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Sign In</button>
+</form>
+
+{% endblock %}

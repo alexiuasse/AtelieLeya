@@ -1,0 +1,84 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 24/09/2020 17:36.
+  -->
+
+{% extends './base.html' %}
+{% load static %}
+{% load l10n %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container-xl">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div class="page-pretitle">Procedimento</div>
+                <h2 class="page-title">
+                    <a data-toggle="tooltip" href="{% url 'users:frontend:calendar' %}" title="Voltar">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    Agendar
+                </h2>
+            </div>
+            <div class="col-auto ml-auto d-print-none">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 ml-auto mr-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Agendar Procedimento</h3>
+                    <div class="card-subtitle">Data {{date}}</div>
+                    <h3 class="card-title">Atenção</h3>
+                    <div class="card-subtitle">Os procedimentos e horários podem variar dependendo de como está a
+                        disponibilidade de horários do dia!
+                    </div>
+                    <h3 class="card-title">Formulário</h3>
+                    <div class="card-subtitle">Os campos com * são obrigatórios.</div>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {% crispy form %}
+                        <div class="form-row">
+                            <div class="pull-right mt-3">
+                                <a class="btn btn-danger mr-2"
+                                   href="{% url 'users:frontend:calendar' %}"
+                                   type="button">
+                                    Cancelar
+                                </a>
+                                <button class="btn btn-primary" type="submit">Finalizar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="ribbon bg-cyan">{{ICON_CALENDAR|safe}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script>
+// @formatter:off
+document.addEventListener('DOMContentLoaded', function() {
+    $("#id_orderOfServicefrontend-type_of_service").change(function (){
+      var bpk = $("#id_orderOfServicefrontend-businessday").val();
+      var pk = $(this).val();
+      var url = "/business/utils/"+bpk+"/"+pk+"/get/hours/";
+      $.getJSON(url ,function(data){
+        var hours = $("#id_orderOfServicefrontend-time");
+        $('#id_orderOfServicefrontend-time > option').remove();
+        $('#id_orderOfServicefrontend-value').val(data.value);
+        $.each(data.data, function(index, value) {
+          hours.append($("<option />").val(value[0]).text(value[1]));
+        });
+      });
+    });
+});
+// @formatter:on
+
+
+
+</script>
+{% endblock %}

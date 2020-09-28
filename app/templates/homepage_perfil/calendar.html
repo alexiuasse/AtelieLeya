@@ -1,0 +1,148 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 28/09/2020 07:44.
+  -->
+{% extends './base.html' %}
+{% load static %}
+{% load l10n %}
+{% block custom_css %}
+<link href="{% static 'dist/libs/fullcalendar/dist/main.min.css' %}" rel="stylesheet"/>
+{% endblock %}
+{% block content %}
+<div class="container-xl">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div class="page-pretitle">Agendamento</div>
+                <h2 class="page-title">
+                    <a data-toggle="tooltip" href="{% url 'users:frontend:profile' %}" title="Voltar">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    Agendamento de Procedimento
+                </h2>
+            </div>
+            <div class="col-auto ml-auto d-print-none">
+                {% block page_header_actions %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    {% if not user.profile.whatsapp %}
+    <div class="alert alert-danger">
+        {{ICON_TRIANGLE_ALERT|safe}}
+        Você precisa adicionar um número de telefone com whatsapp para agendar procedimentos.
+        <a href="{% url 'users:frontend:update' %}">
+            {{ICON_LINK|safe}} Editar Informações
+        </a>
+    </div>
+    {% endif %}
+    <div class="col-lg-12 col-md-auto">
+        <div class="card">
+            <div class="card-body">
+                <p class="text-center">Recarregando em <span id="count"></span> segundos...</p>
+                <div id="calendar-services"></div>
+            </div>
+            <div class="card-footer">
+                <div class="row align-items-center">
+                    <h2>Legenda</h2>
+                    <div class="col-2 square dayfull ml-3"></div>
+                    <div class="col">Lotado</div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-2 square daynotfull ml-3"></div>
+                    <div class="col">Disponível</div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-2 square notworkday ml-3"></div>
+                    <div class="col">Não Atendendo</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include '../modal/message.html' %}
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'dist/libs/fullcalendar/dist/main.min.js' %}"></script>
+<script src="{% static 'dist/libs/fullcalendar/dist/locales-all.min.js' %}"></script>
+<script>
+// @formatter:off
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar-services');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        timeZone: 'UTC',
+        themeSystem: 'standart',
+        headerToolbar: {
+            left: '',
+            center: 'title',
+            right: ''
+        },
+        height: 'auto',
+        initialView: 'dayGridMonth',
+        initialDate: '{{start_date|date:"Y-m-d"}}',
+        locale: 'pt-br',
+        buttonIcons: true, // show the prev/next text
+        weekNumbers: false,
+        navLinks: false, // can click day/week names to navigate views
+        editable: false, // can drag and change date/time of events
+        dayMaxEvents: true, // allow "more" link when too many events
+        businessHours: true, // display business hours
+        nowIndicator: true,
+        fixedWeekCount: false,
+        showNonCurrentDates: false,
+
+        dateClick: function(info) {
+            y = info.date.getFullYear();
+            m = info.date.getUTCMonth()+1;
+            d = info.date.getUTCDate();
+            var url = '/business/utils/'+d+'/'+m+'/'+y+'/check/';
+            $.getJSON(url ,function(data){
+                if (data.is_ok) {
+                    window.location.replace('/service/frontend/'+d+'/'+m+'/'+y+'/create/');
+                } else {
+                    $("#modal-message-text").text(data.error);
+                    $("#modal-message").modal('show');
+                }
+            });
+        },
+
+        // Fetch the "events" in base of a range date, avoiding huge loads
+        events: {
+            url: '{% url 'business:frontend:data' %}',
+            success: function(data) {
+                return data.data;
+            }
+        },
+
+    });
+
+    calendar.render();
+
+    var ajax_call = function() {
+        //console.log('refecthing events');
+        calendar.refetchEvents();
+    };
+
+    var interval_refetch = 1000 * 60 * 5; // where X is your every X minutes
+    var interval = 300;
+
+    setInterval(ajax_call, interval_refetch);
+    var counter = interval;
+    setInterval(function() {
+        counter--;
+        if (counter >= 0) {
+          span = document.getElementById("count");
+          span.innerHTML = counter;
+        }
+        // Display 'counter' wherever you want to display it.
+        if (counter === 0) {
+            counter = interval;
+        }
+    }, 1000);
+
+  });
+// @formatter:on
+
+</script>
+{% endblock %}

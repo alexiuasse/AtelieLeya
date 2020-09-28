@@ -1,0 +1,69 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 28/09/2020 09:22.
+  -->
+
+{% extends '../../base/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="container-xl">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <h2 class="page-title">
+                    <a data-toggle="tooltip"
+                       href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
+                       title="{{TOOLTIP_BACK}}">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    {{view.title}}
+                    {% if object and object.get_delete_url %}
+                    <a data-toggle="tooltip" href="{{ object.get_delete_url }}" title="{{TOOLTIP_DEL}}">
+                        <span class="text-danger">{{ICON_DELETE|safe}}</span>
+                    </a>
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-lg-6 ml-auto mr-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Formulário</h3>
+                    <div class="card-subtitle">Os campos com * são obrigatórios</div>
+                    <form action="" enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                        {% crispy form %}
+                        <div class="form-row">
+                            <div class="pull-right mt-3">
+                                <a class="btn btn-danger mr-2"
+                                   href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
+                                   type="button">
+                                    Cancelar
+                                </a>
+                                <button class="btn btn-primary" type="submit">Finalizar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'dist/libs/imask/dist/imask.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        var element = document.getElementById('id_whatsapp');
+        var maskOptions = {
+          mask: '(00) 0 0000-0000'
+        };
+        var mask = IMask(element, maskOptions);
+    });
+
+</script>
+{% endblock %}

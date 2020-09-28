@@ -1,0 +1,38 @@
+{% extends '../base/base.html' %}
+{% load i18n %}
+{% load static %}
+{% block body_html %}
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 28/09/2020 18:41.
+  -->
+
+<body class="antialiased border-top-wide border-primary d-flex flex-column">
+<div class="flex-fill d-flex flex-column justify-content-center">
+    <div class="container-tight py-6">
+        <div class="text-center mb-4">
+            <img alt="{{NAME_OF_ENTERPRISE}}" height="50" src="{% static 'logo-bar.svg' %}">
+        </div>
+        <form action="" class="card card-md" method="post">
+            {% csrf_token %}
+            <div class="card-body">
+                <h2 class="mb-5 text-center">Login Falhou</h2>
+                <p class="text-muted text-center">Um erro aconteceu ao fazer login pela rede social.</p>
+                <p class="text-center">
+                    <a href="{% url 'frontend:login' %}">{{ICON_ARROW_BACK|safe}} Voltar a tela de login.</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Libs JS -->
+<script src="{% static 'dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Tabler Core -->
+<script src="{% static 'dist/js/tabler.min.js' %}"></script>
+<script>
+      document.body.style.display = "block"
+
+</script>
+</body>
+{% endblock %}

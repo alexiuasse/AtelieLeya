@@ -1,0 +1,207 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 23/09/2020 15:10.
+  -->
+
+{% extends '../base/profile.html' %}
+{% load static %}
+{% load l10n %}
+{% block page_header_actions %}
+<a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
+   href="{{obj.get_new_service_url}}"
+   title="{{TOOLTIP_NEW_SERVICE}}">
+    {{ICON_ADD|safe}}
+    Procedimento
+</a>
+<a class="btn btn-sm btn-info ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
+   href="{{obj.get_new_reward_url}}"
+   title="{{TOOLTIP_NEW_REWARD}}">
+    {{ICON_ADD|safe}}
+    Brinde
+</a>
+{% endblock %}
+{% block profile_content %}
+<div class="row">
+    {% if obj.is_birthday %}
+    <div class="col-lg-12  ">
+        <div class="card bg-triangle-bottom-pink">
+            <div class="card-body">
+                <h3 class="card-title">{{ICON_GIFT|safe}} Alerta de Aniversário</h3>
+                <div class="card-subtitle">Hoje é o aniversário de {{obj.name}}</div>
+                <h3>{{ICON_WHATSAPP|safe}} {{obj.whatsapp}}</h3>
+            </div>
+            <div class="ribbon bg-pink">{{ICON_GIFT|safe}}</div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<div class="row row-deck row-cards">
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Informações</h4>
+                <div class="card-subtitle">
+                    <a href="{{obj.get_edit_url}}"> {{ICON_EDIT|safe}} Editar Perfil</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="card-table table-hover">
+                        {% for k, v in obj.get_dict_data.items %}
+                        <tr>
+                            <td class="w-100">{{k}}</td>
+                            <td class="text-nowrap text-muted">{{v}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td class="w-100"><span class="font-weight-bold">Pontos</span></td>
+                            <td class="text-nowrap text-muted">
+                                <span class="font-weight-bold" data-countup>{{obj.total_of_points}}</span> pts
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="ribbon bg-info">{{ICON_INFO_CIRCLE|safe}}</div>
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Brindes Não Retirados</h3>
+                <div class="card-subtitle">
+                    <a href="{{obj.get_new_reward_url}}">{{ICON_ADD|safe}} Novo Brinde</a>
+                </div>
+                {% if obj.has_reward_admin %}
+                <div class="table-responsive mb-3">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Brinde</th>
+                            <th>Pontos</th>
+                            <th>Data</th>
+                        </tr>
+                        </thead>
+                        {% for r in obj.sorted_reward_set_admin %}
+                        <tr>
+                            <td><a href="{{r.get_edit_url}}">{{r.reward.name}}</a></td>
+                            <td><span data-countup>{{r.points}}</span> pts</td>
+                            <td>{{r.date}}</td>
+                            {% if not r.retrieved %}
+                            <td>
+                                <a data-toggle="tooltip" href="{{r.get_confirm_url}}"
+                                   title="{{TOOLTIP_RETRIEVED_REWARD}}">
+                                    {{ICON_CHECK|safe}} Retirado
+                                </a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {% else %}
+                <p>Tudo certo por aqui!</p>
+                {% endif %}
+            </div>
+            <div class="ribbon ">{{ICON_GIFT|safe}}</div>
+        </div>
+    </div>
+    <div class="col-lg-4 ml-auto">
+        <div class="card">
+            <div class="card-body d-flex flex-column text-center">
+                <h3 class="card-title">Procedimentos</h3>
+                <div class="card-subtitle">Procedimentos finalizados!</div>
+                <div class="d-flex align-items-center ml-auto mr-auto">
+                    <div class="chart-sm" id="chart_service"></div>
+                </div>
+            </div>
+            <div class="ribbon bg-success">{{ICON_WAND|safe}}</div>
+        </div>
+    </div>
+    <div class="col-lg-4 mr-auto">
+        <div class="card">
+            <div class="card-body d-flex flex-column text-center">
+                <h3 class="card-title">Brindes</h3>
+                <div class="card-subtitle">Brindes resgatados!</div>
+                <div class="d-flex align-items-center ml-auto mr-auto">
+                    <div class="chart-sm" id="chart_reward"></div>
+                </div>
+            </div>
+            <div class="ribbon ">{{ICON_GIFT|safe}}</div>
+        </div>
+    </div>
+</div>
+<!-- services -->
+{% if obj.has_service %}
+<div class="card mb-5">
+    <div class="card-body">
+        <h3 class="card-title">Procedimentos</h3>
+        <div class="card-subtitle">
+            <a href="{{obj.get_new_service_url}}">{{ICON_ADD|safe}} Novo Procedimento</a>
+        </div>
+        {% for k,v in obj.get_service_sorted_by_entry_date.items %}
+        <div class="col-lg-12 col-md-auto">
+            <h4>Mês/Ano {{k}}</h4>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>Procedimento</th>
+                        <th>Data/Hora</th>
+                        <th>Confirmado</th>
+                        <th>Status</th>
+                        <th>Atenção</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for kk,vv in v.items %}
+                    {% for s in vv %}
+                    <tr>
+                        <td><a href="{{s.get_absolute_url}}">{{s.type_of_service}}</a></td>
+                        <td>{{s.get_date_html|safe}}</td>
+                        <td>
+                            {{s.get_confirmed_html|safe}}
+                            {% if not s.confirmed %}
+                            <a class="badge bg-dark" data-toggle="tooltip" href="{{s.get_customer_confirmed_url}}"
+                               title="{{TOOLTIP_SERVICE_CONFIRM}}">
+                                {{ICON_CHECK|safe}} <span class="ml-1">Confirmar</span>
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge" style="background-color: {{s.status.contextual}};">{{s.status}}</span>
+                            {% if not s.get_is_success %}
+                            <a class="badge bg-dark" data-toggle="tooltip"
+                               href="{{s.get_customer_finished_url}}" title="{{TOOLTIP_SERVICE_FINISH}}">
+                                {{ICON_DOUBLE_CHECK|safe}} <span class="ml-1">Finalizar</span>
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td>{{s.get_contextual_html_admin}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="ribbon bg-success">{{ICON_WAND|safe}}</div>
+</div>
+{% endif %}
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'dist/libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+<script>
+// @formatter:off
+document.addEventListener("DOMContentLoaded", function () {
+    var chart1 = new ApexCharts(document.getElementById('chart_service'), {{options_chart_service|safe}});
+    chart1.render();
+    var chart2 = new ApexCharts(document.getElementById('chart_reward'), {{options_chart_reward|safe}});
+    chart2.render();
+// @formatter:on
+});
+
+</script>
+{% endblock %}

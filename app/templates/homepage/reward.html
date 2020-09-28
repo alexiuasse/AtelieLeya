@@ -1,0 +1,31 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 15/09/2020 21:50.
+  -->
+{% load static %}
+<section class="reward-retrieve-boxes" id="reward_retrieve_boxes">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Brindes</h2>
+            <p>Nossos brindes</p>
+        </div>
+
+        <div class="row justify-content-center">
+            {% for r in rewards %}
+            <div class="col-lg-3 col-md-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                <div class="card">
+                    <img alt="{{r.name}}" class="card-img-top"
+                         src="{%if r.image %}{% static r.image %}{% else %}{% static 'homepage/dist/img/about-boxes-1.jpg' %}{% endif %}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{r.name}}</h5>
+                        <h5 class="card-title small">{{r.quantity_in_points}} pts</h5>
+                        <p class="card-text">{{r.description}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

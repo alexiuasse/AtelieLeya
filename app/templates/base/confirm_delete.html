@@ -1,0 +1,47 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 24/09/2020 11:47.
+  -->
+{% extends './base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="container-xl">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <h2 class="page-title">
+                    <a data-toggle="tooltip" href="{{object.get_absolute_url}}" title="{{TOOLTIP_BACK}}">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    {{view.title}}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-auto ml-auto mr-auto">
+            <div class="card">
+                <div class="card-header bg-triangle-top-danger">
+                    <h3 class="card-title">Você tem certeza que quer deletar "{{ object }}" ?</h3>
+                </div>
+                <div class="card-body">
+                    <p>Todos os itens abaixo serão excluidos!</p>
+                    <p>Objetos</p>
+                    <ul>{{ extra_object|unordered_list }}</ul>
+                    <form method="post">
+                        {% csrf_token %}
+                        <hr>
+                        <div class="mt-3">
+                            <a class="btn btn-primary" href="{{ object.get_absolute_url }}">Cancelar</a>
+                            <button class="btn btn-danger mr-4" type="submit">Confirmar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

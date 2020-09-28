@@ -1,0 +1,36 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 28/09/2020 17:07.
+  -->
+{% load static %}
+<!-- ======= Services Section ======= -->
+<section class="services-boxes section-bg" id="services">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Procedimentos</h2>
+            <p>Nossos Procedimentos</p>
+        </div>
+
+        <div class="row justify-content-center">
+            {% for ts in services %}
+            <div class="col-lg-3 col-md-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                <div class="card">
+                    <img alt="{{ts.name}}" class="card-img-top"
+                         src="{{ts.image.url}}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ts.name}}</h5>
+                        <h5 class="card-title small">R$ {{ts.value}}</h5>
+                        <h5 class="card-title small">Pontos: {{ts.rewarded_points}} pts</h5>
+                        <h5 class="card-title small">Duração: {{ts.time}} min</h5>
+                        <p class="card-text">{{ts.description}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+<!-- End Services Section -->

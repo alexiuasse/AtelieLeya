@@ -1,0 +1,49 @@
+{% extends '../base/base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load static %}
+{% block body_html %}
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 28/09/2020 18:41.
+  -->
+
+<body class="antialiased border-top-wide border-primary d-flex flex-column">
+<div class="flex-fill d-flex flex-column justify-content-center">
+    <div class="container-tight py-6">
+        <div class="text-center mb-4">
+            <img alt="{{NAME_OF_ENTERPRISE}}" height="50" src="{% static 'logo-bar.svg' %}">
+        </div>
+        <form action="" class="card card-md" method="post">
+            {% csrf_token %}
+            <div class="card-body">
+                <h2 class="mb-2 text-center">Cadastro</h2>
+                <p class="mb-2 text-muted">
+                    {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to
+                    use your {{provider_name}} account to login to {{site_name}}. As a final step, please complete the
+                    following form: {% endblocktrans %}
+                </p>
+                <form action="{% url 'socialaccount_signup' %}" class="signup" id="signup_form" method="post">
+                    {% csrf_token %}
+                    {% crispy form %}
+                    {% if redirect_field_value %}
+                    <input name="{{ redirect_field_name }}" type="hidden" value="{{ redirect_field_value }}"/>
+                    {% endif %}
+                    <button class="btn btn-primary btn-block" type="submit">{% trans "Sign Up" %} &raquo;</button>
+                </form>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Libs JS -->
+<script src="{% static 'dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Tabler Core -->
+<script src="{% static 'dist/js/tabler.min.js' %}"></script>
+<script>
+      document.body.style.display = "block"
+
+
+</script>
+</body>
+{% endblock %}

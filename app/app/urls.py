@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/09/2020 13:16.
+#  Last modified 28/09/2020 18:12.
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -9,7 +9,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('frontend.urls')),
-    path('accounts/social/login/cancelled/', auth_views.LoginView.as_view(template_name='login.html')),
     path('accounts/', include('allauth.urls')),
     path('user/', include('users.urls')),
     path('admin/', admin.site.urls),

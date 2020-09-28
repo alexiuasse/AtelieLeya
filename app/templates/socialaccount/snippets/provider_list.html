@@ -1,0 +1,27 @@
+{% load socialaccount %}
+
+{% get_providers as socialaccount_providers %}
+
+{% for provider in socialaccount_providers %}
+{% if provider.id == "openid" %}
+{% for brand in provider.get_brands %}
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 28/09/2020 18:41.
+  -->
+
+<li>
+    <a class="socialaccount_provider {{provider.id}} {{brand.id}}"
+       href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
+       title="{{brand.name}}"
+    >{{brand.name}}</a>
+</li>
+{% endfor %}
+{% endif %}
+<li>
+    <a class="socialaccount_provider {{provider.id}}"
+       href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"
+       title="{{provider.name}}">{{provider.name}}</a>
+</li>
+{% endfor %}

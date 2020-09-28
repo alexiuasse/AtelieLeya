@@ -1,0 +1,63 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 24/09/2020 11:47.
+  -->
+{% extends './base.html' %}
+{% load render_table from django_tables2 %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="container-xl">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <h2 class="page-title">
+                    <a data-toggle="tooltip" href="{{view.back_url}}" title="{{TOOLTIP_BACK}}">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    {{view.title}}
+                    {% if view.new %}
+                    <a data-toggle="tooltip" href="{{view.new}}" title="{{TOOLTIP_NEW}}">
+                        <span class="text-info">{{ICON_ADD|safe}}</span>
+                    </a>
+                    {% endif %}
+                </h2>
+            </div>
+            <!-- Page title actions -->
+            <div class="col-auto ml-auto d-print-none">
+                {% if view.new %}
+                <a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block"
+                   data-toggle="tooltip" href="{{view.new}}" title="{{TOOLTIP_NEW}}">
+                    {{ICON_ADD|safe}}
+                    Novo
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            {% if filter %}
+            <h3 class="card-title">Pesquisa</h3>
+            <div class="card-subtitle">Você pode filtrar a tabela aqui</div>
+            <div class="table-container">
+                <form action="" class="form form-inline" method="get">
+                    {% bootstrap_form filter.form show_label=False %}
+                    <button class="btn btn-sm btn-primary submit mt-2">
+                        Pesquisar
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+            <h3 class="card-title mt-3">Tabela</h3>
+            <div class="card-subtitle">Você pode clicar em cima do nome da coluna para ordernar</div>
+            <div class="table-responsive">
+                {% render_table table %}
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

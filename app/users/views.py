@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 24/09/2020 15:46.
+#  Last modified 28/09/2020 18:03.
 from typing import Dict, Any
 
 from config.models import Reward, TypeOfService
@@ -90,7 +90,7 @@ class ProfileDelete(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context: Dict[str, Any] = super().get_context_data(**kwargs)
-        collector = NestedObjects(using='default')  # or specific datafinancial
+        collector = NestedObjects(using='default')
         collector.collect([context['object']])
         to_delete = collector.nested()
         context['extra_object'] = to_delete

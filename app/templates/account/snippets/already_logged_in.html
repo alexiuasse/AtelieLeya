@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load account %}
+
+{% user_display user as user_display %}
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 28/09/2020 18:41.
+  -->
+
+<p><strong>{% trans "Note" %}:</strong> {% blocktrans %}you are already logged in as {{ user_display }}.{% endblocktrans
+    %}</p>
