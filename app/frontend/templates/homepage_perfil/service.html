@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 23/09/2020 16:14.
+  ~ Last modified 28/09/2020 14:37.
   -->
 
 {% extends './base.html' %}
@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-lg-4">
                     <img alt="{{obj.type_of_service.name}}" class="img-fluid"
-                         src="/media/{{obj.type_of_service.image.name}}">
+                         src="{{obj.type_of_service.image.url}}">
                 </div>
                 <div class="col">
                     <h3 class="card-title">{{obj.type_of_service.name}}</h3>

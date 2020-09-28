@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 24/09/2020 16:00.
+  ~ Last modified 28/09/2020 14:37.
   -->
 
 {% extends './base.html' %}
@@ -44,7 +44,7 @@
         {% for r in rewards %}
         <div class="col-sm-4 col-xl-4">
             <div class="card d-flex flex-column">
-                <img alt="{{r.name}}" class="card-img-top" src="/media/{{r.image}}">
+                <img alt="{{r.name}}" class="card-img-top" src="{{r.image.url}}">
                 <div class="card-body d-flex flex-column">
                     <h3 class="card-title"> {{r.name}}</h3>
                     <div class="text-muted">{{r.description}}</div>

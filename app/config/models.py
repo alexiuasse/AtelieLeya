@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/09/2020 08:46.
+#  Last modified 28/09/2020 14:36.
 import datetime
 
 from base.models import BaseModel
@@ -138,11 +138,11 @@ class HomePage(BaseModel):
             'Whatsapp': self.whatsapp,
             'E-mail': self.email if self.email else "Nenhum",
             'Primeira Imagem': mark_safe(
-                f'<a href="/media/{self.first_image.name}" target="_blank">{self.first_image}</a>'),
+                f'<a href="{self.first_image.url}" target="_blank">{self.first_image}</a>'),
             'Primeiro Video': mark_safe(
                 f'<a href="{self.first_video_url}" target="_blank">{self.first_video_url}</a>'),
             'Segunda Imagem': mark_safe(
-                f'<a href="/media/{self.second_image.name}" target="_blank">{self.second_image}</a>'),
+                f'<a href="{self.second_image.url}" target="_blank">{self.second_image}</a>'),
             'Segundo Video': mark_safe(
                 f'<a href="{self.second_video_url}" target="_blank">{self.second_video_url}</a>'),
         }

@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 19/09/2020 15:25.
+  ~ Last modified 28/09/2020 14:33.
   -->
 {% load static %}
 <!-- ======= Services Section ======= -->
@@ -18,7 +18,7 @@
             <div class="col-lg-3 col-md-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                 <div class="card">
                     <img alt="{{ts.name}}" class="card-img-top"
-                         src="/media/{{ts.image.name}}">
+                         src="{{ts.image.url}}">
                     <div class="card-body">
                         <h5 class="card-title">{{ts.name}}</h5>
                         <h5 class="card-title small">R$ {{ts.value}}</h5>
