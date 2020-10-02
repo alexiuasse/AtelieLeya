@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 15:48.
+#  Last modified 28/09/2020 19:33.
 
 from datetime import date
 
@@ -67,7 +67,7 @@ class OrderOfService(BaseModel):
         return reverse('service:frontend:cancel', kwargs={'pk': self.pk})
 
     def get_full_name(self):
-        return f"{self.type_of_service} de {self.customer.profile.get_full_name()}"
+        return f"{self.type_of_service} de {self.customer.profile.get_full_name()[:15]}"
 
     def get_name_html(self):
         badges = ""

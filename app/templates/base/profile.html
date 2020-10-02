@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 24/09/2020 11:47.
+  ~ Last modified 29/09/2020 16:23.
   -->
 
 {% extends './base.html' %}
@@ -18,9 +18,11 @@
                     <a data-toggle="tooltip" href="{{obj.get_edit_url}}" title="Editar">
                         <span class="text-success">{{ICON_EDIT|safe}}</span>
                     </a>
+                    {% block delete %}
                     <a data-toggle="tooltip" href="{{obj.get_delete_url}}" title="Deletar">
                         <span class="text-danger">{{ICON_DELETE|safe}}</span>
                     </a>
+                    {% endblock %}
                 </h2>
             </div>
             <div class="col-auto ml-auto d-print-none">

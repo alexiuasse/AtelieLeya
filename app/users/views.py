@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/09/2020 18:03.
+#  Last modified 29/09/2020 16:29.
 from typing import Dict, Any
 
 from config.models import Reward, TypeOfService
@@ -34,7 +34,7 @@ from .tables import *
 @staff_member_required()
 @permission_required('users.view_profile', raise_exception=True)
 def profile_admin(request, pk):
-    user = User.objects.get(pk=pk)
+    user = Profile.objects.get(pk=pk).user
     services = user.orderofservice_set.filter(customer=user, status=settings.STATUS_SERVICE_FINISHED)
     type_of_services = TypeOfService.objects.filter(pk__in=services.values_list('type_of_service', flat=True))
     rewards = user.rewardretrieved_set.filter(retrieved=True)

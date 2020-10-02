@@ -1,12 +1,13 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 23/09/2020 15:10.
+  ~ Last modified 29/09/2020 16:23.
   -->
 
 {% extends '../base/profile.html' %}
 {% load static %}
 {% load l10n %}
+{% block delete %}{% endblock %}
 {% block page_header_actions %}
 <a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
    href="{{obj.get_new_service_url}}"
@@ -22,8 +23,8 @@
 </a>
 {% endblock %}
 {% block profile_content %}
+{% if obj.is_birthday %}
 <div class="row">
-    {% if obj.is_birthday %}
     <div class="col-lg-12  ">
         <div class="card bg-triangle-bottom-pink">
             <div class="card-body">
@@ -34,8 +35,8 @@
             <div class="ribbon bg-pink">{{ICON_GIFT|safe}}</div>
         </div>
     </div>
-    {% endif %}
 </div>
+{% endif %}
 
 <div class="row row-deck row-cards">
     <div class="col-lg-5">
