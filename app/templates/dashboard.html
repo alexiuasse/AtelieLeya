@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 24/09/2020 11:47.
+  ~ Last modified 15/10/2020 12:03.
   -->
 
 {% extends './base/base.html' %}
@@ -19,7 +19,8 @@
         </div>
     </div>
     <div class="row row-deck row-cards">
-        <h3 class="text-muted">Resumo do ano de {{year}}</h3>
+        {% now "Y" as current_year %}
+        <h3 class="text-muted">Resumo do ano de {{current_year}}</h3>
         {% for k,v in top_row_deck.items %}
         <div class="col-sm-6 col-xl-3">
             <div class="card card-sm">

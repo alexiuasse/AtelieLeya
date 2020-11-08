@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/09/2020 18:12.
+#  Last modified 08/11/2020 10:43.
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -16,6 +16,7 @@ urlpatterns = [
     path('service/', include('service.urls')),
     path('financial/', include('financial.urls')),
     path('business/', include('business.urls')),
+    path('homepage/', include('homepage.urls')),
 ]
 
 # only for debug mode?

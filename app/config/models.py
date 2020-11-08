@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/09/2020 14:36.
+#  Last modified 08/11/2020 11:16.
 import datetime
 
 from base.models import BaseModel
@@ -104,45 +104,44 @@ class Expedient(BaseModel):
         start_timedelta = datetime.timedelta(hours=self.start_time.hour, minutes=self.start_time.minute)
         return (end_timedelta - start_timedelta).seconds / 60
 
-
-class HomePage(BaseModel):
-    first_image = models.ImageField("Primeira Imagem", upload_to='homepage/',
-                                    help_text="Imagem que fica no início da página.",
-                                    blank=True, null=True)
-    first_video_url = models.CharField("Primeiro Video", max_length=255,
-                                       help_text="URL do primeiro vídeo, fica no início da página",
-                                       blank=True, null=True)
-    second_image = models.ImageField("Segunda Imagem", upload_to='homepage/',
-                                     help_text="Imagem que fica na parte sobre como plano de fundo do video.",
-                                     blank=True, null=True)
-    second_video_url = models.CharField("Segundo Video", max_length=255,
-                                        help_text="URL do segundo vídeo, fica na primeira página de sobre",
-                                        blank=True, null=True)
-    address = models.CharField("Endereço Completo", max_length=255,
-                               help_text="Sugestão: Rua, Número, Cidade - Estado, CEP")
-    whatsapp = models.CharField("Whatsapp", max_length=16, help_text="Número para contato.")
-    email = models.EmailField("E-mail", help_text="Opcional!", blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.address} {self.whatsapp}"
-
-    def get_absolute_url(self):
-        return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:view')
-
-    def get_edit_url(self):
-        return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:edit', kwargs={'pk': self.pk})
-
-    def get_dict_data(self):
-        return {
-            'Endereço': self.address,
-            'Whatsapp': self.whatsapp,
-            'E-mail': self.email if self.email else "Nenhum",
-            'Primeira Imagem': mark_safe(
-                f'<a href="{self.first_image.url}" target="_blank">{self.first_image}</a>'),
-            'Primeiro Video': mark_safe(
-                f'<a href="{self.first_video_url}" target="_blank">{self.first_video_url}</a>'),
-            'Segunda Imagem': mark_safe(
-                f'<a href="{self.second_image.url}" target="_blank">{self.second_image}</a>'),
-            'Segundo Video': mark_safe(
-                f'<a href="{self.second_video_url}" target="_blank">{self.second_video_url}</a>'),
-        }
+# class HomePage(BaseModel):
+#     first_image = models.ImageField("Primeira Imagem", upload_to='homepage/',
+#                                     help_text="Imagem que fica no início da página.",
+#                                     blank=True, null=True)
+#     first_video_url = models.CharField("Primeiro Video", max_length=255,
+#                                        help_text="URL do primeiro vídeo, fica no início da página",
+#                                        blank=True, null=True)
+#     second_image = models.ImageField("Segunda Imagem", upload_to='homepage/',
+#                                      help_text="Imagem que fica na parte sobre como plano de fundo do video.",
+#                                      blank=True, null=True)
+#     second_video_url = models.CharField("Segundo Video", max_length=255,
+#                                         help_text="URL do segundo vídeo, fica na primeira página de sobre",
+#                                         blank=True, null=True)
+#     address = models.CharField("Endereço Completo", max_length=255,
+#                                help_text="Sugestão: Rua, Número, Cidade - Estado, CEP")
+#     whatsapp = models.CharField("Whatsapp", max_length=16, help_text="Número para contato.")
+#     email = models.EmailField("E-mail", help_text="Opcional!", blank=True, null=True)
+#
+#     def __str__(self):
+#         return f"{self.address} {self.whatsapp}"
+#
+#     def get_absolute_url(self):
+#         return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:view')
+#
+#     def get_edit_url(self):
+#         return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:edit', kwargs={'pk': self.pk})
+#
+#     def get_dict_data(self):
+#         return {
+#             'Endereço': self.address,
+#             'Whatsapp': self.whatsapp,
+#             'E-mail': self.email if self.email else "Nenhum",
+#             'Primeira Imagem': mark_safe(
+#                 f'<a href="{self.first_image.url}" target="_blank">{self.first_image}</a>'),
+#             'Primeiro Video': mark_safe(
+#                 f'<a href="{self.first_video_url}" target="_blank">{self.first_video_url}</a>'),
+#             'Segunda Imagem': mark_safe(
+#                 f'<a href="{self.second_image.url}" target="_blank">{self.second_image}</a>'),
+#             'Segundo Video': mark_safe(
+#                 f'<a href="{self.second_video_url}" target="_blank">{self.second_video_url}</a>'),
+#         }

@@ -1,17 +1,17 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 10:48.
+#  Last modified 08/11/2020 11:13.
 
 import logging
 
-from config.models import Reward, TypeOfService, HomePage
+from config.models import Reward, TypeOfService
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
+from homepage.models import HomePage
 
 from .utils import *
 
@@ -65,6 +65,15 @@ def error_503(request):
 
 
 @require_http_methods(["GET"])
+def wakeup(request):
+    if 'X-Appengine-Cron' in request.headers and request.headers['X-Appengine-Cron']:
+        status = 200
+    else:
+        status = 400
+    return HttpResponse(status=status)
+
+
+@require_http_methods(["GET"])
 def index(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(
@@ -78,6 +87,7 @@ def index(request):
 def homepage(request):
     if HomePage.objects.all().count() == 0:
         obj = HomePage(
+            title="Atêlie Leya Monteiro",
             address="Adicionar Endereço",
             whatsapp='(00) 0 0000-0000',
         ).save()
@@ -108,9 +118,8 @@ def dashboard(request):
 def chart(request, year):
     return render(request, 'chart.html', context_chart(year))
 
-
-@login_required
-@require_http_methods(["GET"])
-def logout_user(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('frontend:login'))
+# @login_required
+# @require_http_methods(["GET"])
+# def logout_user(request):
+#     logout(request)
+#     return HttpResponseRedirect(reverse('frontend:login'))

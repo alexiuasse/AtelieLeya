@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 28/09/2020 17:07.
+  ~ Last modified 08/11/2020 10:25.
   -->
 {% load static %}
 <!-- ======= Services Section ======= -->
@@ -15,10 +15,9 @@
 
         <div class="row justify-content-center">
             {% for ts in services %}
-            <div class="col-lg-3 col-md-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-3 col-md-4 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card">
-                    <img alt="{{ts.name}}" class="card-img-top"
-                         src="{{ts.image.url}}">
+                    <img alt="{{ts.name}}" class="card-img-top" src="{{ts.image.url}}">
                     <div class="card-body">
                         <h5 class="card-title">{{ts.name}}</h5>
                         <h5 class="card-title small">R$ {{ts.value}}</h5>

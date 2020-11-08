@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/09/2020 12:27.
+#  Last modified 08/11/2020 10:44.
 import os
 from pathlib import Path
 
@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'service',
     'financial',
     'business',
+    'homepage',
 ]
 
 SITE_ID = 1
@@ -183,6 +184,7 @@ if os.getenv('GAE_APPLICATION', None):
         }
     }
 else:
+    # ./cloud_sql_proxy -instances atelie-leya-monteiro:us-central1:atelie-leya-monteiro-db=tcp:3308
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -199,13 +201,6 @@ else:
     #         'NAME': BASE_DIR / 'db.sqlite3',
     #     }
     # }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

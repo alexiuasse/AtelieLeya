@@ -1,0 +1,68 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 08/11/2020 11:16.
+  -->
+
+{% extends '../../base/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<div class="container-xl">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <h2 class="page-title">
+                    <a href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    {{view.title}}
+                    {% if object and object.get_delete_url %}
+                    <a href="{{ object.get_delete_url }}">
+                        <span class="text-danger">{{ICON_DELETE|safe}}</span>
+                    </a>
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-lg-6 ml-auto mr-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">{% translate 'Form' %}</h3>
+                    <div class="card-subtitle">{% translate 'All items with * are mandatory' %}</div>
+                    <form action="" enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                        {% crispy form %}
+                        <div class="form-row">
+                            <div class="pull-right mt-3">
+                                <a class="btn btn-danger mr-2"
+                                   href="{% if object %} {{object.get_absolute_url}} {% else %} {{view.get_back_url}} {% endif %}"
+                                   type="button">
+                                    {% translate 'Cancel' %}
+                                </a>
+                                <button class="btn btn-primary" type="submit">{% translate 'Finish' %}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'dist/libs/imask/dist/imask.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        var element = document.getElementById('id_whatsapp');
+        var maskOptions = {
+          mask: '(00) 0 0000-0000'
+        };
+        var mask = IMask(element, maskOptions);
+    });
+
+</script>
+{% endblock %}

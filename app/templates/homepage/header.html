@@ -1,19 +1,19 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 28/09/2020 14:20.
+  ~ Last modified 08/11/2020 11:16.
   -->
 
 {% load static %}
 <!-- ======= Header ======= -->
 <header class="{{header_class}} " id="header">
     <div class="container-fluid d-flex align-items-center justify-content-between">
-        <h1 class="logo"><a href="{% url 'frontend:homepage' %}">{{NAME_OF_ENTERPRISE_SHORT}}</a></h1>
+        <h1 class="logo"><a href="{% url 'frontend:homepage' %}">{{homepage.title}}</a></h1>
         <nav class="nav-menu d-none d-lg-block">
             <ul>
                 <li class="active"><a href="{% url 'frontend:homepage' %}">Home</a></li>
                 {% if homepage %}
-                <li><a href="#about">Sobre</a></li>
+                <!--                <li><a href="#about">Sobre</a></li>-->
                 <li><a href="#schedule">Agendamento</a></li>
                 <li><a href="#services">Serviços</a></li>
                 <li><a href="#reward_retrieve_boxes">Brindes</a></li>

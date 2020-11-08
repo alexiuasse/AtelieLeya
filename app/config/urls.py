@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 10:30.
+#  Last modified 08/11/2020 10:47.
 
 from django.urls import path, include
 
@@ -51,10 +51,10 @@ expedient_day_patterns = ([
                               path('<int:pk>/delete/', ExpedientDel.as_view(), name='delete'),
                           ], 'expedient')
 
-homepage_patterns = ([
-                         path('', homepage_view, name='view'),
-                         path('<int:pk>/edit/', HomePageEdit.as_view(), name='edit'),
-                     ], 'homepage')
+# homepage_patterns = ([
+#                          path('', homepage_view, name='view'),
+#                          path('<int:pk>/edit/', HomePageEdit.as_view(), name='edit'),
+#                      ], 'homepage')
 
 urlpatterns = [
     path('typeofpayment/', include(type_of_payment_patterns)),
@@ -63,5 +63,5 @@ urlpatterns = [
     path('statusservice/', include(status_service_patterns)),
     path('statuspayment/', include(status_payment_patterns)),
     path('expedient/', include(expedient_day_patterns)),
-    path('homepage/', include(homepage_patterns)),
+    # path('homepage/', include(homepage_patterns)),
 ]

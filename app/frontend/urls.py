@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/09/2020 12:36.
+#  Last modified 08/11/2020 11:13.
 
 from django.contrib.auth import views as auth_views
 from django.urls import path
@@ -17,4 +17,5 @@ urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),
     path('maintenance/', maintenance, name='maintenance'),
     path('chart/<int:year>/', chart, name='chart'),
+    path('wakeup/', wakeup, name='wakeup'),
 ]

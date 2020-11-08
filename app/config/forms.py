@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/09/2020 08:42.
+#  Last modified 08/11/2020 11:16.
 from crispy_forms.bootstrap import AppendedText, PrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Field
@@ -129,28 +129,27 @@ class ExpedientForm(BaseConfigForm):
         }
         fields = ['name', 'start_time', 'end_time']
 
-
-class HomePageForm(forms.ModelForm):
-    layout = Layout(
-        Row(
-            Field('address'),
-            Field('whatsapp'),
-            Field('email'),
-            Field('first_image'),
-            Field('first_video_url'),
-            Field('second_image'),
-            Field('second_video_url'),
-        ),
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.disable_csrf = True
-        self.helper = FormHelper()
-        self.helper.form_tag = False
-        self.helper.layout = self.layout
-        self.helper.form_class = 'form-control'
-
-    class Meta:
-        model = HomePage
-        fields = ['address', 'whatsapp', 'email', 'first_image', 'first_video_url', 'second_image', 'second_video_url']
+# class HomePageForm(forms.ModelForm):
+#     layout = Layout(
+#         Row(
+#             Field('address'),
+#             Field('whatsapp'),
+#             Field('email'),
+#             Field('first_image'),
+#             Field('first_video_url'),
+#             Field('second_image'),
+#             Field('second_video_url'),
+#         ),
+#     )
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.disable_csrf = True
+#         self.helper = FormHelper()
+#         self.helper.form_tag = False
+#         self.helper.layout = self.layout
+#         self.helper.form_class = 'form-control'
+#
+#     class Meta:
+#         model = HomePage
+#         fields = ['address', 'whatsapp', 'email', 'first_image', 'first_video_url', 'second_image', 'second_video_url']

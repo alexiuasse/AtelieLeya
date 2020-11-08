@@ -1,68 +1,56 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 14/09/2020 15:36.
+  ~ Last modified 08/11/2020 11:16.
   -->
 
 <!-- ======= Footer ======= -->
 <footer id="footer">
-    <!--    <div class="footer-top">-->
-    <!--        <div class="container">-->
-    <!--            <div class="row">-->
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
 
-    <!--                <div class="col-lg-3 col-md-6">-->
-    <!--                    <div class="footer-info">-->
-    <!--                        <h3>Dewi</h3>-->
-    <!--                        <p>-->
-    <!--                            A108 Adam Street <br>-->
-    <!--                            NY 535022, USA<br><br>-->
-    <!--                            <strong>Phone:</strong> +1 5589 55488 55<br>-->
-    <!--                            <strong>Email:</strong> info@example.com<br>-->
-    <!--                        </p>-->
-    <!--                        <div class="social-links mt-3">-->
-    <!--                            <a class="twitter" href="#"><i class="bx bxl-twitter"></i></a>-->
-    <!--                            <a class="facebook" href="#"><i class="bx bxl-facebook"></i></a>-->
-    <!--                            <a class="instagram" href="#"><i class="bx bxl-instagram"></i></a>-->
-    <!--                            <a class="google-plus" href="#"><i class="bx bxl-skype"></i></a>-->
-    <!--                            <a class="linkedin" href="#"><i class="bx bxl-linkedin"></i></a>-->
-    <!--                        </div>-->
-    <!--                    </div>-->
-    <!--                </div>-->
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-info">
+                        <h3>{{homepage.title}}</h3>
+                        <p>
+                            {{homepage.address}} <br><br>
+                            <strong>Whatsapp:</strong> {{homepage.whatsapp}}<br>
+                        </p>
+                        <div class="social-links mt-3">
+                            <a class="facebook" href="{{homepage.facebook}}"><i class="bx bxl-facebook"></i></a>
+                            <a class="instagram" href="{{homepage.instagram}}"><i class="bx bxl-instagram"></i></a>
+                            <a class="whatsapp" href="{{homepage.whatsapp_link}}"><i class="bx bxl-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
 
-    <!--                <div class="col-lg-2 col-md-6 footer-links">-->
-    <!--                    <h4>Useful Links</h4>-->
-    <!--                    <ul>-->
-    <!--                        <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>-->
-    <!--                        <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>-->
-    <!--                        <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>-->
-    <!--                        <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>-->
-    <!--                        <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>-->
-    <!--                    </ul>-->
-    <!--                </div>-->
+                <div class="col-lg-2 col-md-6 footer-links">
+                    <h4>Links Úteis</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i><a href="{% url 'frontend:homepage' %}">Home</a></li>
+                        {% if homepage %}
+                        <!--                        <li><i class="bx bx-chevron-right"></i><a href="#about">Sobre</a></li>-->
+                        <li><i class="bx bx-chevron-right"></i><a href="#schedule">Agendamento</a></li>
+                        <li><i class="bx bx-chevron-right"></i><a href="#services">Serviços</a></li>
+                        <li><i class="bx bx-chevron-right"></i><a href="#reward_retrieve_boxes">Brindes</a></li>
+                        <li><i class="bx bx-chevron-right"></i><a href="#contact">Contato</a></li>
+                        {% endif %}
+                        {% if user.is_superuser %}
+                        <li><i class="bx bx-chevron-right"></i><a href="{% url 'frontend:dashboard' %}">Admin</a></li>
+                        {% endif %}
+                        {% if not user.is_authenticated %}
+                        <li><i class="bx bx-chevron-right"></i><a href="{% url 'frontend:login' %}">Login</a></li>
+                        {% else %}
+                        <li><i class="bx bx-chevron-right"></i><a href="{% url 'users:frontend:profile' %}">Perfil</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
 
-    <!--                <div class="col-lg-3 col-md-6 footer-links">-->
-    <!--                    <h4>Our Services</h4>-->
-    <!--                    <ul>-->
-    <!--                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>-->
-    <!--                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>-->
-    <!--                        <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>-->
-    <!--                        <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>-->
-    <!--                        <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>-->
-    <!--                    </ul>-->
-    <!--                </div>-->
-
-    <!--                <div class="col-lg-4 col-md-6 footer-newsletter">-->
-    <!--                    <h4>Our Newsletter</h4>-->
-    <!--                    <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>-->
-    <!--                    <form action="" method="post">-->
-    <!--                        <input name="email" type="email"><input type="submit" value="Subscribe">-->
-    <!--                    </form>-->
-
-    <!--                </div>-->
-
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <div class="copyright">

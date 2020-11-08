@@ -1,0 +1,57 @@
+<!--
+  ~ Created by Alex Matos Iuasse.
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 08/11/2020 11:09.
+  -->
+
+{% extends '../../base/base.html' %}
+{% load render_table from django_tables2 %}
+{% load i18n %}
+{% block content %}
+<div class="container-xl">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div class="page-pretitle">Configuração do Site</div>
+                <h2 class="page-title">
+                    <a href="{% url 'frontend:dashboard' %}">
+                        <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
+                    </a>
+                    Site
+                    <a href="{{obj.get_edit_url}}">
+                        <span class="text-success">{{ICON_EDIT|safe}}</span>
+                    </a>
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-primary" role="alert">
+                Atenção: todas as imagens com extensão .jpeg
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Informações</h4>
+                    <div class="card-subtitle">
+                        <a href="{{obj.get_edit_url}}"> {{ICON_EDIT|safe}} Editar</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            {% for k, v in obj.get_dict_data.items %}
+                            <tr>
+                                <td>{{k}}</td>
+                                <td class="text-muted">{{v}}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                <div class="ribbon bg-info">{{ICON_INFO_CIRCLE|safe}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
