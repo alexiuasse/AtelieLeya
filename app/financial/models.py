@@ -1,9 +1,9 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/11/2020 08:43.
+#  Last modified 22/11/2020 09:20.
 from django.conf import settings
 from django.db import models
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils.timezone import now
 from simple_history.models import HistoricalRecords
 
@@ -33,23 +33,25 @@ class Invoice(models.Model):
     def get_back_url(self):
         """
         Get the back url, retrieving the service and passing the correct url
-        :return: reverse url for the profile service owner
+        :return: reverse_lazy url for the profile service owner
         """
-        return reverse('service:orderofservice:profile',
-                       kwargs={'cpk': self.order_of_service.customer.pk, 'pk': self.order_of_service.pk})
+        return reverse_lazy('service:orderofservice:profile',
+                            kwargs={'cpk': self.order_of_service.customer.pk, 'pk': self.order_of_service.pk})
 
     def get_absolute_url(self):
-        return reverse('service:orderofservice:profile',
-                       kwargs={'cpk': self.order_of_service.customer.pk, 'pk': self.order_of_service.pk})
+        return reverse_lazy('service:orderofservice:profile',
+                            kwargs={'cpk': self.order_of_service.customer.pk, 'pk': self.order_of_service.pk})
 
     def get_delete_url(self):
-        return reverse(self.get_reverse_delete, kwargs={'spk': self.order_of_service.pk, 'pk': self.pk})
+        return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:delete',
+                            kwargs={'spk': self.order_of_service.pk, 'pk': self.pk})
 
     def get_edit_url(self):
-        return reverse(self.get_reverse_edit, kwargs={'spk': self.order_of_service.pk, 'pk': self.pk})
+        return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:edit',
+                            kwargs={'spk': self.order_of_service.pk, 'pk': self.pk})
 
     def get_success_url(self):
-        return reverse('financial:invoice:success', kwargs={'pk': self.pk})
+        return reverse_lazy('financial:invoice:success', kwargs={'pk': self.pk})
 
     def get_is_success(self):
         return self.status.pk == settings.STATUS_PAYMENT_SUCCESS

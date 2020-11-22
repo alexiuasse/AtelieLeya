@@ -1,13 +1,13 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/11/2020 08:43.
+#  Last modified 22/11/2020 09:18.
 import datetime
 
 from config.models import TypeOfService
 from django.conf import settings
 from django.db import models
 from django.db.models import Min, Sum, Max
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from service.models import OrderOfService
@@ -42,16 +42,16 @@ class BusinessDay(models.Model):
 
     @staticmethod
     def get_back_url():
-        return reverse('business:admin:calendar')
+        return reverse_lazy('business:admin:calendar')
 
     def get_absolute_url(self):
-        return reverse(self.get_reverse_profile, kwargs={'pk': self.pk})
+        return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:profile', kwargs={'pk': self.pk})
 
     def get_delete_url(self):
-        return reverse(self.get_reverse_delete, kwargs={'pk': self.pk})
+        return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:delete', kwargs={'pk': self.pk})
 
     def get_edit_url(self):
-        return reverse(self.get_reverse_edit, kwargs={'pk': self.pk})
+        return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:edit', kwargs={'pk': self.pk})
 
     def get_full_name(self):
         return f"Expediente do dia {self.day.strftime('%d/%m/%Y')}"

@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/11/2020 08:43.
+#  Last modified 22/11/2020 09:18.
 
 from datetime import date
 
@@ -35,16 +35,19 @@ class OrderOfService(models.Model):
         return self.customer.profile.get_back_url_child_admin()
 
     def get_absolute_url(self):
-        return reverse(self.get_reverse_profile, kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+        return reverse(f'{self._meta.app_label}:{self._meta.model_name}:profile',
+                       kwargs={'cpk': self.customer.pk, 'pk': self.pk})
 
     def get_absolute_url_frontend(self):
         return reverse('service:frontend:get', kwargs={'pk': self.pk})
 
     def get_delete_url(self):
-        return reverse(self.get_reverse_delete, kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+        return reverse(f'{self._meta.app_label}:{self._meta.model_name}:delete',
+                       kwargs={'cpk': self.customer.pk, 'pk': self.pk})
 
     def get_edit_url(self):
-        return reverse(self.get_reverse_edit, kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+        return reverse(f'{self._meta.app_label}:{self._meta.model_name}:edit',
+                       kwargs={'cpk': self.customer.pk, 'pk': self.pk})
 
     def get_new_invoice_url(self):
         return reverse('financial:invoice:create', kwargs={'spk': self.pk})

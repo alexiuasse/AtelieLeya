@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 22/11/2020 08:43.
+#  Last modified 22/11/2020 09:20.
 
 from datetime import datetime
 
@@ -31,11 +31,13 @@ class RewardRetrieved(models.Model):
 
     @property
     def get_delete_url(self):
-        return reverse('users:rewardretrieved:delete', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+        return reverse(f'{self._meta.app_label}:{self._meta.model_name}:delete',
+                       kwargs={'cpk': self.customer.pk, 'pk': self.pk})
 
     @property
     def get_edit_url(self):
-        return reverse('users:rewardretrieved:edit', kwargs={'cpk': self.customer.pk, 'pk': self.pk})
+        return reverse(f'{self._meta.app_label}:{self._meta.model_name}:edit',
+                       kwargs={'cpk': self.customer.pk, 'pk': self.pk})
 
     @property
     def get_back_url(self):
