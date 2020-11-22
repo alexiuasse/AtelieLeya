@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 28/09/2020 09:22.
+  ~ Last modified 22/11/2020 09:51.
   -->
 
 {% extends '../../base/base.html' %}
@@ -12,11 +12,11 @@
             <div class="col-auto">
                 <div class="page-pretitle">Configuração</div>
                 <h2 class="page-title">
-                    <a data-toggle="tooltip" href="{% url 'frontend:dashboard' %}" title="Voltar">
+                    <a href="{% url 'frontend:dashboard' %}">
                         <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
                     </a>
                     Home Page
-                    <a data-toggle="tooltip" href="{{obj.get_edit_url}}" title="Editar">
+                    <a href="{{obj.get_edit_url}}">
                         <span class="text-success">{{ICON_EDIT|safe}}</span>
                     </a>
                 </h2>
@@ -32,10 +32,10 @@
                         <a href="{{obj.get_edit_url}}"> {{ICON_EDIT|safe}} Editar</a>
                     </div>
                     <div class="table-responsive">
-                        <table class="card-table table-hover">
+                        <table class="table table-hover">
                             {% for k, v in obj.get_dict_data.items %}
                             <tr>
-                                <td class="pr-3">{{k}}</td>
+                                <td>{{k}}</td>
                                 <td class="text-muted">{{v}}</td>
                             </tr>
                             {% endfor %}

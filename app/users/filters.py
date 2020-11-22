@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 14/09/2020 12:15.
+#  Last modified 22/11/2020 09:53.
 from django_filters import FilterSet
 
 from .models import Profile, RewardRetrieved
@@ -9,7 +9,7 @@ from .models import Profile, RewardRetrieved
 class ProfileFilter(FilterSet):
     class Meta:
         model = Profile
-        fields = {'name': ['icontains']}
+        fields = {'name': ['icontains'], 'whatsapp': ['icontains']}
 
 
 class RewardRetrievedFilter(FilterSet):

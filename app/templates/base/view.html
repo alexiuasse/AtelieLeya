@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 22/11/2020 09:40.
+  ~ Last modified 22/11/2020 09:53.
   -->
 {% extends './base.html' %}
 {% load render_table from django_tables2 %}
@@ -34,7 +34,6 @@
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="card-body">
             {% if filter %}
@@ -42,10 +41,16 @@
             <div class="card-subtitle">Você pode filtrar a tabela aqui</div>
             <div class="table-container">
                 <form action="" class="form form-inline" method="get">
-                    {% bootstrap_form filter.form show_label=False %}
-                    <button class="btn btn-sm btn-primary submit mt-2">
-                        Pesquisar
-                    </button>
+                    <div class="row">
+                        {% for input in filter.form %}
+                        <div class="col-md-4">
+                            {% bootstrap_field input show_label=False %}
+                        </div>
+                        {% endfor %}
+                        <div class="col">
+                            <button class="btn btn-sm btn-primary submit mt-2">Pesquisar</button>
+                        </div>
+                    </div>
                 </form>
             </div>
             {% endif %}

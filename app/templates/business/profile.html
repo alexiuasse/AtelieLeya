@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 23/09/2020 15:01.
+  ~ Last modified 22/11/2020 09:51.
   -->
 
 {% extends '../base/profile.html' %}
@@ -35,15 +35,15 @@
                 <h3 class="card-title">Expediente</h3>
                 <div class="card-subtitle">Horários Disponíveis</div>
                 <div class="table-responsive">
-                    <table class="card-table table-hover">
+                    <table class="table table-hover">
                         {% for e in obj.expedient_day.all %}
                         <tr>
-                            <td class="w-100">
+                            <td>
                                 <a href="{{e.get_edit_url}}" target="_blank">
                                     {{ICON_LINK|safe}} {{e.name}}
                                 </a>
                             </td>
-                            <td class="text-nowrap text-muted">
+                            <td class="text-muted">
                                 {{ICON_CALENDAR|safe}}{{e.start_time}} às {{e.end_time}}
                                 {{ICON_ALARM|safe}}{{e.get_business_hours}} min
                             </td>
@@ -61,11 +61,11 @@
                 <h3 class="card-title">Lista</h3>
                 <div class="card-subtitle">Horários</div>
                 <div class="table-responsive">
-                    <table class="card-table table-hover">
+                    <table class="table table-hover">
                         {% for date, ctx in obj.get_tupple_hours %}
                         <tr>
-                            <td class="w-100">{{date.time}}</td>
-                            <td class="text-nowrap text-muted font-weight-bold">{{ctx}}</td>
+                            <td>{{date.time}}</td>
+                            <td class="text-muted font-weight-bold">{{ctx}}</td>
                         </tr>
                         {% endfor %}
                     </table>

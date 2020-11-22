@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 29/09/2020 16:23.
+  ~ Last modified 22/11/2020 10:14.
   -->
 
 {% extends '../base/profile.html' %}
@@ -9,15 +9,15 @@
 {% load l10n %}
 {% block delete %}{% endblock %}
 {% block page_header_actions %}
-<a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
-   href="{{obj.get_new_service_url}}"
-   title="{{TOOLTIP_NEW_SERVICE}}">
+<a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block"
+   href="#"
+   onclick="event.preventDefault(); confirm('{{obj.get_new_service_url}}', 'Você quer adicionar novo procedimento?')">
     {{ICON_ADD|safe}}
     Procedimento
 </a>
-<a class="btn btn-sm btn-info ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
-   href="{{obj.get_new_reward_url}}"
-   title="{{TOOLTIP_NEW_REWARD}}">
+<a class="btn btn-sm btn-info ml-3 d-none d-sm-inline-block"
+   href="#"
+   onclick="event.preventDefault(); confirm('{{obj.get_new_reward_url}}', 'Você quer adicionar novo brinde?')">
     {{ICON_ADD|safe}}
     Brinde
 </a>
@@ -47,16 +47,16 @@
                     <a href="{{obj.get_edit_url}}"> {{ICON_EDIT|safe}} Editar Perfil</a>
                 </div>
                 <div class="table-responsive">
-                    <table class="card-table table-hover">
+                    <table class="table table-hover">
                         {% for k, v in obj.get_dict_data.items %}
                         <tr>
-                            <td class="w-100">{{k}}</td>
-                            <td class="text-nowrap text-muted">{{v}}</td>
+                            <td>{{k}}</td>
+                            <td class="text-muted">{{v}}</td>
                         </tr>
                         {% endfor %}
                         <tr>
-                            <td class="w-100"><span class="font-weight-bold">Pontos</span></td>
-                            <td class="text-nowrap text-muted">
+                            <td><span class="font-weight-bold">Pontos</span></td>
+                            <td class="text-muted">
                                 <span class="font-weight-bold" data-countup>{{obj.total_of_points}}</span> pts
                             </td>
                         </tr>
@@ -71,7 +71,10 @@
             <div class="card-body">
                 <h3 class="card-title">Brindes Não Retirados</h3>
                 <div class="card-subtitle">
-                    <a href="{{obj.get_new_reward_url}}">{{ICON_ADD|safe}} Novo Brinde</a>
+                    <a href="#"
+                       onclick="event.preventDefault(); confirm('{{obj.get_new_reward_url}}', 'Você quer adicionar novo brinde?')">
+                        {{ICON_ADD|safe}} Novo Brinde
+                    </a>
                 </div>
                 {% if obj.has_reward_admin %}
                 <div class="table-responsive mb-3">
@@ -90,8 +93,8 @@
                             <td>{{r.date}}</td>
                             {% if not r.retrieved %}
                             <td>
-                                <a data-toggle="tooltip" href="{{r.get_confirm_url}}"
-                                   title="{{TOOLTIP_RETRIEVED_REWARD}}">
+                                <a href="#"
+                                   onclick="event.preventDefault(); confirm('{{obj.get_confirm_url}}', 'Você quer marcar o brinde como retirado?')">
                                     {{ICON_CHECK|safe}} Retirado
                                 </a>
                             </td>
@@ -138,7 +141,10 @@
     <div class="card-body">
         <h3 class="card-title">Procedimentos</h3>
         <div class="card-subtitle">
-            <a href="{{obj.get_new_service_url}}">{{ICON_ADD|safe}} Novo Procedimento</a>
+            <a href="#"
+               onclick="event.preventDefault(); confirm('{{obj.get_new_service_url}}', 'Você quer marcar adicionar novo procedimento?')">
+                {{ICON_ADD|safe}} Novo Procedimento
+            </a>
         </div>
         {% for k,v in obj.get_service_sorted_by_entry_date.items %}
         <div class="col-lg-12 col-md-auto">
@@ -163,8 +169,8 @@
                         <td>
                             {{s.get_confirmed_html|safe}}
                             {% if not s.confirmed %}
-                            <a class="badge bg-dark" data-toggle="tooltip" href="{{s.get_customer_confirmed_url}}"
-                               title="{{TOOLTIP_SERVICE_CONFIRM}}">
+                            <a class="badge bg-dark" href="#"
+                               onclick="event.preventDefault(); confirm('{{s.get_customer_confirmed_url}}', 'Você quer confirmar procedimento?')">
                                 {{ICON_CHECK|safe}} <span class="ml-1">Confirmar</span>
                             </a>
                             {% endif %}
@@ -172,8 +178,8 @@
                         <td>
                             <span class="badge" style="background-color: {{s.status.contextual}};">{{s.status}}</span>
                             {% if not s.get_is_success %}
-                            <a class="badge bg-dark" data-toggle="tooltip"
-                               href="{{s.get_customer_finished_url}}" title="{{TOOLTIP_SERVICE_FINISH}}">
+                            <a class="badge bg-dark" href="#"
+                               onclick="event.preventDefault(); confirm('{{s.get_customer_finished_url}}', 'Você quer finalizar procedimento?')">
                                 {{ICON_DOUBLE_CHECK|safe}} <span class="ml-1">Finalizar</span>
                             </a>
                             {% endif %}
@@ -191,6 +197,7 @@
     <div class="ribbon bg-success">{{ICON_WAND|safe}}</div>
 </div>
 {% endif %}
+{% include '../modal/confirm.html' %}
 {% endblock %}
 {% block javascript %}
 <script src="{% static 'dist/libs/apexcharts/dist/apexcharts.min.js' %}"></script>
@@ -201,8 +208,19 @@ document.addEventListener("DOMContentLoaded", function () {
     chart1.render();
     var chart2 = new ApexCharts(document.getElementById('chart_reward'), {{options_chart_reward|safe}});
     chart2.render();
-// @formatter:on
 });
+// @formatter:on
+
+</script>
+<script>
+// @formatter:off
+function confirm(link, message) {
+    //console.log(link);
+    $("#modal-confirm-text").text(message);
+    $("#modal-confirm-link").attr('href', link);
+    $("#modal-confirm").modal('show');
+}
+// @formatter:on
 
 </script>
 {% endblock %}
