@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 22/11/2020 09:25.
+  ~ Last modified 22/11/2020 10:16.
   -->
 
 {% extends './base.html' %}
@@ -51,9 +51,7 @@
                         <span class="font-weight-bold text-primary">confirmado</span>,
                         logo estaremos confirmando pelo seu número
                         <span class="font-weight-bold">{{obj.customer.profile.whatsapp}}</span>
-                        <a data-toggle="tooltip" href="{% url 'users:frontend:update' %}"
-                           title="{{TOOLTIP_EDIT_PROFILE}}">{{ICON_EDIT|safe}} alterar
-                        </a>.
+                        <a href="{% url 'users:frontend:update' %}">{{ICON_EDIT|safe}} alterar</a>.
                     </p>
                     {% endif %}
                     {% if not obj.finished and not obj.canceled %}

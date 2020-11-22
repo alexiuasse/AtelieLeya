@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 28/09/2020 07:44.
+  ~ Last modified 22/11/2020 10:19.
   -->
 {% extends './base.html' %}
 {% load static %}
@@ -16,7 +16,7 @@
             <div class="col-auto">
                 <div class="page-pretitle">Agendamento</div>
                 <h2 class="page-title">
-                    <a data-toggle="tooltip" href="{% url 'users:frontend:profile' %}" title="Voltar">
+                    <a href="{% url 'users:frontend:profile' %}">
                         <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
                     </a>
                     Agendamento de Procedimento

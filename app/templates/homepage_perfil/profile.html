@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 28/09/2020 07:44.
+  ~ Last modified 22/11/2020 10:19.
   -->
 
 {% extends './base.html' %}
@@ -18,15 +18,13 @@
                 </h2>
             </div>
             <div class="col-auto ml-auto d-print-none">
-                <a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
-                   href="{% url 'users:frontend:calendar' %}"
-                   title="{{TOOLTIP_SCHEDULE_SERVICE}}">
+                <a class="btn btn-sm btn-primary ml-3 d-none d-sm-inline-block"
+                   href="{% url 'users:frontend:calendar' %}">
                     {{ICON_CALENDAR|safe}}
                     Agendar Procedimento
                 </a>
-                <a class="btn btn-sm btn-info ml-3 d-none d-sm-inline-block" data-toggle="tooltip"
-                   href="{% url 'users:frontend:reward' %}"
-                   title="{{TOOLTIP_RETRIEVE_REWARD}}">
+                <a class="btn btn-sm btn-info ml-3 d-none d-sm-inline-block"
+                   href="{% url 'users:frontend:reward' %}">
                     {{ICON_GIFT|safe}}
                     Resgatar Brinde
                 </a>
@@ -94,16 +92,16 @@
                         </a>
                     </div>
                     <div class="table-responsive">
-                        <table class="card-table table-hover">
+                        <table class="table table-hover">
                             {% for k, v in user.profile.get_dict_data.items %}
                             <tr>
-                                <td class="w-100">{{k}}</td>
-                                <td class="text-nowrap text-muted">{{v}}</td>
+                                <td>{{k}}</td>
+                                <td class="text-muted">{{v}}</td>
                             </tr>
                             {% endfor %}
                             <tr>
-                                <td class="w-100"><span class="font-weight-bold">Pontos</span></td>
-                                <td class="text-nowrap text-muted">
+                                <td><span class="font-weight-bold">Pontos</span></td>
+                                <td class="text-muted">
                                     <span class="font-weight-bold" data-countup>{{user.profile.total_of_points}}</span>
                                     pts
                                 </td>
@@ -195,7 +193,5 @@ document.addEventListener("DOMContentLoaded", function () {
     chart2.render();
 // @formatter:on
 });
-
-
 </script>
 {% endblock %}

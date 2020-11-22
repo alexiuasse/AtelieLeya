@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 24/09/2020 17:36.
+  ~ Last modified 22/11/2020 10:19.
   -->
 {% extends './base.html' %}
 {% load static %}
@@ -14,7 +14,7 @@
             <div class="col-auto">
                 <div class="page-pretitle">Editar</div>
                 <h2 class="page-title">
-                    <a data-toggle="tooltip" href="{% url 'users:frontend:profile' %}" title="Voltar">
+                    <a href="{% url 'users:frontend:profile' %}">
                         <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
                     </a>
                     Perfil

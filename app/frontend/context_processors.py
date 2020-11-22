@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/09/2020 12:03.
+#  Last modified 22/11/2020 10:15.
 
 from django.conf import settings  # import the settings file
 from .icons import *
@@ -9,23 +9,23 @@ from .icons import *
 def frontend_template_context(request):
     # return the value you want as a dictionnary. you may add multiple values in there.
     return {
-        'TOOLTIP_NEW': "Novo",
-        'TOOLTIP_EDIT': "Editar",
-        'TOOLTIP_DEL': "Deletar",
-        'TOOLTIP_BACK': "Voltar",
-        'TOOLTIP_PAYMENT_PAY': "Mudar status para pago",
-        'TOOLTIP_NEW_SERVICE': "Adicionar novo procedimento",
-        'TOOLTIP_NEW_INVOICE': "Adicionar nova fatura",
-        'TOOLTIP_SEE_INVOICE': "Ver Fatura",
-        'TOOLTIP_NEW_REWARD': "Novo Brinde",
-        'TOOLTIP_SERVICE_CONFIRM': "Confirmar procedimento",
-        'TOOLTIP_SERVICE_FINISH': "Mudar status para finalizado",
-        'TOOLTIP_SERVICE_CANCEL': "Cancelar Procedimento",
-        'TOOLTIP_SEE_ALL': "Ver Todos",
-        'TOOLTIP_SCHEDULE_SERVICE': "Agendar Novo Procedimento",
-        'TOOLTIP_EDIT_PROFILE': "Editar Perfil",
-        'TOOLTIP_RETRIEVE_REWARD': "Resgatar Brinde",
-        'TOOLTIP_RETRIEVED_REWARD': "Brinde foi Retirado",
+        # 'TOOLTIP_NEW': "Novo",
+        # 'TOOLTIP_EDIT': "Editar",
+        # 'TOOLTIP_DEL': "Deletar",
+        # 'TOOLTIP_BACK': "Voltar",
+        # 'TOOLTIP_PAYMENT_PAY': "Mudar status para pago",
+        # 'TOOLTIP_NEW_SERVICE': "Adicionar novo procedimento",
+        # 'TOOLTIP_NEW_INVOICE': "Adicionar nova fatura",
+        # 'TOOLTIP_SEE_INVOICE': "Ver Fatura",
+        # 'TOOLTIP_NEW_REWARD': "Novo Brinde",
+        # 'TOOLTIP_SERVICE_CONFIRM': "Confirmar procedimento",
+        # 'TOOLTIP_SERVICE_FINISH': "Mudar status para finalizado",
+        # 'TOOLTIP_SERVICE_CANCEL': "Cancelar Procedimento",
+        # 'TOOLTIP_SEE_ALL': "Ver Todos",
+        # 'TOOLTIP_SCHEDULE_SERVICE': "Agendar Novo Procedimento",
+        # 'TOOLTIP_EDIT_PROFILE': "Editar Perfil",
+        # 'TOOLTIP_RETRIEVE_REWARD': "Resgatar Brinde",
+        # 'TOOLTIP_RETRIEVED_REWARD': "Brinde foi Retirado",
         'NAME_OF_ENTERPRISE': settings.NAME_OF_ENTERPRISE,
         'NAME_OF_ENTERPRISE_SHORT': settings.NAME_OF_ENTERPRISE_SHORT,
         'VERSION': settings.VERSION,
