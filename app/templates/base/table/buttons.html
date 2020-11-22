@@ -1,16 +1,16 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 18/10/2020 16:48.
+  ~ Last modified 22/11/2020 09:40.
   -->
 
 {% if record.get_edit_url %}
-<a data-toggle="tooltip" href="{{record.get_edit_url}}">
+<a href="{{record.get_edit_url}}">
     <span class="text-success">{{ICON_EDIT|safe}}</span>
 </a>
 {% endif %}
 {% if record.get_delete_url %}
-<a data-toggle="tooltip" href="{{record.get_delete_url}}">
+<a href="{{record.get_delete_url}}">
     <span class="text-danger">{{ICON_DELETE|safe}}</span>
 </a>
 {% endif %}

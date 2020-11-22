@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 29/09/2020 16:23.
+  ~ Last modified 22/11/2020 09:40.
   -->
 
 {% extends './base.html' %}
@@ -11,15 +11,15 @@
         <div class="row align-items-center">
             <div class="col-auto">
                 <h2 class="page-title">
-                    <a data-toggle="tooltip" href="{{obj.get_back_url}}" title="Voltar">
+                    <a href="{{obj.get_back_url}}">
                         <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
                     </a>
                     {{obj.get_full_name}}
-                    <a data-toggle="tooltip" href="{{obj.get_edit_url}}" title="Editar">
+                    <a href="{{obj.get_edit_url}}">
                         <span class="text-success">{{ICON_EDIT|safe}}</span>
                     </a>
                     {% block delete %}
-                    <a data-toggle="tooltip" href="{{obj.get_delete_url}}" title="Deletar">
+                    <a href="{{obj.get_delete_url}}">
                         <span class="text-danger">{{ICON_DELETE|safe}}</span>
                     </a>
                     {% endblock %}

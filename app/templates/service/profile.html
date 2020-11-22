@@ -1,29 +1,28 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 23/09/2020 15:10.
+  ~ Last modified 22/11/2020 09:41.
   -->
 
 {% extends '../base/profile.html' %}
 {% block page_header_actions %}
 {% if obj.is_without_invoice %}
-<a class="btn btn-sm btn-primary d-none d-sm-inline-block ml-auto" data-toggle="tooltip"
-   href="{{obj.get_new_invoice_url}}"
-   title="{{TOOLTIP_NEW_INVOICE}}">
+<a class="btn btn-sm btn-primary d-none d-sm-inline-block ml-auto" href="#"
+   onclick="event.preventDefault(); confirm('{{obj.get_new_invoice_url}}', 'Você quer lançar fatura ?')">
     {{ICON_ADD|safe}}
     Nova Fatura
 </a>
 {% endif %}
 {% if not obj.confirmed %}
-<a class="btn btn-sm btn-info d-none d-sm-inline-block" data-toggle="tooltip"
-   href="{{obj.get_confirmed_url}}" title="{{TOOLTIP_SERVICE_CONFIRM}}">
+<a class="btn btn-sm btn-info d-none d-sm-inline-block" href="#"
+   onclick="event.preventDefault(); confirm('{{obj.get_confirmed_url}}', 'Você quer confirmar procedimento?')">
     {{ICON_CHECK|safe}}
     Confirmar
 </a>
 {% endif %}
 {% if not obj.finished %}
-<a class="btn btn-sm btn-success d-none d-sm-inline-block" data-toggle="tooltip"
-   href="{{obj.get_finished_url}}" title="{{TOOLTIP_SERVICE_FINISH}}">
+<a class="btn btn-sm btn-success d-none d-sm-inline-block" href="#"
+   onclick="event.preventDefault(); confirm('{{obj.get_finished_url}}', 'Você quer finalizar procedimento?')">
     {{ICON_DOUBLE_CHECK|safe}}
     Finalizar
 </a>
@@ -52,7 +51,8 @@
                     <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
                     Procedimento não está confirmado! Whatsapp: {{obj.customer.profile.whatsapp}}
                 </h3>
-                <a data-toggle="tooltip" href="{{obj.get_confirmed_url}}" title="{{TOOLTIP_SERVICE_CONFIRM}}">
+                <a class="btn btn-sm btn-primary" href="#"
+                   onclick="event.preventDefault(); confirm('{{obj.get_confirmed_url}}', 'Você quer confirmar procedimento?')">
                     {{ICON_CHECK|safe}}
                     Confirmar
                 </a>
@@ -66,7 +66,8 @@
                     <span class="text-danger">{{ICON_TRIANGLE_ALERT|safe}}</span>
                     Procedimento sem fatura lançada!
                 </h3>
-                <a data-toggle="tooltip" href="{{obj.get_new_invoice_url}}" title="{{TOOLTIP_NEW_INVOICE}}">
+                <a class="btn btn-sm btn-primary" href="#"
+                   onclick="event.preventDefault(); confirm('{{obj.get_new_invoice_url}}', 'Você quer lançar fatura?')">
                     {{ICON_ADD|safe}}
                     Lançar Fatura
                 </a>
@@ -80,7 +81,8 @@
                     {{ICON_TRIANGLE_ALERT|safe}}
                     Fatura do procedimento está incompleta!
                 </h3>
-                <a data-toggle="tooltip" href="{{obj.invoice.get_edit_url}}" title="{{TOOLTIP_SEE_INVOICE}}">
+                <a class="btn btn-sm btn-primary" href="#"
+                   onclick="event.preventDefault(); confirm('{{obj.invoice.get_edit_url}}', 'Você quer ver fatura?')">
                     {{ICON_EYE|safe}}
                     Ver Fatura
                 </a>
@@ -94,7 +96,8 @@
                     {{ICON_TRIANGLE_ALERT|safe}}
                     Fatura do procedimento está em atraso!
                 </h3>
-                <a data-toggle="tooltip" href="{{obj.invoice.get_edit_url}}" title="{{TOOLTIP_SEE_INVOICE}}">
+                <a class="btn btn-sm btn-primary" href="#"
+                   onclick="event.preventDefault(); confirm('{{obj.invoice.get_edit_url}}', 'Você quer ver fatura?')">
                     {{ICON_EYE|safe}}
                     Ver Fatura
                 </a>
@@ -121,11 +124,11 @@
                     <a href="{{obj.get_edit_url}}">{{ICON_EDIT|safe}} Editar Procedimento</a>
                 </div>
                 <div class="table-responsive">
-                    <table class="card-table table-hover">
+                    <table class="table table-hover">
                         {% for k, v in obj.get_dict_data.items %}
                         <tr>
-                            <td class="w-100">{{k}}</td>
-                            <td class="text-nowrap text-muted">{{v|default_if_none:""}}</td>
+                            <td>{{k}}</td>
+                            <td class="text-muted">{{v|default_if_none:""}}</td>
                         </tr>
                         {% endfor %}
                     </table>
@@ -137,8 +140,8 @@
                     <div class="col">
                         {% if not obj.canceled and not obj.finished %}
                         <p>
-                            <a class="text-danger" data-toggle="tooltip" href="{{obj.get_cancel_url_admin}}"
-                               title="{{TOOLTIP_SERVICE_CANCEL}}">
+                            <a class="text-danger" href="#"
+                               onclick="event.preventDefault(); confirm('{{obj.get_cancel_url_admin}}', 'Você quer cancelar procedimento?')">
                                 {{ICON_TRIANGLE_ALERT|safe}} Cancelar
                             </a>
                         </p>
@@ -147,8 +150,8 @@
                     <div class="col">
                         {% if not obj.confirmed %}
                         <p>
-                            <a data-toggle="tooltip" href="{{obj.get_confirmed_url}}"
-                               title="{{TOOLTIP_SERVICE_CONFIRM}}">
+                            <a href="#"
+                               onclick="event.preventDefault(); confirm('{{obj.get_confirmed_url}}', 'Você quer confirmar procedimento?')">
                                 {{ICON_CHECK|safe}}
                                 Confirmar
                             </a>
@@ -158,7 +161,8 @@
                     <div class="col">
                         {% if not obj.finished %}
                         <p>
-                            <a data-toggle="tooltip" href="{{obj.get_finished_url}}" title="{{TOOLTIP_SERVICE_FINISH}}">
+                            <a href="#"
+                               onclick="event.preventDefault(); confirm('{{obj.get_finished_url}}', 'Você quer finalizar procedimento?')">
                                 {{ICON_DOUBLE_CHECK|safe}}
                                 Finalizar
                             </a>
@@ -198,8 +202,8 @@
                                     {{obj.invoice.status|default_if_none:"Nenhum"}}
                                 </span>
                                 {% if not obj.invoice.get_is_success %}
-                                <a data-toggle="tooltip" href="{{obj.invoice.get_success_url}}"
-                                   title="{{TOOLTIP_PAYMENT_PAY}}">
+                                <a href="#"
+                                   onclick="event.preventDefault(); confirm('{{obj.invoice.get_success_url}}', 'Você quer marcar como pago a fatura?')">
                                     <span class="badge bg-dark">{{ICON_DOUBLE_CHECK|safe}} Pago</span>
                                 </a>
                                 {% endif %}
@@ -210,7 +214,8 @@
                 {% else %}
                 <p>
                     Nenhuma Fatura Encontrada
-                    <a data-toggle="tooltip" href="{{obj.get_new_invoice_url}}" title="{{TOOLTIP_NEW_INVOICE}}">
+                    <a href="#"
+                       onclick="event.preventDefault(); confirm('{{obj.get_new_invoice_url}}', 'Você quer lançar fatura?')">
                         {{ICON_ADD|safe}}
                         Lançar Fatura
                     </a>
@@ -221,4 +226,18 @@
         </div>
     </div>
 </div>
+{% include '../modal/confirm.html' %}
+{% endblock %}
+{% block javascript %}
+<script>
+// @formatter:off
+function confirm(link, message) {
+    //console.log(link);
+    $("#modal-confirm-text").text(message);
+    $("#modal-confirm-link").attr('href', link);
+    $("#modal-confirm").modal('show');
+}
+// @formatter:on
+
+</script>
 {% endblock %}

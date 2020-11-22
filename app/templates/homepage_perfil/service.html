@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 28/09/2020 17:07.
+  ~ Last modified 22/11/2020 09:25.
   -->
 
 {% extends './base.html' %}
@@ -13,7 +13,7 @@
             <div class="col-auto">
                 <div class="page-pretitle">Procedimento</div>
                 <h2 class="page-title">
-                    <a data-toggle="tooltip" href="{% url 'users:frontend:profile' %}" title="Voltar">
+                    <a href="{% url 'users:frontend:profile' %}">
                         <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
                     </a>
                     Informações do Procedimento
@@ -35,9 +35,9 @@
                     <h3 class="card-title">{{obj.type_of_service.name}}</h3>
                     {% if not obj.canceled %}
                     <p class="small">
-                        <a data-toggle="tooltip" href="#"
-                           onclick="event.preventDefault(); confirm('{{obj.get_cancel_url_frontend}}')"
-                           title="{{TOOLTIP_SERVICE_CANCEL}}">{{ICON_TRIANGLE_ALERT|safe}} cancelar procedimento
+                        <a href="#"
+                           onclick="event.preventDefault(); confirm('{{obj.get_cancel_url_frontend}}')">
+                            {{ICON_TRIANGLE_ALERT|safe}} cancelar procedimento
                         </a>
                     </p>
                     {% endif %}
@@ -95,5 +95,6 @@ function confirm(link) {
     $("#modal-confirm").modal('show');
 }
 // @formatter:on
+
 </script>
 {% endblock %}

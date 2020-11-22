@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 24/09/2020 11:47.
+  ~ Last modified 22/11/2020 09:40.
   -->
 {% extends './base.html' %}
 {% load i18n %}
@@ -11,7 +11,7 @@
         <div class="row align-items-center">
             <div class="col-auto">
                 <h2 class="page-title">
-                    <a data-toggle="tooltip" href="{{object.get_absolute_url}}" title="{{TOOLTIP_BACK}}">
+                    <a href="{{object.get_absolute_url}}">
                         <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
                     </a>
                     {{view.title}}
@@ -39,9 +39,7 @@
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
-
 </div>
 {% endblock %}

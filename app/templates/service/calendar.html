@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 03/09/2020 17:35.
+  ~ Last modified 22/11/2020 09:40.
   -->
 
 {% extends 'base.html' %}
@@ -18,7 +18,7 @@
                     {{subtitle}}
                 </div>
                 <h2 class="page-title">
-                    <a href="{{view.get_back_url}}" rel="tooltip" title="Voltar">
+                    <a href="{{view.get_back_url}}">
                         <span class="text-primary">{{ICON_ARROW_BACK|safe}}</span>
                     </a>
                     {{title}}
@@ -37,6 +37,7 @@
 <script src="{% static 'dist/libs/fullcalendar/dist/main.min.js' %}"></script>
 <script src="{% static 'dist/libs/fullcalendar/dist/locales-all.min.js' %}"></script>
 <script>
+// @formatter:off
 document.addEventListener('DOMContentLoaded', function() {
     var initialLocaleCode = 'pt-br';
     var calendarEl = document.getElementById('calendar');
@@ -85,9 +86,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     calendar.render();
-  });
-
+});
+// @formatter:on
 
 </script>
-
 {% endblock %}
