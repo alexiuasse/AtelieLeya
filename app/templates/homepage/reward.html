@@ -1,7 +1,7 @@
 <!--
   ~ Created by Alex Matos Iuasse.
   ~ Copyright (c) 2020.  All rights reserved.
-  ~ Last modified 15/09/2020 21:50.
+  ~ Last modified 22/11/2020 08:48.
   -->
 {% load static %}
 <section class="reward-retrieve-boxes" id="reward_retrieve_boxes">
@@ -17,7 +17,7 @@
             <div class="col-lg-3 col-md-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                 <div class="card">
                     <img alt="{{r.name}}" class="card-img-top"
-                         src="{%if r.image %}{% static r.image %}{% else %}{% static 'homepage/dist/img/about-boxes-1.jpg' %}{% endif %}">
+                         src="{%if r.image %}{{r.image.url}}{% else %}{% static 'homepage/dist/img/about-boxes-1.jpg' %}{% endif %}">
                     <div class="card-body">
                         <h5 class="card-title">{{r.name}}</h5>
                         <h5 class="card-title small">{{r.quantity_in_points}} pts</h5>
