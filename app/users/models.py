@@ -1,25 +1,26 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 25/09/2020 12:46.
+#  Last modified 22/11/2020 08:43.
 
 from datetime import datetime
 
-from base.models import BaseModel
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from frontend.icons import ICON_TRIANGLE_ALERT
+from simple_history.models import HistoricalRecords
 
 
-class RewardRetrieved(BaseModel):
+class RewardRetrieved(models.Model):
     reward = models.ForeignKey("config.Reward", on_delete=models.PROTECT, verbose_name="Brinde")
     points = models.IntegerField("Pontos", default=0)
     quantity = models.IntegerField("Quantidade", default=1)
     date = models.DateField("Data", default=now)
     retrieved = models.BooleanField("Resgatado", default=False, help_text="Esse brinde já foi resgatado?")
     customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Cliente")
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"{self.reward} de {self.customer}"
@@ -53,7 +54,7 @@ class RewardRetrieved(BaseModel):
             else f"<span class='font-weight-bold text-warning'>Não Retirado</span>")
 
 
-class Profile(BaseModel):
+class Profile(models.Model):
     name = models.CharField("nome completo", max_length=150)
     birth_date = models.DateField('data de nascimento', blank=True, null=True,
                                   help_text="Dica.: No calendário clique em cima do ano no canto superior direito "
@@ -62,6 +63,7 @@ class Profile(BaseModel):
     total_of_points = models.IntegerField(default=0, verbose_name='Total de pontos')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture = models.ImageField(default='default.png', upload_to='profile_pics/', max_length=255)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name

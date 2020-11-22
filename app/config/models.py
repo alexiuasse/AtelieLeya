@@ -1,15 +1,14 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/11/2020 11:16.
+#  Last modified 22/11/2020 08:44.
 import datetime
 
-from base.models import BaseModel
 from django.db import models
 from django.urls import reverse_lazy, reverse
-from django.utils.safestring import mark_safe
+from simple_history.models import HistoricalRecords
 
 
-class BaseConfigModel(BaseModel):
+class BaseConfigModel(models.Model):
     name = models.CharField("nome", max_length=128)
 
     def __str__(self):
@@ -26,7 +25,7 @@ class BaseConfigModel(BaseModel):
 
 
 class TypeOfPayment(BaseConfigModel):
-    pass
+    history = HistoricalRecords()
 
 
 class Reward(BaseConfigModel):
@@ -37,6 +36,7 @@ class Reward(BaseConfigModel):
     description = models.TextField("Descrição", blank=True, help_text="Usado no site para descrever o brinde")
     image = models.ImageField("Foto", upload_to='images/', help_text="Foto representando o brinde.",
                               blank=True, null=True)
+    history = HistoricalRecords()
 
 
 class TypeOfService(BaseConfigModel):
@@ -50,6 +50,7 @@ class TypeOfService(BaseConfigModel):
     description = models.TextField("Descrição", blank=True, help_text="Usado no site para descrever o procedimento")
     image = models.ImageField("Foto", upload_to='images/', help_text="Foto representando o procedimento.",
                               blank=True, null=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"{self.name} - {self.time} min"
@@ -61,14 +62,16 @@ class TypeOfService(BaseConfigModel):
 class StatusService(BaseConfigModel):
     contextual = models.CharField("cor", default="#ffffff", max_length=7,
                                   help_text="Escolha uma cor para representar esse status")
+    history = HistoricalRecords()
 
 
 class StatusPayment(BaseConfigModel):
     contextual = models.CharField("cor", default="#ffffff", max_length=7,
                                   help_text="Escolha uma cor para representar esse status")
+    history = HistoricalRecords()
 
 
-class Expedient(BaseModel):
+class Expedient(models.Model):
     """
         The expedient of a portion of day
 
@@ -80,6 +83,7 @@ class Expedient(BaseModel):
     name = models.CharField("nome", max_length=28)
     start_time = models.TimeField("horário de início", help_text="Primeiro horário disponível para agendar.")
     end_time = models.TimeField("horário de fim", help_text="Último horário disponível para agendar.")
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"{self.name} de {self.start_time} até {self.end_time} ({self.get_business_hours()} min)"
@@ -103,45 +107,3 @@ class Expedient(BaseModel):
         end_timedelta = datetime.timedelta(hours=self.end_time.hour, minutes=self.end_time.minute)
         start_timedelta = datetime.timedelta(hours=self.start_time.hour, minutes=self.start_time.minute)
         return (end_timedelta - start_timedelta).seconds / 60
-
-# class HomePage(BaseModel):
-#     first_image = models.ImageField("Primeira Imagem", upload_to='homepage/',
-#                                     help_text="Imagem que fica no início da página.",
-#                                     blank=True, null=True)
-#     first_video_url = models.CharField("Primeiro Video", max_length=255,
-#                                        help_text="URL do primeiro vídeo, fica no início da página",
-#                                        blank=True, null=True)
-#     second_image = models.ImageField("Segunda Imagem", upload_to='homepage/',
-#                                      help_text="Imagem que fica na parte sobre como plano de fundo do video.",
-#                                      blank=True, null=True)
-#     second_video_url = models.CharField("Segundo Video", max_length=255,
-#                                         help_text="URL do segundo vídeo, fica na primeira página de sobre",
-#                                         blank=True, null=True)
-#     address = models.CharField("Endereço Completo", max_length=255,
-#                                help_text="Sugestão: Rua, Número, Cidade - Estado, CEP")
-#     whatsapp = models.CharField("Whatsapp", max_length=16, help_text="Número para contato.")
-#     email = models.EmailField("E-mail", help_text="Opcional!", blank=True, null=True)
-#
-#     def __str__(self):
-#         return f"{self.address} {self.whatsapp}"
-#
-#     def get_absolute_url(self):
-#         return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:view')
-#
-#     def get_edit_url(self):
-#         return reverse_lazy(f'{self._meta.app_label}:{self._meta.model_name}:edit', kwargs={'pk': self.pk})
-#
-#     def get_dict_data(self):
-#         return {
-#             'Endereço': self.address,
-#             'Whatsapp': self.whatsapp,
-#             'E-mail': self.email if self.email else "Nenhum",
-#             'Primeira Imagem': mark_safe(
-#                 f'<a href="{self.first_image.url}" target="_blank">{self.first_image}</a>'),
-#             'Primeiro Video': mark_safe(
-#                 f'<a href="{self.first_video_url}" target="_blank">{self.first_video_url}</a>'),
-#             'Segunda Imagem': mark_safe(
-#                 f'<a href="{self.second_image.url}" target="_blank">{self.second_image}</a>'),
-#             'Segundo Video': mark_safe(
-#                 f'<a href="{self.second_video_url}" target="_blank">{self.second_video_url}</a>'),
-#         }

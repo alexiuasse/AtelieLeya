@@ -1,10 +1,9 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 28/09/2020 19:33.
+#  Last modified 22/11/2020 08:43.
 
 from datetime import date
 
-from base.models import BaseModel
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -12,9 +11,10 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from frontend.icons import ICON_CALENDAR
+from simple_history.models import HistoricalRecords
 
 
-class OrderOfService(BaseModel):
+class OrderOfService(models.Model):
     type_of_service = models.ForeignKey("config.TypeOfService", verbose_name="Procedimento", on_delete=models.SET_NULL,
                                         null=True)
     status = models.ForeignKey("config.StatusService", verbose_name="Status", on_delete=models.PROTECT)
@@ -26,6 +26,7 @@ class OrderOfService(BaseModel):
     time = models.TimeField("Hora", default=now)
     observation = models.TextField("observação", blank=True)
     customer = models.ForeignKey(User, verbose_name="Cliente", on_delete=models.CASCADE, blank=True, null=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"{self.type_of_service} de {self.customer.profile.name}"

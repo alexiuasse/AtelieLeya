@@ -1,18 +1,14 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 16/09/2020 16:53.
+#  Last modified 22/11/2020 08:43.
 from django.conf import settings
-from django.db import models
-
-from datetime import datetime
-
-from base.models import BaseModel
 from django.db import models
 from django.urls import reverse
 from django.utils.timezone import now
+from simple_history.models import HistoricalRecords
 
 
-class Invoice(BaseModel):
+class Invoice(models.Model):
     # customer can be retrived from service
     order_of_service = models.OneToOneField("service.OrderOfService", verbose_name="Procedimento",
                                             on_delete=models.CASCADE, null=True, blank=True,
@@ -23,6 +19,7 @@ class Invoice(BaseModel):
     value = models.DecimalField("Valor", max_digits=11, decimal_places=2, help_text="O valor que foi pago.")
     date = models.DateField("Data", default=now, help_text="Data do pagamento.")
     observation = models.TextField("Observação", blank=True, null=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return "R$ {} em {} da forma {}".format(self.value, self.date, self.type_of_payment)

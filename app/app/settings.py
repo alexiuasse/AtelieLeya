@@ -1,6 +1,6 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/11/2020 10:44.
+#  Last modified 22/11/2020 08:42.
 import os
 from pathlib import Path
 
@@ -21,7 +21,7 @@ SECRET_KEY = '#h&#*+%u34e_e&3ryjifv8y)&m)t#tia09ejqdvyv(7x_c3+5g'
 DEBUG = True
 
 if os.getenv('GAE_APPLICATION', None):
-    ALLOWED_HOSTS = ['atelie-leya-monteiro.uc.r.appspot.com', 'localhost']
+    ALLOWED_HOSTS = ['atelie-leya-monteiro.uc.r.appspot.com', 'localhost', 'www.leyamonteiro.com']
 else:
     ALLOWED_HOSTS = ['localhost', '0.0.0.0', '192.168.0.103']
 
@@ -73,7 +73,6 @@ INSTALLED_APPS = [
     'django_filters',
     'users',
     'frontend',
-    'base',
     'config',
     'service',
     'financial',

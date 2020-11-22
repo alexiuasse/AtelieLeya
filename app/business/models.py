@@ -1,9 +1,8 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 23/09/2020 14:51.
+#  Last modified 22/11/2020 08:43.
 import datetime
 
-from base.models import BaseModel
 from config.models import TypeOfService
 from django.conf import settings
 from django.db import models
@@ -12,9 +11,10 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from service.models import OrderOfService
+from simple_history.models import HistoricalRecords
 
 
-class BusinessDay(BaseModel):
+class BusinessDay(models.Model):
     """
         Defining one day with the businesshours, if is a work day
 
@@ -34,6 +34,7 @@ class BusinessDay(BaseModel):
     is_work_day = models.BooleanField("dia de trabalho", default=True, help_text="Esse dia estará trabalhando?")
     force_day_full = models.BooleanField("forçar dia cheio", default=False,
                                          help_text="Forçar para que o dia mostre como lotado!")
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"Dia: {self.day} Max: {self.get_expedient_hours()} min Ocupados: {self.get_consumed_hours()} min " \

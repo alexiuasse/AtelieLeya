@@ -1,11 +1,10 @@
 #  Created by Alex Matos Iuasse.
 #  Copyright (c) 2020.  All rights reserved.
-#  Last modified 08/11/2020 10:43.
+#  Last modified 22/11/2020 08:41.
 
 from django.db import models
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
 
