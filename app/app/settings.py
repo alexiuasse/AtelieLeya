@@ -21,15 +21,15 @@ SECRET_KEY = '#h&#*+%u34e_e&3ryjifv8y)&m)t#tia09ejqdvyv(7x_c3+5g'
 DEBUG = True
 
 if os.getenv('GAE_APPLICATION', None):
-    ALLOWED_HOSTS = ['atelie-leya-monteiro.uc.r.appspot.com', 'localhost', 'www.leyamonteiro.com']
+    ALLOWED_HOSTS = ['localhost', 'www.leyamonteiro.com']
 else:
     ALLOWED_HOSTS = ['localhost', '0.0.0.0', '192.168.0.103']
 
 # GENERAL
 # #FF63C7
 VERSION = "1.0.0"
-NAME_OF_ENTERPRISE = "Atêlie Leya Monteiro"
-NAME_OF_ENTERPRISE_SHORT = "Leya Monteiro"
+NAME_OF_ENTERPRISE = "NAME_OF_ENTERPRISE"
+NAME_OF_ENTERPRISE_SHORT = "NAME_OF_ENTERPRISE_SHORT"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 
@@ -121,8 +121,8 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # facebook
-SOCIAL_AUTH_FACEBOOK_KEY = '349631929715958'  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = 'da8b84713e506f6ba658aaace91a5431'  # app key
+SOCIAL_AUTH_FACEBOOK_KEY = 'YOUR_FACEBOOK_KEY'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'YOUR_FACEBOOK_KEY_AUTH'  # app key
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -166,41 +166,16 @@ AUTHENTICATION_BACKENDS = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-if os.getenv('GAE_APPLICATION', None):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'db',
-            'USER': 'admin-leya',
-            'PASSWORD': '$enhadeMerda123',
-            'HOST': '/cloudsql/atelie-leya-monteiro:us-central1:atelie-leya-monteiro-db',
-            'PORT': '3309',
-            'OPTIONS': {
-                'sql_mode': 'STRICT_TRANS_TABLES',
-            },
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
+        'PORT': '3308',
+        'NAME': 'db',
+        'USER': 'admin-leya',
+        'PASSWORD': '$enhadeMerda123',
     }
-else:
-    # ./cloud_sql_proxy -instances atelie-leya-monteiro:us-central1:atelie-leya-monteiro-db=tcp:3308
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'HOST': '127.0.0.1',
-            'PORT': '3308',
-            'NAME': 'db',
-            'USER': 'admin-leya',
-            'PASSWORD': '$enhadeMerda123',
-        }
-    }
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.sqlite3',
-    #         'NAME': BASE_DIR / 'db.sqlite3',
-    #     }
-    # }
-
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -233,7 +208,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'atelie-leya-monteiro-bucket-static'
 GS_DEFAULT_ACL = 'publicRead'
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    "atelie-leya-monteiro-9811f9ce3fa8.json"
+    "YOUR_FILE_CREDENTIALS.json"
 )
 
 # Static files (CSS, JavaScript, Images)
