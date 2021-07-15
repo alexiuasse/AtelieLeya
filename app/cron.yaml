@@ -1,5 +1,0 @@
-cron:
-  - description: "Wake up sunshine"
-    url: /wakeup/
-    schedule: every 14 mins
-    timezone: America/Sao_Paulo
